@@ -1,6 +1,6 @@
 import express  from 'express';
 
-import { login,test,form } from "../../controllers/auth/login.controller"
+import { login,test,form } from "../../controllers/super_admin/login.controller"
 
 
 const authRouter = express.Router({

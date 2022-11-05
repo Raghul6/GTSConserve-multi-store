@@ -1,15 +1,16 @@
 import express from "express";
 import bodyParser from "body-parser";
 import * as dotenv from "dotenv";
-import mainRouter from "./routes/main.route";
 import bodyParsercheck from "./middlewares/bodyParser.middleware";
+
+import mainRouter from "./routes/user_main.route";
+import superAdminRouter from "./routes/super_admin_main.route";
+import branchAdminRouter from "./routes/branch_admin_main.route";
 
 import { createTable } from "./table/create_table";
 
 require("dotenv").config();
 const path = require("path");
-const fs = require("fs");
-const multer = require("multer");
 
 const app = express();
 const cors = require("cors");
@@ -27,10 +28,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 
-// app.use('/uploads', express.static('./uploads'));
-
 dotenv.config();
-//app.use(httpLogger)
+
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -41,22 +40,12 @@ app.use(
 app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
+
+// for create tables
 app.get("/create_table", createTable);
 
-// app.get('/about', (req, res) => {
-//   res.sendFile(path.join(__dirname, './static/about_us.html'));
-// })
-
+app.use("/", bodyParsercheck, superAdminRouter);
+app.use("/branch", bodyParsercheck, branchAdminRouter);
 app.use("/api", bodyParsercheck, mainRouter);
-
-// app.use(logErrors)
-// app.use(errorHandler)
-
-// function logErrors (err, req, res, next) {
-//   next(err)
-// }
-// function errorHandler (err, req, res, next) {
-//   res.status(500).send('Error!')
-// }
 
 export default app;
