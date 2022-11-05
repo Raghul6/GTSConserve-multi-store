@@ -37,6 +37,21 @@ export const createTable = async (req, res) => {
       }
     });
 
+
+    //app settings
+    await knex.schema.hasTable("app_settings").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("app_settings", function (t) {
+          t.increments("id").primary().unsigned().notNullable();
+          t.string("name", 255).nullable();
+          t.string("key", 255).unique().notNullable();
+          t.string("value", 255).unique().notNullable();
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
     //users
     await knex.schema.hasTable("users").then(function (exists) {
       if (!exists) {
