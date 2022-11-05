@@ -7,7 +7,7 @@ const mainRouter = express.Router({
   caseSensitive: true,
   strict: true,
 });
-
+ 
 // const defaultRoutes = [
 //   {
 //     path: "/auth",
