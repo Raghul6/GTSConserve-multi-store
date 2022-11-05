@@ -37,21 +37,6 @@ export const createTable = async (req, res) => {
       }
     });
 
-
-    //app settings
-    await knex.schema.hasTable("app_settings").then(function (exists) {
-      if (!exists) {
-        return knex.schema.createTable("app_settings", function (t) {
-          t.increments("id").primary().unsigned().notNullable();
-          t.string("name", 255).nullable();
-          t.string("key", 255).unique().notNullable();
-          t.string("value", 255).unique().notNullable();
-          t.enu("status", ["0", "1"]).defaultTo("1");
-          t.timestamps(true, true);
-        });
-      }
-    });
-
     //users
     await knex.schema.hasTable("users").then(function (exists) {
       if (!exists) {
@@ -73,12 +58,203 @@ export const createTable = async (req, res) => {
           t.string("latitude", 255).nullable();
           t.string("fcm_token", 255).nullable();
           t.string("app_version", 255).nullable();
-          t.enu("app_os_format", ["android", "ios", "website"]).defaultTo("android");
+          t.enu("app_os_format", ["android", "ios", "website"]).defaultTo(
+            "android"
+          );
           t.enu("status", ["0", "1"]).defaultTo("1");
           t.string("remember_token", 100).nullable();
           t.string("profile_photo_path", 2048).nullable();
           t.timestamp("first_otp_verified_at").nullable();
           t.timestamp("last_otp_verified_at").nullable();
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+    // user address
+    await knex.schema.hasTable("user_address").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("user_address", function (t) {
+          t.increments("id").primary();
+          t.integer("user_id").unsigned().notNullable();
+          t.foreign("user_id").references("id").inTable("users");
+          t.string("title", 255).nullable();
+          t.string("address", 255).nullable();
+          t.string("landmark", 255).nullable();
+          t.string("type", 255).nullable();
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+    //app settings
+    await knex.schema.hasTable("app_settings").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("app_settings", function (t) {
+          t.increments("id").primary().unsigned().notNullable();
+          t.string("name", 255).nullable();
+          t.string("key", 255).unique().notNullable();
+          t.string("value", 255).unique().notNullable();
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+    //coupons
+    await knex.schema.hasTable("coupons").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("coupons", function (t) {
+          t.increments("id").primary().unsigned().notNullable();
+          t.string("name", 255).nullable();
+          t.string("coupon_code", 255).nullable();
+          t.string("image", 255).nullable();
+          // t.string("promo_string", 255).nullable();
+          t.integer("admin_id").unsigned().notNullable();
+          t.foreign("admin_id").references("id").inTable("admin_users");
+          t.integer("discount").nullable();
+          t.integer("minimum_amount").nullable();
+          t.integer("maximum_discount_amount").nullable();
+          t.integer("minimum_billing_amount").nullable();
+          t.enu("discount_type", ["percentage", "flat"]).defaultTo(
+            "percentage"
+          );
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+    // banners
+    await knex.schema.hasTable("banners").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("banners", function (t) {
+          t.increments("id").primary();
+          t.string("name", 255).nullable();
+          t.string("image", 255).nullable();
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+    //tax
+    await knex.schema.hasTable("tax_types").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("tax_types", function (t) {
+          t.increments("id").primary().unsigned().notNullable();
+          t.string("name", 255).nullable();
+          t.integer("tax_rate").nullable();
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+    //product type
+    await knex.schema.hasTable("product_type").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("product_type", function (t) {
+          t.increments("id").primary().unsigned().notNullable();
+          t.string("name", 255).nullable();
+          t.string("image", 255).nullable();
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+    //categories
+    await knex.schema.hasTable("categories").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("categories", function (t) {
+          t.increments("id").primary();
+          t.string("name", 255);
+          t.string("image", 255);
+          t.integer("product_type_id").unsigned().notNullable();
+          t.foreign("product_type_id").references("id").inTable("product_type");
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+    // variation_types
+    await knex.schema.hasTable("variation_types").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("variation_types", function (t) {
+          t.increments("id").primary();
+          t.string("name", 255).nullable();
+          t.string("value", 255).nullable();
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+    // subscription type
+    await knex.schema.hasTable("subscription_type").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("subscription_type", function (t) {
+          t.increments("id").primary();
+          t.string("name", 255).nullable();
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+    // products
+    await knex.schema.hasTable("products").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("products", function (t) {
+          t.increments("id").primary();
+          t.integer("admin_id").unsigned().notNullable();
+          t.foreign("admin_id").references("id").inTable("admin_users");
+
+          t.integer("category_id").unsigned().notNullable();
+          t.foreign("category_id").references("id").inTable("categories");
+
+          t.integer("variation_type_id").unsigned().notNullable();
+          t.foreign("variation_type_id")
+            .references("id")
+            .inTable("variation_types");
+
+          t.integer("product_type_id").unsigned().notNullable();
+          t.foreign("product_type_id").references("id").inTable("product_type");
+
+          t.integer("subscription_type_id").unsigned().notNullable();
+          t.foreign("subscription_type_id")
+            .references("id")
+            .inTable("subscription_type");
+            
+          t.string("name", 255).nullable();
+          t.text("description").nullable();
+          t.text("image").nullable();
+          t.text("thumbnail_image").nullable();
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+    // product variation
+    await knex.schema.hasTable("product_variations").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("product_variations", function (t) {
+          t.increments("id").primary();
+          t.integer("product_id").unsigned().notNullable();
+          t.foreign("product_id").references("id").inTable("products");
+          t.integer("variation_type_id").unsigned().notNullable();
+          t.foreign("variation_type_id")
+            .references("id")
+            .inTable("variation_types");
+
+          t.integer("value").nullable();
+          t.integer("price").nullable();
+
+          t.enu("status", ["0", "1"]).defaultTo("1");
           t.timestamps(true, true);
         });
       }
