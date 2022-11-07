@@ -8,6 +8,7 @@ import superAdminRouter from "./routes/super_admin_main.route";
 import branchAdminRouter from "./routes/branch_admin_main.route";
 
 import { createTable } from "./table/create_table";
+import { insertData } from "./table/insert_data";
 
 require("dotenv").config();
 const path = require("path");
@@ -46,6 +47,9 @@ app.get("/", (req, res) => {
 // })
 // for create tables
 app.get("/create_table", createTable);
+
+// insert seed data
+app.get("/insert_data", insertData);
 
 app.use("/", bodyParsercheck, superAdminRouter);
 app.use("/branch", bodyParsercheck, branchAdminRouter);
