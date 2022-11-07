@@ -12,12 +12,12 @@ import { createTable } from "./table/create_table";
 require("dotenv").config();
 const path = require("path");
 
-const app = express();
+
 const cors = require("cors");
 
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
-
+const app = express();
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -41,6 +41,9 @@ app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
 
+// app.get('/', (req, res) => {
+//   res.render('index', { title: 'Express' });
+// })
 // for create tables
 app.get("/create_table", createTable);
 
