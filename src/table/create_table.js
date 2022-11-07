@@ -224,10 +224,10 @@ export const createTable = async (req, res) => {
           t.integer("product_type_id").unsigned().notNullable();
           t.foreign("product_type_id").references("id").inTable("product_type");
 
-          t.integer("subscription_type_id").unsigned().notNullable();
-          t.foreign("subscription_type_id")
-            .references("id")
-            .inTable("subscription_type");
+          // t.integer("subscription_type_id").unsigned().notNullable();
+          // t.foreign("subscription_type_id")
+          //   .references("id")
+          //   .inTable("subscription_type");
             
           t.string("name", 255).nullable();
           t.text("description").nullable();
@@ -253,6 +253,41 @@ export const createTable = async (req, res) => {
 
           t.integer("value").nullable();
           t.integer("price").nullable();
+
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+
+    //  subscribed user details
+    await knex.schema.hasTable("subscribed_user_details").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("subscribed_user_details", function (t) {
+          t.increments("id").primary();
+
+          t.integer("user_id").unsigned().notNullable();
+         t.foreign("user_id").references("id").inTable("users");
+
+          t.integer("subscribe_type_id").unsigned().notNullable();
+          t.foreign("subscribe_type_id").references("id").inTable("subscription_type");
+
+          t.json("dates").notNullable()
+
+          t.integer("delivery_address_id").unsigned().notNullable();
+          t.foreign("delivery_address_id").references("id").inTable("user_address");
+
+          t.integer("product_id").unsigned().notNullable();
+          t.foreign("product_id").references("id").inTable("products");
+
+          t.integer("quantity").notNullable()
+
+          t.integer("variation_type_id").unsigned().notNullable();
+          t.foreign("variation_type_id")
+            .references("id")
+            .inTable("variation_types");
+
 
           t.enu("status", ["0", "1"]).defaultTo("1");
           t.timestamps(true, true);
