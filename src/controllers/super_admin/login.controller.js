@@ -1,4 +1,8 @@
+import responseCode from "../../constants/responseCode";
+import messages from "../../constants/messages";
 import knex from "../../services/db.service";
+
+import { checkUser } from "../../models/super_admin/login.module";
 
 export const test = async (req, res) => {
   const user = await knex("users").select("name", "password").where({ id: 1 });
@@ -14,9 +18,30 @@ export const form = async (req, res) => {
 
 export const login = async (req, res, next) => {
   try {
-    const { name, password } = req.body;
+    const { email, password } = req.body;
 
-    const create_user = await knex("users").insert({ name, password });
+    if (!email || !password ) {
+      return res
+        .status(responseCode.FAILURE)
+        .json({ status: false, message: messages.MANDATORY_ERROR });
+      }
+      
+      if(password.length < 5){
+      return res
+        .status(responseCode.FAILURE)
+        .json({ status: false, message: "Password Must Be atleast 5 Characters" });
+
+    }
+
+    const check_user = await checkUser(email,password);
+
+    if (!check_user.status) {
+      return res
+        .status(responseCode.FAILURE.BAD_REQUEST)
+        .json({ status: false, message: check_user.message });
+    }
+
+   
 
     res.redirect("test");
   } catch (error) {

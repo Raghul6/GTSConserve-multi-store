@@ -25,8 +25,9 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "/public")));
 
+app.use(express.static('public'));
 app.use(cors());
 
 dotenv.config();
@@ -47,6 +48,10 @@ app.get("/create_table", createTable);
 
 // insert seed data
 app.get("/insert_data", insertData);
+
+app.get("/home", (req,res)=> {
+  res.render('home')
+});
 
 app.use("/", bodyParsercheck, superAdminRouter);
 app.use("/branch", bodyParsercheck, branchAdminRouter);
