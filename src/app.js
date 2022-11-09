@@ -43,27 +43,19 @@ app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
 
-// for create tables
-app.get("/create_table", createTable);
-
-// insert seed data
-app.get("/insert_data", insertData);
 
 app.get("/home", (req,res)=> {
   res.render('home')
 });
 
-app.get("/user_profile", (req,res)=> {
-  res.render('user_profile')
+app.get("/settings/product_type", (req,res)=> {
+  res.render('settings/product_type')
 });
 
-app.get("/index2", (req,res)=> {
-  res.render('index2')
+app.get("/product/product", (req,res)=> {
+  res.render('product/product')
 });
 
-app.get("/index", (req,res)=> {
-  res.render('index')
-});
 
 app.use("/", bodyParsercheck, superAdminRouter);
 app.use("/branch", bodyParsercheck, branchAdminRouter);
