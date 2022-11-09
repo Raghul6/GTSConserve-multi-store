@@ -53,6 +53,18 @@ app.get("/home", (req,res)=> {
   res.render('home')
 });
 
+app.get("/user_profile", (req,res)=> {
+  res.render('user_profile')
+});
+
+app.get("/index2", (req,res)=> {
+  res.render('index2')
+});
+
+app.get("/index", (req,res)=> {
+  res.render('index')
+});
+
 app.use("/", bodyParsercheck, superAdminRouter);
 app.use("/branch", bodyParsercheck, branchAdminRouter);
 app.use("/api", bodyParsercheck, mainRouter);
