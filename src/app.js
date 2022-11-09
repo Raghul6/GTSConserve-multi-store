@@ -25,13 +25,30 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.use(express.static(path.join(__dirname, "/public")));
 
 app.use(express.static('public'));
 app.use(cors());
 
 dotenv.config();
+app.use(async (req, res, next) => {
+  res.locals.host_name = req.headers.host
 
+  // res.locals.currentUser = req.user;
+  // res.locals.success = req.flash("success");
+  // res.locals.error = req.flash("error");
+  // const user = await User.find({});
+  // const owner = user[0];
+  // console.log(owner)
+  // res.locals.owner = owner;
+  // if(!['/login', '/','/cart','/cart/:id'].includes(req.originalUrl)) {
+  //     req.session.previousReturnTo = req.session.returnTo; // store the previous url
+  //     req.session.returnTo = req.originalUrl; // assign a new url
+  //     // console.log('req.session.previousReturnTo', req.session.previousReturnTo)
+  //     // console.log('req.session.returnTo', req.session.returnTo);
+  //  }
+
+  next();
+});
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -39,16 +56,20 @@ app.use(
   })
 );
 
+
 app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
 
 
 app.get("/home", (req,res)=> {
+
+
   res.render('home')
 });
 
 app.get("/settings/product_type", (req,res)=> {
+  
   res.render('settings/product_type')
 });
 
