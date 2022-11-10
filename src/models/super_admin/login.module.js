@@ -7,7 +7,7 @@ export const checkUser = async (email, password) => {
       .select("email", "password", "id" , "user_group_id")
       .where({ email });
 
-    if (!get_user) {
+    if (get_user.length === 0) {
       return { status: false, message: "Email Not Found" };
     }
     console.log(get_user);
