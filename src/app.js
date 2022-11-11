@@ -4,6 +4,9 @@ import * as dotenv from "dotenv";
 import bodyParsercheck from "./middlewares/bodyParser.middleware";
 
 import flash from "connect-flash";
+import fs  from "fs";
+
+
 import { authenticateJWTSession } from "./middlewares/authToken.middleware";
 import mainRouter from "./routes/user_main.route";
 import superAdminRouter from "./routes/super_admin_main.route";
@@ -29,6 +32,8 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+app.use('/uploads', express.static('./uploads'));
+console.log(__dirname +  "/public")
 app.use(flash());
 
 app.use(express.static("public"));
@@ -41,6 +46,25 @@ app.use(
     extended: true,
   })
 );
+
+
+// create upload folder
+fs.access("./uploads", (error) => {
+   
+  // To check if the given directory 
+  // already exists or not
+  if (error) {
+    // If current directory does not exist
+    // then create it
+    fs.mkdir("./uploads", (error) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("New Directory created successfully !!");
+      }
+    });
+  } 
+});
 
 let secret = "thisissecret";
 

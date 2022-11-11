@@ -17,7 +17,7 @@
 
                     </div>
                     <div class="form-group col-md-1">
-                            <button class="btn " data-toggle="modal"
+                            <button class="btn btn-sm" data-toggle="modal"
                                 data-target="#addbarcategory">Add</button>
                             <!-- __category add__ -->
                             <div wire:ignore.self="" class="modal fade" id="addbarcategory" tabindex="-1"
@@ -38,11 +38,11 @@
                                         </div>
 
                                         <div class="modal-body">
-
+                                            <form method="post" action="/super_admin/settings/create_product_type"  enctype="multipart/form-data">
                                             <div class="form-row mb-4">
                                                 <div class="col-sm-10">
                                                     <label>Name</label>
-                                                    <input type="text" class="form-control" wire:model="name"
+                                                    <input type="text" class="form-control" name="name" wire:model="name"
                                                         placeholder="Name">
 
                                                 </div>
@@ -50,17 +50,18 @@
                                             <div class="form-row mb-4">
                                                 <div class="col-sm-10">
                                                     <label>Image</label>
-                                                    <input type="file" wire:model="image" placeholder="Image"
+                                                    <input type="file" wire:model="image" placeholder="Image" name="image"
                                                         class="form-control">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-
-                                            <button class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
-                                                    class="flaticon-cancel-12"></i>Discard</button>
-                                            <button wire:click="save" class="btn btn-success">Save</button>
-                                        </div>
+                                            
+                                            <button type="button" class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
+                                                class="flaticon-cancel-12"></i>Discard</button>
+                                                <button wire:click="save" type="submit" class="btn btn-success">Save</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -91,114 +92,35 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- start -->
 
-                        <tr role="row">
-                            <td class="sorting_1">Cedric Kelly</td>
-                            <td>Senior Javascript Developer</td>
-                            <td>Edinburgh</td>
+                        <% for(product_type of data){ %>
 
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches">
-                                        <label class="custom-control-label" for="customSwitches"></label>
-                                    </div>
-                                </td>
-                            </div>
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="sorting_1">Dai Rios</td>
-                            <td>Personnel Lead</td>
-                            <td>Edinburgh</td>
+
+                            <tr role="row">
+                                <td class="sorting_1"><%=product_type.id %></td>
+                            <td><%=product_type.name %></td>
+                            <td><img style="width: 150px;height : 120px" src="<%=product_type.image %>"></td>
+                            
+                            
 
                             <div>
                                 <td style="text-align: center; vertical-align: middle;">
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches1">
-                                        <label class="custom-control-label" for="customSwitches1"></label>
+                                        <form action="/super_admin/settings/update_product_type_status" method="post">
+                                            <input <%= product_type.status == "1" ? "checked"  :""  %>  type="checkbox"   class="custom-control-input" name="namesss"  onChange="this.form.submit()" id=<%=product_type.id %>>
+                                            <label class="custom-control-label" for=<%=product_type.id %>></label>
+                                        
+                                        </form>
                                     </div>
                                 </td>
                             </div>
                             <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="sorting_1">Gavin Joyce</td>
-                            <td>Developer</td>
-                            <td>Edinburgh</td>
-
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches2">
-                                        <label class="custom-control-label" for="customSwitches2"></label>
-                                    </div>
-                                </td>
-                            </div>
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="sorting_1">Jennifer Acosta</td>
-                            <td>Junior Javascript Developer</td>
-                            <td>Edinburgh</td>
-
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches3">
-                                        <label class="custom-control-label" for="customSwitches3"></label>
-                                    </div>
-                                </td>
-                            </div>
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="sorting_1">Martena Mccray</td>
-                            <td>Post-Sales support</td>
-                            <td>Edinburgh</td>
-
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches4">
-                                        <label class="custom-control-label" for="customSwitches4"></label>
-                                    </div>
-                                </td>
-                            </div>
-
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="sorting_1">Quinn Flynn</td>
-                            <td>Support Lead</td>
-                            <td>Edinburgh</td>
-
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches5">
-                                        <label class="custom-control-label" for="customSwitches5"></label>
-                                    </div>
-                                </td>
-                            </div>
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="sorting_1">Shad Decker</td>
-                            <td>Regional Director</td>
-                            <td>Edinburgh</td>
-
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches6">
-                                        <label class="custom-control-label" for="customSwitches6"></label>
-                                    </div>
-                                </td>
-                            </div>
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                    </tbody>
+                        </tr>   
+                        
+                        <% } %>
+                        <!-- end -->
+                        
 
                 </table>
             </div>
