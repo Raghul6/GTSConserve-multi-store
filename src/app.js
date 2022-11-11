@@ -42,7 +42,7 @@ app.use(
   })
 );
 
-const secret = "thisissecret";
+let secret = "thisissecret";
 
 //https://github.com/nlf/connect-mysql
 // for future we need to store the session in mysql to keep the sessions data
@@ -96,6 +96,9 @@ app.get("/", (req, res) => {
 app.get("/home", authenticateJWTSession, (req, res) => {
   res.render("home");
 });
+
+app.get("/insert_data", insertData);
+app.get("/create_table", createTable);
 
 app.use("/super_admin", bodyParsercheck, superAdminRouter);
 app.use("/branch_admin", bodyParsercheck, branchAdminRouter);

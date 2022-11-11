@@ -15,21 +15,21 @@ export const nonMandatoryToken = (req, res, next) => {
 export const authenticateJWTSession = async (req, res,next) => {
   let token = req.session.token;
  
-  if (!token) {
-    req.flash("error","Need To Login First")
-    return res.redirect("super_admin/auth/login");
-  }
+  // if (!token) {
+  //   req.flash("error","Need To Login First")
+  //   return res.redirect("super_admin/auth/login");
+  // }
 
-  const currentTokenPayload = parseJwtPayload(token.token);
-  req.body.admin_id =currentTokenPayload.user_id 
-  req.body.user_group_id =currentTokenPayload.group_id 
-  let is_super_admin = false
+  // const currentTokenPayload = parseJwtPayload(token.token);
+  // req.body.admin_id =currentTokenPayload.user_id 
+  // req.body.user_group_id =currentTokenPayload.group_id 
+  // let is_super_admin = false
 
-  if(currentTokenPayload.group_id == 1){
-    is_super_admin = true
-  }
+  // if(currentTokenPayload.group_id == 1){
+  //   is_super_admin = true
+  // }
 
-  req.body.is_super_admin = is_super_admin
+  // req.body.is_super_admin = is_super_admin
 
   // const checkUser = await knex("users").where({
   //   id: currentTokenPayload.user_id,
