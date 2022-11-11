@@ -11,7 +11,7 @@ const settingsRouter = express.Router({
 // product_type
 settingsRouter.get('/get_all_product_type',getAllProductType)
 settingsRouter.post('/create_product_type',createProductType)
-settingsRouter.post('/get_category_type',getCategoryType)
+settingsRouter.get('/get_category_type',getCategoryType)
 
 
 
