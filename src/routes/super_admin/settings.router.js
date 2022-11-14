@@ -32,7 +32,7 @@ settingsRouter.post('/update_product_type_status',updateProductTypeStatus)
 settingsRouter.get('/get_category_type',getCategoryType)
 
 //city
-settingsRouter.get('/get_cities',getCities)
+settingsRouter.get('/cities',getCities)
 settingsRouter.get('/country',getAllCountry)
 settingsRouter.get('/zone',getAllZone)
 settingsRouter.get('/post_code',getAllPostCode)

@@ -1,5 +1,12 @@
 import bcrypt from "bcrypt";
 import knex from "../../services/db.service";
+// import mysqlRequest from "../requests/mysqlRequest.request"
+// import queryBuilder from "../services/queryBuilder.service"
+// import responseCode from "../constants/responseCode"
+// import format from "date-fns/format"
+// import distanceCalculator, { SUPPORTED_UNIT } from 'distance-calculator-js';
+// import knex from "../services/queryBuilder.service"
+
 
 export const checkUser = async (email, password) => {
   try {
@@ -25,3 +32,14 @@ export const checkUser = async (email, password) => {
     return { status: false, message: "Error at getting user details" };
   }
 };
+
+// export const cities = async(req,res) =>{
+//   try{
+//     const city = await knex("cities").select('id','name','status','latitute','longitute')
+//     return {status:true,data:city}
+//   }
+//   catch{
+//     console.log(error)
+//     return {status:false,message:data_not_found}
+//   }
+// }

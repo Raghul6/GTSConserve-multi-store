@@ -1,4 +1,7 @@
 import knex from "../../../services/db.service";
+// import { cities } from "../../models/super_admin/login.module"
+// import responseCode from "../../constants/responseCode"
+// import messageCode from "../../constants/messages"
 
 
 export const updateProductTypeStatus = async (req,res)=>{
@@ -80,12 +83,17 @@ export const getCities = async (req, res) => {
     // .select("id", "name")
     //   // .select("id", "name", "image", "status")
     //   .where({ status: "1" });
-
-    res.render("settings/city");
-  } catch (error) {
-    console.log(error);
-    res.redirect("/home");
+    const City = await cities()
+    res.status(200).json({ status: true, data:City})
   }
+  catch (error) {
+      res.status(500).send('Error!')
+  }
+    // res.render("settings/city");
+  // } catch (error) {
+  //   console.log(error);
+  //   res.redirect("/home");
+  // }
 };
 
 export const getAllCountry = async (req, res) => {
