@@ -95,28 +95,93 @@
                         <!-- start -->
 
                         <% for(product_type of data){ %>
-
-
                             <tr role="row">
                                 <td class="sorting_1"><%=product_type.id %></td>
                             <td><%=product_type.name %></td>
                             <td><img style="width: 150px;height : 120px" src="<%=product_type.image %>"></td>
                             
-                            
+                             
 
                             <div>
                                 <td style="text-align: center; vertical-align: middle;">
                                     <div class="custom-control custom-switch">
-                                        <form action="/super_admin/settings/update_product_type_status" method="post">
-                                            <input <%= product_type.status == "1" ? "checked"  :""  %>  type="checkbox"   class="custom-control-input" name="namesss"  onChange="this.form.submit()" id=<%=product_type.id %>>
-                                            <label class="custom-control-label" for=<%=product_type.id %>></label>
+                                            <input <%= product_type.status == "1" ? "checked"  :""  %>  type="checkbox"   class="custom-control-input" name="status" 
+                                            value="<%=product_type.status %>"  onChange="onToDochange(this)" id=<%=product_type.id %>>
+                                            <label class="custom-control-label"  for=<%=product_type.id %>></label>
                                         
-                                        </form>
+                                            <script >
+                                                function onToDochange(event) {
+                                                fetch('/super_admin/settings/update_product_type_status', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Accept': 'application/json',
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify({"id": event.id , "status" : event.value})
+                                                })
+                                             
+                                                
+                                            };
+                                            </script>
+                                     
                                     </div>
                                 </td>
                             </div>
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
+                            <td class="text-center" > <button class="btn btn-sm" data-toggle="modal"
+                                data-target="#editProductType<%= product_type.id %>">edit</button> </td>
                         </tr>   
+
+                     
+                    <!-- __category add__ -->
+                    <div wire:ignore.self="" class="modal fade" id="editProductType<%= product_type.id %>" tabindex="-1"
+                        aria-labelledby="addCategoryTitle" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Product Type</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-x">
+                                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form method="post" action="/super_admin/settings/update_product_type"  enctype="multipart/form-data">
+                                        <div class="form-row mb-4">
+                                            <div class="col-sm-10">
+                                                <label>Name</label>
+                                                <input type="text" class="form-control" name="name" wire:model="name"
+                                                    placeholder="Name" value="<%=product_type.name %>">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-4">
+                                            <div class="col-sm-10">
+                                                <label>Image (Old Image)</label>
+                                                <div>
+                                                    <img style="width: 150px;height : 120px" class="pb-3" src="<%=product_type.image %>">
+                                                    <input type="file" wire:model="image" placeholder="Image" name="image"
+                                                    
+                                                    class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                     </div>
+                                        <div class="modal-footer">
+                                            
+                                            <button type="button" name="id" value="<%=product_type.id %>" class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
+                                                class="flaticon-cancel-12"></i>Discard</button>
+                                                <button wire:click="save" name="id" value="<%=product_type.id %>"  type="submit" class="btn btn-success">Save</button>
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                         
                         <% } %>
                         <!-- end -->

@@ -38,36 +38,44 @@
                                         </div>
 
                                         <div class="modal-body">
+                                            <form method="post" action="/super_admin/product/create_category"  enctype="multipart/form-data">
+                                                <div class="form-row mb-4">
+                                                    <div class="col-sm-6">
+                                                        <label>Name</label>
+                                                        <input type="text" class="form-control" wire:model="name"
+                                                            placeholder="Name" name="name">
 
-                                            <div class="form-row mb-4">
-                                                <div class="col-sm-10">
-                                                    <label>Name</label>
-                                                    <input type="text" class="form-control" wire:model="name"
-                                                        placeholder="Name">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label>Product Type</label>
+                                                        <select wire:model="countryid" class="form-control" name="product_type_id">
+                                                            <option value="">Select Product Type</option>
+                                                            <% for(product_type of productType){ %>
 
-                                                </div>
-                                            </div>
-                                            <div class="form-row mb-4">
-                                                <div class="col-sm-10">
-                                                    <label>Image</label>
-                                                    <input type="file" wire:model="image" placeholder="Image"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="n-chk">
-                                                <div class="col-sm-10">
-                                                    <label>Image</label>
-                                                    <input type="file" wire:model="image" placeholder="Image"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
+                                                                <option name="<%=product_type.name %>" value="<%=product_type.id %>"><%=product_type.name %></option>
+                                                            <% } %>
 
-                                            <button class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
+                                                        </select>
+        
+                                                    </div>
+                                                </div>
+                                            
+                                                <div class="form-row mb-4">
+                                                    <div class="col-sm-12">
+                                                        <label>Image</label>
+                                                        <input type="file" wire:model="image" placeholder="Image"
+                                                            class="form-control" name="image">
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                
+                                                <button class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
                                                     class="flaticon-cancel-12"></i>Discard</button>
-                                            <button wire:click="save" class="btn btn-success">Save</button>
-                                        </div>
+                                                    <button wire:click="save" type="submit" class="btn btn-success">Save</button>
+                                                </div>
+                                            </form>
                                     </div>
                                 </div>
                             </div>
@@ -82,6 +90,9 @@
                     <thead>
 
                         <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
+                                style="width: 86px;">#</th>
                             <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                 colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
                                 style="width: 86px;">Name</th>
@@ -100,16 +111,45 @@
                     <tbody>
 
                         <tr role="row">
+<<<<<<< HEAD:src/views/settings/category.ejs
                             <td class="sorting_1">Cedric Kelly</td>
                             <td>Senior Javascript Developer</td>
                             <!-- <td>Edinburgh</td> -->
+=======
+>>>>>>> c3e374dabd02fb05204aeb82306bd815e7db91ec:src/views/product/category.ejs
 
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches">
-                                        <label class="custom-control-label" for="customSwitches"></label>
+                            <% for(category of data){ %>
+                                    <td class="sorting_1"><%=category.id %></td>
+                                    <td><%=category.name %></td>
+                                    <td><img style="width: 150px;height : 120px" src="<%=category.image %>"></td>
+                                    <td><%=category.product_type %></td>
+
+                                    <div>
+                                        <td style="text-align: center; vertical-align: middle;">
+                                            <div class="custom-control custom-switch">
+                                                    <input <%= category.status == "1" ? "checked"  :""  %>  type="checkbox"   class="custom-control-input" name="status" 
+                                                    value="<%=category.status %>"  onChange="onToDochange(this)" id=<%=category.id %>>
+                                                    <label class="custom-control-label"  for=<%=category.id %>></label>
+                                                
+                                                    <script >
+                                                        function onToDochange(event) {
+                                                        fetch('/super_admin/product/update_category_status', {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Accept': 'application/json',
+                                                            'Content-Type': 'application/json'
+                                                        },
+                                                        body: JSON.stringify({"id": event.id , "status" : event.value})
+                                                        })
+                                                     
+                                                        
+                                                    };
+                                                    </script>
+                                             
+                                            </div>
+                                        </td>
                                     </div>
+<<<<<<< HEAD:src/views/settings/category.ejs
                                 </td>
                             </div>
                             <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
@@ -163,16 +203,46 @@
                             <td class="sorting_1">Martena Mccray</td>
                             <td>Post-Sales support</td>
                             <!-- <td>Edinburgh</td> -->
+=======
+                                    <td class="text-center"> <button class="btn btn-sm" data-toggle="modal"
+                                        data-target="#editCategory<%=category.id %>">edit</button> </td>
+                                </tr>
 
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches4">
-                                        <label class="custom-control-label" for="customSwitches4"></label>
-                                    </div>
-                                </td>
-                            </div>
 
+                                <div wire:ignore.self="" class="modal fade" id="editCategory<%=category.id %>" tabindex="-1"
+                        aria-labelledby="addCategoryTitle" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Product Type</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-x">
+                                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form method="post" action="/super_admin/product/update_category"  enctype="multipart/form-data">
+                                        <div class="form-row mb-4">
+                                            <div class="col-sm-6">
+                                                <label>Name</label>
+                                                <input type="text" class="form-control" wire:model="name"
+                                                    placeholder="Name" name="name" value="<%=category.name %>">
+>>>>>>> c3e374dabd02fb05204aeb82306bd815e7db91ec:src/views/product/category.ejs
+
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Product Type</label>
+                                                <select wire:model="countryid" class="form-control" name="product_type_id">
+                                                    <option value=""><%=category.product_type %></option>
+                                                    <% for(product_type of productType){ %>
+
+<<<<<<< HEAD:src/views/settings/category.ejs
                             <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
                         </tr>
                         <tr role="row">
@@ -194,17 +264,43 @@
                             <td class="sorting_1">Shad Decker</td>
                             <td>Regional Director</td>
                             <!-- <td>Edinburgh</td> -->
+=======
+                                                        <option name="<%=product_type.name %>" value="<%=product_type.id %>"><%=product_type.name %></option>
+                                                    <% } %>
 
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches6">
-                                        <label class="custom-control-label" for="customSwitches6"></label>
-                                    </div>
-                                </td>
+                                                </select>
+>>>>>>> c3e374dabd02fb05204aeb82306bd815e7db91ec:src/views/product/category.ejs
+
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-4">
+                                            <div class="col-sm-10">
+                                                <label>Image (Old Image)</label>
+                                                <div>
+                                                    <img style="width: 150px;height : 120px" class="pb-3" src="<%=category.image %>">
+                                                    <input type="file" wire:model="image" placeholder="Image" name="image"
+                                                    
+                                                    class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                     </div>
+                                        <div class="modal-footer">
+                                            
+                                            <button type="button" name="id" value="<%=category.id %>" class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
+                                                class="flaticon-cancel-12"></i>Discard</button>
+                                                <button wire:click="save" name="id" value="<%=category.id %>"  type="submit" class="btn btn-success">Save</button>
+                                        </div>
+                                </form>
                             </div>
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
+                        </div>
+                    </div>
+
+
+                        <% } %>
+
+
+                        
                     </tbody>
 
                 </table>
