@@ -1,6 +1,6 @@
 import express  from 'express';
 
-import { getAllPlaces } from '../../controllers/super_admin/places/city_type.controller';
+import { getAllPlaces,getCities,getAllCountry,getAllZone,getAllPostCode } from '../../controllers/super_admin/places/city_type.controller';
 
 
 const placesRouter = express.Router({
@@ -9,8 +9,11 @@ const placesRouter = express.Router({
 })
 
 
-placesRouter.get('/get_all_places',getAllPlaces)
-
+// placesRouter.get('/get_all_places',getAllPlaces)
+placesRouter.get('/get_cities',getCities)
+placesRouter.get('/country',getAllCountry)
+placesRouter.get('/zone',getAllZone)
+placesRouter.get('/post_code',getAllPostCode)
 
 export default placesRouter
 

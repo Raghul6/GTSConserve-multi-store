@@ -1,12 +1,11 @@
 <% layout('layouts/boilerPlate') %>
-
     <div class="widget-content widget-content-area br-6">
         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
             <div class="dt--top-section">
                 <div class="row">
                     <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center">
                         <div class="dataTables_length" id="DataTables_Table_0_length">
-                            <h4>Category</h4>
+                            <h4>Branch Admins </h4>
                         </div>
                     </div>
 
@@ -24,7 +23,7 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalCenterTitle">Add Product Type</h5>
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Add Admin</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                                 height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -36,30 +35,63 @@
                                         </button>
                                     </div>
 
-                                    <div class="modal-body">
-
-                                        <div class="form-row mb-4">
-                                            <div class="col-sm-10">
-                                                <label>Name</label>
-                                                <input type="text" class="form-control" wire:model="name"
-                                                    placeholder="Name">
+                                    <div class="widget-content widget-content-area br-6">
+                                        <div class="row m-2 ">
+                                            <h4 class="modal-title" id="exampleModalLabel"> Add Admin</h4>
+                                            <div class="col-sm-3  ml-auto">
 
                                             </div>
+
+                                            <a href="https://app.abcari.com/super-admin/users/country-admin"
+                                                class="btn btn-sm ">View Branch Admin</a>
                                         </div>
+
+
+
+
                                         <div class="form-row mb-4">
-                                            <div class="col-sm-10">
-                                                <label>Image</label>
-                                                <input type="file" wire:model="image" placeholder="Image"
+                                            <div class="col-sm-12 p-1">
+                                                <label>Admin Name</label>
+                                                <input type="text" wire:model="name" placeholder="name"
                                                     class="form-control">
                                             </div>
-                                        </div>
-                                        <div class="n-chk">
-                                            <div class="col-sm-10">
-                                                <label>Image</label>
-                                                <input type="file" wire:model="image" placeholder="Image"
+
+                                            <div class="col-sm-12 p-1">
+                                                <label>Email</label>
+                                                <input type="email" wire:model="email" placeholder="email@mail.com"
                                                     class="form-control">
                                             </div>
+
+                                            <div class="col-sm-12 p-1">
+                                                <label>Password</label>
+                                                <input type="password" wire:model="password" placeholder="password"
+                                                    class="form-control">
+                                            </div>
+
+                                            <div class="col-sm-12  p-1">
+                                                <label>Country</label>
+                                                <select wire:model="countryid" class="form-control">
+                                                    <option value="">Select Country</option>
+                                                    <option value="1">
+                                                        India</option>
+                                                    <!-- <option value="2">
+                                                        United Arab Emirates</option>
+                                                    <option value="3">
+                                                        Malaysia</option> -->
+                                                </select>
+
+                                            </div>
+
+
+
+
                                         </div>
+                                        <button class="btn btn-sm mb-2 btn-sm" wire:click="submit">
+                                            Save</button>
+
+
+
+
                                     </div>
                                     <div class="modal-footer">
 
@@ -83,11 +115,16 @@
                     <tr role="row">
                         <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                             aria-sort="ascending" aria-label="#: activate to sort column descending"
-                            style="width: 86px;">Name</th>
+                            style="width: 86px;">
+                            # </th>
                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="NAME: activate to sort column ascending" style="width: 161px;">IMAGE</th>
+                            aria-label="NAME: activate to sort column ascending" style="width: 161px;">NAME</th>
                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">PRODUCT TYPE</th>
+                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">EMAIL </th>
+                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                            aria-sort="ascending" aria-label="#: activate to sort column descending"
+                            style="width: 56px;">
+                            COUNTRY</th>
                         <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                             colspan="1" aria-label="Status: activate to sort column ascending" style="width: 49px;">
                             Status</th>
@@ -101,6 +138,7 @@
                     <tr role="row">
                         <td class="sorting_1">Cedric Kelly</td>
                         <td>Senior Javascript Developer</td>
+                        <td>Edinburgh</td>
                         <td>Edinburgh</td>
 
                         <div>
@@ -117,6 +155,7 @@
                         <td class="sorting_1">Dai Rios</td>
                         <td>Personnel Lead</td>
                         <td>Edinburgh</td>
+                        <td>Edinburgh</td>
 
                         <div>
                             <td style="text-align: center; vertical-align: middle;">
@@ -131,6 +170,7 @@
                     <tr role="row">
                         <td class="sorting_1">Gavin Joyce</td>
                         <td>Developer</td>
+                        <td>Edinburgh</td>
                         <td>Edinburgh</td>
 
                         <div>
@@ -147,6 +187,7 @@
                         <td class="sorting_1">Jennifer Acosta</td>
                         <td>Junior Javascript Developer</td>
                         <td>Edinburgh</td>
+                        <td>Edinburgh</td>
 
                         <div>
                             <td style="text-align: center; vertical-align: middle;">
@@ -161,6 +202,7 @@
                     <tr role="row">
                         <td class="sorting_1">Martena Mccray</td>
                         <td>Post-Sales support</td>
+                        <td>Edinburgh</td>
                         <td>Edinburgh</td>
 
                         <div>
@@ -178,6 +220,7 @@
                         <td class="sorting_1">Quinn Flynn</td>
                         <td>Support Lead</td>
                         <td>Edinburgh</td>
+                        <td>Edinburgh</td>
 
                         <div>
                             <td style="text-align: center; vertical-align: middle;">
@@ -192,6 +235,7 @@
                     <tr role="row">
                         <td class="sorting_1">Shad Decker</td>
                         <td>Regional Director</td>
+                        <td>Edinburgh</td>
                         <td>Edinburgh</td>
 
                         <div>
@@ -264,6 +308,7 @@
     <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
         <div class="dt--top-section">
             <div class="row">
+
             </div>
         </div>
         <div class="table-responsive">

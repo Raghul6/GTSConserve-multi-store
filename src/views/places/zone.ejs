@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center">
                         <div class="dataTables_length" id="DataTables_Table_0_length">
-                            <h4>Product</h4>
+                            <h4>Zone</h4>
                         </div>
                     </div>
 
@@ -24,7 +24,7 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalCenterTitle">Add Product</h5>
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Add Zone</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                                 height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -39,47 +39,31 @@
                                     <div class="modal-body">
 
                                         <div class="form-row mb-4">
-                                            <div class="col-sm-6  ">
-                                                <label>Category</label>
+                                            <div class="col ">
+                                                <label>Zone Name</label>
+                                                <input type="text" class="form-control" wire:model="name"
+                                                    placeholder="Name">
+
+                                            </div>
+
+                                            <div class="col ">
+                                                <label>Zone Code</label>
+                                                <input type="text" class="form-control" wire:model="code"
+                                                    placeholder="code">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-4">
+                                            <div class="col-6  ">
+                                                <label>Country</label>
                                                 <select wire:model="countryid" class="form-control">
-                                                    <option value="">Select Category</option>
+                                                    <option value="">Select country</option>
                                                     <option value="1">
                                                         India</option>
                                                     <option value="2">
                                                         United Arab Emirates</option>
                                                     <option value="3">
                                                         Malaysia</option>
-                                                </select>
-
-                                            </div>
-                                            <div class="col-6 ">
-                                                <label>Name</label>
-                                                <input type="text" class="form-control" wire:model="name"
-                                                    placeholder="Name">
-
-                                            </div>
-                                        </div>
-
-                                        <div class="form-row mb-4">
-                                            <div class="form-row mb-4">
-                                                <div class="col-sm-10">
-                                                    <label>Image</label>
-                                                    <input type="file" wire:model="image" placeholder="Image" name="image"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-row mb-4">
-                                            <div class="col-6  ">
-                                                <label>Varaition Type</label>
-                                                <select wire:model="countryid" class="form-control">
-                                                    <option value="">Select Varaition</option>
-                                                    <option value="1">
-                                                        ml</option>
-                                                    <option value="2">
-                                                        liter</option>
-                                                    <option value="3">
-                                                        gram</option>
                                                 </select>
 
                                             </div>
@@ -111,11 +95,11 @@
                         aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 86px;">
                         #</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                        aria-label="NAME: activate to sort column ascending" style="width: 161px;">NAME</th>
+                        aria-label="NAME: activate to sort column ascending" style="width: 161px;">ZONE NAME</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                        aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">IMAGE</th>
-                        <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                        aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">COUNTRY</th> -->
+                        aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">ZONE CODE</th>
+                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                        aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">COUNTRY</th>
                     <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                         colspan="1" aria-label="Status: activate to sort column ascending" style="width: 49px;">
                         Status</th>
@@ -130,7 +114,7 @@
                     <td class="sorting_1">Cedric Kelly</td>
                     <td>Senior Javascript Developer</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -146,7 +130,7 @@
                     <td class="sorting_1">Dai Rios</td>
                     <td>Personnel Lead</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -162,7 +146,7 @@
                     <td class="sorting_1">Gavin Joyce</td>
                     <td>Developer</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -178,7 +162,7 @@
                     <td class="sorting_1">Jennifer Acosta</td>
                     <td>Junior Javascript Developer</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -194,7 +178,7 @@
                     <td class="sorting_1">Martena Mccray</td>
                     <td>Post-Sales support</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -211,7 +195,7 @@
                     <td class="sorting_1">Quinn Flynn</td>
                     <td>Support Lead</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -227,7 +211,7 @@
                     <td class="sorting_1">Shad Decker</td>
                     <td>Regional Director</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">

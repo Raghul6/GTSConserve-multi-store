@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 app.use('/uploads', express.static('./uploads'));
-console.log(__dirname +  "/public")
+// console.log(__dirname +  "/public")
 app.use(flash());
 
 app.use(express.static("public"));

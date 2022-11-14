@@ -2,7 +2,7 @@ import express  from 'express';
 import fs from 'fs'
 import multer from 'multer';
 
-import { getAllProductType,createProductType,getCategoryType,getCities,getAppSettings,getAllCountry,getAllZone,getAllPostCode,updateProductTypeStatus } from '../../controllers/super_admin/settings/product_type.controller';
+import { getAllProductType,createProductType,getCategoryType,getAppSettings,updateProductTypeStatus,getvaraitionType,getPlan } from '../../controllers/super_admin/settings/product_type.controller';
 import { multerStorage } from '../../utils/helper.util';
 
 const settingsRouter = express.Router({
@@ -31,17 +31,13 @@ settingsRouter.post('/update_product_type_status',updateProductTypeStatus)
 
 settingsRouter.get('/get_category_type',getCategoryType)
 
-//city
-settingsRouter.get('/get_cities',getCities)
-settingsRouter.get('/country',getAllCountry)
-settingsRouter.get('/zone',getAllZone)
-settingsRouter.get('/post_code',getAllPostCode)
 
 // app settings
 settingsRouter.get('/app_settings',getAppSettings)
 
+settingsRouter.get('/varaition_type',getvaraitionType)
 
-
+settingsRouter.get('/get_plan',getPlan)
 
 
 
