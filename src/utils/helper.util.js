@@ -2,14 +2,8 @@ import multer from "multer";
 import fs from "fs";
 
 export const multerStorage = (path) => {
-
-
- 
-
-
   fs.access(path, (error) => {
-   
-    // To check if the given directory 
+    // To check if the given directory
     // already exists or not
     if (error) {
       // If current directory does not exist
@@ -21,9 +15,8 @@ export const multerStorage = (path) => {
           console.log("New Directory created successfully !!");
         }
       });
-    } 
+    }
   });
-
 
   let storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -36,9 +29,8 @@ export const multerStorage = (path) => {
     },
   });
 
-  return storage
-}
-
+  return storage;
+};
 
 // export const uploadImg = multer({ storage: storage }).single("image");
 
