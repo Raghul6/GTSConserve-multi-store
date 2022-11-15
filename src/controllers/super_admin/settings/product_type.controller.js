@@ -97,8 +97,6 @@ export const createProductType = async (req, res) => {
 
 
 
-<<<<<<< HEAD
-=======
 export const getCities = async (req, res) => {
   try {
     // const categories = await knex("categories").join('product_type','categories.id','=','product_type.id')
@@ -159,7 +157,7 @@ export const getAllPostCode = async (req, res) => {
     res.redirect("/home");
   }
 };
->>>>>>> c3e374dabd02fb05204aeb82306bd815e7db91ec
+
 
 export const getAppSettings = async (req, res) => {
   try {

@@ -3,8 +3,8 @@ import fs from "fs";
 import multer from "multer";
 
 
-import { getAllProductType,createProductType,getCategoryType,getAppSettings,updateProductTypeStatus,getvaraitionType,getPlan } from '../../controllers/super_admin/settings/product_type.controller';
-import { multerStorage } from '../../utils/helper.util';
+// import { getAllProductType,createProductType,getCategoryType,getAppSettings,updateProductTypeStatus,getvaraitionType,getPlan } from '../../controllers/super_admin/settings/product_type.controller';
+// import { multerStorage } from '../../utils/helper.util';
 import {
   getAllProductType,
   createProductType,
@@ -45,9 +45,9 @@ settingsRouter.post("/update_product_type", uploadImg, updateProductType);
 settingsRouter.get("/app_settings", getAppSettings);
 
 
-settingsRouter.get('/varaition_type',getvaraitionType)
+// settingsRouter.get('/varaition_type',getvaraitionType)
 
-settingsRouter.get('/get_plan',getPlan)
+// settingsRouter.get('/get_plan',getPlan)
 
 
 

@@ -49,3 +49,25 @@ export const get_postcodes = async (req,res) => {
         return{status:responseCode.FAILURE.INTERNAL_SERVER_ERROR,message:error}
     }
 }
+
+export const get_subscription_products = async (id) =>{
+   
+
+    const product = await knex('products').join('categories', 'products.category_id', '=', 'categories.id')
+    .join('product_variations').join('subscription_type')
+    .select('products.id','products.name','products.image','category_id','categories.name','subscription_type.status','subscription_type.name','product_variations.id','product_variations.value','product_variations.price','products.thumbnail_image','products.status')
+    .whereRaw('products.product_type_id= ?', [1])  
+    try{
+        
+        return{status:response.SUCCESS,body:product}
+        
+    }
+    catch{
+        return {status:responseCode.FAILURE.INTERNAL_SERVER_ERROR}
+
+    }
+}
+
+// export const get_categories = async (id) => {
+//     const getcategories = await kn
+// }
