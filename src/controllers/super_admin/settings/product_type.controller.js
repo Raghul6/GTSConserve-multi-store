@@ -3,6 +3,35 @@ import knex from "../../../services/db.service";
 // import responseCode from "../../constants/responseCode"
 // import messageCode from "../../constants/messages"
 
+export const searchProductType = async (req, res) => {
+  try {
+ 
+     const { searchKeyword } = req.body;
+
+    const search_product_type = await knex.raw(
+      `SELECT id,name,image,status FROM product_type WHERE name LIKE '%${searchKeyword}%'`
+    );
+
+
+    if (search_product_type[0].length === 0) {
+      req.flash("error", "No Product Type Found");
+      return res.redirect("/super_admin/settings/get_all_product_type");
+    }
+   
+
+    for (let i = 0; i < search_product_type[0].length; i++) {
+      search_product_type[0][i].image =
+        "http://" + req.headers.host + search_product_type[0][i].image;
+    }
+   // console.log('l')
+  return res.json({data:search_product_type[0]})
+  // return res.json
+  } catch (error) {
+    console.log(error);
+    res.redirect("/home");
+  }
+};
+
 export const updateProductType = async (req, res) => {
   try {
     const { name, id } = req.body;
@@ -51,18 +80,41 @@ export const updateProductTypeStatus = async (req, res) => {
 
 export const getAllProductType = async (req, res) => {
   try {
-    const product_types = await knex("product_type").select(
-      "id",
-      "name",
-      "image",
-      "status"
-    );
+    res.locals.loading = true
+    const { searchKeyword } = req.query;
 
-    for (let i = 0; i < product_types.length; i++) {
-      product_types[i].image =
+    let product_types = [];
+
+    
+    // console.log("aaaaaaaaaaaaaaa",searchKeyword)
+    if (searchKeyword) {
+      const data = await knex.raw(
+        `SELECT id,name,image,status FROM product_type WHERE name LIKE '%${searchKeyword}%'`
+      );
+
+      product_types = data[0]
+      // console.log("inseide keyey ")
+      if (product_types.length === 0) {
+        res.locals.loading = false
+        req.query.searchKeyword = "";
+        req.flash("error", "No Product Type Found");
+        return res.redirect("/super_admin/settings/get_all_product_type");
+      }
+    } else {
+      product_types = await knex("product_type").select(
+        "id",
+        "name",
+        "image",
+        "status"
+        );
+      }
+      
+      for (let i = 0; i < product_types.length; i++) {
+        product_types[i].image =
         "http://" + req.headers.host + product_types[i].image;
-    }
-
+      }
+       //console.log(product_types) 
+      res.locals.loading = false
     res.render("settings/product_type", { data: product_types });
   } catch (error) {
     console.log(error);
@@ -95,23 +147,18 @@ export const createProductType = async (req, res) => {
   }
 };
 
-
-
-<<<<<<< HEAD
-=======
 export const getCities = async (req, res) => {
   try {
     // const categories = await knex("categories").join('product_type','categories.id','=','product_type.id')
     // .select("id", "name")
     //   // .select("id", "name", "image", "status")
     //   .where({ status: "1" });
-    const City = await cities()
-    res.status(200).json({ status: true, data:City})
+    const City = await cities();
+    res.status(200).json({ status: true, data: City });
+  } catch (error) {
+    res.status(500).send("Error!");
   }
-  catch (error) {
-      res.status(500).send('Error!')
-  }
-    // res.render("settings/city");
+  // res.render("settings/city");
   // } catch (error) {
   //   console.log(error);
   //   res.redirect("/home");
@@ -159,7 +206,6 @@ export const getAllPostCode = async (req, res) => {
     res.redirect("/home");
   }
 };
->>>>>>> c3e374dabd02fb05204aeb82306bd815e7db91ec
 
 export const getAppSettings = async (req, res) => {
   try {
@@ -202,4 +248,3 @@ export const getPlan = async (req, res) => {
     res.redirect("/home");
   }
 };
-

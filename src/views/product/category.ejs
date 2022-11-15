@@ -98,8 +98,8 @@
                                 style="width: 86px;">Name</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                 aria-label="NAME: activate to sort column ascending" style="width: 100px;">IMAGE</th>
-                            <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">PRODUCT TYPE</th> -->
+                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">PRODUCT TYPE</th>
                             <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                 colspan="1" aria-label="Status: activate to sort column ascending" style="width: 49px;">
                                 Status</th>
@@ -111,12 +111,6 @@
                     <tbody>
 
                         <tr role="row">
-<<<<<<< HEAD:src/views/settings/category.ejs
-                            <td class="sorting_1">Cedric Kelly</td>
-                            <td>Senior Javascript Developer</td>
-                            <!-- <td>Edinburgh</td> -->
-=======
->>>>>>> c3e374dabd02fb05204aeb82306bd815e7db91ec:src/views/product/category.ejs
 
                             <% for(category of data){ %>
                                     <td class="sorting_1"><%=category.id %></td>
@@ -148,64 +142,10 @@
                                              
                                             </div>
                                         </td>
+                                        <td class="text-center"> <button class="btn btn-sm" data-toggle="modal"
+                                            data-target="#editCategory<%=category.id %>">edit</button> </td>
                                     </div>
-<<<<<<< HEAD:src/views/settings/category.ejs
-                                </td>
-                            </div>
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="sorting_1">Dai Rios</td>
-                            <td>Personnel Lead</td>
-                            <!-- <td>Edinburgh</td> -->
-
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches1">
-                                        <label class="custom-control-label" for="customSwitches1"></label>
-                                    </div>
-                                </td>
-                            </div>
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="sorting_1">Gavin Joyce</td>
-                            <td>Developer</td>
-                            <!-- <td>Edinburgh</td> -->
-
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches2">
-                                        <label class="custom-control-label" for="customSwitches2"></label>
-                                    </div>
-                                </td>
-                            </div>
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="sorting_1">Jennifer Acosta</td>
-                            <td>Junior Javascript Developer</td>
-                            <!-- <td>Edinburgh</td> -->
-
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches3">
-                                        <label class="custom-control-label" for="customSwitches3"></label>
-                                    </div>
-                                </td>
-                            </div>
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="sorting_1">Martena Mccray</td>
-                            <td>Post-Sales support</td>
-                            <!-- <td>Edinburgh</td> -->
-=======
-                                    <td class="text-center"> <button class="btn btn-sm" data-toggle="modal"
-                                        data-target="#editCategory<%=category.id %>">edit</button> </td>
+                                    
                                 </tr>
 
 
@@ -233,7 +173,6 @@
                                                 <label>Name</label>
                                                 <input type="text" class="form-control" wire:model="name"
                                                     placeholder="Name" name="name" value="<%=category.name %>">
->>>>>>> c3e374dabd02fb05204aeb82306bd815e7db91ec:src/views/product/category.ejs
 
                                             </div>
                                             <div class="col-6">
@@ -242,34 +181,10 @@
                                                     <option value=""><%=category.product_type %></option>
                                                     <% for(product_type of productType){ %>
 
-<<<<<<< HEAD:src/views/settings/category.ejs
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="sorting_1">Quinn Flynn</td>
-                            <td>Support Lead</td>
-                            <!-- <td>Edinburgh</td> -->
-
-                            <div>
-                                <td style="text-align: center; vertical-align: middle;">
-                                    <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitches5">
-                                        <label class="custom-control-label" for="customSwitches5"></label>
-                                    </div>
-                                </td>
-                            </div>
-                            <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                        </tr>
-                        <tr role="row">
-                            <td class="sorting_1">Shad Decker</td>
-                            <td>Regional Director</td>
-                            <!-- <td>Edinburgh</td> -->
-=======
                                                         <option name="<%=product_type.name %>" value="<%=product_type.id %>"><%=product_type.name %></option>
                                                     <% } %>
 
                                                 </select>
->>>>>>> c3e374dabd02fb05204aeb82306bd815e7db91ec:src/views/product/category.ejs
 
                                             </div>
                                         </div>

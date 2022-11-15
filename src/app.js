@@ -96,6 +96,7 @@ app.use(async (req, res, next) => {
   res.locals.host_name = req.headers.host;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.loading = false
 
   // res.locals.currentUser = req.user;
   // res.locals.success = req.flash("success");

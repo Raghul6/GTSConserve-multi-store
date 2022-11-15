@@ -1,20 +1,47 @@
 <% layout('layouts/boilerPlate') %>
-
-    <div class="widget-content widget-content-area br-6">
+<% let seachdata %>
+<% let loop = data %>  
+  <div class="widget-content widget-content-area br-6">
         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
             <div class="dt--top-section">
                 <div class="row">
                     <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center">
-                        <div class="dataTables_length" id="DataTables_Table_0_length">
+                        <div class="dataTables_length" >
                             <h4>Product Type</h4>
                         </div>
                     </div>
 
-                    <div class="col-2"></div>
-                    <div class="form-group col-md-3">
-                        <input class="form-control rounded-5 py-2" type="search" value="search"
-                            id="example-search-input">
+                    <div class="col-1"></div>
+                    <div class="col-3  filtered-list-search mx-auto">
+                        <div class="form-inline my-2 my-lg-0 justify-content-center">
+                            <div class="w-100 col">
+                                <input type="text" name="searchKeyword" value=""  oninput="onSearch()"  class="w-100 form-control product-search br-30" id="searchText" placeholder="Search..." >
+                                <!-- <button class="btn btn-primary" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button> -->
+                                <script>
 
+                                    async function onSearch(event) {
+                                       
+                                        const text = document.getElementById("searchText").value;
+                            
+                                     const a=   
+                                    await fetch(`/super_admin/settings/get_all_product_type/search`, {
+                                   method:'POST',
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                  
+                                    body: JSON.stringify({"searchKeyword": text})
+                                    })
+                                 
+                                   const b=await a.json();
+                                  // console.log(loop
+                               
+                                 
+                                };
+                                </script>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group col-md-1">
                             <button class="btn btn-sm" data-toggle="modal"
@@ -70,6 +97,19 @@
                     
                 </div>
             </div>
+            <% if(loop.length === 0){ %> 
+                <h2>No Data Found</h2>
+                <% }else if(loading) { %>
+                    <div class="row">
+                        <div class="col-5">
+
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-info btn-lg mb-3 mr-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-loader spin mr-2"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>  Loading</button>
+                        </div>
+                    </div>
+                    
+                    <% } else {  %>
             <div class="table-responsive">
                 <table class="multi-table table table-hover dataTable" style="width: 100%;" id="DataTables_Table_0"
                     role="grid" aria-describedby="DataTables_Table_0_info">
@@ -93,8 +133,8 @@
                     </thead>
                     <tbody>
                         <!-- start -->
-
-                        <% for(product_type of data){ %>
+                       
+                        <% for(product_type of loop){ %>
                             <tr role="row">
                                 <td class="sorting_1"><%=product_type.id %></td>
                             <td><%=product_type.name %></td>
@@ -184,9 +224,10 @@
                     </div>
                         
                         <% } %>
+                       
                         <!-- end -->
                         
-
+                    </tbody>
                 </table>
             </div>
             <div class="dt--bottom-section d-sm-flex justify-content-sm-between text-center">
@@ -242,6 +283,7 @@
                 </div> -->
             </div>
         </div>
+        <% } %>
         <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
             <div class="dt--top-section">
                 <div class="row">

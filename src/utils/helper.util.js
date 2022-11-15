@@ -73,7 +73,7 @@ function emptyOrRows(rows) {
   }
   return rows;
 }
-// export default {
-//   getOffset,
-//   emptyOrRows
-// }
+export default {
+  getOffset,
+  emptyOrRows
+}
