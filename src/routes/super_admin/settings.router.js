@@ -3,10 +3,28 @@ import fs from "fs";
 import multer from "multer";
 
 
+<<<<<<< HEAD
 import { getAllProductType,createProductType,getCategoryType,getAppSettings,updateProductType,updateProductTypeStatus,getvaraitionType,getPlan, searchProductType } from '../../controllers/super_admin/settings/product_type.controller';
 import { multerStorage } from '../../utils/helper.util';
 
 
+=======
+// import { getAllProductType,createProductType,getCategoryType,getAppSettings,updateProductTypeStatus,getvaraitionType,getPlan } from '../../controllers/super_admin/settings/product_type.controller';
+// import { multerStorage } from '../../utils/helper.util';
+import {
+  getAllProductType,
+  createProductType,
+  getCategoryType,
+  getCities,
+  getAppSettings,
+  getAllCountry,
+  getAllZone,
+  getAllPostCode,
+  updateProductTypeStatus,
+  updateProductType,
+} from "../../controllers/super_admin/settings/product_type.controller";
+import { multerStorage } from "../../utils/helper.util";
+>>>>>>> b2b5aa1c866c05890709d79383eed2522ae4003f
 
 
 const settingsRouter = express.Router({
@@ -37,9 +55,9 @@ settingsRouter.post("/update_product_type", uploadImg, updateProductType);
 settingsRouter.get("/app_settings", getAppSettings);
 
 
-settingsRouter.get('/varaition_type',getvaraitionType)
+// settingsRouter.get('/varaition_type',getvaraitionType)
 
-settingsRouter.get('/get_plan',getPlan)
+// settingsRouter.get('/get_plan',getPlan)
 
 
 

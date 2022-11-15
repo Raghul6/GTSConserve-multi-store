@@ -1,5 +1,5 @@
 
-import {  get_cities, get_countries, get_postcodes, get_zones } from '../../models/user/user.model';
+import {  get_cities, get_countries, get_postcodes, get_zones,get_subscription_products} from '../../models/user/user.model';
 
 
 export const cities = async (req, res) => {
@@ -50,3 +50,18 @@ export const postcodes = async (req,res) => {
         res.status(500).json({ status: false }) 
       }
 }
+
+export const subscription_products= async (req,res) =>{
+    try{
+        
+        const {id} = req.body
+        // const{id} = req.body
+        const list = await get_subscription_products(id)
+        res.status(200).json({status:true,DATA:list.body})
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({status:false})
+    }
+}
+
