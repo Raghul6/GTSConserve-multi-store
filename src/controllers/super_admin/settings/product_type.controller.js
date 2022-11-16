@@ -5,27 +5,24 @@ import knex from "../../../services/db.service";
 
 export const searchProductType = async (req, res) => {
   try {
- 
-     const { searchKeyword } = req.body;
+    const { searchKeyword } = req.body;
 
     const search_product_type = await knex.raw(
       `SELECT id,name,image,status FROM product_type WHERE name LIKE '%${searchKeyword}%'`
     );
 
-
     if (search_product_type[0].length === 0) {
       req.flash("error", "No Product Type Found");
       return res.redirect("/super_admin/settings/get_all_product_type");
     }
-   
 
     for (let i = 0; i < search_product_type[0].length; i++) {
       search_product_type[0][i].image =
         "http://" + req.headers.host + search_product_type[0][i].image;
     }
-   // console.log('l')
-  return res.json({data:search_product_type[0]})
-  // return res.json
+    // console.log('l')
+    return res.json({ data: search_product_type[0] });
+    // return res.json
   } catch (error) {
     console.log(error);
     res.redirect("/home");
@@ -80,22 +77,20 @@ export const updateProductTypeStatus = async (req, res) => {
 
 export const getAllProductType = async (req, res) => {
   try {
-    res.locals.loading = true
+    res.locals.loading = true;
     const { searchKeyword } = req.query;
 
     let product_types = [];
 
-    
-    // console.log("aaaaaaaaaaaaaaa",searchKeyword)
     if (searchKeyword) {
       const data = await knex.raw(
         `SELECT id,name,image,status FROM product_type WHERE name LIKE '%${searchKeyword}%'`
       );
 
-      product_types = data[0]
+      product_types = data[0];
       // console.log("inseide keyey ")
       if (product_types.length === 0) {
-        res.locals.loading = false
+        res.locals.loading = false;
         req.query.searchKeyword = "";
         req.flash("error", "No Product Type Found");
         return res.redirect("/super_admin/settings/get_all_product_type");
@@ -106,16 +101,71 @@ export const getAllProductType = async (req, res) => {
         "name",
         "image",
         "status"
-        );
-      }
-      
-      for (let i = 0; i < product_types.length; i++) {
-        product_types[i].image =
-        "http://" + req.headers.host + product_types[i].image;
-      }
-       //console.log(product_types) 
-      res.locals.loading = false
-    res.render("settings/product_type", { data: product_types });
+      );
+    }
+
+    const resultsPerPage = 2;
+    const numOfResults = product_types.length;
+    const numberOfPages = Math.ceil(numOfResults / resultsPerPage);
+
+    let page = req.query.page ? Number(req.query.page) : 1;
+    if (page > numberOfPages) {
+      return res.redirect(
+        "/super_admin/settings/get_all_product_type?page=" +
+          encodeURIComponent(numberOfPages)
+      );
+    } else if (page < 1) {
+      return res.redirect(
+        "/super_admin/settings/get_all_product_type?page=" +
+          encodeURIComponent("1")
+      );
+    }
+    //Determine the SQL LIMIT starting number
+    const startingLimit = (page - 1) * resultsPerPage;
+    //Get the relevant number of POSTS for this starting page
+    let results 
+    let is_search = false
+    if(searchKeyword){
+      results = await knex.raw(
+        `SELECT id,name,image,status FROM product_type  WHERE name LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
+      );
+      is_search = true
+    }else{
+
+      results = await knex.raw(
+       `SELECT id,name,image,status FROM product_type LIMIT ${startingLimit},${resultsPerPage}`
+     );
+    }
+
+    const result = results[0];
+
+    let iterator = page - 5 < 1 ? 1 : page - 5;
+    let endingLink =
+    iterator + 4 <= numberOfPages
+    ? iterator + 4
+    : page + (numberOfPages - page);
+    if (endingLink < page + 1) {
+      iterator -= page + 1 - numberOfPages;
+    }
+    
+    
+    for (let i = 0; i < result.length; i++) {
+      result[i].image = "http://" + req.headers.host + result[i].image;
+    }
+
+    res.locals.loading = false;
+    res.render("settings/product_type", {
+      data: result,
+      page,
+      iterator,
+      endingLink,
+      numberOfPages,
+      is_search,
+      searchKeyword
+
+    });
+
+    //console.log(product_types)
   } catch (error) {
     console.log(error);
     res.redirect("/home");

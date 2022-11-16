@@ -15,28 +15,27 @@
                     <div class="col-3  filtered-list-search mx-auto">
                         <div class="form-inline my-2 my-lg-0 justify-content-center">
                             <div class="w-100 col">
-                                <input type="text" name="searchKeyword" value=""  oninput="onSearch()"  class="w-100 form-control product-search br-30" id="searchText" placeholder="Search..." >
-                                <!-- <button class="btn btn-primary" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button> -->
+                                <input type="text" name="searchKeyword" oninput="onChangeSearch()" value="<%=searchKeyword? searchKeyword : ""  %>"    class="w-100 form-control product-search br-30" id="searchText" placeholder="Search..." >
+                                <button class="btn btn-primary" onclick="onSearch()" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
                                 <script>
+
+                                    async function onChangeSearch(event){
+                                        const text = document.getElementById("searchText").value;
+                                        if(!text){
+
+                                            return window.location.href = `/super_admin/settings/get_all_product_type`
+                                        }
+                                        // window.location.href = `/super_admin/settings/get_all_product_type?searchKeyword=${text}`
+                                        // window.history.pushState("","",`/super_admin/settings/get_all_product_type?searchKeyword=${text}`)
+
+                                    }
 
                                     async function onSearch(event) {
                                        
                                         const text = document.getElementById("searchText").value;
                             
-                                     const a=   
-                                    await fetch(`/super_admin/settings/get_all_product_type/search`, {
-                                   method:'POST',
-                                    headers: {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json'
-                                    },
-                                  
-                                    body: JSON.stringify({"searchKeyword": text})
-                                    })
-                                 
-                                   const b=await a.json();
-                                  // console.log(loop
-                               
+                                        window.location.href = `/super_admin/settings/get_all_product_type?searchKeyword=${text}`
+                              
                                  
                                 };
                                 </script>
@@ -230,27 +229,36 @@
                     </tbody>
                 </table>
             </div>
+  
+
             <div class="dt--bottom-section d-sm-flex justify-content-sm-between text-center">
                 <div class="dt--pages-count  mb-sm-0 mb-3">
-                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing
-                        page 1 of 2</div>
+                  <% let search_query =  is_search ? `&searchKeyword=${searchKeyword}` : "" %>
                 </div>
                 <nav aria-label="...">
                     <ul class="pagination">
-                        <li class="page-item disabled">
-                            <span class="page-link" style="padding-left: 5px;">Previous</span>
-                        </li>
-                        <li class="page-item" style="padding-left: 5px;"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item active">
-                            <span class="page-link">
-                                2
-                                <span class="sr-only">(current)</span>
-                            </span>
-                        </li>
-                        <li class="page-item" style="padding-left: 5px;"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item" style="padding-left: 5px;">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
+                        <% if(page > 1) { %> 
+                            <li class="page-item ">
+                                <a href="/super_admin/settings/get_all_product_type?page=<%=page-1%><%= search_query %>" class="page-link" style="padding-left: 5px;">Previous</a>
+                            </li>
+                             <% } %>
+                       
+                             <% for(let i = iterator==0 ? 1 : iterator; i <= endingLink; i++) { %>
+                                <% if(i === page) { %>
+                                    <li class="page-item active" style="padding-left: 5px;"><a class="page-link" href="#"><%=i%></a></li>
+                                  
+                                    <% continue; %>
+                                    <% } %>
+                                    <li class="page-item" style="padding-left: 5px;"><a class="page-link" href="/super_admin/settings/get_all_product_type?page=<%=i%><%= search_query %>"><%=i%></a></li>
+                            <% } %>
+                        
+                        <% if(page < numberOfPages) { %>
+                            <li class="page-item" style="padding-left: 5px;">
+                                <a class="page-link" href="/super_admin/settings/get_all_product_type?page=<%=page+1%><%= search_query %>">Next</a>
+                            </li>
+                          
+                             <% } %>
+                             
                     </ul>
                 </nav>
                 <!-- <div class="dt--pagination">
