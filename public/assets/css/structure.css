@@ -29,11 +29,11 @@ h1, h2, h3, h4, h5, h6 {
 
 ::-moz-selection {
   /* Code for Firefox */
-  color: #4361ee;
+  color: #198754;
   background: transparent; }
 
 ::selection {
-  color: #4361ee;
+  color: #198754;
   background: transparent; }
 
 p {
@@ -373,7 +373,7 @@ code {
 
 .language-dropdown.dropdown:not(.custom-dropdown-icon):not(.custom-dropdown) .dropdown-menu a.dropdown-item:hover {
   background-color: transparent;
-  color: #4361ee; }
+  color: #198754; }
 
 .navbar .language-dropdown .custom-dropdown-icon .dropdown-menu img {
   width: 17px;
@@ -532,7 +532,7 @@ code {
         font-size: 14px;
         margin-right: 8px; }
     .navbar .navbar-item .nav-item.dropdown.notification-dropdown .dropdown-menu .dropdown-item:hover h6 {
-      color: #4361ee; }
+      color: #198754; }
     .navbar .navbar-item .nav-item.dropdown.notification-dropdown .dropdown-menu .data-info p {
       margin-bottom: 0;
       font-size: 13px;
@@ -692,7 +692,7 @@ code {
     .navbar .navbar-item .nav-item.user-profile-dropdown .dropdown-menu .user-profile-section .media.slack svg {
       color: #805dca; }
     .navbar .navbar-item .nav-item.user-profile-dropdown .dropdown-menu .user-profile-section .media.trello svg {
-      color: #4361ee; }
+      color: #198754; }
     .navbar .navbar-item .nav-item.user-profile-dropdown .dropdown-menu .user-profile-section .media:not(:last-child) {
       margin-bottom: 10px; }
     .navbar .navbar-item .nav-item.user-profile-dropdown .dropdown-menu .user-profile-section .media .media-body {
@@ -716,7 +716,7 @@ code {
       margin-bottom: 0;
       color: #fff;
       display: inline-block;
-      background: #4361ee;
+      background: #198754;
       padding: 1px 5px;
       border-radius: 5px; }
     .navbar .navbar-item .nav-item.user-profile-dropdown .dropdown-menu .user-profile-section .media .media-body svg {
@@ -740,7 +740,7 @@ code {
     font-weight: 500;
     padding: 9px 6px; }
     .navbar .navbar-item .nav-item.user-profile-dropdown .dropdown-menu .dropdown-item a:hover {
-      color: #4361ee; }
+      color: #198754; }
   .navbar .navbar-item .nav-item.user-profile-dropdown .dropdown-menu .dropdown-item.active, .navbar .navbar-item .nav-item.user-profile-dropdown .dropdown-menu .dropdown-item:active {
     background-color: transparent; }
   .navbar .navbar-item .nav-item.user-profile-dropdown .dropdown-menu .dropdown-item:not(:last-child) {
@@ -816,7 +816,7 @@ code {
         font-size: 13px;
         font-weight: 600; }
         .page-header .breadcrumb-one .breadcrumb-item a:hover {
-          color: #4361ee; }
+          color: #198754; }
         .page-header .breadcrumb-one .breadcrumb-item a svg {
           width: 20px;
           height: 20px;
@@ -1051,9 +1051,9 @@ code {
           margin-right: 44px;
           border-radius: 6px; }
         .topbar-nav.header nav#topbar ul.menu-categories li.menu:hover a > div span, .topbar-nav.header nav#topbar ul.menu-categories li.menu:hover a > div svg:not(.feather-chevron-down) {
-          color: #4361ee; }
+          color: #198754; }
         .topbar-nav.header nav#topbar ul.menu-categories li.menu:hover > a svg.feather.feather-chevron-down {
-          color: #4361ee; }
+          color: #198754; }
         .topbar-nav.header nav#topbar ul.menu-categories li.menu > a > div {
           align-self: center;
           margin-right: 6px; }
@@ -1075,13 +1075,13 @@ code {
         .topbar-nav.header nav#topbar ul.menu-categories li.menu > .dropdown-toggle svg.feather-chevron-down {
           align-self: center; }
         .topbar-nav.header nav#topbar ul.menu-categories li.menu.active > a svg.feather.feather-chevron-down {
-          color: #4361ee; }
+          color: #198754; }
         .topbar-nav.header nav#topbar ul.menu-categories li.menu.active > a > div svg:not(.feather-chevron-down) {
-          color: #4361ee; }
+          color: #198754; }
         .topbar-nav.header nav#topbar ul.menu-categories li.menu.active > a > div svg.feather.feather-chevron-down {
           color: #e0e6ed; }
         .topbar-nav.header nav#topbar ul.menu-categories li.menu.active > a > div span {
-          color: #4361ee;
+          color: #198754;
           font-weight: 500; }
         .topbar-nav.header nav#topbar ul.menu-categories li.menu:hover .submenu {
           visibility: visible;
