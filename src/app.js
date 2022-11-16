@@ -95,7 +95,7 @@ dotenv.config();
 app.use(async (req, res, next) => {
   res.locals.host_name = req.headers.host;
   res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
+  res.locals.error = req.flash("error");  
 
   // res.locals.currentUser = req.user;
   // res.locals.success = req.flash("success");
@@ -120,6 +120,10 @@ app.get("/", (req, res) => {
 
 app.get("/home", authenticateJWTSession, (req, res) => {
   res.render("home");
+});
+
+app.get("/branch", authenticateJWTSession, (req, res) => {
+  res.render("branch_admin");
 });
 
 app.get("/insert_data", insertData);
