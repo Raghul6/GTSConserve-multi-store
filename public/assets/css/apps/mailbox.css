@@ -273,7 +273,7 @@
     border: none;
 }
 .tab-title li.mail-labels a.dropdown-item {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 700;
     padding: 8px 18px;
 }
@@ -671,7 +671,7 @@
     font-weight: 700;
 }
 .mailbox-inbox .mail-content-container .mail-content-meta-date {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     color: #3b3f5c;
     display: inline-block;

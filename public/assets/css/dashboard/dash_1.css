@@ -94,7 +94,7 @@
     font-weight: 600;
 }
 .widget-two .w-numeric-value .w-numeric-title {
-    font-size: 13px;
+    font-size: 15px;
     color: #888ea8;
     font-weight: 600;
 }
@@ -155,7 +155,7 @@
     text-align: right;
 }
 .widget-one .w-numeric-value .w-numeric-title {
-    font-size: 13px;
+    font-size: 15px;
     color: #515365;
     letter-spacing: 1px;
     font-weight: 600;
@@ -246,7 +246,7 @@
     margin-bottom: 1px;
 }
 .widget-three .widget-content .w-summary-info h6 {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     margin-bottom: 0;
     color: #888ea8;
@@ -604,14 +604,14 @@
 }
 .widget-activity-four .timeline-line .item-timeline .t-text p {
     margin: 0;
-    font-size: 13px;
+    font-size: 15px;
     letter-spacing: 0;
     font-weight: 600;
     margin-bottom: 0;
 }
 .widget-activity-four .timeline-line .item-timeline .t-text p a {
     margin-bottom: 0;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     color: #009688;
 }
@@ -668,7 +668,7 @@
     margin: 0;
     min-width: 80px;
     max-width: 80px;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600; 
     color: #e3e4eb;
     letter-spacing: 1px;
@@ -811,7 +811,7 @@
     padding: 5px 12px 5px 6px;
     border-radius: 21px;
     position: relative;
-    font-size: 13px;
+    font-size: 15px;
     letter-spacing: 1px;
     cursor: pointer;
 }
@@ -933,7 +933,7 @@
 .widget-account-invoice-three .invoice-list [class*="info-detail-"]:not(.info-sub) p {
     margin-bottom: 0;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 15px;
     align-self: center;
 }
 .widget-account-invoice-three .invoice-list [class*="info-detail-"]:not(.info-sub) p span.w-currency {
@@ -954,7 +954,7 @@
 .widget-account-invoice-three .invoice-list .inv-action a {
     transform: none;
     border: none;
-    font-size: 13px;
+    font-size: 15px;
     padding: 6px 11px;
     font-weight: 600;
     letter-spacing: 1px;
@@ -1073,7 +1073,7 @@
     color: #515365;
     font-weight: 600;
     margin-bottom: 0;
-    font-size: 13px;
+    font-size: 15px;
     display: flex;
 }
 .widget-table-two .table .td-content.product-brand {
@@ -1231,7 +1231,7 @@
 .widget-table-three .table .td-content.product-name .prd-name {
     font-weight: 700;
     margin-bottom: 0;
-    font-size: 13px;
+    font-size: 15px;
 }
 .widget-table-three .table tr:hover .td-content.product-name .prd-name {
     color: #888ea8;
@@ -1283,7 +1283,7 @@
 .widget-table-three .table .td-content a {
     position: relative;
     padding: 0;
-    font-size: 13px;
+    font-size: 15px;
     background: transparent;
     transform: none;
     letter-spacing: 1px;

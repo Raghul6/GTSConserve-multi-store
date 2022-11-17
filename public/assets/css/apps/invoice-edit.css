@@ -15,7 +15,7 @@
   border: 1px solid #d3d3d3;
   border-radius: 6px;
   transform: none;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 17px;
   background-color: #fff;
   letter-spacing: normal;
@@ -330,7 +330,7 @@
   border: 1px solid #e0e6ed;
   border-radius: 6px; }
   .invoice-actions label {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     color: #515365; }
   .invoice-actions .invoice-action-currency label {
@@ -385,7 +385,7 @@
       border: 1px solid #d3d3d3;
       border-radius: 6px;
       transform: none;
-      font-size: 13px;
+      font-size: 15px;
       line-height: 17px;
       background-color: #fff;
       letter-spacing: normal;
@@ -415,7 +415,7 @@
       border: 1px solid #d3d3d3;
       border-radius: 6px;
       transform: none;
-      font-size: 13px;
+      font-size: 15px;
       line-height: 17px;
       background-color: #fff;
       letter-spacing: normal;

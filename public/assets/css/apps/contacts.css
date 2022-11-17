@@ -232,7 +232,7 @@
   margin-bottom: 0;
   color: #888ea8;
   font-weight: 500;
-  font-size: 13px; }
+  font-size: 15px; }
 
 .searchable-container .searchable-items.list .items .user-email p {
   margin-bottom: 0;
@@ -243,7 +243,7 @@
   display: none; }
 
 .searchable-container .searchable-items.list .items .user-location p {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   margin-bottom: 0; }
 
@@ -254,7 +254,7 @@
   margin-bottom: 0;
   color: #888ea8;
   font-weight: 600;
-  font-size: 13px; }
+  font-size: 15px; }
 
 .searchable-container .searchable-items.list .items .user-phone .info-title {
   display: none; }
@@ -329,7 +329,7 @@
       color: #2196f3; }
     .searchable-container .searchable-items.grid .items .user-meta-info .user-work {
       font-weight: 700;
-      font-size: 13px; }
+      font-size: 15px; }
   .searchable-container .searchable-items.grid .items .user-email {
     display: flex;
     justify-content: space-between;
@@ -341,7 +341,7 @@
       margin-bottom: 11px; }
     .searchable-container .searchable-items.grid .items .user-email p {
       color: #888ea8;
-      font-size: 13px;
+      font-size: 15px;
       margin-bottom: 11px; }
   .searchable-container .searchable-items.grid .items .user-location {
     display: flex;
@@ -354,7 +354,7 @@
       margin-right: 10px; }
     .searchable-container .searchable-items.grid .items .user-location p {
       color: #888ea8;
-      font-size: 13px;
+      font-size: 15px;
       margin-bottom: 11px; }
   .searchable-container .searchable-items.grid .items .user-phone {
     display: flex;
@@ -366,7 +366,7 @@
       margin-bottom: 11px; }
     .searchable-container .searchable-items.grid .items .user-phone p {
       color: #888ea8;
-      font-size: 13px;
+      font-size: 15px;
       margin-bottom: 11px;
       margin-right: 10px; }
   .searchable-container .searchable-items.grid .items .action-btn {

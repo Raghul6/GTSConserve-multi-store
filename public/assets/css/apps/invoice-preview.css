@@ -103,7 +103,7 @@
 .invoice .content-section .inv--detail-section .inv-customer-name {
   font-weight: 700;
   margin-bottom: 2px;
-  font-size: 13px;
+  font-size: 15px;
   color: #4361ee; }
 
 .invoice .content-section .inv--detail-section .inv-detail-title {
@@ -119,7 +119,7 @@
 .invoice .content-section .inv--detail-section .inv-street-addr, .invoice .content-section .inv--detail-section .inv-email-address {
   font-weight: 600;
   margin-bottom: 2px;
-  font-size: 13px; }
+  font-size: 15px; }
 
 .invoice .content-section .inv--detail-section .inv-list-number {
   margin-bottom: 2px; }
@@ -135,9 +135,9 @@
   margin-bottom: 2px; }
   .invoice .content-section .inv--detail-section .inv-created-date .inv-title, .invoice .content-section .inv--detail-section .inv-due-date .inv-title {
     font-weight: 700;
-    font-size: 13px; }
+    font-size: 15px; }
   .invoice .content-section .inv--detail-section .inv-created-date .inv-date, .invoice .content-section .inv--detail-section .inv-due-date .inv-date {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600; }
 
 .invoice .content-section .inv--product-table-section {
@@ -171,7 +171,7 @@
     background-color: #fafafa; }
 
 .invoice .content-section .inv--payment-info {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600; }
   .invoice .content-section .inv--payment-info .inv-title {
     color: #4361ee;
@@ -191,7 +191,7 @@
     white-space: nowrap; }
   .invoice .content-section .inv--payment-info .inv-subtitle {
     font-weight: 600;
-    font-size: 13px;
+    font-size: 15px;
     display: inline-block;
     white-space: normal;
     margin-right: 4px; }
