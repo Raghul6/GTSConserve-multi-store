@@ -29,7 +29,7 @@ export const insertData = async (req, res) => {
     let password = await bcrypt.hash("admin2022", 10);
     await knex("admin_users").insert({
       user_group_id: 1,
-      name: "superadmin",
+      first_name: "superadmin",
       email: "superadmin@gmail.com",
       password,
     });

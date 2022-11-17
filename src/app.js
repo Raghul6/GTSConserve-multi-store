@@ -1,20 +1,23 @@
 import express from "express";
 import bodyParser from "body-parser";
 import * as dotenv from "dotenv";
-import bodyParsercheck from "./middlewares/bodyParser.middleware";
+import fs from "fs";
 
 import flash from "connect-flash";
-import fs  from "fs";
+import session from "express-session";
 
-
+import knex from "./services/db.service";
+import { parseJwtPayload } from "./services/jwt.service";
+import bodyParsercheck from "./middlewares/bodyParser.middleware";
 import { authenticateJWTSession } from "./middlewares/authToken.middleware";
+
 import mainRouter from "./routes/user_main.route";
 import superAdminRouter from "./routes/super_admin_main.route";
 import branchAdminRouter from "./routes/branch_admin_main.route";
+import authRouter from "./routes/auth_main.route";
 
 import { createTable } from "./table/create_table";
 import { insertData } from "./table/insert_data";
-import session from "express-session";
 
 require("dotenv").config();
 const path = require("path");
@@ -32,7 +35,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
-app.use('/uploads', express.static('./uploads'));
+app.use("/uploads", express.static("./uploads"));
 // console.log(__dirname +  "/public")
 app.use(flash());
 
@@ -48,11 +51,9 @@ app.use(
   })
 );
 
-
 // create upload folder
 fs.access("./uploads", (error) => {
-   
-  // To check if the given directory 
+  // To check if the given directory
   // already exists or not
   if (error) {
     // If current directory does not exist
@@ -64,7 +65,7 @@ fs.access("./uploads", (error) => {
         console.log("New Directory created successfully !!");
       }
     });
-  } 
+  }
 });
 
 let secret = "thisissecret";
@@ -77,14 +78,14 @@ const sessionConfig = {
   // secure:true,
   secret,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     HttpOnly: true, // this is default was true
     // secure:true, // note we only can give this on deployment mode not in localhost . if we give in localhost it will break things, eg: we can't login
-    expires: new Date().setDate(new Date().getDate() + 1),
-    maxAge: new Date().setDate(new Date().getDate() + 1),
-    // expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    // maxAge: 1000 * 60 * 60 * 24 * 7,
+    // expires: new Date().setDate(new Date().getDate() + 1),
+    // maxAge: new Date().setDate(new Date().getDate() + 1),
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
     //    miliseconds * seconds * minutes * hours * days = 1 week in miliseconds
   },
 };
@@ -95,7 +96,40 @@ dotenv.config();
 app.use(async (req, res, next) => {
   res.locals.host_name = req.headers.host;
   res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");  
+  res.locals.error = req.flash("error");
+
+  const token = req.session.token;
+
+  if (token) {
+    const currentTokenPayload = parseJwtPayload(token.token);
+
+    if (!currentTokenPayload.group_id) {
+      req.flash("error", "Need To Login First");
+      return res.redirect("/auth/login");
+    }
+
+    const user = await knex("admin_users")
+      .select("first_name", "profile_photo_path")
+      .where({ id: currentTokenPayload.user_id });
+
+    if (user[0].profile_photo_path) {
+      user[0].profile_photo_path =
+        "http://" + req.headers.host + user[0].profile_photo_path;
+    }
+console.log(user[0])
+    res.locals.admin_id = currentTokenPayload.user_id;
+    res.locals.user = user[0]
+
+    let is_super_admin = false;
+
+    if (currentTokenPayload.group_id == 1) {
+      is_super_admin = true;
+    }
+
+    res.locals.is_super_admin = is_super_admin;
+  }
+
+  // need to check token and navbar set profile and name
 
   // res.locals.currentUser = req.user;
   // res.locals.success = req.flash("success");
@@ -115,7 +149,7 @@ app.use(async (req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-  res.json({ message: "ok" });
+  res.json({ message: "ok", expire: req.session.cookie.expires });
 });
 
 app.get("/home", authenticateJWTSession, (req, res) => {
@@ -126,11 +160,23 @@ app.get("/branch", authenticateJWTSession, (req, res) => {
   res.render("branch_admin");
 });
 
+app.use("/auth", bodyParsercheck, authRouter);
+
 app.get("/insert_data", insertData);
 app.get("/create_table", createTable);
 
-app.use("/super_admin", bodyParsercheck, superAdminRouter);
-app.use("/branch_admin", bodyParsercheck, branchAdminRouter);
+app.use(
+  "/super_admin",
+  bodyParsercheck,
+  authenticateJWTSession,
+  superAdminRouter
+);
+app.use(
+  "/branch_admin",
+  bodyParsercheck,
+  authenticateJWTSession,
+  branchAdminRouter
+);
 app.use("/api", bodyParsercheck, mainRouter);
 
 export default app;

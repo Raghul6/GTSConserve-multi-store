@@ -1,6 +1,5 @@
 <% layout('layouts/boilerPlate') %>
-<% let seachdata %>
-<% let loop = data %>  
+
   <div class="widget-content widget-content-area br-6">
         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
             <div class="dt--top-section">
@@ -103,7 +102,7 @@
                     
                 </div>
             </div>
-            <% if(loop.length === 0){ %> 
+            <% if(data.length === 0){ %> 
                 <h2>No Data Found</h2>
                 <% }else if(loading) { %>
                     <div class="row">
@@ -140,7 +139,7 @@
                     <tbody>
                         <!-- start -->
                        
-                        <% for(product_type of loop){ %>
+                        <% for(product_type of data){ %>
                             <tr role="row">
                                 <td class="sorting_1 font-weight: bold;"><%=product_type.id %></td>
                             <td><%=product_type.name %></td>
@@ -243,26 +242,26 @@
                   <% let search_query =  is_search ? `&searchKeyword=${searchKeyword}` : "" %>
                 </div>
                 <div class="widget-content widget-content-area text-center">
-                <nav class="paginating-container pagination-solid" aria-label="...">
-                    <ul class="pagination">
+                <nav class="paginating-container " aria-label="...">
+                    <ul class="pagination-default pagination">
                         <% if(page > 1) { %> 
                             <li class="prev">
-                                <a href="/super_admin/product/get_all_product_type?page=<%=page-1%><%= search_query %>" class="page-link" style="padding-left: 5px;">Prev</a>
-                            </li>
+                                <a href="/super_admin/product/get_all_product_type?page=<%=page-1%><%= search_query %>"  style="padding-left: 5px;">Prev</a>
+                      
                              <% } %>
                        
                              <% for(let i = iterator==0 ? 1 : iterator; i <= endingLink; i++) { %>
                                 <% if(i === page) { %>
-                                    <li class="page-item active" style="padding-left: 5px;"><a class="page-link" href="#"><%=i%></a></li>
+                                    <li class="page-item active" style="padding-left: 5px;"><a  href="#"><%=i%></a></li>
                                   
                                     <% continue; %>
                                     <% } %>
-                                    <li class="page-item" style="padding-left: 5px;"><a class="page-link" href="/super_admin/product/get_all_product_type?page=<%=i%><%= search_query %>"><%=i%></a></li>
+                                    <li class="page-item" style="padding-left: 5px;"><a  href="/super_admin/product/get_all_product_type?page=<%=i%><%= search_query %>"><%=i%></a></li>
                             <% } %>
                         
                         <% if(page < numberOfPages) { %>
                             <li class="next" style="padding-left: 5px;">
-                                <a class="page-link" href="/super_admin/product/get_all_product_type?page=<%=page+1%><%= search_query %>">Next</a>
+                                <a  href="/super_admin/product/get_all_product_type?page=<%=page+1%><%= search_query %>">Next</a>
                             </li>
                           
                              <% } %>

@@ -2,6 +2,7 @@ import multer from "multer";
 import fs from "fs";
 
 export const multerStorage = (path) => {
+  console.log("hittihn")
   fs.access(path, (error) => {
     // To check if the given directory
     // already exists or not
@@ -28,6 +29,8 @@ export const multerStorage = (path) => {
       cb(null, Date.now() + "." + file.mimetype.slice(index));
     },
   });
+
+  
 
   return storage;
 };

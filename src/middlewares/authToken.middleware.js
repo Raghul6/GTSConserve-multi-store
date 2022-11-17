@@ -17,10 +17,17 @@ export const authenticateJWTSession = async (req, res,next) => {
  
   if (!token) {
     req.flash("error","Need To Login First")
-    return res.redirect("super_admin/auth/login");
+    return res.redirect("/auth/login");
   }
 
   const currentTokenPayload = parseJwtPayload(token.token);
+
+
+  if(!currentTokenPayload.group_id){
+    req.flash("error","Need To Login First")
+    return res.redirect("/auth/login");
+  }
+
   req.body.admin_id =currentTokenPayload.user_id 
   req.body.user_group_id =currentTokenPayload.group_id 
   let is_super_admin = false

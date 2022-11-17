@@ -13,16 +13,20 @@ export const createTable = async (req, res) => {
         });
       }
     });
-
-    //admin users
+ 
+    //admin users 
     await knex.schema.hasTable("admin_users").then(function (exists) {
       if (!exists) {
         return knex.schema.createTable("admin_users", function (t) {
           t.increments("id").primary().unsigned().notNullable();
           t.integer("user_group_id").unsigned().notNullable();
           t.foreign("user_group_id").references("id").inTable("user_groups");
-          t.string("name", 255).notNullable();
+          t.string("first_name", 255).notNullable();
+          t.string("last_name", 255).nullable();
+          t.string("mobile_number", 255).nullable();
+          t.string("alternate_mobile_number", 255).nullable();
           t.string("email", 255).unique().notNullable();
+          t.string("alternate_email", 255).unique().nullable();
           t.datetime("email_verified_at").nullable();
           t.string("password", 255).notNullable();
           t.text("two_factor_secret").nullable();
