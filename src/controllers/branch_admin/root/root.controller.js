@@ -10,7 +10,7 @@ export const getApprovePurchaseList = async (req, res) => {
 export const getGeneratePurchaseList = async (req, res) => {
   try {
 
-   res.render("branch_admin/root/generate-purchase_order");
+   res.render("branch_admin/root/generate_purchase_order");
   } catch (error) {
     console.log(error);
     res.redirect("/home");

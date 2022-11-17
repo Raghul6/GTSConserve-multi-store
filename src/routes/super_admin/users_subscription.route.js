@@ -1,6 +1,7 @@
 import express  from 'express';
-import { getApproveList,getPendingList,getCancelList } from "../../controllers/super_admin/users_subscription/user_subscription.controller"
-
+import { getApproveList } from '../../controllers/super_admin/users_subscription/approve.controller';
+import { getPendingList } from '../../controllers/super_admin/users_subscription/pending.controller';
+import { getCancelList } from '../../controllers/super_admin/users_subscription/cancel.controller';
 
 const users_subscriptionRouter = express.Router({
   caseSensitive: true,

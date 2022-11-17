@@ -106,7 +106,7 @@ export const getCategory = async (req, res) => {
       .select("name", "id")
       .where({ status: "1" });
 
-    res.render("product/category", { data: categories, productType });
+    res.render("super_admin/product/category", { data: categories, productType });
   } catch (error) {
     console.log(error);
     res.redirect("/home");

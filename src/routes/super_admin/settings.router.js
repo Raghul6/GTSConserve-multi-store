@@ -1,26 +1,12 @@
 import express from "express";
-import fs from "fs";
 import multer from "multer";
-
-
-// import { getAllProductType,createProductType,getCategoryType,getAppSettings,updateProductTypeStatus,getvaraitionType,getPlan } from '../../controllers/super_admin/settings/product_type.controller';
-// import { multerStorage } from '../../utils/helper.util';
-import {
-  getAllProductType,
-  createProductType,
-  getCategoryType,
-  getCities,
-  getAppSettings,
-  getAllCountry,
-  getAllZone,
-  getAllPostCode,
-  updateProductTypeStatus,
-  updateProductType,
-  // searchProductType,
-  getPlan
-} from "../../controllers/super_admin/settings/product_type.controller";
 import { multerStorage } from "../../utils/helper.util";
 
+import { getPlan } from "../../controllers/super_admin/settings/plan.controller";
+
+import { getAppSettings } from "../../controllers/super_admin/settings/app_settings.controller";
+
+import { getvaraitionType } from "../../controllers/super_admin/settings/variation_type.controller";
 
 const settingsRouter = express.Router({
   caseSensitive: true,
@@ -33,29 +19,13 @@ const storage = multerStorage(path);
 
 const uploadImg = multer({ storage: storage }).single("image");
 
-// product_type
-settingsRouter.get("/get_all_product_type", getAllProductType);
-// settingsRouter.post("/get_all_product_type/search", searchProductType);
-
-//settingsRouter.post("/search",searchProductType );
-settingsRouter.post("/create_product_type", uploadImg, createProductType);
-settingsRouter.post("/update_product_type_status", updateProductTypeStatus);
-settingsRouter.post("/update_product_type", uploadImg, updateProductType);
-
-
-
-
+//plan
+settingsRouter.get("/get_plan", getPlan);
 
 // app settings
 settingsRouter.get("/app_settings", getAppSettings);
 
-
-// settingsRouter.get('/varaition_type',getvaraitionType)
-
-settingsRouter.get('/get_plan',getPlan)
-
-
-
+// variation Type
+settingsRouter.get("/varaition_type", getvaraitionType);
 
 export default settingsRouter;
-

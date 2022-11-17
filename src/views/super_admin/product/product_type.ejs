@@ -30,10 +30,10 @@
                                         const text = document.getElementById("searchText").value;
                                         if(!text){
 
-                                            return window.location.href = `/super_admin/settings/get_all_product_type`
+                                            return window.location.href = `/super_admin/product/get_all_product_type`
                                         }
-                                        // window.location.href = `/super_admin/settings/get_all_product_type?searchKeyword=${text}`
-                                        // window.history.pushState("","",`/super_admin/settings/get_all_product_type?searchKeyword=${text}`)
+                                        // window.location.href = `/super_admin/product/get_all_product_type?searchKeyword=${text}`
+                                        // window.history.pushState("","",`/super_admin/product/get_all_product_type?searchKeyword=${text}`)
 
                                     }
 
@@ -41,7 +41,7 @@
                                        
                                         const text = document.getElementById("searchText").value;
                             
-                                        window.location.href = `/super_admin/settings/get_all_product_type?searchKeyword=${text}`
+                                        window.location.href = `/super_admin/product/get_all_product_type?searchKeyword=${text}`
                               
                                  
                                 };
@@ -71,7 +71,7 @@
                                         </div>
 
                                         <div class="modal-body">
-                                            <form method="post" action="/super_admin/settings/create_product_type"  enctype="multipart/form-data">
+                                            <form method="post" action="/super_admin/product/create_product_type"  enctype="multipart/form-data">
                                             <div class="form-row mb-4">
                                                 <div class="col-sm-10">
                                                     <label>Name</label>
@@ -157,7 +157,7 @@
                                         
                                             <script >
                                                 function onToDochange(event) {
-                                                fetch('/super_admin/settings/update_product_type_status', {
+                                                fetch('/super_admin/product/update_product_type_status', {
                                                 method: 'POST',
                                                 headers: {
                                                     'Accept': 'application/json',
@@ -197,7 +197,7 @@
                                 </div>
 
                                 <div class="modal-body">
-                                    <form method="post" action="/super_admin/settings/update_product_type"  enctype="multipart/form-data">
+                                    <form method="post" action="/super_admin/product/update_product_type"  enctype="multipart/form-data">
                                         <div class="form-row mb-4">
                                             <div class="col-sm-10">
                                                 <label>Name</label>
@@ -247,7 +247,7 @@
                     <ul class="pagination">
                         <% if(page > 1) { %> 
                             <li class="prev">
-                                <a href="/super_admin/settings/get_all_product_type?page=<%=page-1%><%= search_query %>" class="page-link" style="padding-left: 5px;">Prev</a>
+                                <a href="/super_admin/product/get_all_product_type?page=<%=page-1%><%= search_query %>" class="page-link" style="padding-left: 5px;">Prev</a>
                             </li>
                              <% } %>
                        
@@ -257,12 +257,12 @@
                                   
                                     <% continue; %>
                                     <% } %>
-                                    <li class="page-item" style="padding-left: 5px;"><a class="page-link" href="/super_admin/settings/get_all_product_type?page=<%=i%><%= search_query %>"><%=i%></a></li>
+                                    <li class="page-item" style="padding-left: 5px;"><a class="page-link" href="/super_admin/product/get_all_product_type?page=<%=i%><%= search_query %>"><%=i%></a></li>
                             <% } %>
                         
                         <% if(page < numberOfPages) { %>
                             <li class="next" style="padding-left: 5px;">
-                                <a class="page-link" href="/super_admin/settings/get_all_product_type?page=<%=page+1%><%= search_query %>">Next</a>
+                                <a class="page-link" href="/super_admin/product/get_all_product_type?page=<%=page+1%><%= search_query %>">Next</a>
                             </li>
                           
                              <% } %>

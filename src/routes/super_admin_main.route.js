@@ -46,10 +46,6 @@ const defaultRoutes = [
   {
     path: "/reports",
     route: reportsRouter,
-  },
-  {
-    path: "/product",
-    route: productRouter,
   }
 ];
 

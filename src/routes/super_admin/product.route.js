@@ -1,12 +1,23 @@
-import express  from 'express';
-import { getProductList } from "../../controllers/super_admin/product/product_type.controller"
-
-
+import express from "express";
 import { multerStorage } from "../../utils/helper.util";
 import multer from "multer";
 
+import {
+  getCategory,
+  createCategory,
+  updateCategoryStatus,
+  updateCategory,
+} from "../../controllers/super_admin/product/category.controller";
 
-import { getCategory,createCategory,updateCategoryStatus,updateCategory } from '../../controllers/super_admin/product/category.controller';
+import {
+  getAllProductType,
+  createProductType,
+  updateProductType,
+  updateProductTypeStatus,
+} from "../../controllers/super_admin/product/product_type.controller";
+
+
+import { getProductList } from "../../controllers/super_admin/product/product_list.controller";
 
 const path = "./uploads/products";
 
@@ -14,23 +25,27 @@ const storage = multerStorage(path);
 
 const uploadImg = multer({ storage: storage }).single("image");
 
-
-
 const productRouter = express.Router({
   caseSensitive: true,
-  strict: true
-})
+  strict: true,
+});
 
-productRouter.get('/get_product_list',getProductList)
+// product_type
+productRouter.get("/get_all_product_type", getAllProductType);
+productRouter.post("/create_product_type", uploadImg, createProductType);
+productRouter.post("/update_product_type_status", updateProductTypeStatus);
+productRouter.post("/update_product_type", uploadImg, updateProductType);
+
+// category
+productRouter.get("/get_category", getCategory);
+productRouter.post("/create_category", uploadImg, createCategory);
+productRouter.post("/update_category_status", updateCategoryStatus);
+productRouter.post("/update_category", uploadImg, updateCategory);
+
+
+//product list
+productRouter.get("/get_product_list", getProductList);
 
 
 
-// category 
-productRouter.get('/get_category',getCategory)
-productRouter.post('/create_category',uploadImg,createCategory)
-productRouter.post('/update_category_status',updateCategoryStatus)
-productRouter.post('/update_category',uploadImg,updateCategory)
-
-
-export default productRouter
-
+export default productRouter;

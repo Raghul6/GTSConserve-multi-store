@@ -1,5 +1,5 @@
 import express  from 'express';
-import { getBranchAdmin } from "../../controllers/super_admin/users/users_type.controller"
+import { getBranchAdmin } from "../../controllers/super_admin/branch/branch.controller"
 
 
 const branchRouter = express.Router({

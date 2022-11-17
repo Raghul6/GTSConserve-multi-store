@@ -1,5 +1,7 @@
 import express  from 'express';
-import { getAddOnProduct,getSubscriptionProduct } from "../../controllers/super_admin/reports/reports.controller"
+
+import { getAddOnProduct } from '../../controllers/super_admin/reports/add_on_products.controller';
+import { getSubscriptionProduct } from '../../controllers/super_admin/reports/subscription.controller';
 
 
 const reportsRouter = express.Router({
