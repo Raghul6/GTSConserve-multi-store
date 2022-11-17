@@ -16,7 +16,8 @@ import {
   getAllPostCode,
   updateProductTypeStatus,
   updateProductType,
-  searchProductType
+  // searchProductType,
+  getPlan
 } from "../../controllers/super_admin/settings/product_type.controller";
 import { multerStorage } from "../../utils/helper.util";
 
@@ -34,7 +35,7 @@ const uploadImg = multer({ storage: storage }).single("image");
 
 // product_type
 settingsRouter.get("/get_all_product_type", getAllProductType);
-settingsRouter.post("/get_all_product_type/search", searchProductType);
+// settingsRouter.post("/get_all_product_type/search", searchProductType);
 
 //settingsRouter.post("/search",searchProductType );
 settingsRouter.post("/create_product_type", uploadImg, createProductType);
@@ -51,7 +52,7 @@ settingsRouter.get("/app_settings", getAppSettings);
 
 // settingsRouter.get('/varaition_type',getvaraitionType)
 
-// settingsRouter.get('/get_plan',getPlan)
+settingsRouter.get('/get_plan',getPlan)
 
 
 

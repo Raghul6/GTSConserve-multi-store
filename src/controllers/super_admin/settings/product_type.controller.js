@@ -1,33 +1,4 @@
 import knex from "../../../services/db.service";
-// import { cities } from "../../models/super_admin/login.module"
-// import responseCode from "../../constants/responseCode"
-// import messageCode from "../../constants/messages"
-
-export const searchProductType = async (req, res) => {
-  try {
-    const { searchKeyword } = req.body;
-
-    const search_product_type = await knex.raw(
-      `SELECT id,name,image,status FROM product_type WHERE name LIKE '%${searchKeyword}%'`
-    );
-
-    if (search_product_type[0].length === 0) {
-      req.flash("error", "No Product Type Found");
-      return res.redirect("/super_admin/settings/get_all_product_type");
-    }
-
-    for (let i = 0; i < search_product_type[0].length; i++) {
-      search_product_type[0][i].image =
-        "http://" + req.headers.host + search_product_type[0][i].image;
-    }
-    // console.log('l')
-    return res.json({ data: search_product_type[0] });
-    // return res.json
-  } catch (error) {
-    console.log(error);
-    res.redirect("/home");
-  }
-};
 
 export const updateProductType = async (req, res) => {
   try {
@@ -77,7 +48,7 @@ export const updateProductTypeStatus = async (req, res) => {
 
 export const getAllProductType = async (req, res) => {
   try {
-    res.locals.loading = true;
+     let loading = true;
     const { searchKeyword } = req.query;
 
     let product_types = [];
@@ -88,9 +59,9 @@ export const getAllProductType = async (req, res) => {
       );
 
       product_types = data[0];
-      // console.log("inseide keyey ")
+    
       if (product_types.length === 0) {
-        res.locals.loading = false;
+        loading = false;
         req.query.searchKeyword = "";
         req.flash("error", "No Product Type Found");
         return res.redirect("/super_admin/settings/get_all_product_type");
@@ -153,7 +124,7 @@ export const getAllProductType = async (req, res) => {
       result[i].image = "http://" + req.headers.host + result[i].image;
     }
 
-    res.locals.loading = false;
+    loading = false;
     res.render("settings/product_type", {
       data: result,
       page,
@@ -161,11 +132,11 @@ export const getAllProductType = async (req, res) => {
       endingLink,
       numberOfPages,
       is_search,
-      searchKeyword
+      searchKeyword,
+      loading
 
     });
 
-    //console.log(product_types)
   } catch (error) {
     console.log(error);
     res.redirect("/home");

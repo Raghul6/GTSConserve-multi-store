@@ -14,9 +14,16 @@
                     <div class="col-1"></div>
                     <div class="col-3  filtered-list-search mx-auto">
                         <div class="form-inline my-2 my-lg-0 justify-content-center">
-                            <div class="w-100 col">
-                                <input type="text" name="searchKeyword" oninput="onChangeSearch()" value="<%=searchKeyword? searchKeyword : ""  %>"    class="w-100 form-control product-search br-30" id="searchText" placeholder="Search..." >
-                                <button class="btn btn-primary" onclick="onSearch()" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+                            <div class="w-100 row">
+
+                                <div class="w-100">
+                                    <input type="text" name="searchKeyword" oninput="onChangeSearch()" value="<%=searchKeyword? searchKeyword : ""  %>" class="w-100 form-control product-search br-30 col-7" id="searchText" placeholder="Search...">
+                                    <button class="btn btn-primary" type="submit" onclick="onSearch()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+                                </div>
+
+
+
+                    
                                 <script>
 
                                     async function onChangeSearch(event){
@@ -104,19 +111,19 @@
 
                         </div>
                         <div class="col-2">
-                            <button class="btn btn-info btn-lg mb-3 mr-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-loader spin mr-2"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>  Loading</button>
+                            <button class="btn btn-success btn-lg mb-3 mr-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-loader spin mr-2"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>  Loading</button>
                         </div>
                     </div>
                     
                     <% } else {  %>
             <div class="table-responsive">
-                <table class="multi-table table table-hover dataTable" style="width: 100%;" id="DataTables_Table_0"
+                <table class="multi-table table table-hover dataTable" style="width: 100%; font-weight: bold;" id="DataTables_Table_0"
                     role="grid" aria-describedby="DataTables_Table_0_info">
                     <thead>
 
                         <tr role="row">
                             <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
+                                colspan="1"  aria-label="#: activate to sort column descending"
                                 style="width: 86px;">#</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                 aria-label="NAME: activate to sort column ascending" style="width: 161px;">NAME</th>
@@ -135,7 +142,7 @@
                        
                         <% for(product_type of loop){ %>
                             <tr role="row">
-                                <td class="sorting_1"><%=product_type.id %></td>
+                                <td class="sorting_1 font-weight: bold;"><%=product_type.id %></td>
                             <td><%=product_type.name %></td>
                             <td><img style="width: 150px;height : 120px" src="<%=product_type.image %>"></td>
                             
@@ -231,15 +238,16 @@
             </div>
   
 
-            <div class="dt--bottom-section d-sm-flex justify-content-sm-between text-center">
+            <div class="dt--bottom-section d-sm-flex justify-content-sm-between text-center pt-4 ">
                 <div class="dt--pages-count  mb-sm-0 mb-3">
                   <% let search_query =  is_search ? `&searchKeyword=${searchKeyword}` : "" %>
                 </div>
-                <nav aria-label="...">
+                <div class="widget-content widget-content-area text-center">
+                <nav class="paginating-container pagination-solid" aria-label="...">
                     <ul class="pagination">
                         <% if(page > 1) { %> 
-                            <li class="page-item ">
-                                <a href="/super_admin/settings/get_all_product_type?page=<%=page-1%><%= search_query %>" class="page-link" style="padding-left: 5px;">Previous</a>
+                            <li class="prev">
+                                <a href="/super_admin/settings/get_all_product_type?page=<%=page-1%><%= search_query %>" class="page-link" style="padding-left: 5px;">Prev</a>
                             </li>
                              <% } %>
                        
@@ -253,7 +261,7 @@
                             <% } %>
                         
                         <% if(page < numberOfPages) { %>
-                            <li class="page-item" style="padding-left: 5px;">
+                            <li class="next" style="padding-left: 5px;">
                                 <a class="page-link" href="/super_admin/settings/get_all_product_type?page=<%=page+1%><%= search_query %>">Next</a>
                             </li>
                           
@@ -261,34 +269,7 @@
                              
                     </ul>
                 </nav>
-                <!-- <div class="dt--pagination">
-                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                        <ul class="pagination">
-                            <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a
-                                    href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0"
-                                    class="page-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-arrow-left">
-                                        <line x1="19" y1="12" x2="5" y2="12"></line>
-                                        <polyline points="12 19 5 12 12 5"></polyline>
-                                    </svg></a></li>
-                            <li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0"
-                                    data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                            <li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0"
-                                    data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                            <li class="paginate_button page-item next" id="DataTables_Table_0_next"><a href="#"
-                                    aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0"
-                                    class="page-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-arrow-right">
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        <polyline points="12 5 19 12 12 19"></polyline>
-                                    </svg></a></li>
-                        </ul>
-                    </div>
-                </div> -->
+            </div>
             </div>
         </div>
         <% } %>
