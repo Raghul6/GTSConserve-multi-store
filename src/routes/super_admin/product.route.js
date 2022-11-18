@@ -47,7 +47,7 @@ productRouter.post("/update_category", uploadImg, updateCategory);
 
 //product list
 productRouter.get("/get_product_list", getProductList);
-productRouter.get("/create_product", createProduct);
+productRouter.post("/create_product",uploadImg, createProduct);
 
 // // unit type
 // productRouter.get("/unit_type", getUnitType);
