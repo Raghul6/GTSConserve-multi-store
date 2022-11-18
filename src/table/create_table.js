@@ -257,9 +257,9 @@ export const createTable = async (req, res) => {
     });
 
     // variation_types
-    await knex.schema.hasTable("variation_types").then(function (exists) {
+    await knex.schema.hasTable("unit_types").then(function (exists) {
       if (!exists) {
-        return knex.schema.createTable("variation_types", function (t) {
+        return knex.schema.createTable("unit_types", function (t) {
           t.increments("id").primary();
           t.string("name", 255).nullable();
           t.string("value", 255).nullable();
@@ -286,20 +286,21 @@ export const createTable = async (req, res) => {
       if (!exists) {
         return knex.schema.createTable("products", function (t) {
           t.increments("id").primary();
-          t.integer("admin_id").unsigned().notNullable();
-          t.foreign("admin_id").references("id").inTable("admin_users");
-
+          
           t.integer("category_id").unsigned().notNullable();
           t.foreign("category_id").references("id").inTable("categories");
-
-          t.integer("variation_type_id").unsigned().notNullable();
-          t.foreign("variation_type_id")
-            .references("id")
-            .inTable("variation_types");
-
+          
+          t.integer("unit_type_id").unsigned().notNullable();
+          t.foreign("unit_type_id")
+          .references("id")
+          .inTable("unit_types");
+          
           t.integer("product_type_id").unsigned().notNullable();
           t.foreign("product_type_id").references("id").inTable("product_type");
-
+          
+          
+          t.integer("unit_value").notNullable();
+          t.integer("price").notNullable();
           // t.integer("subscription_type_id").unsigned().notNullable();
           // t.foreign("subscription_type_id")
           //   .references("id")
@@ -316,25 +317,25 @@ export const createTable = async (req, res) => {
     });
 
     // product variation
-    await knex.schema.hasTable("product_variations").then(function (exists) {
-      if (!exists) {
-        return knex.schema.createTable("product_variations", function (t) {
-          t.increments("id").primary();
-          t.integer("product_id").unsigned().notNullable();
-          t.foreign("product_id").references("id").inTable("products");
-          t.integer("variation_type_id").unsigned().notNullable();
-          t.foreign("variation_type_id")
-            .references("id")
-            .inTable("variation_types");
+    // await knex.schema.hasTable("product_variations").then(function (exists) {
+    //   if (!exists) {
+    //     return knex.schema.createTable("product_variations", function (t) {
+    //       t.increments("id").primary();
+    //       t.integer("product_id").unsigned().notNullable();
+    //       t.foreign("product_id").references("id").inTable("products");
+    //       t.integer("variation_type_id").unsigned().notNullable();
+    //       t.foreign("variation_type_id")
+    //         .references("id")
+    //         .inTable("variation_types");
 
-          t.integer("value").nullable();
-          t.integer("price").nullable();
+    //       t.integer("value").nullable();
+    //       t.integer("price").nullable();
 
-          t.enu("status", ["0", "1"]).defaultTo("1");
-          t.timestamps(true, true);
-        });
-      }
-    });
+    //       t.enu("status", ["0", "1"]).defaultTo("1");
+    //       t.timestamps(true, true);
+    //     });
+    //   }
+    // });
 
 
     //  subscribed user details
@@ -359,10 +360,10 @@ export const createTable = async (req, res) => {
 
           t.integer("quantity").notNullable()
 
-          t.integer("variation_type_id").unsigned().notNullable();
-          t.foreign("variation_type_id")
-            .references("id")
-            .inTable("variation_types");
+          // t.integer("variation_type_id").unsigned().notNullable();
+          // t.foreign("variation_type_id")
+          //   .references("id")
+          //   .inTable("variation_types");
 
 
           t.enu("status", ["0", "1"]).defaultTo("1");

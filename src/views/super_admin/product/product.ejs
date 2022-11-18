@@ -39,7 +39,23 @@
                                     <div class="modal-body">
 
                                         <div class="form-row mb-4">
-                                            <div class="col-sm-6  ">
+                                            <div class="col-6 ">
+                                                <label>Name</label>
+                                                <input type="text" class="form-control" wire:model="name"
+                                                    placeholder="Name">
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>Image</label>
+                                                <input type="file" wire:model="image" placeholder="Image" name="image"
+                                                    class="form-control">
+                                            </div>
+                                            
+                                            
+                                        </div>
+
+                                        <div class="form-row mb-4">
+                                            <div class="col-sm-6">
                                                 <label>Category</label>
                                                 <select wire:model="countryid" class="form-control">
                                                     <option value="">Select Category</option>
@@ -52,26 +68,48 @@
                                                 </select>
 
                                             </div>
+                                            <div class="col-sm-6  ">
+                                                <label>Product Type</label>
+                                                <select wire:model="countryid" class="form-control">
+                                                    <option value="">Select Category</option>
+                                                    <option value="1">
+                                                        India</option>
+                                                    <option value="2">
+                                                        United Arab Emirates</option>
+                                                    <option value="3">
+                                                        Malaysia</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row mb-4">
+                                            <div class="col-sm-12">
+                                                <label>Description</label>
+                                                <textarea class="form-control"></textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-4">
                                             <div class="col-6 ">
-                                                <label>Name</label>
+                                                <label>Price</label>
+                                                <input type="text" class="form-control" wire:model="name"
+                                                    placeholder="Name">
+
+                                            </div>
+                                            <div class="col-6 ">
+                                                <label>Unit Value</label>
                                                 <input type="text" class="form-control" wire:model="name"
                                                     placeholder="Name">
 
                                             </div>
                                         </div>
 
+                                      
+
                                         <div class="form-row mb-4">
-                                            <div class="form-row mb-4">
-                                                <div class="col-sm-10">
-                                                    <label>Image</label>
-                                                    <input type="file" wire:model="image" placeholder="Image" name="image"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-row mb-4">
-                                            <div class="col-6  ">
-                                                <label>Varaition Type</label>
+                                            <div class="col-12  ">
+                                                <label>Select a Unit</label>
                                                 <select wire:model="countryid" class="form-control">
                                                     <option value="">Select Varaition</option>
                                                     <option value="1">

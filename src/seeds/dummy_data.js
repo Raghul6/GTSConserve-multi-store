@@ -69,12 +69,7 @@ export const variation_types = [
     status: "1",
   },
   {
-    name: "liter",
-    value: "liter",
-    status: "1",
-  },
-  {
-    name: "mili liter",
+    name: "milli liter",
     value: "ml",
     status: "1",
   },

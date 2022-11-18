@@ -6,7 +6,7 @@ import { getPlan } from "../../controllers/super_admin/settings/plan.controller"
 
 import { getAppSettings } from "../../controllers/super_admin/settings/app_settings.controller";
 
-import { getvaraitionType } from "../../controllers/super_admin/settings/variation_type.controller";
+
 
 const settingsRouter = express.Router({
   caseSensitive: true,
@@ -25,7 +25,6 @@ settingsRouter.get("/get_plan", getPlan);
 // app settings
 settingsRouter.get("/app_settings", getAppSettings);
 
-// variation Type
-settingsRouter.get("/varaition_type", getvaraitionType);
+
 
 export default settingsRouter;
