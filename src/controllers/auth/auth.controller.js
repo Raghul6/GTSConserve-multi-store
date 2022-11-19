@@ -1,8 +1,79 @@
 import knex from "../../services/db.service";
+import bcrypt from "bcrypt";
 
-import { createToken ,parseJwtPayload} from "../../services/jwt.service";
+import { createToken, parseJwtPayload } from "../../services/jwt.service";
 
 import { checkUser } from "../../models/super_admin/login.module";
+
+export const updateChangePassword = async (req, res) => {
+  try {
+    let token = req.session.token;
+
+    if (!token) {
+      req.flash("error", "Need To Login First");
+      return res.redirect("/auth/login");
+    }
+
+    const currentTokenPayload = parseJwtPayload(token.token);
+
+    const admin_id = currentTokenPayload.user_id;
+
+    const user = await knex("admin_users")
+      .select("user_group_id", "password", "is_password_change")
+      .where({ id: admin_id });
+
+    const { old_password, new_password, confirm_new_password } = req.body;
+
+    const isPassword = await bcrypt.compare(old_password, user[0].password);
+
+    if (!isPassword) {
+      req.flash("error", "invalid password");
+      return res.redirect("/auth/get_change_password");
+    }
+
+    if (new_password.length < 8) {
+      req.flash("error", "New password should be atleast 8 characters");
+      return res.redirect("/auth/get_change_password");
+    }
+    if (confirm_new_password.length < 8) {
+      req.flash("error", "Confirm password should be atleast 8 characters");
+      return res.redirect("/auth/get_change_password");
+    }
+
+    if (new_password !== confirm_new_password) {
+      req.flash("error", "Password Should Be Same");
+      return res.redirect("/auth/get_change_password");
+    }
+
+    let query = {};
+    if (user[0].user_group_id == 2) {
+      if (user[0].is_password_change == 0) {
+        query.is_password_change = "1";
+      }
+    }
+
+    let password = await bcrypt.hash(new_password, 10);
+
+    query.password = password;
+
+    await knex("admin_users").update(query).where({ id: admin_id });
+
+    req.flash("success", "successfully password changed");
+    res.redirect("/home");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/home");
+  }
+};
+
+export const getChangePassword = async (req, res) => {
+  try {
+    res.render("auth/change_password");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/home");
+  }
+};
 
 export const updateProfile = async (req, res) => {
   try {
@@ -55,7 +126,6 @@ export const updateProfile = async (req, res) => {
       const image = req.file.destination.slice(1) + "/" + req.file.filename;
       update_user.profile_photo_path = image;
     }
-
 
     await knex("admin_users").update(update_user).where({ id: admin_id });
 

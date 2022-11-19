@@ -19,7 +19,7 @@ import {
 
 // import { getUnitType } from "../../controllers/super_admin/product/unit_type.controller";
 
-import { getProductList,createProduct } from "../../controllers/super_admin/product/product_list.controller";
+import { getProductList,createProduct,updateProduct ,updateProductStatus} from "../../controllers/super_admin/product/product_list.controller";
 
 const path = "./uploads/products";
 
@@ -48,6 +48,8 @@ productRouter.post("/update_category", uploadImg, updateCategory);
 //product list
 productRouter.get("/get_product_list", getProductList);
 productRouter.post("/create_product",uploadImg, createProduct);
+productRouter.post("/update_product",uploadImg, updateProduct);
+productRouter.post("/update_product_status", updateProductStatus);
 
 // // unit type
 // productRouter.get("/unit_type", getUnitType);

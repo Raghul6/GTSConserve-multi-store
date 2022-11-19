@@ -105,6 +105,19 @@ export const getCategory = async (req, res) => {
       data_length = await knex("categories").select("id");
     }
 
+
+    const productType = await knex("product_type")
+      .select("name", "id")
+      .where({ status: "1" });
+
+    if (data_length.length === 0) {
+      return res.render("super_admin/product/category", {
+        data: data_length,
+        searchKeyword,
+        productType,
+      });
+    }
+
     let {
       startingLimit,
       page,
@@ -112,7 +125,7 @@ export const getCategory = async (req, res) => {
       numberOfPages,
       iterator,
       endingLink,
-    } = await getPageNumber(req, data_length, "get_category");
+    } = await getPageNumber(req, res, data_length, "product/get_category");
 
     let results;
     let is_search = false;
@@ -130,14 +143,8 @@ export const getCategory = async (req, res) => {
     const data = results[0];
 
     for (let i = 0; i < data.length; i++) {
-      data[i].image = "http://" + req.headers.host + data[i].image;
+      data[i].image = process.env.BASE_URL + data[i].image;
     }
-
-    const productType = await knex("product_type")
-    .select("name", "id")
-    .where({ status: "1" });
-
-
 
     loading = false;
     res.render("super_admin/product/category", {
@@ -149,7 +156,7 @@ export const getCategory = async (req, res) => {
       is_search,
       searchKeyword,
       loading,
-      productType
+      productType,
     });
     // `SELECT categories.id,categories.name,categories.image,categories.status,product_type.name as product_type,product_type.id as product_type_id FROM categories JOIN product_type WHERE categories.product_type_id=product_type.id  name LIKE '%${searchKeyword}%'`
 
@@ -173,7 +180,6 @@ export const getCategory = async (req, res) => {
     //   categories[i].image = "http://" + req.headers.host + categories[i].image;
     // }
 
-  
     // res.render("super_admin/product/category", {
     //   data: categories,
     //   productType,

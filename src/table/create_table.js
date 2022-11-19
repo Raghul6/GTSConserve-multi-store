@@ -23,6 +23,7 @@ export const createTable = async (req, res) => {
           t.foreign("user_group_id").references("id").inTable("user_groups");
           t.string("first_name", 255).notNullable();
           t.string("last_name", 255).nullable();
+          t.string("location", 255).nullable();
           t.string("mobile_number", 255).nullable();
           t.string("alternate_mobile_number", 255).nullable();
           t.string("email", 255).unique().notNullable();
@@ -33,6 +34,7 @@ export const createTable = async (req, res) => {
           t.text("two_factor_recovery_codes").nullable();
           t.datetime("two_factor_confirmed_at").nullable();
           t.enu("status", ["0", "1"]).defaultTo("1");
+          t.enu("is_password_change", ["0", "1"]).defaultTo("0");
           t.string("remember_token", 100).nullable();
           t.bigint("current_team_id").nullable();
           t.string("profile_photo_path", 2048).nullable();

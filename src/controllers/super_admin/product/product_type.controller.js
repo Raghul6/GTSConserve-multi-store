@@ -71,6 +71,16 @@ export const getAllProductType = async (req, res) => {
       data_length = await knex("product_type").select("id");
     }
 
+
+    if (data_length.length === 0) {
+      return res.render("super_admin/product/product_type", {
+        data: data_length,
+        searchKeyword,
+       
+      });
+    }
+
+
     let {
       startingLimit,
       page,
@@ -78,7 +88,7 @@ export const getAllProductType = async (req, res) => {
       numberOfPages,
       iterator,
       endingLink,
-    } = await getPageNumber(req, data_length, "get_all_product_type");
+    } = await getPageNumber(req,res, data_length, "product/get_all_product_type");
 
     let results;
     let is_search = false;
@@ -96,7 +106,7 @@ export const getAllProductType = async (req, res) => {
     const data = results[0];
 
     for (let i = 0; i < data.length; i++) {
-      data[i].image = "http://" + req.headers.host + data[i].image;
+      data[i].image = process.env.BASE_URL + data[i].image;
     }
 
     loading = false;

@@ -1,6 +1,88 @@
 import knex from "../../../services/db.service";
 import { getPageNumber } from "../../../utils/helper.util";
 
+export const updateProductStatus = async (req, res) => {
+  try {
+    const { status, id } = req.body;
+
+    if (status == "1") {
+      await knex("products").update({ status: "0" }).where({ id: id });
+    } else {
+      await knex("products").update({ status: "1" }).where({ id: id });
+    }
+    console.log("hell");
+    req.flash("success", "Updated SuccessFully");
+    return res.redirect("/super_admin/product/get_category");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/home");
+  }
+};
+
+export const updateProduct = async (req, res) => {
+  try {
+    const {
+      product_name,
+      id,
+      unit_type_id,
+      category_id,
+      product_type_id,
+      description,
+      price,
+      unit_value,
+    } = req.body;
+    const file = req.file;
+
+    if (!product_name) {
+      req.flash("error", "Product name is missing");
+      return res.redirect("/super_admin/product/get_product_list");
+    }
+    if (!description) {
+      req.flash("error", "Description is missing");
+      return res.redirect("/super_admin/product/get_product_list");
+    }
+    if (!price) {
+      req.flash("error", "Price is missing");
+      return res.redirect("/super_admin/product/get_product_list");
+    }
+    if (!unit_value) {
+      req.flash("error", "unit Value is missing");
+      return res.redirect("/super_admin/product/get_product_list");
+    }
+
+    let query = {};
+
+    console.log(description);
+    query.name = product_name;
+    query.description = description;
+    query.price = price;
+    query.unit_value = unit_value;
+    if (file) {
+      const image = req.file.destination.slice(1) + "/" + req.file.filename;
+
+      query.image = image;
+    }
+
+    if (product_type_id) {
+      query.product_type_id = product_type_id;
+    }
+    if (unit_type_id) {
+      query.unit_type_id = unit_type_id;
+    }
+    if (category_id) {
+      query.category_id = category_id;
+    }
+
+    await knex("products").update(query).where({ id: id });
+
+    req.flash("success", "Updated SuccessFully");
+    res.redirect("/super_admin/product/get_product_list");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/home");
+  }
+};
+
 export const getProductList = async (req, res) => {
   try {
     let loading = true;
@@ -25,6 +107,26 @@ export const getProductList = async (req, res) => {
       data_length = await knex("products").select("id");
     }
 
+    const productType = await knex("product_type")
+      .select("name", "id")
+      .where({ status: "1" });
+    const categories = await knex("categories")
+      .select("name", "id")
+      .where({ status: "1" });
+    const unit_types = await knex("unit_types")
+      .select("value", "id")
+      .where({ status: "1" });
+
+    if (data_length.length === 0) {
+      return res.render("super_admin/product/product", {
+        data: data_length,
+        searchKeyword,
+        productType,
+        categories,
+        unit_types,
+      });
+    }
+
     let {
       startingLimit,
       page,
@@ -32,24 +134,24 @@ export const getProductList = async (req, res) => {
       numberOfPages,
       iterator,
       endingLink,
-    } = await getPageNumber(req, data_length, "get_product_list");
+    } = await getPageNumber(req, res, data_length, "product/get_product_list");
 
     let results;
     let is_search = false;
     if (searchKeyword) {
       results = await knex.raw(
-        `SELECT products.name,products.image,products.description,products.status,products.price,products.unit_value,
-         product_type.name,categories.name,unit_types.value FROM products 
-         JOIN product_type ON products.product_type_id = product_type.id
-         JOIN categories ON products.category_id = categories.id 
-         JOIN unit_types ON products.unit_type_id = unit_types.id
+        `SELECT  products.id,products.name as product_name,products.image,products.description,products.status,products.price,products.unit_value,
+        product_type.name as product_type_name,categories.name as category_name, unit_types.value FROM products
+        JOIN product_type ON products.product_type_id = product_type.id 
+        JOIN categories ON products.category_id = categories.id 
+        JOIN unit_types ON products.unit_type_id = unit_types.id
          WHERE products.name LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
       );
       is_search = true;
     } else {
       results = await knex.raw(
-        `SELECT products.name,products.image,products.description,products.status,products.price,products.unit_value,
-         product_type.name,categories.name, unit_types.value FROM products
+        `SELECT  products.id,products.name as product_name,products.image,products.description,products.status,products.price,products.unit_value,
+         product_type.name as product_type_name,categories.name as category_name, unit_types.value FROM products
          JOIN product_type ON products.product_type_id = product_type.id 
          JOIN categories ON products.category_id = categories.id 
          JOIN unit_types ON products.unit_type_id = unit_types.id 
@@ -60,18 +162,8 @@ export const getProductList = async (req, res) => {
     const data = results[0];
 
     for (let i = 0; i < data.length; i++) {
-      data[i].image = "http://" + req.headers.host + data[i].image;
+      data[i].image = process.env.BASE_URL + data[i].image;
     }
-
-    const productType = await knex("product_type")
-      .select("name", "id")
-      .where({ status: "1" });
-    const categories = await knex("categories")
-      .select("name", "id")
-      .where({ status: "1" });
-    const unit_types = await knex("unit_types")
-      .select("value", "id")
-      .where({ status: "1" });
 
     loading = false;
     res.render("super_admin/product/product", {
@@ -85,12 +177,11 @@ export const getProductList = async (req, res) => {
       loading,
       productType,
       categories,
-      unit_types
+      unit_types,
     });
-
   } catch (error) {
-    console.log(error)
-    res.redirect('/home')
+    console.log(error);
+    res.redirect("/home");
   }
 };
 

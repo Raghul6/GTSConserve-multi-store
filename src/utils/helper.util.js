@@ -1,7 +1,7 @@
 import multer from "multer";
 import fs from "fs";
 
-export const getPageNumber = (req, data, url, is_super_admin = true) => {
+export const getPageNumber = (req,res, data, url, is_super_admin = true) => {
   let adminUrl = is_super_admin ? "super_admin" : "branch_admin";
 
   const resultsPerPage = process.env.RESULT_PER_PAGE;
@@ -14,7 +14,7 @@ export const getPageNumber = (req, data, url, is_super_admin = true) => {
       `/${adminUrl}/${url}?page=` + encodeURIComponent(numberOfPages)
     );
   } else if (page < 1) {
-    return res.redirect(`/super_admin/${url}?page=` + encodeURIComponent("1"));
+    return res.redirect(`/${adminUrl}/${url}?page=` + encodeURIComponent("1"));
   }
   //Determine the SQL LIMIT starting number
   const startingLimit = (page - 1) * resultsPerPage;

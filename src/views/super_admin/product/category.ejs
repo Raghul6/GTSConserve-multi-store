@@ -74,13 +74,13 @@
                                                 <div class="form-row mb-4">
                                                     <div class="col-sm-6">
                                                         <label>Name</label>
-                                                        <input type="text" class="form-control" wire:model="name"
+                                                        <input type="text" class="form-control" wire:model="name" required
                                                             placeholder="Name" name="name">
 
                                                     </div>
                                                     <div class="col-6">
                                                         <label>Product Type</label>
-                                                        <select wire:model="countryid" class="form-control" name="product_type_id">
+                                                        <select wire:model="countryid" class="form-control" name="product_type_id" required>
                                                             <option value="">Select Product Type</option>
                                                             <% for(product_type of productType){ %>
 
@@ -95,7 +95,7 @@
                                                 <div class="form-row mb-4">
                                                     <div class="col-sm-12">
                                                         <label>Image</label>
-                                                        <input type="file" wire:model="image" placeholder="Image"
+                                                        <input type="file" wire:model="image" placeholder="Image" required
                                                             class="form-control" name="image">
                                                     </div>
                                                 </div>
@@ -131,7 +131,7 @@
 
                     <% } else {  %>
             <div class="table-responsive">
-                <table class="multi-table table table-hover dataTable" style="width: 100%; font-weight: bold;" id="DataTables_Table_0"
+                <table  class="table table-striped mb-4" style="width: 100%;  font-weight: bold; box-shadow: 8px 5px 5px 0px #aaa;" id="DataTables_Table_0"
                     role="grid" aria-describedby="DataTables_Table_0_info">
                     <thead>
 
@@ -182,13 +182,13 @@
                                                         body: JSON.stringify({"id": event.id , "status" : event.value})
                                                         })
                                                      
-                                                        
+                                                        window.location.reload("/super_admin/product/get_category")
                                                     };
                                                     </script>
                                              
                                             </div>
                                         </td>
-                                        <td class="text-center"> <button class="btn btn-sm" data-toggle="modal"
+                                        <td class="text-center"> <button class="btn btn-sm btn-primary" data-toggle="modal"
                                             data-target="#editCategory<%=category.id %>">edit</button> </td>
                                     </div>
                                     
@@ -218,16 +218,16 @@
                                             <div class="col-sm-6">
                                                 <label>Name</label>
                                                 <input type="text" class="form-control" wire:model="name"
-                                                    placeholder="Name" name="name" value="<%=category.name %>">
+                                                    placeholder="Name" name="name" value="<%=category.name %>" required>
 
                                             </div>
                                             <div class="col-6">
                                                 <label>Product Type</label>
-                                                <select wire:model="countryid" class="form-control" name="product_type_id">
+                                                <select wire:model="countryid" class="form-control" name="product_type_id" required>
                                                     <option value=""><%=category.product_type %></option>
                                                     <% for(product_type of productType){ %>
 
-                                                        <option name="<%=product_type.name %>" value="<%=product_type.id %>"><%=product_type.name %></option>
+                                                        <option  value="<%=product_type.id %>"><%=product_type.name %></option>
                                                     <% } %>
 
                                                 </select>
