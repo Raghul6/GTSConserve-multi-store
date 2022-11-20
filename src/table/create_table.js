@@ -102,8 +102,6 @@ export const createTable = async (req, res) => {
           t.string("name", 255).nullable();
           t.string("code", 255).nullable();
           t.string("phone_code", 255).nullable();
-          t.string("latitute", 255).nullable();
-          t.string("logitute", 255).nullable();
           t.enu("status", ["0", "1"]).defaultTo("1");
           t.timestamps(true, true);
         });
@@ -137,7 +135,7 @@ export const createTable = async (req, res) => {
           t.integer("country_id").unsigned().notNullable();
           t.foreign("country_id").references("id").inTable("countries");
           t.string("latitute", 255).nullable();
-          t.string("logitute", 255).nullable();
+          t.string("longitute", 255).nullable();
           t.enu("status", ["0", "1"]).defaultTo("1");
           t.timestamps(true, true);
         });

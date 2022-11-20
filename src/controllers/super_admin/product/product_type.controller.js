@@ -73,6 +73,7 @@ export const getAllProductType = async (req, res) => {
 
 
     if (data_length.length === 0) {
+      loading = false
       return res.render("super_admin/product/product_type", {
         data: data_length,
         searchKeyword,

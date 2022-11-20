@@ -116,7 +116,7 @@ app.use(async (req, res, next) => {
       user[0].profile_photo_path =
         "http://" + req.headers.host + user[0].profile_photo_path;
     }
-console.log(user[0])
+
     res.locals.admin_id = currentTokenPayload.user_id;
     res.locals.user = user[0]
 
@@ -125,6 +125,7 @@ console.log(user[0])
     if (currentTokenPayload.group_id == 1) {
       is_super_admin = true;
     }
+
 
     res.locals.is_super_admin = is_super_admin;
   }

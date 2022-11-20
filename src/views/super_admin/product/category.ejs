@@ -172,8 +172,8 @@
                                                     <label class="custom-control-label"  for=<%=category.id %>></label>
                                                 
                                                     <script >
-                                                        function onToDochange(event) {
-                                                        fetch('/super_admin/product/update_category_status', {
+                                                        async function onToDochange(event) {
+                                                        await fetch('/super_admin/product/update_category_status', {
                                                         method: 'POST',
                                                         headers: {
                                                             'Accept': 'application/json',
