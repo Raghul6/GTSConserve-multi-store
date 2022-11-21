@@ -10,6 +10,7 @@ import {
   category,
   subscription_type,
   product_variations,
+  week_days
 } from "../seeds/dummy_data";
 
 export const insertData = async (req, res) => {
@@ -19,41 +20,45 @@ export const insertData = async (req, res) => {
       return arr[Math.floor(Math.random() * arr.length)].id;
     }
 
-    //banners
-    await knex("banners").insert(banners);
 
-    //user_groups
-    await knex("user_groups").insert(user_groups);
+    // weekdays
+    // await knex("weekdays").insert(week_days)
 
-    //fakeadmin
-    let password = await bcrypt.hash("admin2022", 10);
-    await knex("admin_users").insert({
-      user_group_id: 1,
-      first_name: "superadmin",
-      email: "superadmin@gmail.com",
-      password,
-    });
+    // //banners
+    // await knex("banners").insert(banners);
 
-    // // product_type
-    await knex("product_type").insert(product_type);
+    // //user_groups
+    // await knex("user_groups").insert(user_groups);
 
-    //variation_type
-    await knex("unit_types").insert(variation_types);
+    // //fakeadmin
+    // let password = await bcrypt.hash("admin2022", 10);
+    // await knex("admin_users").insert({
+    //   user_group_id: 1,
+    //   first_name: "superadmin",
+    //   email: "superadmin@gmail.com",
+    //   password,
+    // });
 
-    //coupons
-    await knex("coupons").insert(coupons);
+    // // // product_type
+    // await knex("product_type").insert(product_type);
 
-    // subscription type
-    await knex("subscription_type").insert(subscription_type);
+    // //variation_type
+    // await knex("unit_types").insert(variation_types);
 
-    const product_type_id = await knex("product_type").select("id");
-    // const variation_type_id = await knex("variation_types").select("id");
+    // //coupons
+    // await knex("coupons").insert(coupons);
 
-    // category
-    for (let i = 0; i < category.length; i++) {
-      category[i].product_type_id = get_random_id(product_type_id);
-    }
-    await knex("categories").insert(category);
+    // // subscription type
+    // await knex("subscription_type").insert(subscription_type);
+
+    // const product_type_id = await knex("product_type").select("id");
+    // // const variation_type_id = await knex("variation_types").select("id");
+
+    // // category
+    // for (let i = 0; i < category.length; i++) {
+    //   category[i].product_type_id = get_random_id(product_type_id);
+    // }
+    // await knex("categories").insert(category);
 
     // const category_id = await knex("categories").select("id");
     // products

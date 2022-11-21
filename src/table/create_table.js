@@ -13,8 +13,8 @@ export const createTable = async (req, res) => {
         });
       }
     });
- 
-    //admin users 
+
+    //admin users
     await knex.schema.hasTable("admin_users").then(function (exists) {
       if (!exists) {
         return knex.schema.createTable("admin_users", function (t) {
@@ -94,8 +94,8 @@ export const createTable = async (req, res) => {
       }
     });
 
-     // countries
-     await knex.schema.hasTable("countries").then(function (exists) {
+    // countries
+    await knex.schema.hasTable("countries").then(function (exists) {
       if (!exists) {
         return knex.schema.createTable("countries", function (t) {
           t.increments("id").primary();
@@ -108,8 +108,8 @@ export const createTable = async (req, res) => {
       }
     });
 
-     // zones
-     await knex.schema.hasTable("zones").then(function (exists) {
+    // zones
+    await knex.schema.hasTable("zones").then(function (exists) {
       if (!exists) {
         return knex.schema.createTable("zones", function (t) {
           t.increments("id").primary();
@@ -123,7 +123,7 @@ export const createTable = async (req, res) => {
       }
     });
 
-     // cities
+    // cities
     await knex.schema.hasTable("cities").then(function (exists) {
       if (!exists) {
         return knex.schema.createTable("cities", function (t) {
@@ -142,12 +142,8 @@ export const createTable = async (req, res) => {
       }
     });
 
-   
-
-   
-
-     // postcodes
-     await knex.schema.hasTable("postcodes").then(function (exists) {
+    // postcodes
+    await knex.schema.hasTable("postcodes").then(function (exists) {
       if (!exists) {
         return knex.schema.createTable("postcodes", function (t) {
           t.increments("id").primary();
@@ -286,26 +282,23 @@ export const createTable = async (req, res) => {
       if (!exists) {
         return knex.schema.createTable("products", function (t) {
           t.increments("id").primary();
-          
+
           t.integer("category_id").unsigned().notNullable();
           t.foreign("category_id").references("id").inTable("categories");
-          
+
           t.integer("unit_type_id").unsigned().notNullable();
-          t.foreign("unit_type_id")
-          .references("id")
-          .inTable("unit_types");
-          
+          t.foreign("unit_type_id").references("id").inTable("unit_types");
+
           t.integer("product_type_id").unsigned().notNullable();
           t.foreign("product_type_id").references("id").inTable("product_type");
-          
-          
+
           t.integer("unit_value").notNullable();
           t.integer("price").notNullable();
           // t.integer("subscription_type_id").unsigned().notNullable();
           // t.foreign("subscription_type_id")
           //   .references("id")
           //   .inTable("subscription_type");
-            
+
           t.string("name", 255).nullable();
           t.text("description").nullable();
           t.text("image").nullable();
@@ -337,35 +330,57 @@ export const createTable = async (req, res) => {
     //   }
     // });
 
-
     //  subscribed user details
-    await knex.schema.hasTable("subscribed_user_details").then(function (exists) {
+    await knex.schema
+      .hasTable("subscribed_user_details")
+      .then(function (exists) {
+        if (!exists) {
+          return knex.schema.createTable(
+            "subscribed_user_details",
+            function (t) {
+              t.increments("id").primary();
+
+              t.integer("user_id").unsigned().notNullable();
+              t.foreign("user_id").references("id").inTable("users");
+
+              t.integer("subscribe_type_id").unsigned().notNullable();
+              t.foreign("subscribe_type_id")
+                .references("id")
+                .inTable("subscription_type");
+
+              t.date("start_date").notNullable();
+              t.json("customized_days").notNullable();
+
+              t.integer("user_address_id").unsigned().notNullable();
+              t.foreign("user_address_id")
+                .references("id")
+                .inTable("user_address");
+
+              t.integer("product_id").unsigned().notNullable();
+              t.foreign("product_id").references("id").inTable("products");
+
+              t.integer("quantity").notNullable();
+
+              t.enu("subscription_status", [
+                "pending",
+                "approved",
+                "cancelled",
+              ]).defaultTo("pending");
+              t.enu("status", ["0", "1"]).defaultTo("1");
+              t.timestamps(true, true);
+            }
+          );
+        }
+      });
+
+    //weekdays
+    // user address
+    await knex.schema.hasTable("weekdays").then(function (exists) {
       if (!exists) {
-        return knex.schema.createTable("subscribed_user_details", function (t) {
+        return knex.schema.createTable("weekdays", function (t) {
           t.increments("id").primary();
-
-          t.integer("user_id").unsigned().notNullable();
-         t.foreign("user_id").references("id").inTable("users");
-
-          t.integer("subscribe_type_id").unsigned().notNullable();
-          t.foreign("subscribe_type_id").references("id").inTable("subscription_type");
-
-          t.json("dates").notNullable()
-
-          t.integer("delivery_address_id").unsigned().notNullable();
-          t.foreign("delivery_address_id").references("id").inTable("user_address");
-
-          t.integer("product_id").unsigned().notNullable();
-          t.foreign("product_id").references("id").inTable("products");
-
-          t.integer("quantity").notNullable()
-
-          // t.integer("variation_type_id").unsigned().notNullable();
-          // t.foreign("variation_type_id")
-          //   .references("id")
-          //   .inTable("variation_types");
-
-
+          t.string("name", 255).nullable();
+          t.string("code", 255).nullable();
           t.enu("status", ["0", "1"]).defaultTo("1");
           t.timestamps(true, true);
         });

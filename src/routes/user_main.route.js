@@ -3,6 +3,7 @@ import express from "express";
 // Inner routes
 import loginRouter from "./user/login.route";
 import productRouter from "./user/product.route";
+import subscriptionRouter from "./user/subscription.route";
 
 const mainRouter = express.Router({
   caseSensitive: true,
@@ -17,6 +18,10 @@ const defaultRoutes = [
   {
     path: "/product",
     route: productRouter,
+  },
+  {
+    path: "/subscription",
+    route: subscriptionRouter,
   },
 ];
 
