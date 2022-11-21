@@ -48,10 +48,12 @@ export const createTable = async (req, res) => {
       if (!exists) {
         return knex.schema.createTable("users", function (t) {
           t.increments("id").primary();
-          t.integer("user_group_id").unsigned().notNullable();
-          t.foreign("user_group_id").references("id").inTable("user_groups");
+          t.integer("user_group_id")
+          // t.foreign("user_group_id").references("id").inTable("user_groups");
           t.string("name", 255);
+          t.string("user_unique_id", 255);
           t.string("mobile_number", 255);
+          t.integer("otp", 10);
           t.string("refresh_token", 255);
           t.string("email", 255).unique();
           t.timestamp("email_verified_at").nullable();
@@ -85,8 +87,9 @@ export const createTable = async (req, res) => {
           t.integer("user_id").unsigned().notNullable();
           t.foreign("user_id").references("id").inTable("users");
           t.string("title", 255).nullable();
-          t.string("address", 255).nullable();
-          t.string("landmark", 255).nullable();
+          t.string("address_details", 255).nullable();
+          t.string("address_landmark", 255).nullable();
+          t.string("address_name", 255).nullable();
           t.string("type", 255).nullable();
           t.enu("status", ["0", "1"]).defaultTo("1");
           t.timestamps(true, true);

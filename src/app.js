@@ -166,6 +166,15 @@ app.use("/auth", bodyParsercheck, authRouter);
 app.get("/insert_data", insertData);
 app.get("/create_table", createTable);
 
+app.use((err,req,res,next)=>{
+  // because err.status is undefined 
+   res.status(400).json({
+       error : {
+           message : err.message
+      }
+   });
+})
+
 app.use(
   "/super_admin",
   bodyParsercheck,
