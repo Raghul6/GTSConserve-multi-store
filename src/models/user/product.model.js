@@ -1,112 +1,94 @@
-import responseCode from "../../constants/responseCode";
-
 import knex from "../../services/db.service";
+import { GetProduct } from "../../utils/helper.util";
 
-// export const get_cities = async (req, res) => {
-//   const getcities = await knex
-//     .select("id", "name", "code", "zone_id", "country_id", "status")
-//     .from("cities");
-//   console.log(getcities);
-
-//   try {
-//     return { status: responseCode.SUCCESS, body: getcities };
-//   } catch {
-//     return {
-//       status: responseCode.FAILURE.INTERNAL_SERVER_ERROR,
-//       message: error,
-//     };
-//   }
-// };
-
-// export const get_countries = async (req, res) => {
-//   const getcountries = await knex
-//     .select("id", "code", "name", "phone_code", "status")
-//     .from("countries");
-//   try {
-//     return { status: responseCode.SUCCESS, body: getcountries };
-//   } catch {
-//     return {
-//       status: responseCode.FAILURE.INTERNAL_SERVER_ERROR,
-//       message: error,
-//     };
-//   }
-// };
-
-// export const get_zones = async (req, res) => {
-//   const getzones = await knex
-//     .select("id", "name", "code", "country_id", "status")
-//     .from("zones");
-//   try {
-//     return { status: responseCode.SUCCESS, body: getzones };
-//   } catch {
-//     return {
-//       status: responseCode.FAILURE.INTERNAL_SERVER_ERROR,
-//       message: error,
-//     };
-//   }
-// };
-
-// export const get_postcodes = async (req, res) => {
-//   const getpostcodes = await knex
-//     .select("id", "city_id", "country_id", "zone_id", "code", "status")
-//     .from("postcodes");
-//   try {
-//     return { status: responseCode.SUCCESS, body: getpostcodes };
-//   } catch {
-//     return {
-//       status: responseCode.FAILURE.INTERNAL_SERVER_ERROR,
-//       message: error,
-//     };
-//   }
-// };
-
-export const get_products = async (id) => {
-  const product = await knex("products")
-    .join("categories", "products.category_id", "=", "categories.id")
-    .join("product_variations")
-    .join("subscription_type")
-    .select(
-      "products.id",
-      "products.name",
-      "products.image",
-      "category_id",
-      "categories.name",
-      "subscription_type.status",
-      "subscription_type.name",
-      "product_variations.id",
-      "product_variations.value",
-      "product_variations.price",
-      "products.thumbnail_image",
-      "products.status"
-    )
-    .whereRaw("products.product_type_id= ?", [1]);
+export const get_subscription_or_add_on_products = async (id,userId) => {
   try {
-    return { status: responseCode.SUCCESS, body: product };
-  } catch {
-    return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR };
+    const product = await knex("products")
+      .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+      .select(
+        "products.id",
+        "products.name",
+        "products.image",
+        "products.unit_value",
+        "unit_types.value as unit_type",
+        "products.price"
+      )
+      .where({ product_type_id: id });
+
+    const response = await GetProduct(product, userId);
+
+    if (response.status) {
+      return { status: true, data: response.data };
+    } else {
+      return { status: false, message: response.message };
+    }
+
+    // return { status: true, body: product };
+  } catch (error) {
+    console.log(error)
+    return { status: false, error };
   }
 };
 
-export const get_categories = async (req, res) => {
-  const getcategories = await knex.select("name").from("categories");
+export const get_products = async (category_id, userId) => {
   try {
-    return { status: responseCode.SUCCESS, body: getcategories };
-  } catch {
-    return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR };
+    const product = await knex("products")
+      .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+      .select(
+        "products.id",
+        "products.name",
+        "products.image",
+        "products.unit_value",
+        "unit_types.value as unit_type",
+        "products.price"
+      )
+      .where({ category_id });
+
+    const response = await GetProduct(product, userId);
+
+    if (response.status) {
+      return { status: true, data: response.data };
+    } else {
+      return { status: false, message: response.message };
+    }
+  } catch (error) {
+    console.log(error);
+    return { status: false, error };
   }
 };
 
-// export const get_all_products = async (req, res) => {
-//   const getproducts = await knex("products")
-//     .join("product_variations")
-//     .select(
-//       "products.name",
-//       "product_variations.value",
-//       "product_variations.price"
-//     );
-//   try {
-//     return { status: responseCode.SUCCESS, body: getproducts };
-//   } catch {
-//     return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR };
-//   }
-// };
+export const get_categories = async (product_type_id) => {
+  try {
+    const getcategories = await knex
+      .select("id as category_id", "name", "image", "product_type_id")
+      .from("categories")
+      .where({ product_type_id });
+    return { status: true, body: getcategories };
+  } catch (error) {
+    return { status: false, error };
+  }
+};
+
+export const search_products = async (product_type_id, search_keyword,userId) => {
+  try {
+    const product = await knex.raw(`
+                      SELECT products.id,products.name,products.image,products.unit_value,
+                      unit_types.value as unit_type,products.price FROM products
+                      JOIN unit_types ON unit_types.id = products.unit_type_id
+                      WHERE products.product_type_id = ${product_type_id} 
+                      AND  products.name  LIKE '%${search_keyword}%'`);
+
+    const response = await GetProduct(product[0], userId);
+
+    if (response.status) {
+      return { status: true, data: response.data };
+    } else {
+      return { status: false, message: response.message };
+    }
+
+    // return { status: true, body: product[0] };
+  } catch (error) {
+    console.log(error);
+    return { status: false, error };
+  }
+};
