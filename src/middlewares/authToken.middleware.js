@@ -44,101 +44,80 @@ export const authenticateJWTSession = async (req, res,next) => {
   next()
 };
 
-// export const authenticateJWT = async (req, res, next) => {
-//   const optionalToken = res.locals.optionalToken ?? false;
-//   // console.log(req.headers.authorization)
-//   if (req.headers.authorization) {
-//     const token = req.headers.authorization;
+export const authenticateJWT = async (req, res, next) => {
+  const optionalToken = res.locals.optionalToken ?? false
+  if(req.headers.authorization)
+  {
+  const token = req.headers.authorization
 
-//     if (token) {
-//       const currentTokenPayload = parseJwtPayload(token);
-//       const checkUser = await User.findById(currentTokenPayload.user_id);
+  if (token) {
+    const currentTokenPayload = parseJwtPayload(token)
+    const checkUser = await getAccountModal({ userId: currentTokenPayload.user_id })
 
-//       if (checkUser) {
-//         try {
-//           await verifyToken(token, process.env.TOKEN_SECRET);
+    if (checkUser.status == responseCode.SUCCESS) {
+      try {
 
-//           req.body.userId = currentTokenPayload.user_id;
+        await verifyToken(token, process.env.TOKEN_SECRET)
 
-//           res.set("authorization", token);
-//           next();
-//         } catch (error) {
-//           if (error.isExpired) {
-//             const { status, refreshToken, _id } = await User.findById(
-//               currentTokenPayload.user_id
-//             );
-//             if (status) {
-//               try {
-//                 await verifyToken(
-//                   refreshToken,
-//                   process.env.REFRESH_TOKEN_SECRET
-//                 );
+        req.body.userId = currentTokenPayload.user_id
 
-//                 const tokens = createToken({
-//                   user_id: currentTokenPayload.user_id,
-//                 });
-//                 await User.findByIdAndUpdate(
-//                   currentTokenPayload.user_id,
-//                   { refreshToken: tokens.refreshToken },
-//                   { new: true }
-//                 );
-//                 // await updateUserToken(tokens.refreshToken, currentTokenPayload.user_id)
-//                 req.body.userId = currentTokenPayload.user_id;
-//                 res.set("authorization", tokens.token);
-//                 next();
-//               } catch (error) {
-//                 if (optionalToken) {
-//                   next();
-//                 } else {
-//                   res
-//                     .status(responseCode.FAILURE.UNAUTHORIZED)
-//                     .json({ message: "Invalid token" });
-//                 }
-//               }
-//             } else {
-//               if (optionalToken) {
-//                 next();
-//               } else {
-//                 res
-//                   .status(responseCode.FAILURE.UNAUTHORIZED)
-//                   .json({ message: "Invalid token" });
-//               }
-//             }
-//           } else {
-//             if (optionalToken) {
-//               next();
-//             } else {
-//               res
-//                 .status(responseCode.FAILURE.UNAUTHORIZED)
-//                 .json({ message: "Invalid token" });
-//             }
-//           }
-//         }
-//       } else {
-//         if (optionalToken) {
-//           next();
-//         } else {
-//           res
-//             .status(responseCode.FAILURE.UNAUTHORIZED)
-//             .json({ message: "User not found" });
-//         }
-//       }
-//     } else {
-//       if (optionalToken) {
-//         next();
-//       } else {
-//         res
-//           .status(responseCode.FAILURE.UNAUTHORIZED)
-//           .json({ message: "Invalid token" });
-//       }
-//     }
-//   } else {
-//     if (optionalToken) {
-//       next();
-//     } else {
-//       res
-//         .status(responseCode.FAILURE.UNAUTHORIZED)
-//         .json({ status: false, message: "Token Missing in Header" });
-//     }
-//   }
-// };
+        res.set('Authorization', token)
+        next()
+      } catch (error) {
+        if (error.isExpired) {
+          const { status, refreshToken ,languageId} = await getUserToken(currentTokenPayload.user_id)
+          if (status) {
+            try {
+              await verifyToken(refreshToken, process.env.REFRESH_TOKEN_SECRET)
+
+              const tokens = createToken({ user_id: currentTokenPayload.user_id, user_group_id: userGroup.USER_GROUP_ID,language_id:languageId })
+           
+              await updateUserToken(tokens.refreshToken, currentTokenPayload.user_id)
+              req.body.userId = currentTokenPayload.user_id
+              res.set('Authorization', tokens.token)
+              next()
+            } catch (error) {
+              if (optionalToken) {
+                next()
+              } else{
+                res.status(responseCode.FAILURE.UNAUTHORIZED).json({ message: 'Invalid token' })
+              }
+            }
+          } else {
+            if (optionalToken) {
+              next()
+            } else{
+              res.status(responseCode.FAILURE.UNAUTHORIZED).json({ message: 'Invalid token' })
+            }
+          }
+        } else {
+          if (optionalToken) {
+            next()
+          } else {
+            res.status(responseCode.FAILURE.UNAUTHORIZED).json({ message: 'Invalid token' })
+          }
+        }
+      }
+    } else {
+      if (optionalToken) {
+        next()
+      } else {
+        res.status(responseCode.FAILURE.UNAUTHORIZED).json({ message: 'User not found' })
+      }
+    }
+  } else {
+    if (optionalToken) {
+      next()
+    } else {
+      res.status(responseCode.FAILURE.UNAUTHORIZED).json({ message: 'Invalid token' })
+    }
+  }
+}
+else{
+  if (optionalToken) {
+    next()
+  } else {
+    res.status(responseCode.FAILURE.UNAUTHORIZED).json({ status:false,message: 'Token Missing in Header' })
+  }
+}
+}

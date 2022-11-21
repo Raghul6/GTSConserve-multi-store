@@ -59,7 +59,7 @@ export const get_subscription_products = async (id) =>{
     .whereRaw('products.product_type_id= ?', [1])  
     try{
         
-        return{status:response.SUCCESS,body:product}
+        return{status:responseCode.SUCCESS,body:product}
         
     }
     catch{
@@ -68,6 +68,25 @@ export const get_subscription_products = async (id) =>{
     }
 }
 
-// export const get_categories = async (id) => {
-//     const getcategories = await kn
-// }
+export const get_all_categories = async (req,res) => {
+    const getcategories = await knex.select('name').from('categories')
+    try{
+        
+        return{status:responseCode.SUCCESS,body:getcategories}
+    }
+    catch{
+        return {status:responseCode.FAILURE.INTERNAL_SERVER_ERROR}
+
+    }
+} 
+ 
+export const get_all_products = async (req,res) => {
+    const getproducts = await knex('products').join('product_variations').select('products.name','product_variations.value','product_variations.price')
+    try{
+        return{status:responseCode.SUCCESS,body:getproducts}
+    }
+    catch{
+        return {status:responseCode.FAILURE.INTERNAL_SERVER_ERROR}
+
+    }
+}
