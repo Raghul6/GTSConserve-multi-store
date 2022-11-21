@@ -36,7 +36,7 @@ export const getPageNumber = (req,res, data, url, is_super_admin = true) => {
 
 
 export const multerStorage = (path) => {
-  console.log("hittihn");
+  // console.log("hittihn");
   fs.access(path, (error) => {
     // To check if the given directory
     // already exists or not
