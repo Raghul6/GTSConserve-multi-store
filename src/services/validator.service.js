@@ -19,6 +19,22 @@ export const loginValidator = (payload) => {
     return { status: false, message: "Mandatory fields missing" }
   }
 }
+
+export const userValidator = (payload) => {
+  const user_name = payload.mobile_number ?? null
+  const password = payload.fcm_token ?? null
+  
+  if (user_name && password) {
+    if (phoneNumberValidator(password)) {
+        return { status: true, user_name, password }
+    } else {
+      return { status: false, message: "Invalid password" }
+    }
+  } else {
+    return { status: false, message: "Mandatory fields missing" }
+  }
+}
+
 export const profileUpdateValidator = (payload) => {
   const name = payload.name ?? null
   const email = payload.email ?? null
@@ -71,19 +87,17 @@ export const latLongValidator = (payload) => {
 }
 
 export const userAddressValidator = (payload) => {
-  // console.log(payload)
+  
   const address_details = payload.address_details ?? null
-  const address_title = payload.address_title ?? null
+  const title = payload.title ?? null
   const address_landmark = payload.address_landmark ?? null
-  // const address_type = payload.type ?? null
+  const type = payload.type ?? null
   const user_id = payload.user_id ?? null
-  // const alternate_mobile = payload.alternate_mobile ?? null
-  // const address_latitude = payload.latitude ?? null
-  // const address_longitude = payload.longitude ?? null
+  
 
-  if (address_details &&  address_landmark && address_title  && user_id) {
+  if (address_details &&  address_landmark && title  && user_id && type) {
 
-    return { status: true, address_details, address_landmark, user_id }
+    return { status: true, address_details, address_landmark, user_id, type }
 
   } else {
     return { status: false, message: "error" }

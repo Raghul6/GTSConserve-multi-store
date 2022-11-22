@@ -281,27 +281,30 @@ export const getAddress = async (user_id) => {
 }
 
 export const  addUser = async (payload) => {
-  const query = await knex('user_address').insert({
+  
+  const userAddress =  await knex('user_address').insert({
+        
     user_id: payload.user_id,
-    address_details: address_details,
-    // address_type: type,
-    address_landmark: landmark,
-    // user_address_id: payload.user_address_id,
-    // address_latitude: address_latitude,
-    // address_longitude: address_longitude,
-    address_title: title
-  })
-  console.log(query)
-  try {
-    // const response = await mysqlRequest(query)
+    address_details: payload.address_details,
+    address_name: payload.address_name,
+    address_landmark: payload.address_landmark,
+    created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+      })
 
-    return { status: responseCode.SUCCESS, response: query }
+      // console.log(userAddress)
+      try {
+    
+        return  res.status(responseCode.SUCCESS).json({ status: true, data: userAddress })
+    
+      } catch (error) {
+        console.log(error)
+        return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, message: error.message }
+      }
+      
+     
+    }
+  
 
-  } catch (error) {
-    console.log(error)
-    return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, message: error.message }
-  }
-}
 
 export const getCities = async () => {
   const query = await knex.select('*').from('cities')
