@@ -128,16 +128,16 @@ export const phoneNumberValidator = (phoneNumber) => {
 };
 
 export const integerValidator = (value) => {
-  if (!value) return false;
+  if (!value) return false
 
-  return isNumberValidator(value);
-};
+  return isNumberValidator(value)
+}
 
 export const isNumberValidator = (value) => {
-  if (typeof value === Number) return true;
+  if (typeof value !== 'number') return false
 
-  return false;
-};
+  return true
+}
 
 function getOffset(currentPage = 1, listPerPage) {
   return (currentPage - 1) * [listPerPage];
