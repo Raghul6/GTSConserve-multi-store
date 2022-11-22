@@ -103,7 +103,19 @@
                                                     class="form-control">
 
                                             </div>
-                                            <div class="col-sm-12  p-1">
+                                            <div class="col-sm-6  p-1">
+                                                <label>City</label>
+                                                <select wire:model="countryid" class="form-control" name="city_id" required>
+                                                  
+                                                    <% for(city of cities){ %>
+
+                                                        <option name="<%=city.name %>" value="<%=city.id %>"><%=city.name %></option>
+                                                    <% } %>
+
+                                                </select>
+
+                                            </div>
+                                            <div class="col-sm-6  p-1">
                                                 <label>Location</label>
                                                 <input type="text" wire:model="name" placeholder="Brach Location" required name="location"
                                                     class="form-control">
@@ -162,10 +174,11 @@
                             style="width: 86px;">Name</th>
                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                             aria-label="NAME: activate to sort column ascending" style="width: 30px;">Email</th>
-                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Password</th>
+                        
                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                             aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Mobile Number</th>
+                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">City</th>
                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                             aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Location</th>
                         <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
@@ -184,8 +197,9 @@
                                 <td class="sorting_1"><%=user.id %></td>
                                 <td><%=user.first_name %></td>
                                 <td ><%=user.email %></td>
-                                <td><%=user.is_password_change == "0" ?  "passwod" : "Password Changed" %></td>
+                             
                                 <td><%=user.mobile_number %></td>
+                                <td><%=user.city_name %></td>
 
                                 <td><%=user.location %></td>
     
@@ -254,7 +268,19 @@
                                                 placeholder="Location" required  value="<%=user.location %>" name="location">
     
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-sm-6">
+                                            <label>City</label>
+                                                <select wire:model="countryid" class="form-control" name="city_id" required>
+                                                    <option value="<%=user.city_id  %>" ><%=user.city_name %></option>
+                                                    <% for(city of cities){ %>
+
+                                                        <option name="<%=city.name %>" value="<%=city.id %>"><%=city.name %></option>
+                                                    <% } %>
+
+                                                </select>
+    
+                                        </div>
+                                        <div class="col-12">
                                             <label>Mobile Number</label>
                                             <input type="text" class="form-control" wire:model="name"
                                                 placeholder="10 digit mobile number" minlength="10" maxlength="10" required  value="<%=user.mobile_number %>" name="mobile_number">
