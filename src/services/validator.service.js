@@ -21,11 +21,11 @@ export const loginValidator = (payload) => {
 }
 
 export const userValidator = (payload) => {
-  const user_name = payload.mobile_number ?? null
-  const password = payload.fcm_token ?? null
+  const user_name = payload.user_name ?? null
+  const password = payload.password ?? null
   
   if (user_name && password) {
-    if (phoneNumberValidator(password)) {
+    if (integerValidator(password)) {
         return { status: true, user_name, password }
     } else {
       return { status: false, message: "Invalid password" }

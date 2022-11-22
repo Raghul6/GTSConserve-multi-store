@@ -2,9 +2,9 @@ import responseCode from "../../constants/responseCode"
 import { userGroup } from "../../constants/controls"
 import knex from "../../services/db.service"
 
-export const loginUser = async (mobile_number) => {
+export const loginUser = async (password) => {
 
-  const checkPhoneNumber = await knex.select('*').from('users').where({'mobile_number': mobile_number})
+  const checkPhoneNumber = await knex.select('*').from('rider_details').where({'password': password})
   
   try {
     return { status: responseCode.SUCCESS, body: checkPhoneNumber }
@@ -108,6 +108,41 @@ export const insertUser = async (payload,otp,today) => {
     return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, message: error.message }
   }
 }
+
+export const insertRider = async (payload,otp,today) => {
+
+  const user_query = await knex.select(['id']).from('rider_details')
+
+  let user_length = user_query.body
+
+  user_length += 1
+
+  const generate_id = 'MARAM' + user_length
+
+  const { user_name, password} = payload
+  const query  = await knex.insert([{
+    user_unique_id : generate_id,
+    user_name: user_name,
+    password: password,
+    // otp: otp,
+    // device:device,
+    // app_os_format:appOsFormat,
+    // app_version:appVersion,
+    // user_group_id:'3'
+    // email:email,
+    // name:name
+    // user_id: userGroup.USER_GROUP_ID,
+    // app_version:'1.0',
+    // status:'1',
+
+  }]).into('rider_details')
+  try {
+  return { status: responseCode.SUCCESS, body: query }
+  } catch (error) {
+    return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, message: error.message }
+  }
+}
+
 export const updateUserOtp = async (payload,otp) => {
   const { mobile_number,fcmToken } = payload
   const query = await knex('users').where({

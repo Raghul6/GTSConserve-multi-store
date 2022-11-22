@@ -35,21 +35,24 @@ export const getUserList = async (req, res) => {
     } = await getPageNumber(req, data_length, "subscribed_user_details");
 
     let results;
+
+
+    
     let is_search = false;
     if (searchKeyword) {
       results = await knex.raw(
-        `SELECT subscription_type.name,subscription_type.status FROM subscription_type 
-         JOIN subscribed_user_details ON subscription_type.id = subscribed_user_details.id
-         WHERE subscription_type.name LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
+        // `SELECT subscription_type.name,subscription_type.status FROM subscription_type 
+        //  JOIN subscribed_user_details ON subscription_type.id = subscribed_user_details.id
+        //  WHERE subscription_type.name LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
       );
       // JOIN categories ON products.category_id = categories.id 
       //    JOIN unit_types ON products.unit_type_id = unit_types.id
       is_search = true;
     } else {
       results = await knex.raw(
-        `SELECT subscription_type.name,subscription_type.status subscription_type
-         JOIN subscribed_user_details ON subscription_type.id = subscribed_user_details.id 
-         LIMIT ${startingLimit},${resultsPerPage}`
+        // `SELECT subscription_type.name,subscription_type.status subscription_type
+        //  JOIN subscribed_user_details ON subscription_type.id = subscribed_user_details.id 
+        //  LIMIT ${startingLimit},${resultsPerPage}`
       );
     }
 
