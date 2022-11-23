@@ -355,6 +355,12 @@ export const createTable = async (req, res) => {
                 .references("id")
                 .inTable("subscription_type");
 
+                t.integer("branch_id").unsigned().nullable();
+                t.foreign("branch_id").references("id").inTable("admin_users");
+
+                t.integer("router_id").unsigned().nullable();
+                t.foreign("router_id").references("id").inTable("routes");
+
               t.date("start_date").notNullable();
               t.json("customized_days").nullable();
 
@@ -370,8 +376,12 @@ export const createTable = async (req, res) => {
 
               t.enu("subscription_status", [
                 "pending",
-                "approved",
+                "assigned",
                 "cancelled",
+                "subscribed",
+                "unsubscribed",
+                "branch_cancelled",
+                
               ]).defaultTo("pending");
               t.enu("status", ["0", "1"]).defaultTo("1");
               t.timestamps(true, true);
