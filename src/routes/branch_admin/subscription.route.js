@@ -1,15 +1,26 @@
 import express  from 'express';
-import { getUserList,getSubscriptionUserList,getCancelUserList } from "../../controllers/branch_admin/subscription/subscription_type.controller"
 
+import { getAssigned,updateSubscribed,updateCancel } from '../../controllers/branch_admin/subscription/pending.controller';
+
+import { getSubscription } from '../../controllers/branch_admin/subscription/subscribed.controller';
+import { getCancelled } from '../../controllers/branch_admin/subscription/cancelled.controller';
 
 const subscriptionRouter = express.Router({
   caseSensitive: true,
   strict: true
 })
 
-subscriptionRouter.get('/get_user_list',getUserList)
-subscriptionRouter.get('/get_subscription_user_list',getSubscriptionUserList)
-subscriptionRouter.get('/get_cancel_user_list',getCancelUserList)
+
+subscriptionRouter.get('/assigned',getAssigned)
+subscriptionRouter.post('/subscribed',updateSubscribed)
+subscriptionRouter.post('/cancel',updateCancel)
+
+
+
+subscriptionRouter.get('/subscribed',getSubscription)
+
+
+subscriptionRouter.get('/cancelled',getCancelled)
 
 
 export default subscriptionRouter
