@@ -407,6 +407,7 @@ export const createTable = async (req, res) => {
         return knex.schema.createTable("rider_details", function (t) {
           t.increments("id").primary().unsigned().notNullable();
           t.string("user_name", 255).notNullable();
+          t.string("mobile_number", 255).nullable();
           t.string("location", 255).nullable();
           t.string("password", 255).notNullable();
           t.string("address", 255).notNullable();
