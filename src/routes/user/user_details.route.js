@@ -29,7 +29,7 @@ const userRouter = express.Router({
   userRouter.get('/delete_useraddress',deleteUseraddress)
   
   
-userRouter.post('/add_user_address',addUserAddress)
+  userRouter.post('/add_user_address',addUserAddress)
 
 
 
