@@ -7,21 +7,21 @@ import knex from "../../services/db.service";
 
 
 
-export const add_address = async (req,res ) =>
- {
-    const address = await knex('user_address').insert({user_id,title,address,landmark,type});   // insert user into user table
-         // respond back to request
-;
-    try{
-        res.json({ success: true, message: 'ok' });
-    }
-     catch (error) {
-      return {
-        status: responseCode.FAILURE.INTERNAL_SERVER_ERROR,
-        message: error.body,
-      };
-    }
-}
+// export const add_address = async (req,res ) =>
+//  {
+//     const address = await knex('user_address').insert({user_id,title,address,landmark,type});   // insert user into user table
+//          // respond back to request
+// ;
+//     try{
+//         res.json({ success: true, message: 'ok' });
+//     }
+//      catch (error) {
+//       return {
+//         status: responseCode.FAILURE.INTERNAL_SERVER_ERROR,
+//         message: error.body,
+//       };
+//     }
+// }
 
 export const get_address = async (req,res) => {
     const getaddress = await knex.select('user_id','title','address','landmark','type','status').from('user_address')

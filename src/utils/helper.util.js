@@ -1,7 +1,44 @@
 import multer from "multer";
 import fs from "fs";
+import knex from "../services/db.service";
 
-export const getPageNumber = (req,res, data, url, is_super_admin = true) => {
+export const GetProduct = async (product, userId) => {
+  let sub_product = [];
+
+  if (userId) {
+    sub_product = await knex("subscribed_user_details")
+      .select("product_id")
+      .where({ user_id: userId, subscription_status: "pending" })
+      .orWhere({ user_id: userId, subscription_status: "approved" });
+  }
+
+  if (product.length === 0) {
+    return { status: false, message: "No Product Found" };
+  }
+
+  if (sub_product.length !== 0) {
+    for (let i = 0; i < product.length; i++) {
+      for (let j = 0; j < sub_product.length; j++) {
+        if (product[i].id == sub_product[j].product_id) {
+          product[i].is_subscribed = "1";
+        } else {
+          product[i].is_subscribed = "0";
+        }
+      }
+    }
+  }
+
+  for (let i = 0; i < product.length; i++) {
+    product[i].image = process.env.BASE_URL + product[i].image;
+    if (!userId || sub_product.length == 0) {
+      product[i].is_subscribed = "0";
+    }
+  }
+
+  return { status: true, data: product };
+};
+
+export const getPageNumber = (req, res, data, url, is_super_admin = true) => {
   let adminUrl = is_super_admin ? "super_admin" : "branch_admin";
 
   const resultsPerPage = process.env.RESULT_PER_PAGE;
@@ -29,11 +66,15 @@ export const getPageNumber = (req,res, data, url, is_super_admin = true) => {
     iterator -= page + 1 - numberOfPages;
   }
 
-
-  return { startingLimit, page, resultsPerPage, numberOfPages , iterator , endingLink };
+  return {
+    startingLimit,
+    page,
+    resultsPerPage,
+    numberOfPages,
+    iterator,
+    endingLink,
+  };
 };
-
-
 
 export const multerStorage = (path) => {
   // console.log("hittihn");
@@ -87,16 +128,16 @@ export const phoneNumberValidator = (phoneNumber) => {
 };
 
 export const integerValidator = (value) => {
-  if (!value) return false;
+  if (!value) return false
 
-  return isNumberValidator(value);
-};
+  return isNumberValidator(value)
+}
 
 export const isNumberValidator = (value) => {
-  if (typeof value === Number) return true;
+  if (typeof value !== 'number') return false
 
-  return false;
-};
+  return true
+}
 
 function getOffset(currentPage = 1, listPerPage) {
   return (currentPage - 1) * [listPerPage];

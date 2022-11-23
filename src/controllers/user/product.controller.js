@@ -1,55 +1,16 @@
+import responseCode from "../../constants/responseCode";
+import messages from "../../constants/messages";
+import {
+  get_products,
+  get_categories,
+  get_subscription_or_add_on_products,
+  search_products,
+} from "../../models/user/product.model";
 
-import { get_products, get_categories, get_product_type} from '../../models/user/product.model';
 
 
-// export const cities = async (req, res) => {
-//     try{
 
-//       const city = await get_cities()
-//       res.status(200).json({status:true,DATA:city.body})
-//     }
-//     catch(error){
-//         console.log(error)
-//         res.status(500).json({ status: false }) 
-//       }
 
-//       }
-
-// export const countries = async (req,res) => {
-//     try{
-//         const country = await get_countries()
-//         res.status(200).json({status:true,DATA:country.body})
-//     }
-//     catch(error){
-//         console.log(error)
-//         res.status(500).json({ status: false }) 
-//       }
-
-// }
-
-// export const zones = async (req,res) => {
-//     try{
-//         const zone = await get_zones()
-//         res.status(200).json({status:true,DATA:zone.body})
-//     }
-//     catch(error){
-//         console.log(error)
-//         res.status(500).json({ status: false }) 
-//       }
-
-// }
-
-// export const postcodes = async (req,res) => {
-//     try{
-//         const postcode = await get_postcodes()
-//         res.status(200).json({status:true,DATA:postcode.body})
-
-//     }
-//     catch(error){
-//         console.log(error)
-//         res.status(500).json({ status: false }) 
-//       }
-// }
 
 export const getProducts= async (req,res) =>{
     try{
@@ -57,7 +18,7 @@ export const getProducts= async (req,res) =>{
         const {id} = req.body
     
         const list = await get_products(id)
-        res.status(200).json({status:true,data:list.body})
+        res.status(200).json({status:true,DATA:list.body})
     }
     catch(error){
         console.log(error)
@@ -68,18 +29,7 @@ export const getProducts= async (req,res) =>{
 export const getCategories = async (req,res) =>{
     try{
         const category = await get_categories()
-        res.status(200).json({status:true,data:category.body})
-    }
-    catch(error){
-        console.log(error)
-        res.status(500).json({status:false})
-    }
-}
-
-export const getProduct_type = async (req,res) => {
-    try{
-        const product_type = await get_product_type()
-        res.status(200).json({status:true,data:product_type.body})
+        res.status(200).json({status:true,DATA:category.body})
     }
     catch(error){
         console.log(error)
@@ -98,31 +48,20 @@ export const getProduct_type = async (req,res) => {
 //     }
 // }
 
-// export const addUserAddress = async (req, res) => {
-//     try{
-//       const payload = userAddressValidator(req.body)
-//       // const users = await addUser(payload)
-//       console.log(payload)
-//       if(payload.status){
-//         const userAddress =  await knex('user_address').insert({
-//       user_id: payload.userId,
-//       user_address_details: payload.address_details,
-//       user_address_name: payload.address_name,
-//       user_address_landmark: payload.address_landmark,
-//       user_address_latitude: payload.address_latitude,
-//       user_address_longitude: payload.address_longitude,
-//       alternate_mobile: payload.alternate_mobile,
-//       created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
-//         })
-//         console.log(userAddress)
-//         res.status(responseCode.SUCCESS).json({ status: true, data: userAddress })
-//       }else{
-//         res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: "Mandatory Fields are missing" })
-//       }
-     
-//     }
-//     catch (error) {
-//       res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: error.sqlMessage })
-//     }
-//   }
+    const product = await search_products(
+      product_type_id,
+      search_keyword,
+      userId
+    );
+    if (!product.status) {
+      return res
+        .status(responseCode.FAILURE.DATA_NOT_FOUND)
+        .json({ status: false, message: product.message });
+    }
+
+    return res.status(responseCode.SUCCESS).json({
+      status: true,
+      data: product.data,
+    });
   
+

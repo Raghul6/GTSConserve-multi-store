@@ -125,18 +125,48 @@ export const subscription_type = [
   },
 ];
 
-
 export const product_variations = [
-    {
-        "value" : "1000",
-        "price"  :"50"
-    },
-    {
-        "value" : "500",
-        "price"  :"25"
-    },
-    {
-        "value" : "250",
-        "price"  :"15"
-    },
-]
+  {
+    value: "1000",
+    price: "50",
+  },
+  {
+    value: "500",
+    price: "25",
+  },
+  {
+    value: "250",
+    price: "15",
+  },
+];
+
+export const week_days = [
+  {
+    name: "sunday",
+    code: "sun",
+  },
+  {
+    name: "monday",
+    code: "mon",
+  },
+  {
+    name: "tuesday",
+    code: "tue",
+  },
+  {
+    name: "wednesday",
+    code: "wed",
+  },
+  {
+    name: "thursday",
+    code: "thu",
+  },
+  {
+    name: "friday",
+    code: "fri",
+  },
+  {
+    name: "saturday",
+    code: "sat",
+  },
+];

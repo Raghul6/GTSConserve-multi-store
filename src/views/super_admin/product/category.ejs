@@ -224,7 +224,7 @@
                                             <div class="col-6">
                                                 <label>Product Type</label>
                                                 <select wire:model="countryid" class="form-control" name="product_type_id" required>
-                                                    <option value=""><%=category.product_type %></option>
+                                                    <option value="<%=category.product_type_id %>"><%=category.product_type %></option>
                                                     <% for(product_type of productType){ %>
 
                                                         <option  value="<%=product_type.id %>"><%=product_type.name %></option>

@@ -1,16 +1,28 @@
-import express  from 'express';
-import {getProducts, getCategories, getProduct_type } from '../../controllers/user/product.controller';
+
+
+import express from "express";
+import {
+  getProducts,
+  getCategories,
+  getSubscriptionProducts,
+  getAddOnProducts,
+  searchProducts,
+} from "../../controllers/user/product.controller";
+
 
 const productRouter = express.Router({
   caseSensitive: true,
-  strict: true
-})
+  strict: true,
+});
 
-productRouter.get('/get_categories',getCategories)
+productRouter.post("/get_categories", getCategories);
+productRouter.post("/get_products", getProducts);
+productRouter.get("/get_subscription_product", getSubscriptionProducts);
+productRouter.get("/get_add_on_product", getAddOnProducts);
+productRouter.post("/search_products", searchProducts);
 
-productRouter.get('/products',getProducts)
 
-productRouter.get('/getproducttype',getProduct_type)
 
 
 export default productRouter
+
