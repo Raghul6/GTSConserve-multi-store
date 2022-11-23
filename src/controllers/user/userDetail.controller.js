@@ -89,7 +89,7 @@ export const updateUser = async (req, res) => {
   try {
       if (!req.body) return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: messageCode.MANDATORY_ERROR })
 
-      const userId = parseJwtPayload(req.headers.authorization)
+      // const userId = parseJwtPayload(req.headers.authorization)
 
 
       const { name,email,image } = req.body
@@ -112,17 +112,13 @@ export const updateUser = async (req, res) => {
           const image_path = "http://" + req.headers.host + "/" + req.file.destination + req.file.filename
           if (image_path) {
 
-              const user = await User.findByIdAndUpdate(userId.user_id, {
-                  image: image_path
-              }, { new: true })
+             
           }
       }
 
 
 
-      const user = await User.findByIdAndUpdate(userId.user_id, {
-           name,email
-      }, { new: true })
+    
 
 
       return res.status(responseCode.SUCCESS).json({ status: true, message: "User Profile Updated" })
