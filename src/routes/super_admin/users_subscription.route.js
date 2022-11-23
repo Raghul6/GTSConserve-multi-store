@@ -8,8 +8,18 @@ const users_subscriptionRouter = express.Router({
   strict: true
 })
 
-users_subscriptionRouter.get('/get_approve_list',getApproveList)
+// pending
 users_subscriptionRouter.get('/get_pending_list',getPendingList)
+users_subscriptionRouter.post('/accept_or_reject',getPendingList)
+
+
+
+
+users_subscriptionRouter.get('/get_approve_list',getApproveList)
+
+
+
+
 users_subscriptionRouter.get('/get_cancel_list',getCancelList)
 
 

@@ -2,75 +2,71 @@ import knex from "../services/db.service";
 
 export const createTable = async (req, res) => {
   try {
+    // countries
+    await knex.schema.hasTable("countries").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("countries", function (t) {
+          t.increments("id").primary();
+          t.string("name", 255).nullable();
+          t.string("code", 255).nullable();
+          t.string("phone_code", 255).nullable();
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
 
+    // zones
+    await knex.schema.hasTable("zones").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("zones", function (t) {
+          t.increments("id").primary();
+          t.string("name", 255).nullable();
+          t.string("code", 255).nullable();
+          t.integer("country_id").unsigned().notNullable();
+          t.foreign("country_id").references("id").inTable("countries");
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
 
-       // countries
-       await knex.schema.hasTable("countries").then(function (exists) {
-        if (!exists) {
-          return knex.schema.createTable("countries", function (t) {
-            t.increments("id").primary();
-            t.string("name", 255).nullable();
-            t.string("code", 255).nullable();
-            t.string("phone_code", 255).nullable();
-            t.enu("status", ["0", "1"]).defaultTo("1");
-            t.timestamps(true, true);
-          });
-        }
-      });
-  
-      // zones
-      await knex.schema.hasTable("zones").then(function (exists) {
-        if (!exists) {
-          return knex.schema.createTable("zones", function (t) {
-            t.increments("id").primary();
-            t.string("name", 255).nullable();
-            t.string("code", 255).nullable();
-            t.integer("country_id").unsigned().notNullable();
-            t.foreign("country_id").references("id").inTable("countries");
-            t.enu("status", ["0", "1"]).defaultTo("1");
-            t.timestamps(true, true);
-          });
-        }
-      });
-  
-      // cities
-      await knex.schema.hasTable("cities").then(function (exists) {
-        if (!exists) {
-          return knex.schema.createTable("cities", function (t) {
-            t.increments("id").primary();
-            t.string("name", 255).nullable();
-            t.string("code", 255).nullable();
-            t.integer("zone_id").unsigned().notNullable();
-            t.foreign("zone_id").references("id").inTable("zones");
-            t.integer("country_id").unsigned().notNullable();
-            t.foreign("country_id").references("id").inTable("countries");
-            t.string("latitude", 255).nullable();
-            t.string("longitude", 255).nullable();
-            t.enu("status", ["0", "1"]).defaultTo("1");
-            t.timestamps(true, true);
-          });
-        }
-      });
-  
-      // postcodes
-      await knex.schema.hasTable("postcodes").then(function (exists) {
-        if (!exists) {
-          return knex.schema.createTable("postcodes", function (t) {
-            t.increments("id").primary();
-            t.string("code", 255).nullable();
-            t.integer("zone_id").unsigned().notNullable();
-            t.foreign("zone_id").references("id").inTable("zones");
-            t.integer("country_id").unsigned().notNullable();
-            t.foreign("country_id").references("id").inTable("countries");
-            t.integer("city_id").unsigned().notNullable();
-            t.foreign("city_id").references("id").inTable("cities");
-            t.enu("status", ["0", "1"]).defaultTo("1");
-            t.timestamps(true, true);
-          });
-        }
-      });
+    // cities
+    await knex.schema.hasTable("cities").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("cities", function (t) {
+          t.increments("id").primary();
+          t.string("name", 255).nullable();
+          t.string("code", 255).nullable();
+          t.integer("zone_id").unsigned().notNullable();
+          t.foreign("zone_id").references("id").inTable("zones");
+          t.integer("country_id").unsigned().notNullable();
+          t.foreign("country_id").references("id").inTable("countries");
+          t.string("latitude", 255).nullable();
+          t.string("longitude", 255).nullable();
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
 
-
+    // postcodes
+    await knex.schema.hasTable("postcodes").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("postcodes", function (t) {
+          t.increments("id").primary();
+          t.string("code", 255).nullable();
+          t.integer("zone_id").unsigned().notNullable();
+          t.foreign("zone_id").references("id").inTable("zones");
+          t.integer("country_id").unsigned().notNullable();
+          t.foreign("country_id").references("id").inTable("countries");
+          t.integer("city_id").unsigned().notNullable();
+          t.foreign("city_id").references("id").inTable("cities");
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
 
     // users groups - is user or branch admin or super admin
     await knex.schema.hasTable("user_groups").then(function (exists) {
@@ -120,7 +116,7 @@ export const createTable = async (req, res) => {
       if (!exists) {
         return knex.schema.createTable("users", function (t) {
           t.increments("id").primary();
-          t.integer("user_group_id")
+          t.integer("user_group_id");
           // t.foreign("user_group_id").references("id").inTable("user_groups");
           t.string("name", 255);
           t.string("user_unique_id", 255);
@@ -170,8 +166,6 @@ export const createTable = async (req, res) => {
         });
       }
     });
-
- 
 
     //app settings
     await knex.schema.hasTable("app_settings").then(function (exists) {
@@ -406,11 +400,34 @@ export const createTable = async (req, res) => {
       if (!exists) {
         return knex.schema.createTable("rider_details", function (t) {
           t.increments("id").primary().unsigned().notNullable();
+
+          t.string("name", 255).notNullable();
           t.string("user_name", 255).notNullable();
           t.string("mobile_number", 255).nullable();
-          t.string("location", 255).nullable();
+
           t.string("password", 255).notNullable();
-          t.string("address", 255).notNullable();
+          t.string("address", 255).nullable();
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+    // rider router
+    await knex.schema.hasTable("routes").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("routes", function (t) {
+          t.increments("id").primary().unsigned().notNullable();
+
+          t.integer("rider_id").unsigned().nullable();
+          t.foreign("rider_id").references("id").inTable("rider_details");
+
+          t.integer("city_id").unsigned().notNullable();
+          t.foreign("city_id").references("id").inTable("cities");
+
+          t.string("starting_point", 255).nullable();
+          t.string("ending_point", 255).nullable();
+
           t.enu("status", ["0", "1"]).defaultTo("1");
           t.timestamps(true, true);
         });
