@@ -1,3 +1,5 @@
+
+
 import express from "express";
 import {
   getProducts,
@@ -6,6 +8,7 @@ import {
   getAddOnProducts,
   searchProducts,
 } from "../../controllers/user/product.controller";
+
 
 const productRouter = express.Router({
   caseSensitive: true,
@@ -18,4 +21,8 @@ productRouter.get("/get_subscription_product", getSubscriptionProducts);
 productRouter.get("/get_add_on_product", getAddOnProducts);
 productRouter.post("/search_products", searchProducts);
 
-export default productRouter;
+
+
+
+export default productRouter
+
