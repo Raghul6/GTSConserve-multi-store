@@ -3,7 +3,8 @@ import express from "express";
 // Inner routes
 import loginRouter from "./user/login.route";
 import productRouter from "./user/product.route";
-
+import userdetailsRouter from "./user/userdetails.route";
+import homeRouter from "./user/home.route";
 const mainRouter = express.Router({
   caseSensitive: true,
   strict: true,
@@ -17,6 +18,14 @@ const defaultRoutes = [
   {
     path: "/product",
     route: productRouter,
+  },
+  {
+    path: "/userdetails",
+    route: userdetailsRouter,
+  },
+  {
+    path: "/home",
+    route: homeRouter,
   },
 ];
 

@@ -1,5 +1,5 @@
 
-import { get_products, get_categories} from '../../models/user/product.model';
+import { get_products, get_categories, get_product_type} from '../../models/user/product.model';
 
 
 // export const cities = async (req, res) => {
@@ -57,7 +57,7 @@ export const getProducts= async (req,res) =>{
         const {id} = req.body
     
         const list = await get_products(id)
-        res.status(200).json({status:true,DATA:list.body})
+        res.status(200).json({status:true,data:list.body})
     }
     catch(error){
         console.log(error)
@@ -68,7 +68,18 @@ export const getProducts= async (req,res) =>{
 export const getCategories = async (req,res) =>{
     try{
         const category = await get_categories()
-        res.status(200).json({status:true,DATA:category.body})
+        res.status(200).json({status:true,data:category.body})
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({status:false})
+    }
+}
+
+export const getProduct_type = async (req,res) => {
+    try{
+        const product_type = await get_product_type()
+        res.status(200).json({status:true,data:product_type.body})
     }
     catch(error){
         console.log(error)

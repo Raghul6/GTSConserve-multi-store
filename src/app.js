@@ -68,6 +68,43 @@ fs.access("./uploads", (error) => {
   }
 });
 
+
+let dirname = 'D:/maram-api/public/'
+
+
+app.get('/', (req, res) => {
+  res.json({ 'message': 'ok' });
+})
+
+
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/about_us.html'));
+})
+
+app.get('/blogs', (req, res) => {
+  res.sendFile(path.join(__dirname, './static/Blogs.html'));
+})
+
+app.get('/contact', (req, res) => {
+  res.sendFile(path.join(__dirname, './static/contact_us.html'));
+})
+
+app.get('/privacy_policy', (req, res) => {
+  res.sendFile(path.join(__dirname, './static/privacy_policy.html'));
+})
+
+app.get('/corporates', (req, res) => {
+  res.sendFile(path.join(__dirname, './static/Corporates.html'));
+})
+
+app.get('/terms_and_conditions', (req, res) => {
+  res.sendFile(path.join(__dirname, './static/Terms & Conditions.html'));
+})
+app.get('/news_and_media', (req, res) => {
+  res.sendFile(path.join(__dirname, './static/news&media.html'));
+})
+app.use('/api', bodyParsercheck, mainRouter)
+
 let secret = "thisissecret";
 
 //https://github.com/nlf/connect-mysql

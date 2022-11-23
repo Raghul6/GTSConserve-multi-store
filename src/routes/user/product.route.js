@@ -1,5 +1,5 @@
 import express  from 'express';
-import {getProducts, getCategories } from '../../controllers/user/product.controller';
+import {getProducts, getCategories, getProduct_type } from '../../controllers/user/product.controller';
 
 const productRouter = express.Router({
   caseSensitive: true,
@@ -10,6 +10,7 @@ productRouter.get('/get_categories',getCategories)
 
 productRouter.get('/products',getProducts)
 
+productRouter.get('/getproducttype',getProduct_type)
 
 
 export default productRouter

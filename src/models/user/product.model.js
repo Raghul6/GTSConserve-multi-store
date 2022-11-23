@@ -63,7 +63,7 @@ import knex from "../../services/db.service";
 export const get_products = async (id) => {
   const product = await knex("products")
     .join("categories", "products.category_id", "=", "categories.id")
-    .join("product_variations")
+    // .join("product_variations")
     .join("subscription_type")
     .select(
       "products.id",
@@ -73,9 +73,9 @@ export const get_products = async (id) => {
       "categories.name",
       "subscription_type.status",
       "subscription_type.name",
-      "product_variations.id",
-      "product_variations.value",
-      "product_variations.price",
+      "products.id",
+      "products.unit_value",
+      "products.price",
       "products.thumbnail_image",
       "products.status"
     )
@@ -93,6 +93,16 @@ export const get_categories = async (req, res) => {
     return { status: responseCode.SUCCESS, body: getcategories };
   } catch {
     return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR };
+  }
+};
+
+export const get_product_type = async (req,res) => {
+  const getproducttype = await knex.select('id','name','image').from('product_type');
+  try{
+    return {status:responseCode.SUCCESS,body:getproducttype};
+  }
+  catch{
+    return { status:responseCode.FAILURE.INTERNAL_SERVER_ERROR};
   }
 };
 
