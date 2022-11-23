@@ -1,5 +1,5 @@
 import express from 'express';
-import { addUserAddress } from '../../controllers/user/userDetail.controller';
+import { addUserAddress,getAddress,editAddress,getUser,updateUser,deleteUseraddress, } from '../../controllers/user/userDetail.controller';
 
 const userRouter = express.Router({
     caseSensitive: true,
@@ -21,7 +21,7 @@ const userRouter = express.Router({
   
   const uploadImg = multer({storage: storage}).single('image');
   
-  userRouter.post('/add_address',addAddress)
+  userRouter.post('/add_address',addUserAddress)
   userRouter.get('/get_address',getAddress)
   userRouter.post("/edit_address",editAddress)
   userRouter.get('/get_users',getUser)
