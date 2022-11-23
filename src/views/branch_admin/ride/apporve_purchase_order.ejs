@@ -42,19 +42,23 @@
                                                 <label>Name</label>
                                                 <input type="text" class="form-control" wire:model="name"
                                                     placeholder="Name">
-
                                             </div>
-
                                             <div class="form-row mb-4">
-                                                <div class="col-sm-10">
-                                                    <label>Image</label>
-                                                    <input type="file" wire:model="image" placeholder="Image" name="image"
-                                                        class="form-control">
+                                                <div class="col">
+                                                    <label>Address</label>
+                                                    <input type="text" class="form-control" wire:model="name"
+                                                    placeholder="Address">
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-row mb-4">
+                                            <div class="col">
+                                                <label>Mobile Number</label>
+                                                <input type="text" class="form-control" wire:model="name"
+                                                    placeholder="Mobile Number">
 
-
+                                            </div>
+                                        </div>
                                 </div>
                                 <div class="modal-footer">
 
@@ -74,18 +78,17 @@
         <table class="multi-table table table-hover dataTable" style="width: 100%;" id="DataTables_Table_0" role="grid"
             aria-describedby="DataTables_Table_0_info">
             <thead>
-
                 <tr role="row">
                     <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                         aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 86px;">
-                        # </th>
+                        USER NAME </th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                         aria-label="NAME: activate to sort column ascending" style="width: 161px;">NAME</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                        aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">IMAGE </th>
-                    <!-- <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                        aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">MOBILE NUMBER </th>
+                    <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                         aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 56px;">
-                        VALUE</th> -->
+                        ADDRESS</th>
                     <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                         colspan="1" aria-label="Status: activate to sort column ascending" style="width: 49px;">
                         Status</th>
@@ -100,7 +103,7 @@
                     <td class="sorting_1">Cedric Kelly</td>
                     <td>Senior Javascript Developer</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -110,13 +113,75 @@
                             </div>
                         </td>
                     </div>
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
+                    <!--edit-->
+                    <td class="text-center"> 
+                       <div class="form-group col-md-1">
+                        <button class="btn btn-sm" data-toggle="modal" data-target="#addbarcategory">edit</button>
+                    </div>
+                        <!-- __category add__ -->
+                        <div wire:ignore.self="" class="modal fade" id="addbarcategory" tabindex="-1"
+                            aria-labelledby="addCategoryTitle" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Add Rider</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-x">
+                                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                   <line x1="6" y1="6" x2="18" y2="18"></line>
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                    <div class="modal-body">
+
+                                        <div class="form-row mb-4">
+                                            <div class="col">
+                                                <label>Name</label>
+                                                <input type="text" class="form-control" wire:model="name"
+                                                    placeholder="Name">
+                                            </div>
+                                            <div class="form-row mb-4">
+                                                <div class="col">
+                                                    <label>Address</label>
+                                                    <input type="text" class="form-control" wire:model="name"
+                                                    placeholder="Address">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-4">
+                                            <div class="col">
+                                                <label>Mobile Number</label>
+                                                <input type="text" class="form-control" wire:model="name"
+                                                    placeholder="Mobile Number">
+
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+
+                                    <button class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
+                                            class="flaticon-cancel-12"></i>Discard</button>
+                                    <button wire:click="save" class="btn btn-success">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        <!-- <button data-target="#editmodal" wire:click.prevent="edit('2')" data-toggle="modal" class="btn btn-primary btn-sm ">Edit</button> 
+                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                        data-target="#viewCategory<%=user.id %>">View</button> -->
+                    </td>
+                        
                 </tr>
                 <tr role="row">
                     <td class="sorting_1">Dai Rios</td>
                     <td>Personnel Lead</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -126,13 +191,15 @@
                             </div>
                         </td>
                     </div>
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
+                    <td class="text-center"> <button class="btn btn-sm">edit</button> 
+                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                        data-target="#viewCategory<%=user.id %>">View</button></td>
                 </tr>
                 <tr role="row">
                     <td class="sorting_1">Gavin Joyce</td>
                     <td>Developer</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -142,13 +209,15 @@
                             </div>
                         </td>
                     </div>
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
+                    <td class="text-center"> <button class="btn btn-sm">edit</button> 
+                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                        data-target="#viewCategory<%=user.id %>">View</button></td>
                 </tr>
                 <tr role="row">
                     <td class="sorting_1">Jennifer Acosta</td>
                     <td>Junior Javascript Developer</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -158,13 +227,15 @@
                             </div>
                         </td>
                     </div>
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
+                    <td class="text-center"> <button class="btn btn-sm">edit</button> 
+                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                        data-target="#viewCategory<%=user.id %>">View</button></td>
                 </tr>
                 <tr role="row">
                     <td class="sorting_1">Martena Mccray</td>
                     <td>Post-Sales support</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -175,13 +246,15 @@
                         </td>
                     </div>
 
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
+                    <td class="text-center"> <button class="btn btn-sm">edit</button>
+                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                        data-target="#viewCategory<%=user.id %>">View</button> </td>
                 </tr>
                 <tr role="row">
                     <td class="sorting_1">Quinn Flynn</td>
                     <td>Support Lead</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -191,13 +264,15 @@
                             </div>
                         </td>
                     </div>
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
+                    <td class="text-center"> <button class="btn btn-sm">edit</button>
+                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                        data-target="#viewCategory<%=user.id %>">View</button></td>
                 </tr>
                 <tr role="row">
                     <td class="sorting_1">Shad Decker</td>
                     <td>Regional Director</td>
                     <td>Edinburgh</td>
-                    <!-- <td>Edinburgh</td> -->
+                    <td>Edinburgh</td>
 
                     <div>
                         <td style="text-align: center; vertical-align: middle;">
@@ -207,7 +282,9 @@
                             </div>
                         </td>
                     </div>
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
+                    <td class="text-center"> <button class="btn btn-sm ">edit</button> 
+                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                        data-target="#viewCategory<%=user.id %>">View</button></td>
                 </tr>
             </tbody>
 
