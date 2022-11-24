@@ -1,4 +1,4 @@
-import { get_AppSettings } from '../../models/user/appsettings.model';
+import { get_AppSettings } from '../../models/user/general.model';
 
     export const getAppSetting = async (req, res) => {
       try{
