@@ -362,6 +362,8 @@ export const createTable = async (req, res) => {
                 t.foreign("router_id").references("id").inTable("routes");
 
               t.date("start_date").notNullable();
+              t.date("assigned_date").nullable();
+              t.date("subscription_start_date").nullable();
               t.json("customized_days").nullable();
 
               t.integer("user_address_id").unsigned().notNullable();

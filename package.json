@@ -43,6 +43,7 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^2.3.0",
     "method-override": "^3.0.0",
+    "moment": "^2.29.4",
     "mongodb": "^4.8.1",
     "mongoose": "^6.5.3",
     "mongoose-global": "^1.0.1",

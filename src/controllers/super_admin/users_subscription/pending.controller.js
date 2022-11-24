@@ -132,12 +132,15 @@ export const updatePendingList = async (req, res) => {
   try {
     const { sub_id, branch_id } = req.body;
 
-    await knex("subscribed_user_details").update({
-      branch_id,
-      subscription_status: "assigned",
-    }).where({id : sub_id})
+    await knex("subscribed_user_details")
+      .update({
+        branch_id,
+        subscription_status: "assigned",
+        assigned_date: new Date().toISOString().slice(0, 19).replace("T", " "),
+      })
+      .where({ id: sub_id });
 
-    req.flash("success","Subscription Moved To Branch")
+    req.flash("success", "Subscription Moved To Branch");
     res.redirect("/super_admin/users_subscription/get_pending_list");
   } catch (error) {
     console.log(error);

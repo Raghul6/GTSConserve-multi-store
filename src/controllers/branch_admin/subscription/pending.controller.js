@@ -18,16 +18,21 @@ export const updateCancel = async (req, res) => {
 
 export const updateSubscribed = async (req, res) => {
   try {
-
-    const { sub_id,router_id } = req.body;
+    const { sub_id, router_id } = req.body;
 
     await knex("subscribed_user_details")
-      .update({ subscription_status: "subscribed", router_id })
-      .where({ id : sub_id  });
+      .update({
+        subscription_status: "subscribed",
+        router_id,
+        subscription_start_date: new Date()
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " "),
+      })
+      .where({ id: sub_id });
 
     req.flash("success", "subscribed successfully");
     res.redirect("/branch_admin/subscription/assigned");
-
   } catch (error) {
     console.log(error);
     res.redirect("/home");

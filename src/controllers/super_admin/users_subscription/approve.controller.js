@@ -10,7 +10,7 @@ export const getApproveList = async (req, res) => {
 
     if (searchKeyword) {
       const search_data_length = await knex.raw(
-        `SELECT subscribed_user_details.id FROM subscribed_user_details JOIN users ON users.id = subscribed_user_details.user_id WHERE subscribed_user_details.subscription_status = "assigned" AND users.user_unique_id LIKE '%${searchKeyword}%'`
+        `SELECT subscribed_user_details.id FROM subscribed_user_details JOIN users ON users.id = subscribed_user_details.user_id WHERE subscribed_user_details.subscription_status NOT IN ("cancelled","pending") AND users.user_unique_id LIKE '%${searchKeyword}%'`
       );
 
       data_length = search_data_length[0];
@@ -24,7 +24,7 @@ export const getApproveList = async (req, res) => {
     } else {
       data_length = await knex("subscribed_user_details")
         .select("id")
-        .where({ subscription_status: "assigned" });
+        .whereNotIn("subscription_status", ["cancelled", "pending"]);
     }
 
     const branches = await knex("admin_users")
@@ -58,7 +58,7 @@ export const getApproveList = async (req, res) => {
     let is_search = false;
     if (searchKeyword) {
       results = await knex.raw(
-        `SELECT sub.id , sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
+        `SELECT sub.id , sub.start_date,sub.assigned_date,sub.subscription_start_date, sub.quantity,sub.customized_days,sub.subscription_status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
         user_address.address,user_address.landmark,products.name as product_name,products.price,products.unit_value,
         unit_types.value,categories.name as category_name
         FROM subscribed_user_details AS sub 
@@ -68,13 +68,13 @@ export const getApproveList = async (req, res) => {
         JOIN products ON products.id = sub.product_id
         JOIN unit_types ON unit_types.id = products.unit_type_id
         JOIN categories ON categories.id = products.category_id
-        WHERE sub.subscription_status = "assigned" 
+        WHERE sub.subscription_status NOT IN ("cancelled","pending") 
         AND users.user_unique_id LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
       );
       is_search = true;
     } else {
       results = await knex.raw(
-        `SELECT sub.id ,sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
+        `SELECT sub.id ,sub.start_date,sub.assigned_date ,sub.subscription_start_date,sub.quantity,sub.customized_days,sub.subscription_status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
         user_address.address,user_address.landmark,products.name as product_name,products.price,products.unit_value,
         unit_types.value,categories.name as category_name
         FROM subscribed_user_details AS sub 
@@ -84,7 +84,8 @@ export const getApproveList = async (req, res) => {
         JOIN products ON products.id = sub.product_id
         JOIN unit_types ON unit_types.id = products.unit_type_id
         JOIN categories ON categories.id = products.category_id
-        WHERE sub.subscription_status = "assigned"  LIMIT ${startingLimit},${resultsPerPage}`
+        WHERE sub.subscription_status NOT IN ("cancelled","pending")  
+         LIMIT ${startingLimit},${resultsPerPage}`
       );
     }
 
@@ -92,6 +93,12 @@ export const getApproveList = async (req, res) => {
 
     for (let i = 0; i < data.length; i++) {
       data[i].start_date = data[i].start_date.toString().slice(4, 16);
+      data[i].assigned_date = data[i].assigned_date.toString().slice(4, 16);
+      if (data[i].subscription_start_date) {
+        data[i].subscription_start_date = data[i].subscription_start_date
+          .toString()
+          .slice(4, 16);
+      }
     }
 
     loading = false;
@@ -111,4 +118,3 @@ export const getApproveList = async (req, res) => {
     res.redirect("/home");
   }
 };
-
