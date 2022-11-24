@@ -4,28 +4,27 @@ import messages from '../../constants/messages';
 import { addUser } from '../../models/user/user.model'
 import { userAddressValidator } from '../../services/validator.service';
 import knex from '../../services/db.service'
-
-import { delete_user_address, edit_address, get_address, get_user } from "../../models/user/userdetails.model"
+import {add_address, delete_user, delete_user_address, edit_address, get_address, get_user, update_user } from "../../models/user/userdetails.model"
 
 
 export const addUserAddress = async (req, res) => {
   try {
 
     const payload = userAddressValidator(req.body)
-   
-
+    
+console.log(payload)
     if(payload){
-
+      
     const userAddress =  await knex('user_address').insert({
-        
-    user_id: payload.user_id,
-    address_details: payload.address_details,
-    address_name: payload.address_name,
-    address_landmark: payload.address_landmark,
-    title:payload.title,
-    type:payload.type,
-    created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+      
+    user_id : payload.user_id,
+    address : payload.address,
+    landmark : payload.landmark,
+    title : payload.title,
+    type : payload.type,
+    
       })
+      // .where({user_id:payload.user_id})
 
       // console.log(userAddress)
       
@@ -38,16 +37,15 @@ export const addUserAddress = async (req, res) => {
   }
   catch (error) {
     console.log(error)
+    
     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: error.sqlMessage })
   }
 }
 
-
-
-
 export const getAddress = async (req,res) => {
   try{
-      const address = await get_address()
+      const user_id = req.body
+      const address = await get_address(user_id)
       res.status(200).json({status:true,data:address.body})
   }
   catch(error){
@@ -87,56 +85,59 @@ export const getUser = async (req,res) => {
 
 export const updateUser = async (req, res) => {
   try {
-      if (!req.body) return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: messageCode.MANDATORY_ERROR })
-
-      // const userId = parseJwtPayload(req.headers.authorization)
-
-
-      const { name,email,image } = req.body
-
-
+  
+      const { name, email } = req.body;
       if (!name) {
+        return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: "Name is missing" })
 
-          return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: "Name is missing" })
       }
       if (!email) {
+        return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: "Email is missing" })
 
-          return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: "Email is missing" })
       }
-      // if (!gender) {
+  
+      if (!req.file) {
+        return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: "file is missing" })
 
-      //     return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: "Gender is missing" })
-      // }
-
-      if (req.file) {
-          const image_path = "http://" + req.headers.host + "/" + req.file.destination + req.file.filename
-          if (image_path) {
-
-             
-          }
       }
-
-
-
-    
-
-
+  
+      const image = req.file.destination.slice(1) + "/" + req.file.filename;
+  
+      await knex("users").update({ name, email, image });
+  
       return res.status(responseCode.SUCCESS).json({ status: true, message: "User Profile Updated" })
 
-  } catch (error) {
-      if (error.name === 'CastError') return res.status(responseCode.FAILURE.INVALID).json({ status: false, message: "Invalid user id" })
-
+    } catch (error) {
+      console.log(error);
       return res.status(responseCode.FAILURE.INTERNAL_SERVER_ERROR).json({ status: false, message: messageCode.SERVER_ERROR })
-      // console.log(error)
+    }
   }
-}
 
+
+
+// export const deleteUseraddress = async (req,res) => {
+//   try{ 
+//     const user_id = req.body
+//     // const address_id = req.body
+//     const del_user = await delete_user_address(user_id)
+//     res.status(responseCode.SUCCESS).json({ status: true, data:del_user, message : "deleted successfully" })
+//   }
+//   catch (error) {
+//       console.log(error)
+//     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error })
+//   }
+// }
 
 export const deleteUseraddress = async (req,res) => {
-  try{ 
-    const user_id = req.body
-    const del_user = await delete_user_address(user_id)
-    res.status(responseCode.SUCCESS).json({ status: true, message : "deleted successfully" })
+
+  try{
+    const {user_id,address_id,id} = req.body
+   
+    const addresses = await delete_user_address(user_id,id)
+    
+    if (!user_id ) return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: "invalid User" })  
+    
+    res.status(responseCode.SUCCESS).json({ status: true, message : "updated successfully" })
   }
   catch (error) {
       console.log(error)
