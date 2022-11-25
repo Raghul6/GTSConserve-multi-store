@@ -1,5 +1,7 @@
 import express from "express";
 import { getAppSetting } from "../../controllers/user/general.controller";
+import { addFeedback, getAppSetting } from "../../controllers/user/general.controller";
+
 
 
 
@@ -9,7 +11,7 @@ const appsettingRouter = express.Router({
 });
 
 appsettingRouter.get("/app_settings", getAppSetting);
-
+appsettingRouter.post("/add_feed_backs", addFeedback);
 
 export default appsettingRouter;
 
