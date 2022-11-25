@@ -31,6 +31,7 @@
     "datatables.net": "^1.13.1",
     "datatables.net-dt": "^1.13.1",
     "date-fns": "^2.29.1",
+    "dateformat": "^5.0.3",
     "debug": "~2.6.9",
     "distance-calculator-js": "^1.0.0",
     "dotenv": "^16.0.1",

@@ -4,7 +4,7 @@ import express from "express";
 import loginRouter from "./user/login.route";
 import productRouter from "./user/product.route";
 import userRouter from "./user/userdetails.route";
-import appsettingRouter from "./user/appsettings.route";
+import appsettingRouter from "./user/general.route";
 
 const mainRouter = express.Router({
   caseSensitive: true,

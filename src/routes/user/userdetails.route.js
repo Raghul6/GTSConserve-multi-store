@@ -1,5 +1,5 @@
 import express from 'express';
-import { addUserAddress,getAddress,editAddress,getUser,updateUser,deleteUseraddress, } from '../../controllers/user/userDetail.controller';
+import { addUserAddress,getAddress,editAddress,getUser,updateUser,deleteUseraddress, RemoveOrder, } from '../../controllers/user/userDetail.controller';
 
 const userRouter = express.Router({
     caseSensitive: true,
@@ -26,6 +26,8 @@ const userRouter = express.Router({
   userRouter.post('/update_users',uploadImg,updateUser)
   userRouter.get('/delete_useraddress',deleteUseraddress)
   userRouter.post('/add_user_address',addUserAddress)
+  userRouter.post('/remove_orders',RemoveOrder)
+
 
 
 
