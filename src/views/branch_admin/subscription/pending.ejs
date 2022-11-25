@@ -1,12 +1,11 @@
 <% layout('layouts/boilerPlate') %>
-
     <div class="widget-content widget-content-area br-6">
         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
             <div class="dt--top-section">
                 <div class="row">
                     <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center">
                         <div class="dataTables_length" id="DataTables_Table_0_length">
-                            <h4>Pending</h4>
+                            <h4>User</h4>
                         </div>
                     </div>
 
@@ -29,7 +28,7 @@
                                         const text = document.getElementById("searchText").value;
                                         if(!text){
 
-                                            return window.location.href = `/super_admin/users_subscription/get_pending_list`
+                                            return window.location.href = `/branch_admin/subscription/assigned`
                                         }
 
                                     }
@@ -38,7 +37,7 @@
                                        
                                         const text = document.getElementById("searchText").value;
                             
-                                        window.location.href = `/super_admin/users_subscription/get_pending_list?searchKeyword=${text}`
+                                        window.location.href = `/branch_admin/subscription/assigned?searchKeyword=${text}`
                               
                                  
                                 };
@@ -273,16 +272,16 @@
                                 </button>
                             </div>
             
-                            <form action="/super_admin/users_subscription/approve_pending_list" method="post" >
+                            <form action="/branch_admin/subscription/subscribed" method="post" >
                                         <div class="modal-body">
                                             <div class="col-sm-12">
-                                                <label>Choose a Branch</label>
+                                                <label>Choose a Route</label>
                                                     <select required wire:model="countryid" class="form-control"         
-                                                    name="branch_id" required>
-                                                    <option value="" disabled selected>Select your Branch</option>
-                                                        <% for(branch of branches){ %>
+                                                    name="router_id" required>
+                                                    <option value="" disabled selected>Select your Route</option>
+                                                        <% for(route of routes){ %>
     
-                                                            <option style="font-weight: bold;" value="<%=branch.id %>"><%=branch.first_name %> -- <%=branch.location %> </option>
+                                                            <option style="font-weight: bold;" value="<%=route.id %>"><%=route.starting_point %> -- <%=route.ending_point %> </option>
                                                         <% } %>
     
                                                     </select>
@@ -328,7 +327,7 @@
                             </div>
                             <script >
                                 async function onCancel(event) {
-                                await fetch('/super_admin/users_subscription/cancel_pending_list', {
+                                await fetch('/branch_admin/subscription/cancel', {
                                 method: 'POST',
                                 headers: {
                                     'Accept': 'application/json',
@@ -338,7 +337,7 @@
                                 })
                                 
                                
-                             window.location.reload("/super_admin/users_subscription/get_pending_list")
+                             window.location.reload("/branch_admin/subscription/assigned")
 
                             };
                             </script>
@@ -372,7 +371,7 @@
                 <ul class="pagination-default pagination">
                     <% if(page > 1) { %> 
                         <li class="prev">
-                            <a href="/super_admin/users_subscription/get_pending_list?page=<%=page-1%><%= search_query %>"  style="padding-left: 5px;">Prev</a>
+                            <a href="/branch_admin/subscription/assigned?page=<%=page-1%><%= search_query %>"  style="padding-left: 5px;">Prev</a>
                   
                          <% } %>
                    
@@ -382,12 +381,12 @@
                               
                                 <% continue; %>
                                 <% } %>
-                                <li class="page-item" style="padding-left: 5px;"><a  href="/super_admin/users_subscription/get_pending_list?page=<%=i%><%= search_query %>"><%=i%></a></li>
+                                <li class="page-item" style="padding-left: 5px;"><a  href="/branch_admin/subscription/assigned?page=<%=i%><%= search_query %>"><%=i%></a></li>
                         <% } %>
                     
                     <% if(page < numberOfPages) { %>
                         <li class="next" style="padding-left: 5px;">
-                            <a  href="/super_admin/users_subscription/get_pending_list?page=<%=page+1%><%= search_query %>">Next</a>
+                            <a  href="/branch_admin/subscription/assigned?page=<%=page+1%><%= search_query %>">Next</a>
                         </li>
                       
                          <% } %>
@@ -401,6 +400,7 @@
     <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
         <div class="dt--top-section">
             <div class="row">
+
             </div>
         </div>
         <div class="table-responsive">
