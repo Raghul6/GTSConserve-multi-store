@@ -31,7 +31,7 @@ export const createTable = async (req, res) => {
       }
     });
 
-<<<<<<< HEAD
+
     // countries
     await knex.schema.hasTable("countries").then(function (exists) {
       if (!exists) {
@@ -55,14 +55,29 @@ export const createTable = async (req, res) => {
           t.string("code", 255).nullable();
           t.integer("country_id").unsigned().notNullable();
           t.foreign("country_id").references("id").inTable("countries");
+        });
+      }
+    });
+    // cities
+    await knex.schema.hasTable("cities").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("cities", function (t) {
+          t.increments("id").primary();
+          t.string("name", 255).nullable();
+          t.string("code", 255).nullable();
+          t.integer("zone_id").unsigned().notNullable();
+          t.foreign("zone_id").references("id").inTable("zones");
+          t.integer("country_id").unsigned().notNullable();
+          t.foreign("country_id").references("id").inTable("countries");
+          t.string("latitude", 255).nullable();
+          t.string("longitude", 255).nullable();
+
           t.enu("status", ["0", "1"]).defaultTo("1");
           t.timestamps(true, true);
         });
       }
     });
 
-=======
->>>>>>> b21080a0529991ab9750f4061f75056c9407ea92
     // cities
     await knex.schema.hasTable("cities").then(function (exists) {
       if (!exists) {
@@ -81,7 +96,6 @@ export const createTable = async (req, res) => {
         });
       }
     });
-<<<<<<< HEAD
 
     // postcodes
     await knex.schema.hasTable("postcodes").then(function (exists) {
@@ -101,8 +115,7 @@ export const createTable = async (req, res) => {
       }
     });
 
-=======
->>>>>>> b21080a0529991ab9750f4061f75056c9407ea92
+
 
     // postcodes
     await knex.schema.hasTable("postcodes").then(function (exists) {
@@ -221,11 +234,7 @@ export const createTable = async (req, res) => {
       }
     });
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> b21080a0529991ab9750f4061f75056c9407ea92
     //app settings
     await knex.schema.hasTable("app_settings").then(function (exists) {
       if (!exists) {
@@ -504,6 +513,27 @@ export const createTable = async (req, res) => {
         });
       }
     });
+
+    // rider router
+    await knex.schema.hasTable("routes").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("routes", function (t) {
+          t.increments("id").primary().unsigned().notNullable();
+
+          t.integer("rider_id").unsigned().nullable();
+          t.foreign("rider_id").references("id").inTable("rider_details");
+
+          t.integer("city_id").unsigned().notNullable();
+          t.foreign("city_id").references("id").inTable("cities");
+
+          t.string("starting_point", 255).nullable();
+          t.string("ending_point", 255).nullable();
+
+          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.timestamps(true, true);
+        });
+      }
+    });
 // // feed back message 
 
     await knex.schema.hasTable("feedback_message").then(function (exists) {
@@ -549,21 +579,14 @@ await knex.schema.hasTable("orders").then(function (exists) {
 
     return res
       .status(200)
+   
       .json({ status: true, message: "table successfully created" });
-  } catch (error) {
+}
+      
+  catch (error) {
     console.log(error);
     return res
       .status(500)
       .json({ status: false, message: "Error at creating tables", error });
   }
-};
-
-
-
-
-
-
-
-
-
-
+}

@@ -88,16 +88,16 @@ export const latLongValidator = (payload) => {
 
 export const userAddressValidator = (payload) => {
   
-  const address = payload.address ?? null
+  const address_details = payload.address_details ?? null
   const title = payload.title ?? null
-  const landmark = payload.landmark ?? null
+  const address_landmark = payload.address_landmark ?? null
   const type = payload.type ?? null
   const user_id = payload.user_id ?? null
   
 
-  if (address &&  landmark && title && type && user_id) {
-    console.log("hiiii")
-    return { status: true,address, landmark,  type, title, user_id }
+  if (address_details &&  address_landmark && title  && user_id && type) {
+
+    return { status: true, address_details, address_landmark, user_id, type }
 
   } else {
     return { status: false, message: "error" }

@@ -3,15 +3,17 @@ import express from "express";
 // Inner routes
 import loginRouter from "./user/login.route";
 import productRouter from "./user/product.route";
-<<<<<<< HEAD
-import userRouter from "./user/userdetails.route";
+
+
+// import userRouter from "./user/userdetails.route";
 import appsettingRouter from "./user/general.route";
-<<<<<<< HEAD
-=======
-=======
+
+
+
+
 import subscriptionRouter from "./user/subscription.route";
->>>>>>> b21080a0529991ab9750f4061f75056c9407ea92
->>>>>>> 4aa44f2ab49c8b14ecabd0b90e0c8836b97ccb9a
+import userRouter from "./user/user_details.route";
+
 
 const mainRouter = express.Router({
   caseSensitive: true,
@@ -31,6 +33,11 @@ const defaultRoutes = [
     path: "/subscription",
     route: subscriptionRouter,
   },
+  // {
+  //   path: "/userdetails",
+  //   route: userRouter,
+
+  // },
 ];
 
 defaultRoutes.forEach((route) => {

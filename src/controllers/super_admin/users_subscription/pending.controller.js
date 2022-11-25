@@ -1,14 +1,46 @@
+import knex from "../../../services/db.service";
+import { getPageNumber } from "../../../utils/helper.util";
+
+export const cancelPendingList = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    await knex("subscribed_user_details")
+      .update({ subscription_status: "cancelled" })
+      .where({ id });
+
+    req.flash("success", "SuccessFully Cancelled the Subscription");
+    return res.redirect("/super_admin/users_subscription/get_pending_list");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/home");
+  }
+};
+
 export const getPendingList = async (req, res) => {
-    try {
-      // const categories = await knex("categories").join('product_type','categories.id','=','product_type.id')
-      // .select("id", "name")
-      //   // .select("id", "name", "image", "status")
-      //   .where({ status: "1" });
-  
-      res.render("super_admin/users_subscription/pending");
-    } catch (error) {
-      console.log(error);
-      res.redirect("/home");
+  try {
+    let loading = true;
+    const { searchKeyword } = req.query;
+
+    let data_length = [];
+
+    if (searchKeyword) {
+      const search_data_length = await knex.raw(
+        `SELECT subscribed_user_details.id FROM subscribed_user_details JOIN users ON users.id = subscribed_user_details.user_id WHERE subscribed_user_details.subscription_status = "pending" AND users.user_unique_id LIKE '%${searchKeyword}%'`
+      );
+
+      data_length = search_data_length[0];
+
+      if (data_length.length === 0) {
+        loading = false;
+        req.query.searchKeyword = "";
+        req.flash("error", "No Product Type Found");
+        return res.redirect("/super_admin/users_subscription/get_pending_list");
+      }
+    } else {
+      data_length = await knex("subscribed_user_details")
+        .select("id")
+        .where({ subscription_status: "pending" });
     }
 
     const branches = await knex("admin_users")

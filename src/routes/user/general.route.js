@@ -1,5 +1,5 @@
 import express from "express";
-import { getAppSetting } from "../../controllers/user/general.controller";
+
 import { addFeedback, getAppSetting } from "../../controllers/user/general.controller";
 
 
