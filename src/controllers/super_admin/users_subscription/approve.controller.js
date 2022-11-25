@@ -1,6 +1,3 @@
-import knex from "../../../services/db.service";
-import { getPageNumber } from "../../../utils/helper.util";
-
 export const getApproveList = async (req, res) => {
   try {
     let loading = true;
