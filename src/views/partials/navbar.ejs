@@ -4,7 +4,7 @@
         <a href="javascript:void(0);" class="sidebarCollapse" data-placement="bottom"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></a>
 
         <div class="nav-logo align-self-center">
-            <a class="navbar-brand" href="/home"><img style="width: 85px; height: 55px;" alt="logo" src="/assets/img/Logo.png"> <span class="navbar-brand-name success"></span></a>
+            <a class="navbar-brand" href="/home"><img alt="logo" src="/assets/img/90x90.jpg"> <span class="navbar-brand-name success">Maram</span></a>
         </div>
 
         <ul class="navbar-item flex-row mr-auto">
@@ -173,7 +173,7 @@
                             <h6><%= user.first_name %></h6>
                             <p><%= is_super_admin ? "Super Admin" : "Branch Admin" %> </p>
                         </div>
-                        <img src="<%= user.profile_photo_path ? user.profile_photo_path :   "/assets/img/images (1).png" %>" class="img-fluid" alt="admin-profile">
+                        <img src="<%= user.profile_photo_path ? user.profile_photo_path :   "/assets/img/90x90.jpg" %>" class="img-fluid" alt="admin-profile">
                         <span class="badge badge-success"></span>
                     </div>
                 </a>

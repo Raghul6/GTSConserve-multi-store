@@ -1,4 +1,4 @@
-export const getRoot = async (req, res) => {
+export const getApprovePurchaseList = async (req, res) => {
   try {
     res.render("branch_admin/root/apporve_purchase_order");
   } catch (error) {
@@ -7,22 +7,22 @@ export const getRoot = async (req, res) => {
   }
 };
 
-// export const getGeneratePurchaseList = async (req, res) => {
-//   try {
+export const getGeneratePurchaseList = async (req, res) => {
+  try {
 
-//    res.render("branch_admin/root/generate_purchase_order");
-//   } catch (error) {
-//     console.log(error);
-//     res.redirect("/home");
-//   }
-// };
+   res.render("branch_admin/root/generate_purchase_order");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/home");
+  }
+};
 
-// export const getCancelPurchaseList = async (req, res) => {
-//   try {
+export const getCancelPurchaseList = async (req, res) => {
+  try {
     
-//     res.render("branch_admin/root/cancelled_purchase_order");
-//   } catch (error) {
-//     console.log(error);
-//     res.redirect("/home");
-//   }
-// };
+    res.render("branch_admin/root/cancelled_purchase_order");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/home");
+  }
+};
