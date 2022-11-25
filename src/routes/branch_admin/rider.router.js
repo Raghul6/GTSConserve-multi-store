@@ -11,8 +11,8 @@ const riderRouter = express.Router({
 
 riderRouter.get('/get_rider',getRiders) 
 riderRouter.post('/create_rider',createRider) 
-riderRouter.get('/update_rider',updateRider) 
-riderRouter.get('/update_rider_status',updateRiderStatus) 
+riderRouter.post('/update_rider',updateRider) 
+riderRouter.post('/update_rider_status',updateRiderStatus) 
 
 export default riderRouter
 

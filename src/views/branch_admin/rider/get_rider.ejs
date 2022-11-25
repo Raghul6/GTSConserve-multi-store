@@ -99,7 +99,7 @@
 
                                             </div>
                                             <div class="col-sm-6  p-1">
-                                                <label>City</label>
+                                                <label>Address</label>
                                                <textarea  class="form-control" name="address"></textarea>
                                             </div>
 
@@ -240,10 +240,10 @@
                                                 placeholder="10 -Digit Number" minlength="10" maxlength="10" required  value="<%=user.mobile_number %>" name="mobile_number">
     
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-12">
                                             <label>Address</label>
-                                            <input type="text" class="form-control" wire:model="name"
-                                                placeholder="Address...." required  value="<%=user.address %>" name="address">
+                                            <textarea type="text" class="form-control" name="address"
+                                                placeholder="Address...." required  ><%=user.address %></textarea>
     
                                         </div>
                                         
