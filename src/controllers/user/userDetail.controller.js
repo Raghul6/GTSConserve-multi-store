@@ -4,7 +4,7 @@ import messages from '../../constants/messages';
 import { addUser } from '../../models/user/user.model'
 import { userAddressValidator } from '../../services/validator.service';
 import knex from '../../services/db.service'
-import {add_address, delete_user, delete_user_address, edit_address, get_address, get_user, update_user } from "../../models/user/userdetails.model"
+import { delete_user_address, edit_address, get_address, get_user, remove_order } from "../../models/user/userdetails.model"
 
 
 export const addUserAddress = async (req, res) => {
@@ -141,6 +141,20 @@ export const deleteUseraddress = async (req,res) => {
   }
   catch (error) {
       console.log(error)
+    res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error })
+  }
+}
+
+
+export const RemoveOrder = async (req,res) => {
+  try{
+    const {id,user_id} = req.body ;
+    const remove = await remove_order(id,user_id)
+    res.status(responseCode.SUCCESS).json({ status: true, message : "remove successfully" })
+
+  }
+  catch(error){
+    console.log(error)
     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error })
   }
 }
