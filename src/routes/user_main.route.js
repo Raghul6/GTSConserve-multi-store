@@ -9,7 +9,7 @@ import productRouter from "./user/product.route";
 import appsettingRouter from "./user/general.route";
 
 
-
+import homeRouter from "./user/home.route";
 
 import subscriptionRouter from "./user/subscription.route";
 import userRouter from "./user/user_details.route";
@@ -33,11 +33,21 @@ const defaultRoutes = [
     path: "/subscription",
     route: subscriptionRouter,
   },
-  // {
-  //   path: "/userdetails",
-  //   route: userRouter,
+  {
+    path: "/userdetails",
+    route: userRouter,
 
-  // },
+  },
+  {
+    path: "/homedetails",
+    route: homeRouter,
+
+  },
+  {
+    path: "/appsettings",
+    route: appsettingRouter,
+
+  },
 ];
 
 defaultRoutes.forEach((route) => {

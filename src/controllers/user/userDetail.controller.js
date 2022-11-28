@@ -3,29 +3,29 @@ import responseCode from '../../constants/responseCode';
 
 import { userAddressValidator } from '../../services/validator.service';
 import knex from '../../services/db.service'
-import { delete_user_address, edit_address, get_address, get_user, remove_order } from "../../models/user/user_details.model"
-
+import { delete_user_address, edit, edit_address, get_address, get_user, remove_order } from "../../models/user/user_details.model"
 
 export const addUserAddress = async (req, res) => {
   try {
     const payload = userAddressValidator(req.body);
 
-    console.log(payload);
     if (payload) {
+
       const userAddress = await knex("user_address").insert({
+        
         user_id: payload.user_id,
         address: payload.address,
         landmark: payload.landmark,
         title: payload.title,
         type: payload.type,
-      });
-      // .where({user_id:payload.user_id})
+      })
+      .where({user_id:payload.user_id})
 
       // console.log(userAddress)
 
       res
         .status(responseCode.SUCCESS)
-        .json({ status: true, data: userAddress });
+        .json({ status: true, message: "address added successfully" });
     }
     //   else {
     //     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: "Mandatory Fields are missing" })
@@ -35,7 +35,7 @@ export const addUserAddress = async (req, res) => {
 
     res
       .status(responseCode.FAILURE.BAD_REQUEST)
-      .json({ status: false, message: error.sqlMessage });
+      .json({ status: false, error });
   }
 };
 
@@ -121,7 +121,7 @@ export const updateUser = async (req, res) => {
     console.log(error);
     return res
       .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
-      .json({ status: false, message: messageCode.SERVER_ERROR });
+      .json({ status: false, message: error});
   }
 };
 
@@ -163,6 +163,7 @@ export const RemoveOrder = async (req,res) => {
   try{
     const {id,user_id} = req.body ;
     const remove = await remove_order(id,user_id)
+    // console.log("hi")
     res.status(responseCode.SUCCESS).json({ status: true, message : "remove successfully" })
 
   }
@@ -170,4 +171,16 @@ export const RemoveOrder = async (req,res) => {
     console.log(error)
     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error })
   }
+} 
+
+export const Edit = async (req,res) => {
+  try{
+      const {id,user_id,value} = req.body; 
+      const edit_order = await edit (id,user_id,value)
+      res.status(responseCode.SUCCESS).json({ status: true, message : "edit successfully" })
+    }
+    catch(error){
+      console.log(error)
+      res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error })
+    }
 }
