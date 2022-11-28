@@ -208,7 +208,7 @@ export const createTable = async (req, res) => {
           );
           t.enu("status", ["0", "1"]).defaultTo("1");
           t.string("remember_token", 100).nullable();
-          t.string("profile_photo_path", 2048).nullable();
+          t.string("image", 2048).nullable();
           t.timestamp("first_otp_verified_at").nullable();
           t.timestamp("last_otp_verified_at").nullable();
           t.timestamps(true, true);
@@ -224,9 +224,9 @@ export const createTable = async (req, res) => {
           t.integer("user_id").unsigned().notNullable();
           t.foreign("user_id").references("id").inTable("users");
           t.string("title", 255).nullable();
-          t.string("address_details", 255).nullable();
-          t.string("address_landmark", 255).nullable();
-          t.string("address_name", 255).nullable();
+          t.string("address", 255).nullable();
+          t.string("landmark", 255).nullable();
+          // t.string("name", 255).nullable();
           t.string("type", 255).nullable();
           t.enu("status", ["0", "1"]).defaultTo("1");
           t.timestamps(true, true);
@@ -361,8 +361,8 @@ export const createTable = async (req, res) => {
           t.integer("category_id").unsigned().notNullable();
           t.foreign("category_id").references("id").inTable("categories");
 
-          t.integer("unit_type_id").unsigned().notNullable();
-          t.foreign("unit_type_id").references("id").inTable("unit_types");
+           t.integer("unit_type_id").unsigned().notNullable();
+           t.foreign("unit_type_id").references("id").inTable("unit_types");
 
           t.integer("product_type_id").unsigned().notNullable();
           t.foreign("product_type_id").references("id").inTable("product_type");
@@ -426,8 +426,8 @@ export const createTable = async (req, res) => {
                 t.integer("branch_id").unsigned().nullable();
                 t.foreign("branch_id").references("id").inTable("admin_users");
 
-                t.integer("router_id").unsigned().nullable();
-                t.foreign("router_id").references("id").inTable("routes");
+                // t.integer("router_id").unsigned().nullable();
+                // t.foreign("router_id").references("id").inTable("routes");
 
               t.date("start_date").notNullable();
               t.date("assigned_date").nullable();
@@ -461,7 +461,7 @@ export const createTable = async (req, res) => {
       });
 
     //weekdays
-    // user address
+    
     await knex.schema.hasTable("weekdays").then(function (exists) {
       if (!exists) {
         return knex.schema.createTable("weekdays", function (t) {

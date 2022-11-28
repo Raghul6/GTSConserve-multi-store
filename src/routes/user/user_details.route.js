@@ -4,8 +4,9 @@ import express from 'express';
 
 // import { addUserAddress,getAddress,editAddress,getUser,updateUser,deleteUseraddress, RemoveOrder, } from '../../controllers/user/userDetail.controller';
 
-import { addUserAddress,getAddress,editAddress,getUser,updateUser,deleteUseraddress, } from '../../controllers/user/userDetail.controller';
+import { addUserAddress,getAddress,editAddress,getUser,updateUser,deleteUseraddress, RemoveOrder, Edit, } from '../../controllers/user/userDetail.controller';
 import multer from "multer";
+// import { edit_address } from '../../models/user/user_details.model';
 
 
 const userRouter = express.Router({
@@ -38,13 +39,8 @@ const userRouter = express.Router({
   userRouter.get('/delete_useraddress',deleteUseraddress)
 
   userRouter.post('/add_user_address',addUserAddress)
-  // userRouter.post('/remove_orders',RemoveOrder)
-
-
-  
-  
-  // userRouter.post('/add_user_address',addUserAddress)
-
+  userRouter.post('/remove_orders',RemoveOrder)
+  userRouter.post('/edit_orders',Edit)
 
 
 

@@ -84,3 +84,32 @@ export const delete_user_address = async (user_id) => {
 
     }
 }
+
+export const remove_order = async (id,user_id) => {
+    const deluser = await knex('orders').where({id:id,user_id:user_id}).del()
+    try{
+        return { status:responseCode.SUCCESS, body: deluser };
+    }
+    catch(error){
+        console.log(error)
+        return {
+                  status:responseCode.FAILURE.INTERNAL_SERVER_ERROR,
+                  error,
+                };
+}
+}
+  
+export const edit = async (id,user_id,value) => {
+    const editorder = await knex('orders').where({id:id,user_id:user_id}).update({value:value})
+    try{
+        return { status:responseCode.SUCCESS, body: editorder };
+    }
+    catch(error){
+        console.log(error)
+        return {
+                  status:responseCode.FAILURE.INTERNAL_SERVER_ERROR,
+                  error,
+                };
+}
+}
+
