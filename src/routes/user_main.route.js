@@ -35,7 +35,7 @@ const defaultRoutes = [
   },
   {
     path: "/userdetails",
-    route: userRouter,
+    route: userRouter, 
 
   },
   {

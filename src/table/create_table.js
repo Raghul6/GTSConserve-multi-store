@@ -192,7 +192,7 @@ export const createTable = async (req, res) => {
           t.string("password", 255);
           t.integer("otp", 10);
           t.string("refresh_token", 255);
-          t.string("email", 255).unique();
+          t.string("email", 255);
           t.timestamp("email_verified_at").nullable();
           t.timestamp("registration_date").defaultTo(knex.fn.now());
           t.enu("online_status", ["online", "offline", "squeeze"]).defaultTo(
@@ -405,60 +405,99 @@ export const createTable = async (req, res) => {
     //   }
     // });
 
+       // route details
+
+await knex.schema.hasTable("route_details").then(function (exists) {
+  if (!exists) {
+    return knex.schema.createTable("rider_details", function (t) {
+      t.increments("id").primary().unsigned().notNullable();
+
+      t.string("route_name", 255).notNullable();
+      t.string("starting_point", 255).notNullable();
+      t.string("ending_point", 255).notNullable();
+      t.string("mobile_number", 255).nullable();
+      t.enu("status", ["0", "1"]).defaultTo("1");
+      t.timestamps(true, true);
+    });
+  }
+});
+
+   // rider router
+   await knex.schema.hasTable("routes").then(function (exists) {
+    if (!exists) {
+      return knex.schema.createTable("routes", function (t) {
+        t.increments("id").primary().unsigned().notNullable();
+
+        t.integer("rider_id").unsigned().nullable();
+        t.foreign("rider_id").references("id").inTable("rider_details");
+
+        t.integer("city_id").unsigned().notNullable();
+        t.foreign("city_id").references("id").inTable("cities");
+
+        t.string("starting_point", 255).nullable();
+        t.string("ending_point", 255).nullable();
+
+        t.enu("status", ["0", "1"]).defaultTo("1");
+        t.timestamps(true, true);
+      });
+    }
+  });
+
+
     //  subscribed user details
-    // await knex.schema
-    //   .hasTable("subscribed_user_details")
-    //   .then(function (exists) {
-    //     if (!exists) {
-    //       return knex.schema.createTable(
-    //         "subscribed_user_details",
-    //         function (t) {
-    //           t.increments("id").primary();
+    await knex.schema
+      .hasTable("subscribed_user_details")
+      .then(function (exists) {
+        if (!exists) {
+          return knex.schema.createTable(
+            "subscribed_user_details",
+            function (t) {
+              t.increments("id").primary();
 
-    //           t.integer("user_id").unsigned().notNullable();
-    //           t.foreign("user_id").references("id").inTable("users");
+              t.integer("user_id").unsigned().notNullable();
+              t.foreign("user_id").references("id").inTable("users");
 
-    //           t.integer("subscribe_type_id").unsigned().notNullable();
-    //           t.foreign("subscribe_type_id")
-    //             .references("id")
-    //             .inTable("subscription_type");
+              t.integer("subscribe_type_id").unsigned().notNullable();
+              t.foreign("subscribe_type_id")
+                .references("id")
+                .inTable("subscription_type");
 
-    //             t.integer("branch_id").unsigned().nullable();
-    //             t.foreign("branch_id").references("id").inTable("admin_users");
+                t.integer("branch_id").unsigned().nullable();
+                t.foreign("branch_id").references("id").inTable("admin_users");
 
-    //             t.integer("router_id").unsigned().nullable();
-    //             t.foreign("router_id").references("id").inTable("routes");
+                t.integer("router_id").unsigned().nullable();
+                t.foreign("router_id").references("id").inTable("routes");
 
-    //           t.date("start_date").notNullable();
-    //           t.date("assigned_date").nullable();
-    //           t.date("subscription_start_date").nullable();
-    //           t.json("customized_days").nullable();
+              t.date("start_date").notNullable();
+              t.date("assigned_date").nullable();
+              t.date("subscription_start_date").nullable();
+              t.json("customized_days").nullable();
 
-    //           t.integer("user_address_id").unsigned().notNullable();
-    //           t.foreign("user_address_id")
-    //             .references("id")
-    //             .inTable("user_address");
+              t.integer("user_address_id").unsigned().notNullable();
+              t.foreign("user_address_id")
+                .references("id")
+                .inTable("user_address");
 
-    //           t.integer("product_id").unsigned().notNullable();
-    //           t.foreign("product_id").references("id").inTable("products");
+              t.integer("product_id").unsigned().notNullable();
+              t.foreign("product_id").references("id").inTable("products");
 
-    //           t.integer("quantity").notNullable();
+              t.integer("quantity").notNullable();
 
-    //           t.enu("subscription_status", [
-    //             "pending",
-    //             "assigned",
-    //             "cancelled",
-    //             "subscribed",
-    //             "unsubscribed",
-    //             "branch_cancelled",
+              t.enu("subscription_status", [
+                "pending",
+                "assigned",
+                "cancelled",
+                "subscribed",
+                "unsubscribed",
+                "branch_cancelled",
                 
-    //           ]).defaultTo("pending");
-    //           t.enu("status", ["0", "1"]).defaultTo("1");
-    //           t.timestamps(true, true);
-    //         }
-    //       );
-    //     }
-    //   });
+              ]).defaultTo("pending");
+              t.enu("status", ["0", "1"]).defaultTo("1");
+              t.timestamps(true, true);
+            }
+          );
+        }
+      });
 
     //weekdays
     
@@ -473,67 +512,12 @@ export const createTable = async (req, res) => {
         });
       }
     });
-
-    //rider details
  
-    await knex.schema.hasTable("rider_details").then(function (exists) {
-      if (!exists) {
-        return knex.schema.createTable("rider_details", function (t) {
-          t.increments("id").primary().unsigned().notNullable();
+    
 
-          t.string("name", 255).notNullable();
-          t.string("user_name", 255).notNullable();
-          t.string("mobile_number", 255).nullable();
+    
 
-          t.string("password", 255).notNullable();
-          t.string("address", 255).nullable();
-          t.enu("status", ["0", "1"]).defaultTo("1");
-          t.timestamps(true, true);
-        });
-      }
-    });
-
-    // rider router
-    await knex.schema.hasTable("routes").then(function (exists) {
-      if (!exists) {
-        return knex.schema.createTable("routes", function (t) {
-          t.increments("id").primary().unsigned().notNullable();
-
-          t.integer("rider_id").unsigned().nullable();
-          t.foreign("rider_id").references("id").inTable("rider_details");
-
-          t.integer("city_id").unsigned().notNullable();
-          t.foreign("city_id").references("id").inTable("cities");
-
-          t.string("starting_point", 255).nullable();
-          t.string("ending_point", 255).nullable();
-
-          t.enu("status", ["0", "1"]).defaultTo("1");
-          t.timestamps(true, true);
-        });
-      }
-    });
-
-    // rider router
-    await knex.schema.hasTable("routes").then(function (exists) {
-      if (!exists) {
-        return knex.schema.createTable("routes", function (t) {
-          t.increments("id").primary().unsigned().notNullable();
-
-          t.integer("rider_id").unsigned().nullable();
-          t.foreign("rider_id").references("id").inTable("rider_details");
-
-          t.integer("city_id").unsigned().notNullable();
-          t.foreign("city_id").references("id").inTable("cities");
-
-          t.string("starting_point", 255).nullable();
-          t.string("ending_point", 255).nullable();
-
-          t.enu("status", ["0", "1"]).defaultTo("1");
-          t.timestamps(true, true);
-        });
-      }
-    });
+    // 
 // // feed back message 
 
     await knex.schema.hasTable("feedback_message").then(function (exists) {
@@ -577,33 +561,48 @@ await knex.schema.hasTable("orders").then(function (exists) {
   }
 });
 
-// route details
-
-await knex.schema.hasTable("route_details").then(function (exists) {
+// Bill history
+await knex.schema.hasTable("bill_history").then(function (exists) {
   if (!exists) {
-    return knex.schema.createTable("rider_details", function (t) {
+    return knex.schema.createTable("bill_history", function (t) {
       t.increments("id").primary().unsigned().notNullable();
 
-      t.string("route_name", 255).notNullable();
-      t.string("starting_point", 255).notNullable();
-      t.string("ending_point", 255).notNullable();
-      t.string("mobile_number", 255).nullable();
+      t.integer("bill_no").unsigned().notNullable();
+
+      t.integer("user_id").unsigned().notNullable();
+      t.foreign("user_id").references("id").inTable("users");
+
+      t.integer("items").unsigned().notNullable();
+
+      t.integer("product_type_id").unsigned().notNullable();
+      t.foreign("product_type_id").references("id").inTable("product_type");
+
+      t.integer("product_id",255).unsigned().notNullable();
+      t.foreign("product_id").references("id").inTable("products");
+
+      t.integer("total_amount").unsigned().notNullable();
+
+      t.date("date").notNullable();
+
+      t.integer("bill_value",255).unsigned().notNullable();
+
       t.enu("status", ["0", "1"]).defaultTo("1");
       t.timestamps(true, true);
     });
   }
 });
 
-    return res
-      .status(200)
-   
-      .json({ status: true, message: "table successfully created" });
+
+return res
+.status(200)
+
+.json({ status: true, message: "table successfully created" });
 }
-      
-  catch (error) {
-    console.log(error);
-    return res
-      .status(500)
-      .json({ status: false, message: "Error at creating tables", error });
-  }
+
+catch (error) {
+console.log(error);
+return res
+.status(500)
+.json({ status: false, message: "Error at creating tables", error });
+}
 }

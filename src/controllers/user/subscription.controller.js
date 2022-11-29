@@ -6,6 +6,7 @@ import {
   new_subscription,
   get_subscription_product,
   single_subscription,
+  get_subcription_order,
 } from "../../models/user/subscription.model";
 
 export const newSubscription = async (req, res) => {
@@ -158,3 +159,29 @@ export const singleSubscription = async (req, res) => {
       .json({ status: false, message: messages.SERVER_ERROR });
   }
 };
+
+export const getSubcription_order = async (req,res) => {
+  try {
+    const{user_id,type_id,name,product_id,value} = req.body;
+    
+    const subscription_order = await get_subcription_order(user_id,type_id,name,product_id,value);
+if (!user_id) {
+        return res
+          .status(responseCode.FAILURE.BAD_REQUEST)
+          .json({ status: false, message: "user id is missing" });
+      }
+      if (!type_id) {
+        return res
+          .status(responseCode.FAILURE.BAD_REQUEST)
+          .json({ status: false, message: "type id is missing" });
+      }
+    return res
+    .status(responseCode.SUCCESS)
+    .json({ status: true, message:"order confirmed"});
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
+      .json({ status: false, message: messages.SERVER_ERROR });
+  }
+}

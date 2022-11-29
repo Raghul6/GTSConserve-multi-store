@@ -1,3 +1,4 @@
+// import { pushVerdictNumberArguments } from "@redis/client/dist/lib/commands/generic-transformers";
 import knex from "../../services/db.service";
 
 export const new_subscription = async (
@@ -105,5 +106,20 @@ export const single_subscription = async (userId, sub_id) => {
   } catch (error) {
     console.log(error);
     return { status: false, message: error };
-  }
+  } 
 };
+
+export const get_subcription_order = async (user_id,type_id,name,product_id,value) => {
+  try {
+    const order = await knex('orders').join('users', 'users.id', '=', 'orders.user_id').insert({
+      user_id:user_id,type_id:type_id,name:name,product_id:product_id,value:value
+    })
+    // .where({user_id:user_id,type_id:type_id})
+  
+return {status:true,data:order};
+  }
+catch(error){
+  console.log(error);
+    return { status: false, message: error };
+}
+}

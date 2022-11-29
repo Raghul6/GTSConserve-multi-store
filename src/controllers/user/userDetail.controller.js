@@ -92,7 +92,7 @@ export const getUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const { name, email } = req.body;
+    const { name, email,id } = req.body;
     if (!name) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
@@ -103,6 +103,11 @@ export const updateUser = async (req, res) => {
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: "Email is missing" });
     }
+    if (!id) {
+      return res
+        .status(responseCode.FAILURE.BAD_REQUEST)
+        .json({ status: false, message: "user_id is missing" });
+    }
 
     if (!req.file) {
       return res
@@ -112,7 +117,7 @@ export const updateUser = async (req, res) => {
 
     const image = req.file.destination.slice(1) + "/" + req.file.filename;
 
-    await knex("users").update({ name, email, image });
+    await knex("users").update({ name, email, image,id }).where({id:id});
 
     return res
       .status(responseCode.SUCCESS)
