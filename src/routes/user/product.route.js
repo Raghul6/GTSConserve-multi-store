@@ -1,6 +1,5 @@
-
-
 import express from "express";
+// import { authenticateJWT } from "../../middlewares/authToken.middleware";
 import {
   getProducts,
   getCategories,

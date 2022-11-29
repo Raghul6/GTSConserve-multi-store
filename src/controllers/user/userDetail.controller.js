@@ -1,4 +1,3 @@
-
 import responseCode from '../../constants/responseCode';
 
 import { userAddressValidator } from '../../services/validator.service';
@@ -9,49 +8,64 @@ export const addUserAddress = async (req, res) => {
   try {
     const payload = userAddressValidator(req.body);
 
-    if (payload) {
+    if (payload.status) {
 
       const userAddress = await knex("user_address").insert({
         
         user_id: payload.user_id,
+
         address: payload.address,
+
         landmark: payload.landmark,
+
         title: payload.title,
+
         type: payload.type,
       })
       .where({user_id:payload.user_id})
 
-      // console.log(userAddress)
 
       res
         .status(responseCode.SUCCESS)
+
         .json({ status: true, message: "address added successfully" });
     }
     //   else {
     //     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: "Mandatory Fields are missing" })
     //   }
   } catch (error) {
+
     console.log(error);
 
     res
       .status(responseCode.FAILURE.BAD_REQUEST)
+
       .json({ status: false, error });
   }
 };
 
 export const getAddress = async (req, res) => {
+
   try {
+
     const user_id = req.body;
+
     const address = await get_address(user_id);
+
     res.status(200).json({ status: true, data: address.body });
+
   } catch (error) {
+
     console.log(error);
+
     res.status(500).json({ status: false });
   }
 };
 
 export const editAddress = async (req, res) => {
+
   try {
+
     const { user_id, title, address, landmark, type } = req.body;
 
     const addresses = await edit_address(
@@ -63,27 +77,37 @@ export const editAddress = async (req, res) => {
     );
 
     if (!user_id)
+
       return res
+
         .status(responseCode.FAILURE.BAD_REQUEST)
+
         .json({ status: false, message: "invalid User" });
 
-    res
-      .status(responseCode.SUCCESS)
-      .json({ status: true, message: "updated successfully" });
+    res.status(responseCode.SUCCESS).json({ status: true, message: "updated successfully" });
+
   } catch (error) {
+
     console.log(error);
+
     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error });
   }
 };
 
 export const getUser = async (req, res) => {
+
   try {
-    const id = req.body;
-    const user = await get_user(id);
+
+    const user_id = req.body;
+
+    const user = await get_user(user_id);
 
     res.status(responseCode.SUCCESS).json({ status: true, data: user.body });
+
   } catch (error) {
+
     console.log(error);
+
     res
       .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
       .json({ status: false, message: "no user" });
@@ -91,8 +115,17 @@ export const getUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
+
   try {
-    const { name, email } = req.body;
+
+    const { name, email,user_id } = req.body;
+
+    if (!user_id) {
+
+      return res
+        .status(responseCode.FAILURE.BAD_REQUEST)
+        .json({ status: false, message: "UserId is missing" });
+    }
     if (!name) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
@@ -112,7 +145,7 @@ export const updateUser = async (req, res) => {
 
     const image = req.file.destination.slice(1) + "/" + req.file.filename;
 
-    await knex("users").update({ name, email, image });
+    await knex("users").update({ name, email, image }).where({id : user_id});
 
     return res
       .status(responseCode.SUCCESS)
@@ -125,62 +158,63 @@ export const updateUser = async (req, res) => {
   }
 };
 
-// export const deleteUseraddress = async (req,res) => {
-//   try{
-//     const user_id = req.body
-//     // const address_id = req.body
-//     const del_user = await delete_user_address(user_id)
-//     res.status(responseCode.SUCCESS).json({ status: true, data:del_user, message : "deleted successfully" })
-//   }
-//   catch (error) {
-//       console.log(error)
-//     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error })
-//   }
-// }
-
 export const deleteUseraddress = async (req, res) => {
   try {
-    const { user_id, address_id, id } = req.body;
+    const { user_id, address } = req.body;
 
-    const addresses = await delete_user_address(user_id, id);
+    const addresses = await delete_user_address(user_id);
 
     if (!user_id)
+
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: "invalid User" });
 
     res
       .status(responseCode.SUCCESS)
-      .json({ status: true, message: "updated successfully" });
+      .json({ status: true, message: "delete successfully" });
+
   } catch (error) {
+
     console.log(error);
+
     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error });
   
 }
 }
 
 export const RemoveOrder = async (req,res) => {
+
   try{
-    const {id,user_id} = req.body ;
-    const remove = await remove_order(id,user_id)
-    // console.log("hi")
+    const {user_id} = req.body ;
+
+    const remove = await remove_order(user_id)
+    
     res.status(responseCode.SUCCESS).json({ status: true, message : "remove successfully" })
 
   }
   catch(error){
+
     console.log(error)
+
     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error })
   }
 } 
 
 export const Edit = async (req,res) => {
+
   try{
+
       const {id,user_id,value} = req.body; 
+
       const edit_order = await edit (id,user_id,value)
+
       res.status(responseCode.SUCCESS).json({ status: true, message : "edit successfully" })
     }
     catch(error){
+
       console.log(error)
+      
       res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error })
     }
 }

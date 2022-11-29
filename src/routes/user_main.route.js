@@ -34,17 +34,17 @@ const defaultRoutes = [
     route: subscriptionRouter,
   },
   {
-    path: "/userdetails",
+    path: "/user_details",
     route: userRouter,
 
   },
   {
-    path: "/homedetails",
+    path: "/home_details",
     route: homeRouter,
 
   },
   {
-    path: "/appsettings",
+    path: "/",
     route: appsettingRouter,
 
   },

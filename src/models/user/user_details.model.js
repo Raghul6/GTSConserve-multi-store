@@ -85,8 +85,8 @@ export const delete_user_address = async (user_id) => {
     }
 }
 
-export const remove_order = async (id,user_id) => {
-    const deluser = await knex('orders').where({id:id,user_id:user_id}).del()
+export const remove_order = async (user_id) => {
+    const deluser = await knex('orders').where({user_id:user_id}).del()
     try{
         return { status:responseCode.SUCCESS, body: deluser };
     }

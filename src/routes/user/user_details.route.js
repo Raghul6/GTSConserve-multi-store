@@ -36,7 +36,7 @@ const userRouter = express.Router({
   userRouter.post("/edit_address",editAddress)
   userRouter.get('/get_users',getUser)
   userRouter.post('/update_users',uploadImg,updateUser)
-  userRouter.get('/delete_useraddress',deleteUseraddress)
+  userRouter.post('/delete_useraddress',deleteUseraddress)
 
   userRouter.post('/add_user_address',addUserAddress)
   userRouter.post('/remove_orders',RemoveOrder)

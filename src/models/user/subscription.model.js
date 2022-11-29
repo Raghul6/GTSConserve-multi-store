@@ -33,6 +33,7 @@ export const new_subscription = async (
     }
 
     await knex("subscribed_user_details").insert(query);
+    console.log(query)
 
     return { status: true };
   } catch (error) {
