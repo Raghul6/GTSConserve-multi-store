@@ -340,6 +340,45 @@ export const createTable = async (req, res) => {
     //   }
     // });
 
+       // route details
+
+await knex.schema.hasTable("route_details").then(function (exists) {
+  if (!exists) {
+    return knex.schema.createTable("rider_details", function (t) {
+      t.increments("id").primary().unsigned().notNullable();
+
+      t.string("route_name", 255).notNullable();
+      t.string("starting_point", 255).notNullable();
+      t.string("ending_point", 255).notNullable();
+      t.string("mobile_number", 255).nullable();
+      t.enu("status", ["0", "1"]).defaultTo("1");
+      t.timestamps(true, true);
+    });
+  }
+});
+
+   // rider router
+   await knex.schema.hasTable("routes").then(function (exists) {
+    if (!exists) {
+      return knex.schema.createTable("routes", function (t) {
+        t.increments("id").primary().unsigned().notNullable();
+
+        t.integer("rider_id").unsigned().nullable();
+        t.foreign("rider_id").references("id").inTable("rider_details");
+
+        t.integer("city_id").unsigned().notNullable();
+        t.foreign("city_id").references("id").inTable("cities");
+
+        t.string("starting_point", 255).nullable();
+        t.string("ending_point", 255).nullable();
+
+        t.enu("status", ["0", "1"]).defaultTo("1");
+        t.timestamps(true, true);
+      });
+    }
+  });
+
+
     //  subscribed user details
     await knex.schema
       .hasTable("subscribed_user_details")
@@ -536,16 +575,17 @@ await knex.schema.hasTable("orders").then(function (exists) {
     // });
 
 
-    return res
-      .status(200)
-   
-      .json({ status: true, message: "table successfully created" });
+
+return res
+.status(200)
+
+.json({ status: true, message: "table successfully created" });
 }
-      
-  catch (error) {
-    console.log(error);
-    return res
-      .status(500)
-      .json({ status: false, message: "Error at creating tables", error });
-  }
+
+catch (error) {
+console.log(error);
+return res
+.status(500)
+.json({ status: false, message: "Error at creating tables", error });
+}
 }

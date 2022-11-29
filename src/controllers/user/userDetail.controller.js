@@ -136,6 +136,11 @@ export const updateUser = async (req, res) => {
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: "Email is missing" });
     }
+    if (!id) {
+      return res
+        .status(responseCode.FAILURE.BAD_REQUEST)
+        .json({ status: false, message: "user_id is missing" });
+    }
 
     if (!req.file) {
       return res

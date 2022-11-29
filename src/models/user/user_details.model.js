@@ -57,8 +57,8 @@ export const edit_address = async (user_id,title,address,landmark,type) => {
     
 }
 
-export const get_user = async (user_id) => {
-    const getuser = await knex.select('name','profile_photo_path','mobile_number','email').from('users').where({id:user_id})
+export const get_user = async (id) => {
+    const getuser = await knex.select('name','image','mobile_number','email').from('users').where({id:id})
     try{
          return { status:responseCode.SUCCESS,body:getuser};
     }
