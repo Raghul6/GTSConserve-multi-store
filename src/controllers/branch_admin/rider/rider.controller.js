@@ -18,11 +18,11 @@ export const updateRider = async (req, res) => {
     let query = {};
    
 
-    query.name = location;
+    query.name = name;
     query.mobile_number = mobile_number;
     query.address = address;
 
-    await knex("admin_users").update(query).where({ id: id });
+    await knex("rider_details").update(query).where({ id: id });
 
     req.flash("success", "Updated SuccessFully");
     res.redirect("/branch_admin/rider/get_rider");
@@ -52,7 +52,7 @@ export const updateRiderStatus = async (req, res) => {
 
 export const createRider = async (req, res) => {
   try {
-    const { name, password, mobile_number, address } = req.body;
+    const { name, password, mobile_number, address,admin_id } = req.body;
     if (!name) {
       req.flash("error", "Name is missing");
       return res.redirect("/branch_admin/rider/get_rider");
@@ -75,11 +75,15 @@ export const createRider = async (req, res) => {
 
     let hash_password = await bcrypt.hash(password, 10);
 
+    const user_length = await knex("rider_details").select("id")
+
     await knex("rider_details").insert({
       name,
       password: hash_password,
       mobile_number,
       address,
+      user_name : `rider${user_length.length + 1}`,
+      branch_id : admin_id
     });
 
     req.flash("success", "Successfully Created");
@@ -92,6 +96,8 @@ export const createRider = async (req, res) => {
 
 export const getRiders = async (req, res) => {
   try {
+
+    const {admin_id} = req.body
     let loading = true;
     const { searchKeyword } = req.query;
 
@@ -99,7 +105,7 @@ export const getRiders = async (req, res) => {
 
     if (searchKeyword) {
       const search_data_length = await knex.raw(
-        `SELECT id FROM rider_details WHERE user_name LIKE '%${searchKeyword}%'`
+        `SELECT id FROM rider_details WHERE branch_id = ${admin_id} AND user_name LIKE '%${searchKeyword}%'`
       );
 
       data_length = search_data_length[0];
@@ -111,7 +117,7 @@ export const getRiders = async (req, res) => {
         return res.redirect("/branch_admin/rider/get_rider");
       }
     } else {
-      data_length = await knex("rider_details").select("id");
+      data_length = await knex("rider_details").select("id").where({branch_id : admin_id})
     }
 
     // const cities = await knex("cities")
@@ -139,17 +145,17 @@ export const getRiders = async (req, res) => {
     let is_search = false;
     if (searchKeyword) {
       results = await knex.raw(
-        `SELECT id,name,user_name,mobile_number,address,status FROM rider_details WHERE LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
+        `SELECT id,name,user_name,mobile_number,address,status FROM rider_details WHERE branch_id = ${admin_id} AND user_name LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
       );
       is_search = true;
     } else {
       results = await knex.raw(
-        `SELECT id,name,user_name,mobile_number,address,status FROM rider_details LIMIT ${startingLimit},${resultsPerPage}`
+        `SELECT id,name,user_name,mobile_number,address,status FROM rider_details WHERE branch_id = ${admin_id} LIMIT ${startingLimit},${resultsPerPage}`
       );
     }
 
     const data = results[0];
-console.log(data)
+
     // for (let i = 0; i < data.length; i++) {
     //   data[i].password = process.env.BASE_URL + data[i].password;
     // }

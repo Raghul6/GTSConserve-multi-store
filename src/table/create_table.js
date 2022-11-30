@@ -413,6 +413,9 @@ export const createTable = async (req, res) => {
         return knex.schema.createTable("rider_details", function (t) {
           t.increments("id").primary().unsigned().notNullable();
 
+          t.integer("branch_id").unsigned().notNullable();
+          t.foreign("branch_id").references("id").inTable("admin_users");
+
           t.string("name", 255).notNullable();
           t.string("user_name", 255).notNullable();
           t.string("mobile_number", 255).nullable();
@@ -430,6 +433,9 @@ export const createTable = async (req, res) => {
       if (!exists) {
         return knex.schema.createTable("routes", function (t) {
           t.increments("id").primary().unsigned().notNullable();
+
+          t.integer("branch_id").unsigned().notNullable();
+          t.foreign("branch_id").references("id").inTable("admin_users");
 
           t.integer("rider_id").unsigned().nullable();
           t.foreign("rider_id").references("id").inTable("rider_details");

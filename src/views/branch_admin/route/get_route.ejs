@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center">
                         <div class="dataTables_length" id="DataTables_Table_0_length">
-                            <h4>Rider</h4>
+                            <h4>Route</h4>
                         </div>
                     </div>
 
@@ -29,7 +29,7 @@
                                         const text = document.getElementById("searchText").value;
                                         if(!text){
 
-                                            return window.location.href = `/branch_admin/rider/get_rider`
+                                            return window.location.href = `/branch_admin/route/get_route`
                                         }
 
                                     }
@@ -38,7 +38,7 @@
                                        
                                         const text = document.getElementById("searchText").value;
                             
-                                        window.location.href = `/branch_admin/rider/get_rider?searchKeyword=${text}`
+                                        window.location.href = `/branch_admin/route/get_route?searchKeyword=${text}`
                               
                                  
                                 };
@@ -54,7 +54,7 @@
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalCenterTitle">Add Rider</h5>
+                                        <h5 class="modal-title" id="exampleModalCenterTitle">Add Route</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                                 height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -77,31 +77,46 @@
                                         </div>
 
 
-                                        <form action="/branch_admin/rider/create_rider" method="post">
+                                        <form action="/branch_admin/route/create_route" method="post">
 
                                         <div class="form-row mb-4">
                                             <div class="col-sm-6 p-1">
-                                                <label>Name</label>
-                                                <input type="text" wire:model="name" placeholder="name" required name="name"
+                                                <label>Starting Point</label>
+                                                <input type="text" wire:model="name" placeholder="Starting Location" required name="starting_point"
                                                     class="form-control">
                                             </div>
-
                                             <div class="col-sm-6 p-1">
-                                                <label>Password</label>
-                                                <input type="password" minlength="8" wire:model="password" name="password" placeholder="password" required
+                                                <label>Ending Point</label>
+                                                <input type="text" wire:model="name" placeholder="Ending Location" required name="ending_point"
                                                     class="form-control">
                                             </div>
 
-                                            <div class="col-sm-6  p-1">
-                                                <label>Mobile Number</label>
-                                                <input type="text" wire:model="name" minlength="10" maxlength="10" name="mobile_number" placeholder="Enter 10 digit mobile number" required
-                                                    class="form-control">
+                                            <div class="col-sm-6">
+                                                <label>Choose a City</label>
+                                                <select wire:model="countryid" class="form-control" name="city_id" required>
+                                                    <option value="">Select City </option>
+                                                    <% for(city of cities){ %>
 
+                                                        <option name="<%=city.name %>" value="<%=city.id %>"><%=city.name %></option>
+                                                    <% } %>
+
+                                                </select>
+                                               
                                             </div>
-                                            <div class="col-sm-6  p-1">
-                                                <label>City</label>
-                                               <textarea  class="form-control" name="address"></textarea>
+
+                                            <div class="col-sm-6">
+                                                <label>Choose a Rider (optional)</label>
+                                                <select wire:model="countryid" class="form-control" name="rider_id">
+                                                    <option value="">Select Rider </option>
+                                                    <% for(rider of riders){ %>
+
+                                                        <option name="<%=rider.name %>" value="<%=rider.id %>"><%=rider.name %></option>
+                                                    <% } %>
+
+                                                </select>
+                                               
                                             </div>
+                                           
 
                                         </div>
 
@@ -145,13 +160,13 @@
                             style="width: 20px;">#</th>
                         <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                             colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
-                            style="width: 86px;">User Name</th>
+                            style="width: 86px;">Starting Point</th>
                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Mobile Number</th>
+                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Ending Point</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Name</th>
+                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Rider Name</th>
                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Address</th>
+                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">City Name</th>
                         <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                             colspan="1" aria-label="Status: activate to sort column ascending" style="width: 49px;">
                             Status</th>
@@ -166,10 +181,10 @@
     
                         <% for(user of data){ %>
                                 <td class="sorting_1"><%=user.id %></td>
-                                <td><%=user.user_name %></td>
-                                <td ><%=user.mobile_number %></td>
-                                <td><%=user.name %></td>
-                                <td><%=user.address %></td>    
+                                <td><%=user.starting_point %></td>
+                                <td ><%=user.ending_point %></td>
+                                <td><%=user.rider_name ? user.rider_name : "N/A" %></td>
+                                <td><%=user.city_name %></td>    
                                 <div>
                                     <td style="text-align: center; vertical-align: middle;">
                                         <div class="custom-control custom-switch" style="cursor: pointer;">
@@ -179,7 +194,7 @@
                                             
                                                 <script >
                                                     async function onToDochange(event) {
-                                                    await fetch('/branch_admin/rider/update_rider_status', {
+                                                    await fetch('/branch_admin/route/update_route_status', {
                                                     method: 'POST',
                                                     headers: {
                                                         'Accept': 'application/json',
@@ -189,7 +204,7 @@
                                                     })
                                                     
                                                    
-                                                 window.location.reload("/branch_admin/rider/get_rider")
+                                                 window.location.reload("/branch_admin/route/get_route")
                                                  
     
                                                     
@@ -213,7 +228,7 @@
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Rider</h5>
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Route</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -226,27 +241,44 @@
                             </div>
     
                             <div class="modal-body">
-                                <form method="post" action="/branch_admin/rider/update_rider"  >
+                                <form method="post" action="/branch_admin/route/update_route"  >
                                     <div class="form-row mb-4">
-                                        <div class="col-sm-6">
-                                            <label>Name</label>
-                                            <input type="text" class="form-control" wire:model="name"
-                                                placeholder="Name..." required  value="<%=user.name %>" name="name">
-    
+                                        <div class="col-sm-6 p-1">
+                                            <label>Starting Point</label>
+                                            <input type="text" wire:model="name" value="<%= user.starting_point %>" placeholder="Starting Location" required name="starting_point"
+                                                class="form-control">
                                         </div>
-                                        <div class="col-sm-6">
-                                            <label>Mobile Number</label>
-                                            <input type="text" class="form-control" wire:model="name"
-                                                placeholder="10 -Digit Number" minlength="10" maxlength="10" required  value="<%=user.mobile_number %>" name="mobile_number">
-    
+                                        <div class="col-sm-6 p-1">
+                                            <label>Ending Point</label>
+                                            <input type="text" wire:model="name" value="<%= user.ending_point %>" placeholder="Ending Location" required name="ending_point"
+                                                class="form-control">
                                         </div>
+
                                         <div class="col-sm-6">
-                                            <label>Address</label>
-                                            <input type="text" class="form-control" wire:model="name"
-                                                placeholder="Address...." required  value="<%=user.address %>" name="address">
-    
+                                            <label>Choose a City</label>
+                                            <select wire:model="countryid" class="form-control" name="city_id" required>
+                                                <option value="<%= user.city_id %>"><%= user.city_name %> </option>
+                                                <% for(city of cities){ %>
+
+                                                    <option name="<%=city.name %>" value="<%=city.id %>"><%=city.name %></option>
+                                                <% } %>
+
+                                            </select>
+                                           
                                         </div>
-                                        
+
+                                        <div class="col-sm-6">
+                                            <label>Choose a Rider (optional)</label>
+                                            <select wire:model="countryid" class="form-control" name="rider_id">
+                                                <option value="<%= user.rider_id %>"><%= user.rider_name ? user.rider_name : "Choose a Rider"  %></option>
+                                                <% for(rider of riders){ %>
+
+                                                    <option name="<%=rider.name %>" value="<%=rider.id %>"><%=rider.name %></option>
+                                                <% } %>
+
+                                            </select>
+                                           
+                                        </div>
                                     </div>
                                     
                                     <div class="modal-footer">
@@ -286,7 +318,7 @@
                 <ul class="pagination-default pagination">
                     <% if(page > 1) { %> 
                         <li class="prev">
-                            <a href="/branch_admin/rider/get_rider?page=<%=page-1%><%= search_query %>"  style="padding-left: 5px;">Prev</a>
+                            <a href="/branch_admin/route/get_route?page=<%=page-1%><%= search_query %>"  style="padding-left: 5px;">Prev</a>
                   
                          <% } %>
                    
@@ -296,12 +328,12 @@
                                 
                                 <% continue; %>
                                 <% } %>
-                                <li class="page-item" style="padding-left: 5px;"><a  href="/branch_admin/rider/get_rider?page=<%=i%><%= search_query %>"><%=i%></a></li>
+                                <li class="page-item" style="padding-left: 5px;"><a  href="/branch_admin/route/get_route?page=<%=i%><%= search_query %>"><%=i%></a></li>
                         <% } %>
                         
                         <% if(page < numberOfPages) { %>
                             <li class="next" style="padding-left: 5px;">
-                                <a  href="/branch_admin/rider/get_rider?page=<%=page+1%><%= search_query %>">Next</a>
+                                <a  href="/branch_admin/route/get_route?page=<%=page+1%><%= search_query %>">Next</a>
                             </li>
                       
                          <% } %>

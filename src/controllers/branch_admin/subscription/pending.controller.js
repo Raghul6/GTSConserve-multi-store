@@ -68,7 +68,7 @@ export const getAssigned = async (req, res) => {
 
     const routes = await knex("routes")
       .select("starting_point", "ending_point", "id")
-      .where({ status: "1" });
+      .where({ status: "1" , branch_id  :admin_id });
 
     if (data_length.length === 0) {
       loading = false;

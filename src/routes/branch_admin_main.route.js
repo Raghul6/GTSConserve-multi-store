@@ -1,6 +1,6 @@
 import express from "express";
 import subscriptionRouter from "./branch_admin/subscription.route";
-import rootRouter from "./branch_admin/root.route";
+import routeRouter from "./branch_admin/route.route";
 import riderRouter from "./branch_admin/rider.router";
 import purchaseOrderRouter from "./branch_admin/purchaseOrder.route";
 
@@ -15,8 +15,8 @@ const defaultRoutes = [
     route: subscriptionRouter,
   },
   {
-    path: "/root",
-    route: rootRouter,
+    path: "/route",
+    route: routeRouter,
   },
   {
     path: "/rider",
