@@ -92,3 +92,43 @@ export const search_products = async (product_type_id, search_keyword,userId) =>
     return { status: false, error };
   }
 };
+
+export const additional_product = async (user_id,subscribe_type_id,product_id,name,quantity,price,total_days) => { 
+  if(subscribe_type_id==1){
+  const added = await knex('orders').insert({user_id:user_id,subscribe_type_id:subscribe_type_id,product_id:product_id,name:name,quantity:quantity,total_days:1})}
+  else{
+    const added = await knex('orders').insert({user_id:user_id,subscribe_type_id:subscribe_type_id,product_id:product_id,name:name,quantity:quantity,total_days:15})
+  }
+
+   // .raw('sum(quantity * total_days) as price')
+  // .where({})
+try{
+
+ return { status: true, body: added };
+  } catch (error) {
+    
+    return { status: false, error };
+  }
+}
+
+
+// export const get_bill = async (product_id) => {
+//   const bill_details = await knex.('bill_history').
+// }
+
+// export const addon_order = async (user_id,subscribe_type_id,category_id,product_id) =>{
+//   const add_on = await knex('add_on_orders').join('add_on_order_items').insert({user_id:user_id,subscribe_type_id:subscribe_type_id,product_id:product_id,category_id:category_id})
+//   try{
+
+//     return { status: true, body:add_on };
+//      } catch (error) {
+       
+//        return { status: false, error };
+//      }
+// }
+
+
+
+
+
+

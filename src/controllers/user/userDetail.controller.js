@@ -4,6 +4,7 @@ import responseCode from "../../constants/responseCode";
 import { userAddressValidator } from "../../services/validator.service";
 import knex from "../../services/db.service";
 import {
+  change_plan,
   delete_user_address,
   edit_address,
   get_address,
@@ -161,3 +162,24 @@ export const deleteUseraddress = async (req, res) => {
     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error });
   }
 };
+
+export const changePlan = async (req,res) => {
+  try{
+    const {user_id,product_id,subscribe_type_id,changeplan_name,start_date} = req.body;
+    if(!user_id && product_id && subscribe_type_id && changeplan_name && start_date){
+      return res
+      .status(responseCode.FAILURE.BAD_REQUEST)
+      .json({ status: false, message: "Mandatory Fields are missing" });
+     }
+     const plan = await change_plan(changeplan_name,start_date,subscribe_type_id)
+     res
+      .status(responseCode.SUCCESS)
+      .json({ status: true, message: "updated successfully" });
+
+  }
+  catch(error) {
+    console.log(error);
+    res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error });
+
+  }
+}
