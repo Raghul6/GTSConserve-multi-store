@@ -213,12 +213,29 @@
                                          
                                         </div>
                                     </td>
-                                    <td class="text-center"> <button class="btn mb-2 btn-sm  btn-primary" data-toggle="modal"
+                         
+                                    <td class="text-center"><a  class="btn mb-2 btn-sm  btn-primary"  id=<%=user.id %> data-toggle="modal" onclick="viewHandler(this)"
+                                      >View Orders</a> <button class="btn mb-2 btn-sm  btn-primary" data-toggle="modal"
                                         data-target="#editCategory<%=user.id %>">edit</button>
                                          
                                         
                                     
                                 </div>
+                                <script>
+                                    async function viewHandler(event){
+                                        window.location.href = `/branch_admin/order/daily_orders?route_id=${event.id}`
+                                        // await fetch('/branch_admin/order/daily_orders', {
+                                        //     method: 'get',
+                                        //     headers: {
+                                        //         'Accept': 'application/json',
+                                        //         'Content-Type': 'application/json'
+                                        //             },
+                                        //             body: JSON.stringify({"route_id": event.id })
+                                        //         })
+                                                
+                                                    
+                                    }
+                                </script>
                                 
                             </tr>
     

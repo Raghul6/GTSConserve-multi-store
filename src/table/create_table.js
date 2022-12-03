@@ -337,61 +337,6 @@ export const createTable = async (req, res) => {
     //   }
     // });
 
-    //  subscribed user details
-    await knex.schema
-      .hasTable("subscribed_user_details")
-      .then(function (exists) {
-        if (!exists) {
-          return knex.schema.createTable(
-            "subscribed_user_details",
-            function (t) {
-              t.increments("id").primary();
-
-              t.integer("user_id").unsigned().notNullable();
-              t.foreign("user_id").references("id").inTable("users");
-
-              t.integer("subscribe_type_id").unsigned().notNullable();
-              t.foreign("subscribe_type_id")
-                .references("id")
-                .inTable("subscription_type");
-
-                t.integer("branch_id").unsigned().nullable();
-                t.foreign("branch_id").references("id").inTable("admin_users");
-
-                t.integer("router_id").unsigned().nullable();
-                t.foreign("router_id").references("id").inTable("routes");
-
-              t.date("start_date").notNullable();
-              t.date("assigned_date").nullable();
-              t.date("subscription_start_date").nullable();
-              t.json("customized_days").nullable();
-
-              t.integer("user_address_id").unsigned().notNullable();
-              t.foreign("user_address_id")
-                .references("id")
-                .inTable("user_address");
-
-              t.integer("product_id").unsigned().notNullable();
-              t.foreign("product_id").references("id").inTable("products");
-
-              t.integer("quantity").notNullable();
-
-              t.enu("subscription_status", [
-                "pending",
-                "assigned",
-                "cancelled",
-                "subscribed",
-                "unsubscribed",
-                "branch_cancelled",
-                
-              ]).defaultTo("pending");
-              t.enu("status", ["0", "1"]).defaultTo("1");
-              t.timestamps(true, true);
-            }
-          );
-        }
-      });
-
     //weekdays
     // user address
     await knex.schema.hasTable("weekdays").then(function (exists) {
@@ -451,6 +396,147 @@ export const createTable = async (req, res) => {
         });
       }
     });
+
+    //  subscribed user details
+    await knex.schema
+      .hasTable("subscribed_user_details")
+      .then(function (exists) {
+        if (!exists) {
+          return knex.schema.createTable(
+            "subscribed_user_details",
+            function (t) {
+              t.increments("id").primary();
+
+              t.integer("user_id").unsigned().notNullable();
+              t.foreign("user_id").references("id").inTable("users");
+
+              t.integer("subscribe_type_id").unsigned().notNullable();
+              t.foreign("subscribe_type_id")
+                .references("id")
+                .inTable("subscription_type");
+
+              t.integer("branch_id").unsigned().nullable();
+              t.foreign("branch_id").references("id").inTable("admin_users");
+
+              t.integer("router_id").unsigned().nullable();
+              t.foreign("router_id").references("id").inTable("routes");
+
+              t.date("date").nullable();
+              t.date("start_date").notNullable();
+              t.date("assigned_date").nullable();
+              t.date("subscription_start_date").nullable();
+
+              t.json("customized_days").nullable();
+
+              t.integer("user_address_id").unsigned().notNullable();
+              t.foreign("user_address_id")
+                .references("id")
+                .inTable("user_address");
+
+              t.integer("product_id").unsigned().notNullable();
+              t.foreign("product_id").references("id").inTable("products");
+
+              t.integer("quantity").notNullable();
+
+              t.enu("subscription_status", [
+                "pending",
+                "assigned",
+                "cancelled",
+                "subscribed",
+                "unsubscribed",
+                "branch_cancelled",
+                "change_date",
+                "change_qty",
+                "change_address",
+              ]).defaultTo("pending");
+              t.enu("status", ["0", "1"]).defaultTo("1");
+              t.timestamps(true, true);
+            }
+          );
+        }
+      });
+
+     // daily orders
+     await knex.schema.hasTable("daily_orders").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("daily_orders", function (t) {
+          t.increments("id").primary().unsigned().notNullable();
+
+          t.integer("branch_id").unsigned().notNullable();
+          t.foreign("branch_id").references("id").inTable("admin_users");
+
+          t.integer("user_id").unsigned().nullable();
+          t.foreign("user_id").references("id").inTable("users");
+
+          t.date("date").nullable();
+
+          t.integer("subscription_id").unsigned().nullable();
+          t.foreign("subscription_id").references("id").inTable("subscribed_user_details");
+
+          t.integer("product_id").unsigned().nullable();
+          t.foreign("product_id").references("id").inTable("products");
+
+      
+          t.integer("router_id").unsigned().nullable();
+          t.foreign("router_id").references("id").inTable("routes");
+
+          t.integer("rider_id").unsigned().nullable();
+          t.foreign("rider_id").references("id").inTable("rider_details");
+
+          t.integer("user_address_id").unsigned().nullable();
+          t.foreign("user_address_id").references("id").inTable("user_address");
+
+          t.integer("qty").nullable();
+
+          t.enu("status", ["pending", "delivered","undelivered"]).defaultTo("pending");
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+
+       // paused date 
+       await knex.schema.hasTable("pause_dates").then(function (exists) {
+        if (!exists) {
+          return knex.schema.createTable("pause_dates", function (t) {
+            t.increments("id").primary().unsigned().notNullable();
+  
+  
+            t.integer("user_id").unsigned().nullable();
+            t.foreign("user_id").references("id").inTable("users");
+  
+            
+            t.integer("subscription_id").unsigned().nullable();
+            t.foreign("subscription_id").references("id").inTable("subscribed_user_details");
+            
+            t.date("date").nullable();
+
+            t.timestamps(true, true);
+          });
+        }
+      });
+
+
+       // monthly paused date 
+       await knex.schema.hasTable("monthly_paused_dates").then(function (exists) {
+        if (!exists) {
+          return knex.schema.createTable("monthly_paused_dates", function (t) {
+            t.increments("id").primary().unsigned().notNullable();
+  
+  
+            t.integer("user_id").unsigned().nullable();
+            t.foreign("user_id").references("id").inTable("users");
+  
+            
+            t.integer("subscription_id").unsigned().nullable();
+            t.foreign("subscription_id").references("id").inTable("subscribed_user_details");
+            
+            t.json("date").nullable();
+            
+            t.timestamps(true, true);
+          });
+        }
+      });
 
     return res
       .status(200)

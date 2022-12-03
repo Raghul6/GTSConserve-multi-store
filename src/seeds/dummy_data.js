@@ -142,31 +142,31 @@ export const product_variations = [
 
 export const week_days = [
   {
-    name: "sunday",
+    name: "Sunday",
     code: "sun",
   },
   {
-    name: "monday",
+    name: "Monday",
     code: "mon",
   },
   {
-    name: "tuesday",
+    name: "Tuesday",
     code: "tue",
   },
   {
-    name: "wednesday",
+    name: "Wednesday",
     code: "wed",
   },
   {
-    name: "thursday",
+    name: "Thursday",
     code: "thu",
   },
   {
-    name: "friday",
+    name: "Friday",
     code: "fri",
   },
   {
-    name: "saturday",
+    name: "Saturday",
     code: "sat",
   },
 ];

@@ -1,6 +1,43 @@
 import multer from "multer";
 import fs from "fs";
 import knex from "../services/db.service";
+import moment from "moment";
+
+export const customizedDay = async (date, user_days) => {
+  const current_day = moment(date).format("dddd");
+
+  let day;
+
+  for (let i = 0; i < user_days.length; i++) {
+    if (user_days[i] == current_day && i + 1 == user_days.length) {
+      day = user_days[0];
+    } else if (user_days[i] == current_day) {
+      day = user_days[i + 1];
+      break;
+    }
+  }
+
+  let customized_date;
+
+  if (day == "Sunday") {
+    customized_date = moment().day(7);
+  } else if (day == "Monday") {
+    customized_date = moment().day(8);
+  } else if (day == "Tuesday") {
+    customized_date = moment().day(9);
+  } else if (day == "Wednesday") {
+    customized_date = moment().day(10);
+  } else if (day == "Thursday") {
+    customized_date = moment().day(11);
+  } else if (day == "Friday") {
+    customized_date = moment().day(12);
+  } else if (day == "Saturday") {
+    customized_date = moment().day(13);
+  }
+
+  return customized_date
+
+};
 
 export const GetProduct = async (product, userId) => {
   let sub_product = [];
@@ -128,16 +165,16 @@ export const phoneNumberValidator = (phoneNumber) => {
 };
 
 export const integerValidator = (value) => {
-  if (!value) return false
+  if (!value) return false;
 
-  return isNumberValidator(value)
-}
+  return isNumberValidator(value);
+};
 
 export const isNumberValidator = (value) => {
-  if (typeof value !== 'number') return false
+  if (typeof value !== "number") return false;
 
-  return true
-}
+  return true;
+};
 
 function getOffset(currentPage = 1, listPerPage) {
   return (currentPage - 1) * [listPerPage];

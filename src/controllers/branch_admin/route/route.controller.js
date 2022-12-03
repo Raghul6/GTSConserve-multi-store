@@ -185,7 +185,7 @@ export const getRoute = async (req, res) => {
     }
 
     const data = results[0];
-console.log(riders)
+
     loading = false;
     res.render("branch_admin/route/get_route", {
       data,
