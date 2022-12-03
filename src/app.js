@@ -30,6 +30,16 @@ const cors = require("cors");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 
+
+// const MySQLStore = require('connect-mysql')(session) // mysql session store
+// const options = {
+//   config: {
+//     user: 'root', 
+//     password: 'root',
+//     database: 'maram' 
+//   }
+// }
+
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -127,6 +137,7 @@ const sessionConfig = {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     //    miliseconds * seconds * minutes * hours * days = 1 week in miliseconds
   },
+  // store: new MySQLStore(options)
 };
 
 app.use(session(sessionConfig));
