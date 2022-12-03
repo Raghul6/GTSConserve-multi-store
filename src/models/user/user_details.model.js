@@ -113,3 +113,43 @@ export const edit = async (id,user_id,value) => {
 }
 }
 
+export const change_plan = async (subscribe_type_id,changeplan_name,start_date) => {
+  try{
+   
+    if(subscribe_type_id == 1){
+    if(changeplan_name == 'alternate'){
+        console.log('hi')
+        const change = await knex('subscribed_user_details').update({subscribe_type_id:2,start_date:start_date,status:'plan changed'})
+    }
+    else{
+        
+        const change = await knex('subscribed_user_details').update({subscribe_type_id:3,start_date:start_date,status:'plan changed'})
+    }
+    }
+    else if(subscribe_type_id == 2){
+        if(changeplan_name == 'daily'){
+            const change = await knex('subscribed_user_details').update({subscribe_type_id:1,start_date:start_date,status:'plan changed'})
+        }
+        else{
+            const change = await knex('subscribed_user_details').update({subscribe_type_id:3,start_date:start_date,status:'plan changed'})
+        }
+    }
+    else{
+        if(changeplan_name == 'daily'){
+            const change = await knex('subscribed_user_details').update({subscribe_type_id:1,start_date:start_date,status:'plan changed'})
+        }
+        else{
+            const change = await knex('subscribed_user_details').update({subscribe_type_id:2,start_date:start_date,status:'plan changed'})
+        }
+          }
+      }
+catch(error){
+    console.log(error)
+    return {
+              status:responseCode.FAILURE.INTERNAL_SERVER_ERROR,
+              error,
+            };
+
+  }
+
+  }
