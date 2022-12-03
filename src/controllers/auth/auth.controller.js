@@ -1,9 +1,11 @@
 import knex from "../../services/db.service";
 import bcrypt from "bcrypt";
-
+import nodemailer from "nodemailer"
 import { createToken, parseJwtPayload } from "../../services/jwt.service";
 
-import { checkUser } from "../../models/super_admin/login.module";
+import { checkUser,getPassword } from "../../models/super_admin/login.module";
+
+import { transporter, getPasswordResetURL, resetPasswordTemplate } from "../../notifications/message.sender"
 
 export const updateChangePassword = async (req, res) => {
   try {
@@ -137,7 +139,7 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-export const getProfile = async (req, res) => {
+export const  getProfile = async (req, res) => {
   try {
     const { admin_id } = req.body;
 
@@ -223,3 +225,162 @@ export const loginHandler = async (req, res, next) => {
     res.redirect("/auth/login");
   }
 };
+
+// export const getForgotPassword = async(req,res) => {
+//   try {
+//     const {email,password} = req.body
+
+//     if (!email) {
+//       req.flash("error","manatory field is missing")
+//     }
+//     const password_check = await getPassword(email,password)
+//     if (err) {
+//       throw err;
+//     }
+//   } catch (error) {
+
+//   }
+// }
+
+export const sendPasswordResetEmail = async (req,res) => {
+  try {
+    const email = req.body
+    if (email) {
+      // console.log(email)
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        host:  "smtp.gmail.com",
+        auth: {
+          user: 'bhoobalan.gts@gmail.com',
+          pass: 'ggvmpjcbdafvwjcg'
+        }
+      });
+      console.log(transporter)
+      const password = Math.floor(100000000 + Math.random() * 900000000)
+      const new_password = await knex('admin_users').update({password:password})
+      console.log(new_password)
+      
+      var mailOptions = {
+        from: 'bhoobalan.gts@gmail.com',
+        to: 'bhoobalan.gts@gmail.com',
+        subject: 'Change Password',
+        text: `Your Reset Password ${password}`
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
+    }
+    res.status(200).json({ status: true,message:"message send successfully" }) 
+  } catch (error) {
+    res.status(500).json({ status: false,error }) 
+  }
+  
+}
+
+export const updateEmailPassword = async (req, res) => {
+  try {
+  
+    const user = await knex("admin_users")
+      .select("user_group_id", "password", "is_password_change")
+      .where({ id: admin_id });
+
+    const { new_password, confirm_new_password } = req.body;
+
+    if (new_password.length < 8) {
+      req.flash("error", "New password should be atleast 8 characters");
+      return res.redirect("/auth/get_change_password");
+    }
+    if (confirm_new_password.length < 8) {
+      req.flash("error", "Confirm password should be atleast 8 characters");
+      return res.redirect("/auth/get_change_password");
+    }
+
+    if (new_password !== confirm_new_password) {
+      req.flash("error", "Password Should Be Same");
+      return res.redirect("/auth/get_change_password");
+    }
+
+    let query = {};
+    if (user[0].user_group_id == 2) {
+      if (user[0].is_password_change == 0) {
+        query.is_password_change = "1";
+      }
+    }
+
+    await knex("admin_users").update(query).where({ id: admin_id });
+
+    req.flash("success", "successfully password changed");
+    res.redirect("/home");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/home");
+  }
+};
+
+// export const sendMail = async (req, res, next) => {
+//   try {
+//     const email = req.body
+//     const recovery = await knex.select('*').from('users').where('email')
+//     if(error) throw error;
+
+//     let type = "success"
+//     let msg = "Email already verified"
+
+//     if(result.length > 0){
+//       let token = req.session.token;
+
+//       if (result[0].verify == 0) {
+//         let send = sendPasswordResetEmail(email,token)
+//         if (send!= '0') {
+//           const data = {
+//             token: token
+//           }
+//           await knex.select('*').update('password').where('email')
+//           if(error) throw error;
+
+//           type = 'success';
+//           msg = 'The verification link has been sent to your email address';
+//         }
+//         else {
+//           type = 'error';
+//           msg = 'Something goes to wrong. Please try again';
+//       }
+//       }
+//     }
+//     else {
+//       console.log('2');
+//       type = 'error';
+//       msg = 'The Email is not registered with us';
+
+//   }
+//   req.flash(type, msg);
+//         res.redirect('/home');
+//   } catch (error) {
+    
+//   }
+// }
+
+export const getPasswordRecovery = async (req, res) => {
+  try {
+    console.log("hiiiii")
+    res.render("auth/auth_pass_recovery");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/home");
+  }
+};
+
+// export const getPasswordRecovery = async (req, res) => {
+//   // let token = req.session.token;
+
+//   if (token) {
+//     req.flash("error", "cannot login again");
+//     return res.redirect("/home");
+//   }
+//   res.render("auth/get_password_recovery");
+// };

@@ -1,6 +1,6 @@
 import express  from 'express';
 
-import { loginHandler,loginForm,logoutHandler,getProfile ,updateProfile ,getChangePassword,updateChangePassword} from "../controllers/auth/auth.controller"
+import { loginHandler,loginForm,logoutHandler,getProfile ,updateProfile ,getChangePassword,updateChangePassword,sendPasswordResetEmail,getPasswordRecovery,updateEmailPassword} from "../controllers/auth/auth.controller"
 import { authenticateJWTSession } from '../middlewares/authToken.middleware';
 
 import { multerStorage } from '../utils/helper.util';
@@ -26,7 +26,9 @@ authRouter.post('/update_profile',authenticateJWTSession,uploadImg, updateProfil
 authRouter.get('/get_change_password', getChangePassword)
 authRouter.post('/update_change_password', updateChangePassword)
 
-
+authRouter.get('/get_password_recovery',getPasswordRecovery)
+authRouter.post('/forgot_password',sendPasswordResetEmail)
+authRouter.post('/update_email_password',updateEmailPassword)
 
 
 export default authRouter

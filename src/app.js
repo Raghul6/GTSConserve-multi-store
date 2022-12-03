@@ -5,6 +5,7 @@ import fs from "fs";
 
 import flash from "connect-flash";
 import session from "express-session";
+import nodemailer from "nodemailer"
 
 import knex from "./services/db.service";
 import { parseJwtPayload } from "./services/jwt.service";
@@ -199,6 +200,12 @@ app.get("/branch", authenticateJWTSession, (req, res) => {
   res.render("branch_admin");
 });
 
+
+// app.get("/recovery",(req,res)=>{
+//   res.sendFile(path.join(__dirname, '../public/auth_pass_recovery.html'));
+// })
+
+  
 app.use("/auth", bodyParsercheck, authRouter);
 
 app.get("/insert_data", insertData);

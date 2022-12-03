@@ -19,6 +19,8 @@ export const checkUser = async (email, password) => {
     }
     console.log(get_user);
 
+    // const isPassword = '12345678'
+
     const isPassword = await bcrypt.compare(password, get_user[0].password);
     console.log(isPassword);
 
@@ -33,13 +35,13 @@ export const checkUser = async (email, password) => {
   }
 };
 
-// export const cities = async(req,res) =>{
-//   try{
-//     const city = await knex("cities").select('id','name','status','latitute','longitute')
-//     return {status:true,data:city}
-//   }
-//   catch{
-//     console.log(error)
-//     return {status:false,message:data_not_found}
-//   }
-// }
+export const getPassword = async(req,res) =>{
+  try{
+    const change_password = await knex("admin_users").select('email','password')
+    return {status:true,data:change_password}
+  }
+  catch{
+    console.log(error)
+    return {status:false,message:data_not_found}
+  }
+}
