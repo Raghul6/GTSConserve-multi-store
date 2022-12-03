@@ -95,9 +95,9 @@ export const userAddressValidator = (payload) => {
   const user_id = payload.user_id ?? null
   
 
-  if (address &&  landmark && title && type && user_id) {
-    console.log("hiiii")
-    return { status: true,address, landmark,  type, title, user_id }
+  if (address &&  landmark && title  && user_id && type) {
+
+    return { status: true, address, landmark, user_id, type,title }
 
   } else {
     return { status: false, message: "error" }

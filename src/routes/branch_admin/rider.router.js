@@ -1,6 +1,6 @@
 import express  from 'express';
 
-import { getAllPlaces,getCities,getAllCountry,getAllZone,getAllPostCode } from '../../controllers/branch_admin/rider/rider.controller';
+import { getRiders,createRider,updateRider,updateRiderStatus} from '../../controllers/branch_admin/rider/rider.controller';
 
 
 const riderRouter = express.Router({
@@ -9,11 +9,10 @@ const riderRouter = express.Router({
 })
 
 
-// riderRouter.get('/get_all_places',getAllPlaces) 
-// riderRouter.get('/get_cities',getCities)
-// riderRouter.get('/country',getAllCountry)
-// riderRouter.get('/zone',getAllZone)
-// riderRouter.get('/post_code',getAllPostCode)
+riderRouter.get('/get_rider',getRiders) 
+riderRouter.post('/create_rider',createRider) 
+riderRouter.post('/update_rider',updateRider) 
+riderRouter.post('/update_rider_status',updateRiderStatus) 
 
 export default riderRouter
 

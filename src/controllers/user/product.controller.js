@@ -144,3 +144,11 @@ export const searchProducts = async (req, res) => {
     res.status(500).json({ status: false });
   }
 };
+
+
+// export const getBill = async (req,res) => {
+//   try{
+//     const{product_id} = req.body;
+
+//   }
+// }

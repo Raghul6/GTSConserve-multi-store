@@ -18,6 +18,7 @@ import authRouter from "./routes/auth_main.route";
 
 import { createTable } from "./table/create_table";
 import { insertData } from "./table/insert_data";
+import { html } from "./controllers/about/about.controller";
 
 require("dotenv").config();
 const path = require("path");
@@ -82,11 +83,11 @@ app.get('/about', (req, res) => {
 })
 
 app.get('/blogs', (req, res) => {
-  res.sendFile(path.join(__dirname, './static/Blogs.html'));
+  res.sendFile(path.join(__dirname, '../public/Blogs.html'));
 })
 
 app.get('/contact', (req, res) => {
-  res.sendFile(path.join(__dirname, './static/contact_us.html'));
+  res.sendFile(path.join(__dirname, '../public/contact_us.html'));
 })
 
 app.get('/privacy_policy', (req, res) => {
@@ -202,7 +203,7 @@ app.use("/auth", bodyParsercheck, authRouter);
 
 app.get("/insert_data", insertData);
 app.get("/create_table", createTable);
-
+// app.get("/gethtml",html);
 app.use((err,req,res,next)=>{
   // because err.status is undefined 
    res.status(400).json({

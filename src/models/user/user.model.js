@@ -4,7 +4,7 @@ import knex from "../../services/db.service"
 
 export const loginUser = async (password) => {
 
-  const checkPhoneNumber = await knex.select('*').from('rider_details').where({'password': password})
+  const checkPhoneNumber = await knex.select('*').from('users').where({'password': password})
   
   try {
     return { status: responseCode.SUCCESS, body: checkPhoneNumber }
@@ -227,9 +227,9 @@ export const updateUserLanguage = async (languageId,userId) => {
     return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, message: error.message }
   }
 }
-export const updateUserToken = async (refreshToken,userId) => {
+export const updateUserToken = async (refresh_token,userId) => {
   const query = await knex('users')
-    .update({ refresh_token: refreshToken, })
+    .update({ refresh_token: refresh_token, })
     .where({ id: userId })
   try {
   
@@ -377,29 +377,28 @@ export const getSinglecoupon = async () => {
   }
 }
 
-export const deleteUser = async (userId) => {
+// export const deleteUser = async (userId) => {
   
-  try {
-    const query= queryBuilder('users').where({id : userId}).update({status : '0'})
+//   try {
+//     const query= queryBuilder('users').where({id : userId}).update({status : '0'})
 
-    // const userResponce = await mysqlRequest(query)
-
-    return { status: responseCode.SUCCESS, body: query }
-  } catch (error) {
-    return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, message: error.message }
-  }
-}
+//     return { status: responseCode.SUCCESS, body: query }
+//   } catch (error) {
+//     return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, message: error.message }
+//   }
+// }
 
 
 export const logoutUser = async(userId) => {
+
   try {
 
-    const query= await knex('users').where({id : userId}).update({refresh_token : null})
-
-    // const userResponce = await mysqlRequest(query)
+    const query= await knex('users').where({id: userId}).update({refresh_token : null})
 
     return { status: responseCode.SUCCESS, body: query }
+
   } catch (error) {
+
     return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, message: error.message }
   }
 }

@@ -1,7 +1,8 @@
 export default Object.freeze({
    
     LOGINMESSAGE: {
-      OTP_SENT: "Otp Sent Successfully"
+      OTP_SENT: "OTP sended to your registered phone number",
+      OTP_VERIFY: "OTP successfully verified"
     },
     PROFILE_UPDATE: {
       SUCCESS: "User profile Updated",
