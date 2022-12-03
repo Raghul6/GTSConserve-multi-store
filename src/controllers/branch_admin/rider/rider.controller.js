@@ -52,7 +52,7 @@ export const updateRiderStatus = async (req, res) => {
 
 export const createRider = async (req, res) => {
   try {
-    const { name, password, mobile_number, address } = req.body;
+    const { name, password, mobile_number, address,admin_id } = req.body;
     if (!name) {
       req.flash("error", "Name is missing");
       return res.redirect("branch_admin/rider/get_rider");
@@ -82,7 +82,8 @@ export const createRider = async (req, res) => {
       password: hash_password,
       mobile_number,
       address,
-      user_name : `rider${user_length.length + 1}`
+      user_name : `rider${user_length.length + 1}`,
+      branch_id : admin_id
     });
 
     req.flash("success", "Successfully Created");
@@ -95,6 +96,8 @@ export const createRider = async (req, res) => {
 
 export const getRiders = async (req, res) => {
   try {
+
+    const {admin_id} = req.body
     let loading = true;
     const { searchKeyword } = req.query;
 
@@ -102,7 +105,7 @@ export const getRiders = async (req, res) => {
 
     if (searchKeyword) {
       const search_data_length = await knex.raw(
-        `SELECT id FROM rider_details WHERE user_name LIKE '%${searchKeyword}%'`
+        `SELECT id FROM rider_details WHERE branch_id = ${admin_id} AND user_name LIKE '%${searchKeyword}%'`
       );
 
       data_length = search_data_length[0];
@@ -114,7 +117,7 @@ export const getRiders = async (req, res) => {
         return res.redirect("branch_admin/rider/get_rider");
       }
     } else {
-      data_length = await knex("rider_details").select("id");
+      data_length = await knex("rider_details").select("id").where({branch_id : admin_id})
     }
 
     // const cities = await knex("cities")
@@ -142,12 +145,12 @@ export const getRiders = async (req, res) => {
     let is_search = false;
     if (searchKeyword) {
       results = await knex.raw(
-        `SELECT id,name,user_name,mobile_number,address,status FROM rider_details WHERE user_name LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
+        `SELECT id,name,user_name,mobile_number,address,status FROM rider_details WHERE branch_id = ${admin_id} AND user_name LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
       );
       is_search = true;
     } else {
       results = await knex.raw(
-        `SELECT id,name,user_name,mobile_number,address,status FROM rider_details LIMIT ${startingLimit},${resultsPerPage}`
+        `SELECT id,name,user_name,mobile_number,address,status FROM rider_details WHERE branch_id = ${admin_id} LIMIT ${startingLimit},${resultsPerPage}`
       );
     }
 

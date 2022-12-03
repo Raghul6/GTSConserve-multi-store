@@ -1,6 +1,6 @@
 import express  from 'express';
 
-import { getRoute,createRoute,updateRoute,updateRouteStatus } from "../../controllers/branch_admin/root/root.controller"
+import { getRoute,createRoute,updateRouteStatus,updateRoute } from "../../controllers/branch_admin/route/route.controller"
 
 
 const rootRouter = express.Router({
@@ -9,9 +9,9 @@ const rootRouter = express.Router({
 })
 rootRouter.get('/get_route',getRoute)
 rootRouter.post('/create_route',createRoute)
-rootRouter.post('/update_route',updateRoute)
 rootRouter.post('/update_route_status',updateRouteStatus)
-// rootRouter.post('/login', loginHandler)
+rootRouter.post('/update_route',updateRoute)
+
 
 
 

@@ -1,8 +1,10 @@
 import express from "express";
 import subscriptionRouter from "./branch_admin/subscription.route";
-import rootRouter from "./branch_admin/root.route";
+import routeRouter from "./branch_admin/route.route";
 import riderRouter from "./branch_admin/rider.router";
 import purchaseOrderRouter from "./branch_admin/purchaseOrder.route";
+import homeRouter from "./branch_admin/home.route";
+import orderRouter from "./branch_admin/order.route";
 
 const mainRouter = express.Router({
   caseSensitive: true,
@@ -11,12 +13,16 @@ const mainRouter = express.Router({
 
 const defaultRoutes = [
   {
+    path: "/home",
+    route: homeRouter,
+  },
+  {
     path: "/subscription",
     route: subscriptionRouter,
   },
   {
-    path: "/root",
-    route: rootRouter,
+    path: "/route",
+    route: routeRouter,
   },
   {
     path: "/rider",
@@ -25,6 +31,10 @@ const defaultRoutes = [
   {
     path: "/purchaseOrder",
     route: purchaseOrderRouter,
+  },
+  {
+    path: "/order",
+    route: orderRouter,
   },
 ];
 

@@ -1,5 +1,6 @@
 import knex from "../../../services/db.service";
 import { getPageNumber } from "../../../utils/helper.util";
+import moment from "moment";
 
 export const updateCancel = async (req, res) => {
   try {
@@ -18,7 +19,41 @@ export const updateCancel = async (req, res) => {
 
 export const updateSubscribed = async (req, res) => {
   try {
-    const { sub_id, router_id } = req.body;
+    const { sub_id, router_id, date } = req.body;
+
+    if (!date) {
+      req.flash("error", "Please Choose a Date ");
+      return res.redirect("/branch_admin/subscription/assigned");
+    }
+
+    // const sub_type_id = await knex("subscribed_user_details as sub")
+    //   .select("subscription_type.id", "sub.start_date")
+    //   .join(
+    //     "subscription_type",
+    //     "subscription_type.id",
+    //     "=",
+    //     "sub.subscribe_type_id"
+    //   )
+    //   .where({ "sub.id": sub_id });
+
+    //   const assigned_date = moment(date).format("YYYY-MM-DD");
+    //   const today_date = moment().format("YYYY-MM-DD");
+
+    //   if (assigned_date == today_date) {
+    //     req.flash("error", "Cannot Accept Today Date");
+    //     return res.redirect("/branch_admin/subscription/assigned");
+    //   }
+    // let dates;
+
+    // console.log(sub_type_id[0].id)
+
+    // for later need to check condition for date
+    // if (sub_type_id[0].id == "1") {
+    //   dates = date;
+    // } else if (sub_type_id[0].id == "2") {
+
+    // } else if (sub_type_id[0].id == "3") {
+    // }
 
     await knex("subscribed_user_details")
       .update({
@@ -28,6 +63,7 @@ export const updateSubscribed = async (req, res) => {
           .toISOString()
           .slice(0, 19)
           .replace("T", " "),
+        date,
       })
       .where({ id: sub_id });
 
@@ -68,7 +104,7 @@ export const getAssigned = async (req, res) => {
 
     const routes = await knex("routes")
       .select("starting_point", "ending_point", "id")
-      .where({ status: "1" });
+      .where({ status: "1", branch_id: admin_id });
 
     if (data_length.length === 0) {
       loading = false;

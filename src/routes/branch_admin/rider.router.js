@@ -15,4 +15,3 @@ riderRouter.post('/update_rider',updateRider)
 riderRouter.post('/update_rider_status',updateRiderStatus) 
 
 export default riderRouter
-
