@@ -202,19 +202,20 @@ export const additionalProduct = async (req,res) => {
 //   }
 // }
 
-// export const addon_Order = async (req,res) => {
-//   try{
-//     const {user_id,subscribe_type_id,category_id,product_id} = req.body;
-//     const addon = await addon_order(user_id,subscribe_type_id,category_id,product_id);
-//     return res.status(responseCode.SUCCESS).json({
-//       status: true,
-//       message:"order added"
-//     });
+export const 
+addon_Order = async (req,res) => {
+  try{
+    const {user_id,delivery_date,products,address_id} = req.body;
+    const addon = await addon_order(user_id,delivery_date,products,address_id);
+    return res.status(responseCode.SUCCESS).json({
+      status: true,
+      message:"order added"
+    });
 
-//   }
-//   catch (error) {
-//     console.log(error);
-//     res.status(500).json({ status: false ,error});
-//   }
-//  }
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).json({ status: false ,error});
+  }
+ }
 

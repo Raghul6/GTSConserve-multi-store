@@ -24,7 +24,7 @@ productRouter.get("/get_subscription_product", getSubscriptionProducts);
 productRouter.get("/get_add_on_product", getAddOnProducts);
 productRouter.post("/search_products", searchProducts);
 productRouter.post("/additional_products", additionalProduct);
-// productRouter.post("/addon_order", addon_Order);
+productRouter.post("/addon_order", addon_Order);
 
 
 

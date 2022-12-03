@@ -614,33 +614,21 @@ export const createTable = async (req, res) => {
       t.increments("id").primary();
       t.integer("user_id").unsigned().notNullable();
       t.foreign("user_id").references("id").inTable("users");
-      t.integer("subscribe_type_id").unsigned().notNullable();
-      t.foreign("subscribe_type_id").references("id").inTable("subscription_type");
-      t.integer("category_id").unsigned().notNullable();
-      t.foreign("category_id").references("id").inTable("categories");
-      t.integer("product_id").unsigned().notNullable();
-      t.foreign("product_id").references("id").inTable("products");
+      t.integer("address_id").unsigned().notNullable();
+      t.foreign("address_id").references("id").inTable("user_address");
+      t.date("delivery_date").nullable();
       t.enu("status", [
         "pending",
-        "assigned",
-        "cancelled",
-        "subscribed",
-        "unsubscribed",
-        "branch_cancelled",
-        "plan changed",
-        "qty changed"
+        "delivery",
+        "not delivery"
         
-      ]).defaultTo("pending");
-      // t.string("quantity", 255).nullable();
+      ]).defaultTo("pending")
       t.integer("tip_amount").nullable();
       t.integer("grand_total").nullable();
       t.integer("sub_total").nullable();
       t.integer("coupon_id").nullable();
       t.string("coupon_code").nullable();
       t.integer("coupon_amount").nullable();
-      t.string("is_current").nullable();
-
-     
       t.timestamps(true, true);
     });
     }
@@ -651,7 +639,7 @@ export const createTable = async (req, res) => {
    if (!exists) {
     return knex.schema.createTable("add_on_order_items", function (t) {
       t.increments("id").primary();
-      t.integer("add_on_order_id").unsigned().notNullable();
+      t.integer("add_on_order_id").Nullable();
       t.foreign("add_on_order_id").references("id").inTable("add_on_orders");
       t.integer("user_id").unsigned().notNullable();
       t.foreign("user_id").references("id").inTable("users");     
@@ -659,13 +647,8 @@ export const createTable = async (req, res) => {
       t.foreign("product_id").references("id").inTable("products");
       t.enu("status", [
         "pending",
-        "assigned",
-        "cancelled",
-        "subscribed",
-        "unsubscribed",
-        "branch_cancelled",
-        "plan changed",
-        "qty changed"
+        "delivery",
+        "not delivery"
         
       ]).defaultTo("pending");
       t.string("quantity", 255).nullable();

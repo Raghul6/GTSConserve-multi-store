@@ -116,18 +116,70 @@ try{
 //   const bill_details = await knex.('bill_history').
 // }
 
-// export const addon_order = async (user_id,subscribe_type_id,category_id,product_id) =>{
-//   const add_on = await knex('add_on_orders').join('add_on_order_items').insert({user_id:user_id,subscribe_type_id:subscribe_type_id,product_id:product_id,category_id:category_id})
-//   try{
+export const addon_order = async (user_id,delivery_date,products,address_id) =>{
+  try {
+  //   let products_id = [];
+  //   await products.map((id) => products_id.push(id.product_id));
 
-//     return { status: true, body:add_on };
-//      } catch (error) {
-       
-//        return { status: false, error };
-//      }
+let query ={
+  user_id:user_id,
+  delivery_date:delivery_date,
+  address_id:address_id
+
+  // sub_total:quantity*100
+  // quantity:quantity
+  
+}
+console.log(query)
+const order = await knex('add_on_orders').insert(query);
+
+const order1 = await knex.select('id').from('add_on_orders').where({user_id:user_id});
+
+console.log(order1)
+let query1 = {
+  add_on_order_id:order1.id
+}
+
+// const query1 = await knex.select(['id']).from('add_on_orders');
+
+console.log(query1)
+
+// let new_products = []
+
+// for( let i=0;i<=products.length;i++){
+  
+//     new_products.push({
+//       products:query1.id
+//     }) 
+
+
+// console.log(query)
+
+// const data2 = knex.select('price').from('products').where({id:product_id});
+// return data2
+// const table = await knex ('add_on_order_items')
+// .join('products', 'products.id', '=', 'add_on_orders.product_id')
+// .select('products.id', 'products.price')
+
+
+// let new_products = []
+
+// for( let i=0;i<=products.length;i++){
+  
+//   new_products.push({
+
+//   }) 
+//   console.log(products)
+  
+}
 // }
-
-
+// } 
+   
+  catch (error) {
+    console.log(error);
+    return { status: false, message: "Something Went Wrong", error };
+  }
+};
 
 
 
