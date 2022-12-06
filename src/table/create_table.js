@@ -722,7 +722,7 @@ export const createTable = async (req, res) => {
      if (!exists) {
       return knex.schema.createTable("add_on_order_items", function (t) {
         t.increments("id").primary();
-        t.integer("add_on_order_id").Nullable();
+        t.integer("add_on_order_id").nullable();
         t.foreign("add_on_order_id").references("id").inTable("add_on_orders");
         t.integer("user_id").unsigned().notNullable();
         t.foreign("user_id").references("id").inTable("users");     

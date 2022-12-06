@@ -85,7 +85,7 @@ export const getAssigned = async (req, res) => {
 
     if (searchKeyword) {
       const search_data_length = await knex.raw(
-        `SELECT subscribed_user_details.id FROM subscribed_user_details JOIN users ON users.id = subscribed_user_details.user_id WHERE subscribed_user_details.branch_id = ${admin_id}   subscribed_user_details.subscription_status = "assigned" AND users.user_unique_id LIKE '%${searchKeyword}%'`
+        `SELECT subscribed_user_details.id FROM subscribed_user_details JOIN users ON users.id = subscribed_user_details.user_id WHERE subscribed_user_details.branch_id = ${admin_id} AND subscribed_user_details.subscription_status = "assigned" AND users.user_unique_id LIKE '%${searchKeyword}%'`
       );
 
       data_length = search_data_length[0];

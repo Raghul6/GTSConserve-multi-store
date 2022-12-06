@@ -3,11 +3,11 @@ try {
   knex = require("knex")({
     client: "mysql2",
     connection: {
-      host:process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+        host : '127.0.0.1',
+        port : 3306,
+        user : 'root',
+        password : 'root',
+        database : 'maram'
     },
   });
 } catch (error) {
@@ -32,3 +32,25 @@ console.log("database Connected");
 // hl();
 // console.log(knex)
 export default knex;
+
+
+
+// var mysql = require('mysql2');
+
+// var connection = mysql.createConnection({
+//   host     : process.env.DB_HOST,
+//   user     : process.env.DB_USER,
+//   password : process.env.DB_PASSWORD,
+//   port     : process.env.DB_PORT
+// });
+
+// connection.connect(function(err) {
+//   if (err) {
+//     console.error('Database connection failed: ' + err.stack);
+//     return;
+//   }
+
+//   console.log('Connected to database.');
+// });
+
+// connection.end();
