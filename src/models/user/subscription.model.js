@@ -33,8 +33,20 @@ export const new_subscription = async (
       query.customized_days = JSON.stringify(store_weekdays);
     }
 
+    const branch_id = await knex("subscribed_user_details")
+      .select("branch_id", "router_id")
+      .where({
+        user_id: userId,
+        subscription_status: "subscribed",
+        user_address_id,
+      });
+    if (branch_id.length !== 0) {
+      query.branch_id = branch_id[0].branch_id;
+      query.router_id = branch_id[0].router_id;
+      query.subscription_status = "branch_pending";
+    }
+
     await knex("subscribed_user_details").insert(query);
-    console.log(query)
 
     return { status: true };
   } catch (error) {
@@ -96,7 +108,7 @@ export const single_subscription = async (userId, sub_id) => {
         "=",
         "sub.subscribe_type_id"
       )
-      .join("user_address","user_address.id","=","sub.user_address_id")
+      .join("user_address", "user_address.id", "=", "sub.user_address_id")
       .where({ "sub.user_id": userId, "sub.id": sub_id });
 
     if (products.length === 0) {
@@ -107,20 +119,31 @@ export const single_subscription = async (userId, sub_id) => {
   } catch (error) {
     console.log(error);
     return { status: false, message: error };
-  } 
+  }
 };
 
-export const get_subcription_order = async (user_id,type_id,name,product_id,value) => {
+export const get_subcription_order = async (
+  user_id,
+  type_id,
+  name,
+  product_id,
+  value
+) => {
   try {
-    const order = await knex('orders').join('users', 'users.id', '=', 'orders.user_id').insert({
-      user_id:user_id,type_id:type_id,name:name,product_id:product_id,value:value
-    })
+    const order = await knex("orders")
+      .join("users", "users.id", "=", "orders.user_id")
+      .insert({
+        user_id: user_id,
+        type_id: type_id,
+        name: name,
+        product_id: product_id,
+        value: value,
+      });
     // .where({user_id:user_id,type_id:type_id})
-  
-return {status:true,data:order};
-  }
-catch(error){
-  console.log(error);
+
+    return { status: true, data: order };
+  } catch (error) {
+    console.log(error);
     return { status: false, message: error };
-}
-}
+  }
+};

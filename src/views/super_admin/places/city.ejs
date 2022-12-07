@@ -49,7 +49,7 @@
                     </div>
                     <div class="form-group col-md-1">
                             <button class="btn btn-sm btn-primary" data-toggle="modal"
-                                data-target="#addbarcategory">Add</button>
+                                data-target="#addbarcategory">Add City</button>
                             <!-- __category add__ -->
                             <div wire:ignore.self="" class="modal fade" id="addbarcategory" tabindex="-1"
                                 aria-labelledby="addCategoryTitle" style="display: none;" aria-hidden="true">
@@ -71,46 +71,15 @@
                                         <div class="modal-body">
                                             <form method="post" action="/super_admin/places/create_city" >
                                                 <div class="form-row mb-4">
-                                                    <div class="col-sm-6">
+                                                    <div class="col-sm-12">
                                                         <label>Name</label>
                                                         <input type="text" class="form-control" wire:model="name" required
                                                             placeholder="Name" name="name">
 
                                                     </div>
-                                                    <div class="col-6">
-                                                        <label>Zone Code</label>
-                                                        <input type="text" class="form-control" wire:model="name" required
-                                                            placeholder="Name" name="code">
-        
-                                                    </div>
                                                 </div>
                                             
-                                                <div class="form-row mb-4">
-                                                    <div class="col-sm-6">
-                                                        <label>Choose a Country</label>
-                                                        <select wire:model="countryid" class="form-control" name="country_id" required>
-                                                            <option value="">Select Country</option>
-                                                            <% for(country of countries){ %>
-
-                                                                <option name="<%=country.name %>" value="<%=country.id %>"><%=country.name %></option>
-                                                            <% } %>
-
-                                                        </select>
-                                                       
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <label>Choose a Zone</label>
-                                                        <select wire:model="countryid" class="form-control" name="zone_id" required>
-                                                            <option value="">Select Zone</option>
-                                                            <% for(zone of zones){ %>
-
-                                                                <option name="<%=zone.name %>" value="<%=zone.id %>"><%=zone.name %></option>
-                                                            <% } %>
-
-                                                        </select>
-                                                       
-                                                    </div>
-                                                </div>
+                                                
                                                 <div class="form-row mb-4">
                                                     <div class="col-sm-6">
                                                         <label>Latitude (optional)</label>
@@ -169,11 +138,9 @@
                                 colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
                                 style="width: 86px;">City Name</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                aria-label="NAME: activate to sort column ascending" style="width: 100px;">City Code</th>
+                                aria-label="NAME: activate to sort column ascending" style="width: 100px;">Latitude</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Country Name</th>
-                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Zone Name</th>
+                                aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Longitude</th>
                             <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                 colspan="1" aria-label="Status: activate to sort column ascending" style="width: 49px;">
                                 Status</th>
@@ -189,9 +156,9 @@
                             <% for(city of data){ %>
                                     <td class="sorting_1"><%=city.id %></td>
                                     <td><%=city.name %></td>
-                                    <td><%= city.code %> </td>
-                                    <td><%=city.country_name %></td>
-                                    <td><%=city.zone_name %></td>
+                                    <td><%= city.latitude ? city.latitude : "N/A"  %> </td>
+                                    <td><%=city.longitude ? city.longitude : "N/A" %></td>
+                                   
 
                                     <div>
                                         <td style="text-align: center; vertical-align: middle;">
@@ -244,44 +211,15 @@
                                             <div class="modal-body">
                                                 <form method="post" action="/super_admin/places/update_city">
                                                     <div class="form-row mb-4">
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-12">
                                                             <label>city Name</label>
                                                             <input type="text" class="form-control" wire:model="name"
                                                                 placeholder="Name" name="name" value="<%=city.name %>" required>
 
                                                         </div>
-                                                        <div class="col-6">
-                                                            <label>city Code</label>
-                                                            <input type="text" class="form-control" wire:model="name"
-                                                                placeholder="Name" name="code" value="<%=city.code %>" required>
 
-                                                        </div>
                                                     </div>
-                                                    <div class="form-row mb-4">
-                                                        <div class="col-6">
-                                                            <label>Choose a country</label>
-                                                            <select wire:model="countryid" class="form-control" name="country_id" required>
-                                                                <option  value="<%=city.country_id  %>"><%=city.country_name %></option>
-                                                                <% for(country of countries){ %>
-
-                                                                    <option  value="<%=country.id %>"><%=country.name %></option>
-                                                                <% } %>
-
-                                                            </select>
-                                                            </div>
-                                                        
-                                                        <div class="col-6">
-                                                            <label>Choose a Zone</label>
-                                                            <select wire:model="countryid" class="form-control" name="zone_id" required>
-                                                                <option value="<%=city.zone_id  %>" ><%=city.zone_name %></option>
-                                                                <% for(zone of zones){ %>
-
-                                                                    <option name="<%=zone.name %>" value="<%=zone.id %>"><%=zone.name %></option>
-                                                                <% } %>
-
-                                                            </select>
-                                                            </div>
-                                                        </div>
+                                                    
                                                     
                                                     <div class="form-row mb-4">
                                                         
