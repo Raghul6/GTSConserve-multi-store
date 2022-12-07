@@ -193,15 +193,13 @@ export const additionalProduct = async (req,res) => {
   }
 }
 
-
-
 // export const getBill = async (req,res) => {
 //   try{
 //     const{product_id} = req.body;
 //     const bill = await 
 
 //   }
-// }
+// } 
 
 export const 
 addon_Order = async (req,res) => {
