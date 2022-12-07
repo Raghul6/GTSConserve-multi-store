@@ -9,14 +9,46 @@
                         </div>
                     </div>
 
-                    <div class="col-2"></div>
-                    <div class="form-group col-md-3">
-                        <input class="form-control rounded-5 py-2" type="search" value="search"
-                            id="example-search-input">
+                    <div class="col-1"></div>
+                      <div class="col-3  filtered-list-search mx-auto">
+                        <div class="form-inline my-2 my-lg-0 justify-content-center">
+                            <div class="w-100 row">
 
-                    </div>
-                    <div class="form-group col-md-1">
-                        <button class="btn btn-sm" data-toggle="modal" data-target="#addbarcategory">Add</button>
+                                <div class="w-100">
+                                    <input type="text" name="searchKeyword" oninput="onChangeSearch()" value="<%=searchKeyword? searchKeyword : ""  %>" class="w-100 form-control product-search br-30 col-7" id="searchText" placeholder="Search...">
+                                    <button class="btn btn-primary" type="submit" onclick="onSearch()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
+                                </div>
+
+
+
+                    
+                                <script>
+
+                                    async function onChangeSearch(event){
+                                        const text = document.getElementById("searchText").value;
+                                        if(!text){
+
+                                            return window.location.href = `/super_admin/product/get_all_product_type`
+                                        }
+                                        // window.location.href = `/super_admin/product/get_all_product_type?searchKeyword=${text}`
+                                        // window.history.pushState("","",`/super_admin/product/get_all_product_type?searchKeyword=${text}`)
+
+                                    }
+
+                                    async function onSearch(event) {
+                                       
+                                        const text = document.getElementById("searchText").value;
+                            
+                                        window.location.href = `/super_admin/product/get_all_product_type?searchKeyword=${text}`
+                              
+                                 
+                                };
+                                </script>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <button class="btn btn-sm btn-primary" data-toggle="modal"
+                                data-target="#addbarcategory">Add</button>
                         <!-- __category add__ -->
                         <div wire:ignore.self="" class="modal fade" id="addbarcategory" tabindex="-1"
                             aria-labelledby="addCategoryTitle" style="display: none;" aria-hidden="true">
@@ -80,6 +112,7 @@
 
         </div>
     </div>
+    <tbody>
     <div class="table-responsive">
         <table class="multi-table table table-hover dataTable" style="width: 100%;" id="DataTables_Table_0" role="grid"
             aria-describedby="DataTables_Table_0_info">
@@ -105,121 +138,42 @@
                 </tr>
             </thead>
             <tbody>
-
+                           <% for(product_type of data){ %>
                 <tr role="row">
-                    <td class="sorting_1">Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
-                    <td>Edinburgh</td>
-                    <td>Edinburgh</td>
+                    <td class="sorting_1 font-weight: bold;"><%=product_type.id %></td>
+                <td><%=product_type.name %></td>
+                <td><img style="width: 150px;height : 120px" src="<%=product_type.image %>"></td>
+                
+                 
 
-                    <div>
-                        <td style="text-align: center; vertical-align: middle;">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitches">
-                                <label class="custom-control-label" for="customSwitches"></label>
-                            </div>
-                        </td>
-                    </div>
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                </tr>
-                <tr role="row">
-                    <td class="sorting_1">Dai Rios</td>
-                    <td>Personnel Lead</td>
-                    <td>Edinburgh</td>
-                    <td>Edinburgh</td>
-
-                    <div>
-                        <td style="text-align: center; vertical-align: middle;">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitches1">
-                                <label class="custom-control-label" for="customSwitches1"></label>
-                            </div>
-                        </td>
-                    </div>
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                </tr>
-                <tr role="row">
-                    <td class="sorting_1">Gavin Joyce</td>
-                    <td>Developer</td>
-                    <td>Edinburgh</td>
-                    <td>Edinburgh</td>
-
-                    <div>
-                        <td style="text-align: center; vertical-align: middle;">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitches2">
-                                <label class="custom-control-label" for="customSwitches2"></label>
-                            </div>
-                        </td>
-                    </div>
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                </tr>
-                <tr role="row">
-                    <td class="sorting_1">Jennifer Acosta</td>
-                    <td>Junior Javascript Developer</td>
-                    <td>Edinburgh</td>
-                    <td>Edinburgh</td>
-
-                    <div>
-                        <td style="text-align: center; vertical-align: middle;">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitches3">
-                                <label class="custom-control-label" for="customSwitches3"></label>
-                            </div>
-                        </td>
-                    </div>
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                </tr>
-                <tr role="row">
-                    <td class="sorting_1">Martena Mccray</td>
-                    <td>Post-Sales support</td>
-                    <td>Edinburgh</td>
-                    <td>Edinburgh</td>
-
-                    <div>
-                        <td style="text-align: center; vertical-align: middle;">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitches4">
-                                <label class="custom-control-label" for="customSwitches4"></label>
-                            </div>
-                        </td>
-                    </div>
-
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                </tr>
-                <tr role="row">
-                    <td class="sorting_1">Quinn Flynn</td>
-                    <td>Support Lead</td>
-                    <td>Edinburgh</td>
-                    <td>Edinburgh</td>
-
-                    <div>
-                        <td style="text-align: center; vertical-align: middle;">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitches5">
-                                <label class="custom-control-label" for="customSwitches5"></label>
-                            </div>
-                        </td>
-                    </div>
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                </tr>
-                <tr role="row">
-                    <td class="sorting_1">Shad Decker</td>
-                    <td>Regional Director</td>
-                    <td>Edinburgh</td>
-                    <td>Edinburgh</td>
-
-                    <div>
-                        <td style="text-align: center; vertical-align: middle;">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitches6">
-                                <label class="custom-control-label" for="customSwitches6"></label>
-                            </div>
-                        </td>
-                    </div>
-                    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
-                </tr>
-            </tbody>
+                <div>
+                    <td style="text-align: center; vertical-align: middle;">
+                        <div class="custom-control custom-switch">
+                                <input <%= product_type.status == "1" ? "checked"  :""  %>  type="checkbox"   class="custom-control-input" name="status" 
+                                value="<%=product_type.status %>"  onChange="onToDochange(this)" id=<%=product_type.id %>>
+                                <label class="custom-control-label"  for=<%=product_type.id %>></label>
+                            
+                                <script >
+                                   async function onToDochange(event) {
+                                    await fetch('/super_admin/product/update_product_type_status', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({"id": event.id , "status" : event.value})
+                                    })
+                                 
+                                    window.location.reload("/super_admin/product/get_all_product_type")
+                                };
+                                </script>
+                         
+                        </div>
+                    </td>
+                </div>
+                <td class="text-center" > <button class="btn btn-sm btn-primary" data-toggle="modal"
+                    data-target="#editProductType<%= product_type.id %>">edit</button> </td>
+            </tr>   
 
         </table>
     </div>
