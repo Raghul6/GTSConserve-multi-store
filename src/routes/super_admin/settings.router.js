@@ -4,7 +4,7 @@ import { multerStorage } from "../../utils/helper.util";
 
 import { getPlan } from "../../controllers/super_admin/settings/plan.controller";
 
-import { getAppSettings } from "../../controllers/super_admin/settings/app_settings.controller";
+import { createAppsettings, getAppSettings } from "../../controllers/super_admin/settings/app_settings.controller";
 
 
 
@@ -24,6 +24,7 @@ settingsRouter.get("/get_plan", getPlan);
 
 // app settings
 settingsRouter.get("/app_settings", getAppSettings);
+settingsRouter.post("/create_appsettings", createAppsettings);
 
 
 

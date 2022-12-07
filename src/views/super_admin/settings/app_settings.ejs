@@ -10,7 +10,7 @@
                     </div>
 
                     <div class="col-1"></div>
-                      <div class="col-3  filtered-list-search mx-auto">
+                    <div class="col-3  filtered-list-search mx-auto">
                         <div class="form-inline my-2 my-lg-0 justify-content-center">
                             <div class="w-100 row">
 
@@ -28,10 +28,8 @@
                                         const text = document.getElementById("searchText").value;
                                         if(!text){
 
-                                            return window.location.href = `/super_admin/product/get_all_product_type`
+                                            return window.location.href = `super_admin/settings/app_settings`
                                         }
-                                        // window.location.href = `/super_admin/product/get_all_product_type?searchKeyword=${text}`
-                                        // window.history.pushState("","",`/super_admin/product/get_all_product_type?searchKeyword=${text}`)
 
                                     }
 
@@ -39,197 +37,330 @@
                                        
                                         const text = document.getElementById("searchText").value;
                             
-                                        window.location.href = `/super_admin/product/get_all_product_type?searchKeyword=${text}`
+                                        window.location.href = `super_admin/settings/app_settings?searchKeyword=${text}`
                               
                                  
                                 };
                                 </script>
                             </div>
                         </div>
-                        <div class="form-group col-md-1">
-                            <button class="btn btn-sm btn-primary" data-toggle="modal"
-                                data-target="#addbarcategory">Add</button>
-                        <!-- __category add__ -->
-                        <div wire:ignore.self="" class="modal fade" id="addbarcategory" tabindex="-1"
-                            aria-labelledby="addCategoryTitle" style="display: none;" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalCenterTitle">Add App Settings</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-                                                height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-x">
-                                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                   <line x1="6" y1="6" x2="18" y2="18"></line>
-                                            </svg>
-                                        </button>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <button class="btn btn-sm btn-primary" data-toggle="modal"
+                            data-target="#addbarcategory">Add</button>
+                      <!-- __category add__ -->
+                      <div wire:ignore.self="" class="modal fade" id="addbarcategory" tabindex="-1"
+                        aria-labelledby="addCategoryTitle" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">Add App Settings</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="feather feather-x">
+                                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                                               <line x1="6" y1="6" x2="18" y2="18"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <div class="form-row mb-4">
+                                        <div class="col">
+                                            <label>Name</label>
+                                            <input type="text" class="form-control" wire:model="name"
+                                                placeholder="Name">
+
+                                        </div>
+
+                                        <div class="col">
+                                            <label>Key</label>
+                                            <input type="text" class="form-control" wire:model="key"
+                                                placeholder="Key">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-row mb-4">
+                                        <div class="col">
+                                            <label>Value</label>
+                                            <input type="number" class="form-control" wire:model="value"
+                                                placeholder="Value">
+
+                                        </div>
+
+
+
                                     </div>
 
-                                    <div class="modal-body">
 
-                                        <div class="form-row mb-4">
-                                            <div class="col">
-                                                <label>Name</label>
-                                                <input type="text" class="form-control" wire:model="name"
-                                                    placeholder="Name">
+                            </div>
+                            <div class="modal-footer">
 
-                                            </div>
-
-                                            <div class="col">
-                                                <label>Key</label>
-                                                <input type="text" class="form-control" wire:model="key"
-                                                    placeholder="Key">
-
-                                            </div>
-                                        </div>
-                                        <div class="form-row mb-4">
-                                            <div class="col">
-                                                <label>Value</label>
-                                                <input type="number" class="form-control" wire:model="value"
-                                                    placeholder="Value">
-
-                                            </div>
-
-
-
-                                        </div>
-
-
-                                </div>
-                                <div class="modal-footer">
-
-                                    <button class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
-                                            class="flaticon-cancel-12"></i>Discard</button>
-                                    <button wire:click="save" class="btn btn-success">Save</button>
-                                </div>
+                                <button class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
+                                        class="flaticon-cancel-12"></i>Discard</button>
+                                <button wire:click="save" class="btn btn-success">Save</button>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
-
         </div>
-    </div>
-    <tbody>
-    <div class="table-responsive">
-        <table class="multi-table table table-hover dataTable" style="width: 100%;" id="DataTables_Table_0" role="grid"
-            aria-describedby="DataTables_Table_0_info">
-            <thead>
-
-                <tr role="row">
-                    <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                        aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 86px;">
-                        # </th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                        aria-label="NAME: activate to sort column ascending" style="width: 161px;">NAME</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                        aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">KEY </th>
-                    <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                        aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 56px;">
-                        VALUE</th>
-                    <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                        colspan="1" aria-label="Status: activate to sort column ascending" style="width: 49px;">
-                        Status</th>
-                    <th class="text-center dt-no-sorting sorting" tabindex="0" aria-controls="DataTables_Table_0"
-                        rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending"
-                        style="width: 56px;">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                           <% for(product_type of data){ %>
-                <tr role="row">
-                    <td class="sorting_1 font-weight: bold;"><%=product_type.id %></td>
-                <td><%=product_type.name %></td>
-                <td><img style="width: 150px;height : 120px" src="<%=product_type.image %>"></td>
-                
-                 
-
-                <div>
-                    <td style="text-align: center; vertical-align: middle;">
-                        <div class="custom-control custom-switch">
-                                <input <%= product_type.status == "1" ? "checked"  :""  %>  type="checkbox"   class="custom-control-input" name="status" 
-                                value="<%=product_type.status %>"  onChange="onToDochange(this)" id=<%=product_type.id %>>
-                                <label class="custom-control-label"  for=<%=product_type.id %>></label>
-                            
-                                <script >
-                                   async function onToDochange(event) {
-                                    await fetch('/super_admin/product/update_product_type_status', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({"id": event.id , "status" : event.value})
-                                    })
-                                 
-                                    window.location.reload("/super_admin/product/get_all_product_type")
-                                };
-                                </script>
-                         
-                        </div>
-                    </td>
-                </div>
-                <td class="text-center" > <button class="btn btn-sm btn-primary" data-toggle="modal"
-                    data-target="#editProductType<%= product_type.id %>">edit</button> </td>
-            </tr>   
-
-        </table>
-    </div>
-    <div class="dt--bottom-section d-sm-flex justify-content-sm-between text-center">
-        <div class="dt--pages-count  mb-sm-0 mb-3">
-            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing
-                page 1 of 2</div>
-        </div>
-        <nav aria-label="...">
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <span class="page-link" style="padding-left: 5px;">Previous</span>
-                </li>
-                <li class="page-item" style="padding-left: 5px;"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active">
-                    <span class="page-link">
-                        2
-                        <span class="sr-only">(current)</span>
-                    </span>
-                </li>
-                <li class="page-item" style="padding-left: 5px;"><a class="page-link" href="#">3</a></li>
-                <li class="page-item" style="padding-left: 5px;">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
-        <!-- <div class="dt--pagination">
-                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                        <ul class="pagination">
-                            <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a
-                                    href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0"
-                                    class="page-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-arrow-left">
-                                        <line x1="19" y1="12" x2="5" y2="12"></line>
-                                        <polyline points="12 19 5 12 12 5"></polyline>
-                                    </svg></a></li>
-                            <li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0"
-                                    data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                            <li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0"
-                                    data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                            <li class="paginate_button page-item next" id="DataTables_Table_0_next"><a href="#"
-                                    aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0"
-                                    class="page-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-arrow-right">
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                        <polyline points="12 5 19 12 12 19"></polyline>
-                                    </svg></a></li>
-                        </ul>
+        <% if(data.length === 0){ %> 
+            <h2>No App Found</h2>
+            <% }else if(loading) { %>
+                <div class="row">
+                    <div class="col-5">
+    
                     </div>
-                </div> -->
+                    <div class="col-2">
+                        <button class="btn btn-success btn-lg mb-3 mr-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-loader spin mr-2"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>  Loading</button>
+                    </div>
+                </div>
+    
+                <% } else {  %>
+                    <div class="table-responsive">
+                        <table class="multi-table table table-hover dataTable" style="width: 100%;" id="DataTables_Table_0" role="grid"
+                            aria-describedby="DataTables_Table_0_info">
+                            <thead>
+                
+                                <tr role="row">
+                                    <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                        aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 86px;">
+                                        # </th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                        aria-label="NAME: activate to sort column ascending" style="width: 161px;">NAME</th>
+                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                        aria-label="KEY: activate to sort column ascending" style="width: 53px;">KEY </th>
+                                    <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                        aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 56px;">
+                                        VALUE</th>
+                                    <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                        colspan="1" aria-label="Status: activate to sort column ascending" style="width: 49px;">
+                                        Status</th>
+                                    <th class="text-center dt-no-sorting sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                        rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending"
+                                        style="width: 56px;">Action
+                                    </th>
+                                </tr>
+                            </thead>
+                <tbody>
+    
+                    <tr role="row" >
+    
+                        <% for(app_settings of data){ %>
+                                <td class="sorting_1"><%=app_settings.id %></td>
+                                <td class="sorting_1"><%=app_settings.name %></td>
+                                <td ><%=app_settings.key %></td>
+                                
+                                <td><%=app_settings.value %></td>
+                                <!-- <td><%=user.unit_value %> <%= user.value %> </td>
+                                <td><%=user.start_date %></td>
+                                <td><%=user.subscription_start_date ? user.subscription_start_date : "N/A"   %></td>
+                             -->
+
+                              
+<!--     
+                                <div>
+                                    
+                                    <td  class="text-center" > 
+                                        <button style="font-weight: bold;" class="btn  btn-md  btn-primary" data-toggle="modal"
+                                        data-target="#view<%=user.id %>">view</button>
+                                    </td>
+                                    </td>
+                                    
+                                </div> -->
+                               
+    
+    <!-- view -->
+                <!-- <div wire:ignore.self="" class="modal fade" id="view<%=user.id %>" tabindex="-1"
+                    aria-labelledby="addCategoryTitle"  style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document" > 
+                        <div class="modal-content" >
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="feather feather-x">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </button>
+                            </div>
+    
+                            <div class="modal-body" >
+                               
+                                    <div class="form-row mb-4" >
+                                      
+
+                                            <div class="col-sm-4 pb-4" >
+                                                <label>Customer Id</label>
+                                                <p style="font-weight: 900;"><%=user.customer_id %></p>
+                                                
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>User Name</label>
+                                                <p style="font-weight: 900;"><%=user.user_name %></p>
+                                                
+                                            </div>
+                                            <div class="col-sm-4 ">
+                                                <label>Mobile Number</label>
+                                                <p style="font-weight: 900;"><%=user.mobile_number %></p>
+                                               
+                                                
+                                            </div>
+                                  
+                                            
+                                            <div class="col-sm-4 pb-4">
+                                                <label>Price</label>
+                                                <p style="font-weight: 900;"><%=user.price %></p>
+                                                
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Unit Value</label>
+                                                <p style="font-weight: 900;"><%=user.unit_value %></p>
+                                                
+                                            </div>
+                                            <div class="col-sm-4 ">
+                                                <label>Unit Type</label>
+                                                <p style="font-weight: 900;"><%=user.value %></p>
+                                                
+                                            </div>
+                                            <div class="col-sm-4 pb-4">
+                                                <label>Product name</label>
+                                                <p style="font-weight: 900;"><%=user.product_name %></p>
+
+                                                
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label> Category Name</label>
+                                                <p style="font-weight: 900;"><%=user.category_name %></p>
+                                                
+                                            </div>
+                                            <div class="col-sm-4 ">
+                                                <label>Quantity</label>
+                                                <p style="font-weight: 900;"><%=user.quantity %></p>
+                                                
+                                            </div>
+                                            <div class="col-sm-6 pb-4">
+                                                <label>Address</label>
+                                                <p style="font-weight: 900;"><%=user.address %></p>
+                                                
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>Landmark</label>
+                                                <p style="font-weight: 900;"><%=user.landmark %></p>
+                                              
+                                                
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label> Start date</label>
+                                                <p style="font-weight: 900;"><%=user.start_date %></p>
+                                                
+                                                
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label>Subscription Start date</label>
+                                                <p style="font-weight: 900;"><%=user.subscription_start_date ? user.subscription_start_date : "N/A" %></p>
+                                                
+                                                
+                                            </div>
+                                            <div class="col-sm-6 mt-4">
+                                                <label>Subscription Type</label>
+                                                <p style="font-weight: 900;"><%=user.subscription_name  %></p>
+                                               
+                                                
+                                            </div>
+                                            <% if(user.customized_days){ %> 
+                                            <div class="col-sm-4 mt-4">
+                                                <label>Customized Days</label>
+                                                <div class="element-background">
+                                                    <ul class="list-icon">
+                                                        <% for(day of user.customized_days){ %> 
+                                                        <li>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                                            <span style="font-weight: 900;" class="list-text"><%= day%></span>
+                                                        </li>
+                                                        <% } %> 
+                                                        
+                                                    </ul>
+                                                </div>
+                                                
+                                            </div>
+                                            <% } %> 
+                                    </div> -->
+                                    
+                                    <!-- <div class="modal-footer">
+                                        
+                                        <button type="button" name="id" value="<%=user.id %>" class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
+                                            class="flaticon-cancel-12"></i>Discard</button>
+                                            
+                                    </div>
+                           
+                        </div>
+                    </div>
+                </div>
+                </div>
+     -->
+                <!-- Assign -->
+                
     </div>
+    <td class="text-center"> <button class="btn btn-sm">edit</button> </td>
+  
+</tr>
+    
     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    <% } %>
+              
+                </tbody>
+    
+            </table>
+        </div>
+        <div class="dt--bottom-section d-sm-flex justify-content-sm-between text-center pt-4 ">
+            <div class="dt--pages-count  mb-sm-0 mb-3">
+              <% let search_query =  is_search ? `&searchKeyword=${searchKeyword}` : "" %>
+            </div>
+            <div class="widget-content widget-content-area text-center">
+            <nav class="paginating-container " aria-label="...">
+                <ul class="pagination-default pagination">
+                    <% if(page > 1) { %> 
+                        <li class="prev">
+                            <a href="super_admin/settings/app_settings?page=<%=page-1%><%= search_query %>"  style="padding-left: 5px;">Prev</a>
+                  
+                         <% } %>
+                   
+                         <% for(let i = iterator==0 ? 1 : iterator; i <= endingLink; i++) { %>
+                            <% if(i === page) { %>
+                                <li class="page-item active" style="padding-left: 5px;"><a  href="#"><%=i%></a></li>
+                              
+                                <% continue; %>
+                                <% } %>
+                                <li class="page-item" style="padding-left: 5px;"><a  href="/super_admin/settings/app_settings?page=<%=i%><%= search_query %>"><%=i%></a></li>
+                        <% } %>
+                    
+                    <% if(page < numberOfPages) { %>
+                        <li class="next" style="padding-left: 5px;">
+                            <a  href="super_admin/settings/app_settings?page=<%=page+1%><%= search_query %>">Next</a>
+                        </li>
+                      
+                         <% } %>
+                         
+                </ul>
+            </nav>
+        </div>
+        </div>
+    </div>
+    <% } %>
     <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
         <div class="dt--top-section">
             <div class="row">
