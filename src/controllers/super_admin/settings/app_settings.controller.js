@@ -65,6 +65,10 @@ export const getAppSettings = async (req, res) => {
           `SELECT name FROM app_settings LIMIT ${startingLimit},${resultsPerPage}`
         );
       }
+
+    
+
+      
   
       const data = results[0];
   
@@ -98,7 +102,7 @@ export const getAppSettings = async (req, res) => {
         return res.redirect("super_admin/settings/app_settings");
       }
   
-      if (!key) {
+      if (!key_id) {
         req.flash("error", "key is missing");
         return res.redirect("super_admin/settings/app_settings");
       }
@@ -106,9 +110,9 @@ export const getAppSettings = async (req, res) => {
         req.flash("error", "value is missing");
         return res.redirect("super_admin/settings/app_settings");
       }
-      const image = req.file.destination.slice(1) + "/" + req.file.filename;
+      
   
-      await knex("product_type").insert({ name, image });
+      await knex("app_settings").insert({ name, key,value });
       req.flash("success", "App Created SuccessFully");
       res.redirect("super_admin/settings/app_settings");
     } catch (error) {
@@ -116,4 +120,6 @@ export const getAppSettings = async (req, res) => {
       res.redirect("/home");
     }
   };
+  
+
   

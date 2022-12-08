@@ -1,3 +1,13 @@
+<!-- <style>
+
+div.c {
+  position: absolute;
+  right: 150px;  
+  width: 200px;
+  height: 120px;
+  border: 3px solid green;
+} 
+</style> -->
 <% layout('layouts/boilerPlate') %>
     <div class="widget-content widget-content-area br-6">
         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
@@ -70,23 +80,23 @@
                     <tr role="row"  >
                         <th  class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                             colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
-                            style="width: 20px;">#</th>
+                            style="width: 20px;">cusomer id</th>
                         <th  class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                             colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
                             style="width: 20px;">Name</th>
                        
                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="NAME: activate to sort column ascending" style="width: 20px;">Subscription Type</th>
+                            aria-label="NAME: activate to sort column ascending" style="width: 20px;">route Name</th>
                         
                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Product </th>
+                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">address</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="IMAGE: activate to sort column ascending" style="width: 10px;">Unit</th>
+                            aria-label="IMAGE: activate to sort column ascending" style="width: 10px;">mobile number</th>
                             <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                             colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
-                            style="width: 50px;">Start Date</th>
-                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Address</th>
+                            style="width: 50px;">product type</th>
+                        <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Address</th> -->
                             
                         <th class="text-center dt-no-sorting sorting" tabindex="0"
                             aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
@@ -98,21 +108,21 @@
                     <tr role="row" >
     
                         <% for(user of data){ %>
-                                <td class="sorting_1"><%=user.id %></td>
+                                <td class="sorting_1"><%=user.customer_id %></td>
                                 <td class="sorting_1"><%=user.user_name %></td>
-                                <td ><%=user.subscription_name %></td>
+                                <td ><%=user.route_name%></td>
                                 
-                                <td><%=user.product_name %></td>
-                                <td><%=user.unit_value %> <%= user.value %> </td>
-                                <td><%=user.start_date %></td>
                                 <td><%=user.address %></td>
+                                <td><%=user.mobile_number %> </td>
+                                <td><%=user.status %></td>
+                                <!-- <td><%=user.address %></td> -->
                             
                                 <!-- <div class="col-sm-6 pb-4">
                                     <label>Address</label>
                                     <p style="font-weight: 900;"><%=user.address %></p>
                                     
                                 </div> -->
-                              
+                              <td></td>
     
                                 <div>
                                     
@@ -275,11 +285,12 @@
     
             </table>
         </div>
-        <div class="dt--bottom-section d-sm-flex justify-content-sm-between text-center pt-4 ">
+                        <li class="prev">
+        <div class="dt--bottom-section d-sm-flex justify-content-sm-between text-center pt-4 page-item">
             <div class="dt--pages-count  mb-sm-0 mb-3">
               <% let search_query =  is_search ? `&searchKeyword=${searchKeyword}` : "" %>
             </div>
-            <div class="widget-content widget-content-area text-center">
+            <div style="margin-left: 750px;" class="widget-content widget-content-area text-center">
             <nav class="paginating-container " aria-label="...">
                 <ul class="pagination-default pagination">
                     <% if(page > 1) { %> 
