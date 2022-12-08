@@ -117,29 +117,29 @@
     
                                 <div>
 
-                                    <td style="text-align: center; vertical-align: middle;">
-                                            <div class="custom-control custom-switch">
-                                                    <input <%= category.status == "1" ? "checked"  :""  %>  type="checkbox"   class="custom-control-input" name="status" 
-                                                    value="<%=category.status %>"  onChange="onToDochange(this)" id=<%=category.id %>>
-                                                    <label class="custom-control-label"  for=<%=category.id %>></label>
-                                                
-                                                    <script >
-                                                        async function onToDochange(event) {
-                                                        await fetch('/super_admin/users_subscription/get_all_users', {
-                                                        method: 'POST',
-                                                        headers: {
-                                                            'Accept': 'application/json',
-                                                            'Content-Type': 'application/json'
-                                                        },
-                                                        body: JSON.stringify({"id": event.id , "status" : event.value})
-                                                        })
-                                                     
-                                                        window.location.reload("/super_admin/users_subscription/get_all_users")
-                                                    };
-                                                    </script>
-                                             
-                                            </div>
-                                        </td>
+                                    <!-- <td style="text-align: center; vertical-align: middle;">
+                                        <div class="custom-control custom-switch">
+                                                <input <%= user.status == "1" ? "checked"  :""  %>  type="checkbox"   class="custom-control-input" name="status" 
+                                                value="<%=user.status %>"  onChange="onToDochange(this)" id=<%=user.id %>>
+                                                <label class="custom-control-label"  for=<%=user.id %>></label>
+                                            
+                                                <script >
+                                                    async function onToDochange(event) {
+                                                    await fetch('/super_admin/users_subscription/update_all_users_status', {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Accept': 'application/json',
+                                                        'Content-Type': 'application/json'
+                                                    },
+                                                    body: JSON.stringify({"id": event.id , "status" : event.value})
+                                                    })
+                                                 
+                                                    window.location.reload("/super_admin/product/get_all_users")
+                                                };
+                                                </script>
+                                         
+                                        </div>
+                                    </td> -->
                                     
                                     <td  class="text-center" > 
                                         <button style="font-weight: bold;" class="btn  btn-md  btn-info" data-toggle="modal"

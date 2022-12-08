@@ -129,7 +129,7 @@ export const getNewUsers = async (req, res) => {
 };
 
 
-export const getAllUsers = async (req,res) => {
+export const  getAllUsers = async (req,res) => {
   try {
     let loading = true;
     const { searchKeyword } = req.query;
@@ -259,6 +259,24 @@ export const updatePendingList = async (req, res) => {
 
     req.flash("success", "Subscription Moved To Branch");
     res.redirect("/super_admin/users_subscription/get_new_users");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/home");
+  }
+};
+
+export const updateAllUsersStatus = async (req, res) => {
+  try {
+    const { status, id } = req.body;
+
+    if (status == "1") {
+      await knex("admin_users").update({ status: "1" }).where({ id: id });
+    } else {
+      await knex("admin_users").update({ status: "0" }).where({ id: id });
+    }
+    console.log("hell");
+    req.flash("success", "Updated SuccessFully");
+    return res.redirect("/super_admin/users_subscription/update_all_users_status");
   } catch (error) {
     console.log(error);
     res.redirect("/home");
