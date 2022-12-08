@@ -188,7 +188,7 @@ export const getAllUsers = async (req,res) => {
       results = await knex.raw(
         `SELECT sub.id , sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
         user_address.address,user_address.landmark,products.name as product_name,products.price,products.unit_value,
-        unit_types.value,categories.name as category_name
+        unit_types.value,categories.name as category_name,admin_users.first_name as first_name
         FROM subscribed_user_details AS sub 
         JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id 
         JOIN users ON users.id = sub.user_id 
@@ -196,15 +196,17 @@ export const getAllUsers = async (req,res) => {
         JOIN products ON products.id = sub.product_id
         JOIN unit_types ON unit_types.id = products.unit_type_id
         JOIN categories ON categories.id = products.category_id
+        JOIN admin_users ON admin_users.user_group_id = subscription_type.id
         WHERE sub.subscription_status = "subscribed" 
         AND users.user_unique_id LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
       );
       is_search = true;
+      console.log(results)
     } else {
       results = await knex.raw(
         `SELECT sub.id ,sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
         user_address.address,user_address.landmark,products.name as product_name,products.price,products.unit_value,
-        unit_types.value,categories.name as category_name
+        unit_types.value,categories.name as category_name,admin_users.first_name as first_name
         FROM subscribed_user_details AS sub 
         JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id 
         JOIN users ON users.id = sub.user_id 
@@ -212,6 +214,7 @@ export const getAllUsers = async (req,res) => {
         JOIN products ON products.id = sub.product_id
         JOIN unit_types ON unit_types.id = products.unit_type_id
         JOIN categories ON categories.id = products.category_id
+        JOIN admin_users ON admin_users.user_group_id = subscription_type.id
         WHERE sub.subscription_status = "subscribed"  LIMIT ${startingLimit},${resultsPerPage}`
       );
     }
