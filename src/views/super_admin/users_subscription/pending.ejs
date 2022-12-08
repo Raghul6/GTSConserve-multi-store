@@ -29,7 +29,7 @@
                                         const text = document.getElementById("searchText").value;
                                         if(!text){
 
-                                            return window.location.href = `/super_admin/users_subscription/get_pending_list`
+                                            return window.location.href = `/super_admin/users_subscription/get_new_users`
                                         }
 
                                     }
@@ -38,7 +38,7 @@
                                        
                                         const text = document.getElementById("searchText").value;
                             
-                                        window.location.href = `/super_admin/users_subscription/get_pending_list?searchKeyword=${text}`
+                                        window.location.href = `/super_admin/users_subscription/get_new_users?searchKeyword=${text}`
                               
                                  
                                 };
@@ -338,7 +338,7 @@
                                 })
                                 
                                
-                             window.location.reload("/super_admin/users_subscription/get_pending_list")
+                             window.location.reload("/super_admin/users_subscription/get_new_users")
 
                             };
                             </script>
@@ -372,7 +372,7 @@
                 <ul class="pagination-default pagination">
                     <% if(page > 1) { %> 
                         <li class="prev">
-                            <a href="/super_admin/users_subscription/get_pending_list?page=<%=page-1%><%= search_query %>"  style="padding-left: 5px;">Prev</a>
+                            <a href="/super_admin/users_subscription/get_new_users?page=<%=page-1%><%= search_query %>"  style="padding-left: 5px;">Prev</a>
                   
                          <% } %>
                    
@@ -382,12 +382,12 @@
                               
                                 <% continue; %>
                                 <% } %>
-                                <li class="page-item" style="padding-left: 5px;"><a  href="/super_admin/users_subscription/get_pending_list?page=<%=i%><%= search_query %>"><%=i%></a></li>
+                                <li class="page-item" style="padding-left: 5px;"><a  href="/super_admin/users_subscription/get_new_users?page=<%=i%><%= search_query %>"><%=i%></a></li>
                         <% } %>
                     
                     <% if(page < numberOfPages) { %>
                         <li class="next" style="padding-left: 5px;">
-                            <a  href="/super_admin/users_subscription/get_pending_list?page=<%=page+1%><%= search_query %>">Next</a>
+                            <a  href="/super_admin/users_subscription/get_new_users?page=<%=page+1%><%= search_query %>">Next</a>
                         </li>
                       
                          <% } %>

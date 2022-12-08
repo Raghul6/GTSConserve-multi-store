@@ -1,6 +1,6 @@
 import express  from 'express';
 
-import { getAssigned,updateSubscribed,updateCancel } from '../../controllers/branch_admin/subscription/pending.controller';
+import { getNewUsers,updateSubscribed,updateCancel,getExistUsers } from '../../controllers/branch_admin/subscription/pending.controller';
 
 import { getSubscription } from '../../controllers/branch_admin/subscription/subscribed.controller';
 import { getCancelled } from '../../controllers/branch_admin/subscription/cancelled.controller';
@@ -11,7 +11,12 @@ const subscriptionRouter = express.Router({
 })
 
 
-subscriptionRouter.get('/assigned',getAssigned)
+
+
+subscriptionRouter.get('/get_new_users',getNewUsers)
+
+subscriptionRouter.get('/get_exist_users',getExistUsers)
+
 subscriptionRouter.post('/subscribed',updateSubscribed)
 subscriptionRouter.post('/cancel',updateCancel)
 

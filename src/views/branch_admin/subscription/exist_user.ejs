@@ -1,13 +1,3 @@
-<!-- <style>
-
-div.c {
-  position: absolute;
-  right: 150px;  
-  width: 200px;
-  height: 120px;
-  border: 3px solid green;
-} 
-</style> -->
 <% layout('layouts/boilerPlate') %>
     <div class="widget-content widget-content-area br-6">
         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
@@ -15,7 +5,7 @@ div.c {
                 <div class="row">
                     <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center">
                         <div class="dataTables_length" id="DataTables_Table_0_length">
-                            <h4>Users</h4>
+                            <h4>Exisiting Users</h4>
                         </div>
                     </div>
 
@@ -38,10 +28,8 @@ div.c {
                                         const text = document.getElementById("searchText").value;
                                         if(!text){
 
-                                            return window.location.href = `/branch_admin/user/branch_user`
+                                            return window.location.href = `/branch_admin/subscription/get_exist_users`
                                         }
-                                        // window.location.href = `/branch_admin/user/branch_user?searchKeyword=${text}`
-                                        // window.history.pushState("","",`/branch_admin/user/branch_user?searchKeyword=${text}`)
 
                                     }
 
@@ -49,7 +37,7 @@ div.c {
                                        
                                         const text = document.getElementById("searchText").value;
                             
-                                        window.location.href = `/branch_admin/user/branch_user?searchKeyword=${text}`
+                                        window.location.href = `/branch_admin/subscription/get_exist_users?searchKeyword=${text}`
                               
                                  
                                 };
@@ -57,10 +45,13 @@ div.c {
                             </div>
                         </div>
                     </div>
-
                     
+                </div>
+
+            </div>
+        </div>
         <% if(data.length === 0){ %> 
-            <h2>No User Found</h2>
+            <h2>No Subscription Found</h2>
             <% }else if(loading) { %>
                 <div class="row">
                     <div class="col-5">
@@ -80,23 +71,23 @@ div.c {
                     <tr role="row"  >
                         <th  class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                             colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
-                            style="width: 20px;">customer id</th>
-                        <th  class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                            style="width: 20px;">#</th>
+                        <th  class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                             colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
-                            style="width: 20px;">Name</th>
-                       
+                            style="width: 20px;">Customer Id</th>
+                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                            colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
+                            style="width: 50px;">Start Date</th>
                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="NAME: activate to sort column ascending" style="width: 20px;">route Name</th>
+                            aria-label="NAME: activate to sort column ascending" style="width: 20px;">Subscription Type</th>
                         
                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">address</th>
+                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Product Name </th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="IMAGE: activate to sort column ascending" style="width: 10px;">mobile number</th>
-                            <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                            colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
-                            style="width: 50px;">product type</th>
-                        <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Address</th> -->
+                            aria-label="IMAGE: activate to sort column ascending" style="width: 10px;">Unit Value</th>
+                            
+                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Unit Type</th>
                             
                         <th class="text-center dt-no-sorting sorting" tabindex="0"
                             aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
@@ -108,27 +99,28 @@ div.c {
                     <tr role="row" >
     
                         <% for(user of data){ %>
+                                <td class="sorting_1"><%=user.id %></td>
                                 <td class="sorting_1"><%=user.customer_id %></td>
-                                <td class="sorting_1"><%=user.user_name %></td>
-                                <td ><%=user.route_name%></td>
-                                
-                                <td><%=user.address %></td>
-                                <td><%=user.mobile_number %> </td>
-                                <!-- <td><%=user.start_date %></td> -->
-                                <!-- <td><%=user.address %></td> -->
-                            
-                                <!-- <div class="col-sm-6 pb-4">
-                                    <label>Address</label>
-                                    <p style="font-weight: 900;"><%=user.address %></p>
-                                    
-                                </div> -->
-                              <td></td>
+                                <td><%=user.start_date %></td>
+                                <td ><%=user.subscription_name %></td>
+                             
+                                <td><%=user.product_name %></td>
+                                <td><%=user.unit_value %></td>
+                                <td><%=user.value %></td>
+
+                              
     
                                 <div>
                                     
-                                    <td  class="text-center" > 
-                                        <button style="font-weight: bold;" class="btn  btn-md  btn-primary" data-toggle="modal"
+                                    <td style="width: 200px;" class="text-center" > 
+                                        <button style="font-weight: bold;" class="btn  btn-md  btn-info" data-toggle="modal"
                                         data-target="#view<%=user.id %>">view</button>
+                                         
+                                        <button style="font-weight: bold;" class="btn btn-md btn-primary" data-toggle="modal"
+                                        data-target="#transfer<%=user.id %>">Assign</button>
+                                        
+                                        <button style="font-weight: bold;" class="btn btn-md btn-warning" data-toggle="modal"
+                                        data-target="#cancel<%=user.id %>">Cancel</button>
                                     </td>
                                     </td>
                                     
@@ -161,7 +153,7 @@ div.c {
 
                                             <div class="col-sm-4 pb-4" >
                                                 <label>Customer Id</label>
-                                                <p style="font-weight: 900;"><%=user.id %></p>
+                                                <p style="font-weight: 900;"><%=user.customer_id %></p>
                                                 
                                             </div>
                                             <div class="col-sm-4">
@@ -215,7 +207,7 @@ div.c {
                                             </div>
                                             <div class="col-sm-6">
                                                 <label>Landmark</label>
-                                                <p style="font-weight: 900;"><%=user.Landmark ? user.Landmark : "N/A" %></p>
+                                                <p style="font-weight: 900;"><%=user.landmark %></p>
                                               
                                                 
                                             </div>
@@ -226,14 +218,8 @@ div.c {
                                                 
                                             </div>
                                             <div class="col-sm-6">
-                                                <label>Subscription Start date</label>
-                                                <p style="font-weight: 900;"><%=user.subscription_start_date ? user.subscription_start_date : "N/A" %></p>
-                                                
-                                                
-                                            </div>
-                                            <div class="col-sm-6 mt-4">
                                                 <label>Subscription Type</label>
-                                                <p style="font-weight: 900;"><%=user.subscription_name  %></p>
+                                                <p style="font-weight: 900;"><%=user.subscription_name %></p>
                                                
                                                 
                                             </div>
@@ -269,7 +255,113 @@ div.c {
                 </div>
     
                 <!-- Assign -->
-                
+                <div wire:ignore.self="" class="modal fade" id="transfer<%=user.id %>" tabindex="-1"
+                    aria-labelledby="addCategoryTitle"  style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered " role="document" > 
+                        <div class="modal-content" >
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Approve The Subscription</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="feather feather-x">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </button>
+                            </div>
+            
+                            <form action="/branch_admin/subscription/subscribed" method="post" >
+                                        <div class="modal-body">
+                                            <div class="col-sm-12">
+                                                <label>Choose a Route</label>
+                                                    <select required wire:model="countryid" class="form-control"         
+                                                    name="router_id" required>
+                                                    <option value="" disabled selected>Select your Route</option>
+                                                        <% for(route of routes){ %>
+    
+                                                            <option style="font-weight: bold;" value="<%=route.id %>"><%=route.starting_point %> -- <%=route.ending_point %> </option>
+                                                        <% } %>
+    
+                                                    </select>
+        
+                                            </div>
+
+                                            
+
+                                            <div class="widget-content widget-content-area">
+                                                <p>Choose A Date To Start Subscription</p>
+                                                <div class="form-group mb-0">
+                                                    <input required id="basicFlatpickr" name="date" class="form-control flatpickr flatpickr-input active" type="date" placeholder="<%=user.start_date  %>" >
+                                                </div>
+            
+                                                
+            
+                                            </div>
+                                            <div class=" col-12">
+                                                <p>User Start Date -<span style="font-weight: bold;"> <%=user.start_date  %></span> </p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn" type="button" style="border-color: #006E33;" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Cancel</button>
+                                            <button type="submit" name="sub_id"  value="<%=user.id %>" class="btn btn-primary">Proceed</button>
+                                        </div>
+                                    </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+    <!-- cancel -->
+    <div wire:ignore.self="" class="modal fade" id="cancel<%=user.id %>" tabindex="-1"
+        aria-labelledby="addCategoryTitle"  style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered " role="document" > 
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Cancel The Subscription</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-x">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                            <div class="modal-body">
+                                <p class="modal-text" style="font-weight: bold;">Are You Sure To Cancel The Subscription?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn" style="border-color: #006E33;" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Cancel</button>
+                                <button type="button" onclick="onCancel(this)" value="<%=user.id %>" class="btn btn-primary">Proceed</button>
+                            </div>
+                            <script >
+                                async function onCancel(event) {
+                                await fetch('/branch_admin/subscription/cancel', {
+                                method: 'POST',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({"id": event.value})
+                                })
+                                
+                               
+                             window.location.reload("/branch_admin/subscription/get_exist_users")
+
+                            };
+                            </script>
+                        
+                     
+               
+            </div>
+        </div>
+    </div>
     </div>
     
     
@@ -285,17 +377,16 @@ div.c {
     
             </table>
         </div>
-                        <li class="prev">
-        <div class="dt--bottom-section d-sm-flex justify-content-sm-between text-center pt-4 page-item">
+        <div class="dt--bottom-section d-sm-flex justify-content-sm-between text-center pt-4 ">
             <div class="dt--pages-count  mb-sm-0 mb-3">
               <% let search_query =  is_search ? `&searchKeyword=${searchKeyword}` : "" %>
             </div>
-            <div style="margin-left: 750px;" class="widget-content widget-content-area text-center">
+            <div class="widget-content widget-content-area text-center">
             <nav class="paginating-container " aria-label="...">
                 <ul class="pagination-default pagination">
                     <% if(page > 1) { %> 
                         <li class="prev">
-                            <a href="/branch_admin/user/branch_user?page=<%=page-1%><%= search_query %>"  style="padding-left: 5px;">Prev</a>
+                            <a href="/branch_admin/subscription/get_exist_users?page=<%=page-1%><%= search_query %>"  style="padding-left: 5px;">Prev</a>
                   
                          <% } %>
                    
@@ -305,12 +396,12 @@ div.c {
                               
                                 <% continue; %>
                                 <% } %>
-                                <li class="page-item" style="padding-left: 5px;"><a  href="/branch_admin/user/branch_user?page=<%=i%><%= search_query %>"><%=i%></a></li>
+                                <li class="page-item" style="padding-left: 5px;"><a  href="/branch_admin/subscription/get_exist_users?page=<%=i%><%= search_query %>"><%=i%></a></li>
                         <% } %>
                     
                     <% if(page < numberOfPages) { %>
                         <li class="next" style="padding-left: 5px;">
-                            <a  href="/branch_admin/user/branch_user?page=<%=page+1%><%= search_query %>">Next</a>
+                            <a  href="/branch_admin/subscription/get_exist_users?page=<%=page+1%><%= search_query %>">Next</a>
                         </li>
                       
                          <% } %>

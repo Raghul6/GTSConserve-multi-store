@@ -19,9 +19,11 @@ const productRouter = express.Router({
 
 productRouter.post("/get_categories", getCategories);
 productRouter.post("/get_products", getProducts);
+productRouter.post("/search_products", searchProducts);
+
 productRouter.get("/get_subscription_product", getSubscriptionProducts);
 productRouter.get("/get_add_on_product", getAddOnProducts);
-productRouter.post("/search_products", searchProducts);
+
 productRouter.post("/additional_products", additionalProduct);
 productRouter.post("/addon_order", addon_Order);
 

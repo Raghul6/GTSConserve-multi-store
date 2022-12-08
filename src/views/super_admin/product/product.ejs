@@ -54,9 +54,9 @@
                         <!-- __category add__ -->
                         <div wire:ignore.self="" class="modal fade" id="addbarcategory" tabindex="-1"
                             aria-labelledby="addCategoryTitle" style="display: none;" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <form method="post" action="/super_admin/product/create_product" enctype="multipart/form-data">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                 <div class="modal-content">
+                                    <form method="post" action="/super_admin/product/create_product" enctype="multipart/form-data">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalCenterTitle">Add Product</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -72,42 +72,13 @@
 
                                     <div class="modal-body">
                                         <div class="form-row mb-4">
-                                            <div class="col-6 ">
-                                                <label>Name</label>
+                                            <div class="col-4 ">
+                                                <label>Product Name</label>
                                                 <input type="text" class="form-control" wire:model="name" name="name" required
                                                     placeholder="Name">
 
                                             </div>
-                                            <div class="col-sm-6">
-                                                <label>Select a Unit</label>
-                                                <select wire:model="countryid" class="form-control" name="unit_type_id" required>
-                                                    <option value="">Select Unit </option>
-                                                    <% for(unitType of unit_types){ %>
-
-                                                        <option name="<%=unitType.value %>" value="<%=unitType.id %>"><%=unitType.value %></option>
-                                                    <% } %>
-
-                                                </select>
-                                               
-                                            </div>
-                                            
-                                            
-                                        </div>
-
-                                        <div class="form-row mb-4">
-                                            <div class="col-sm-6">
-                                                <label>Category</label>
-                                                <select wire:model="countryid" class="form-control" name="category_id" required>
-                                                    <option value="">Select Category</option>
-                                                    <% for(cat of categories){ %>
-
-                                                        <option name="<%=cat.name %>" value="<%=cat.id %>"><%=cat.name %></option>
-                                                    <% } %>
-
-                                                </select>
-
-                                            </div>
-                                            <div class="col-sm-6  ">
+                                            <div class="col-sm-4  ">
                                                 <label>Product Type</label>
                                                 <select wire:model="countryid" class="form-control" name="product_type_id" required>
                                                     <option value="">Select Product Type</option>
@@ -119,43 +90,62 @@
                                                 </select>
 
                                             </div>
+
+                                            <div class="col-sm-4">
+                                                <label>Category</label>
+                                                <select wire:model="countryid" class="form-control" name="category_id" required>
+                                                    <option value="">Select Category</option>
+                                                    <% for(cat of categories){ %>
+
+                                                        <option name="<%=cat.name %>" value="<%=cat.id %>"><%=cat.name %></option>
+                                                    <% } %>
+
+                                                </select>
+
+                                            </div>                                           
                                         </div>
 
                                         <div class="form-row mb-4">
-                                            <div class="col-sm-12">
-                                                <label>Description</label>
-                                                <textarea required name="description" placeholder="Description..." class="form-control"></textarea>
+                                            <div class="col-sm-4">
+                                                <label>Select a Unit</label>
+                                                <select wire:model="countryid" class="form-control" name="unit_type_id" required>
+                                                    <option value="">Select Unit </option>
+                                                    <% for(unitType of unit_types){ %>
 
-                                            </div>
-                                        </div>
-                                        <div class="form-row mb-4">
-                                            <div class="col-6 ">
-                                                <label>Price</label>
-                                                <input type="text" class="form-control" wire:model="name" required
-                                                    placeholder="price" name="price">
+                                                        <option name="<%=unitType.value %>" value="<%=unitType.id %>"><%=unitType.value %></option>
+                                                    <% } %>
 
+                                                </select>
+                                               
                                             </div>
-                                            <div class="col-6 ">
+                                            <div class="col-4 ">
                                                 <label>Unit Value</label>
                                                 <input type="text" class="form-control" wire:model="name" required
                                                     placeholder="Unit Value" name="unit_value">
 
                                             </div>
-                                        </div>
 
-                                      
-
-                                        <div class="form-row mb-4">
-                                            <div class="col-12  ">
-                                                
-                                                <label>Image</label>
-                                                <input type="file" wire:model="image" placeholder="Image" name="image" required
-                                                    class="form-control">
+                                            <div class="col-4 ">
+                                                <label>Price</label>
+                                                <input type="text" class="form-control" wire:model="name" required
+                                                    placeholder="price" name="price">
 
                                             </div>
                                         </div>
+                                        <div class="form-row mb-4">
+                                                <div class="col-6">
+                                                    
+                                                    <label>Image</label>
+                                                    <input type="file" wire:model="image" placeholder="Image" name="image" required
+                                                        class="form-control">
+    
+                                                </div>
+                                            <div class="col-sm-6">
+                                                <label>Description</label>
+                                                <textarea required name="description" placeholder="Description..." class="form-control"></textarea>
 
-
+                                            </div>
+                                        </div>
                                 </div>
                                 <div class="modal-footer">
 
@@ -193,7 +183,7 @@
                 <tr role="row"  >
                     <th  class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                         colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
-                        style="width: 30px;">#</th>
+                        style="width: 30px;">Product Code</th>
                     <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                         colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
                         style="width: 86px;">Name</th>
@@ -327,7 +317,7 @@
                                     </div>
                                 </div>
                                 <div class="form-row mb-4">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <label>Description</label>
                                         <textarea name="description" placeholder="Description..." class="form-control"><%= product.description %></textarea>
                 
