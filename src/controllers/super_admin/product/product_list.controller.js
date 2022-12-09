@@ -250,3 +250,6 @@ export const createProduct = async (req, res) => {
     res.redirect("/home");
   }
 };
+
+
+

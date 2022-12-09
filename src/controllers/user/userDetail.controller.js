@@ -1,63 +1,60 @@
-import responseCode from '../../constants/responseCode';
-
-import { userAddressValidator } from '../../services/validator.service';
-import knex from '../../services/db.service'
-import {change_plan, delete_user_address, edit, edit_address, get_address, get_user, remove_order } from "../../models/user/user_details.model"
- 
-
+import responseCode from "../../constants/responseCode";
+import { parseJwtPayload } from "../../services/jwt.service";
+import { userAddressValidator } from "../../services/validator.service";
+import knex from "../../services/db.service";
+import {
+  change_plan,
+  delete_user_address,
+  edit,
+  edit_address,
+  get_address,
+  get_user,
+  remove_order,
+} from "../../models/user/user_details.model";
+import messages from "../../constants/messages";
 
 export const addUserAddress = async (req, res) => {
   try {
     const payload = userAddressValidator(req.body);
-
+    const { userId } = req.body;
     if (payload.status) {
+      await knex("user_address")
+        .insert({
+          user_id: userId,
 
-      const userAddress = await knex("user_address").insert({
-        
-        user_id: payload.user_id,
+          address: payload.address,
 
-        address: payload.address,
+          landmark: payload.landmark,
 
-        landmark: payload.landmark,
+          title: payload.title,
 
-        title: payload.title,
-
-        type: payload.type,
-      })
-      .where({user_id:payload.user_id})
-
+          type: payload.type,
+        })
+        .where({ user_id: payload.user_id });
 
       res
         .status(responseCode.SUCCESS)
 
         .json({ status: true, message: "address added successfully" });
     }
-    //   else {
-    //     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: "Mandatory Fields are missing" })
-    //   }
   } catch (error) {
-
     console.log(error);
 
     res
-      .status(responseCode.FAILURE.BAD_REQUEST)
+      .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
 
       .json({ status: false, error });
   }
 };
 
 export const getAddress = async (req, res) => {
-
   try {
+    const { userId } = req.body;
 
-    const user_id = req.body;
-
-    const address = await get_address(user_id);
+    const address = await get_address(userId);
 
     res.status(200).json({ status: true, data: address.body });
-
   } catch (error) {
-
     console.log(error);
 
     res.status(500).json({ status: false });
@@ -65,31 +62,15 @@ export const getAddress = async (req, res) => {
 };
 
 export const editAddress = async (req, res) => {
-
   try {
+    const { userId, title, address, landmark, type, address_id } = req.body;
 
-    const { user_id, title, address, landmark, type } = req.body;
+    await edit_address(userId, address_id, title, address, landmark, type);
 
-    const addresses = await edit_address(
-      user_id,
-      title,
-      address,
-      landmark,
-      type
-    );
-
-    if (!user_id)
-
-      return res
-
-        .status(responseCode.FAILURE.BAD_REQUEST)
-
-        .json({ status: false, message: "invalid User" });
-
-    res.status(responseCode.SUCCESS).json({ status: true, message: "updated successfully" });
-
+    res
+      .status(responseCode.SUCCESS)
+      .json({ status: true, message: "updated successfully" });
   } catch (error) {
-
     console.log(error);
 
     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error });
@@ -97,17 +78,31 @@ export const editAddress = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-
   try {
+    const { userId } = req.body;
 
-    const user_id = req.body;
+    const user = await get_user(userId);
+    if (user.body.length === 0) {
+      return res
+        .status(responseCode.FAILURE.DATA_NOT_FOUND)
+        .json({ status: false, message: "User Not Found" });
+    }
 
-    const user = await get_user(user_id);
+    let get_user_detail = {};
+    user.body.map((data) => {
+      get_user_detail.user_id = data.id;
+      get_user_detail.name = data.name;
+      get_user_detail.image = data.image
+        ? process.env.BASE_URL + data.image
+        : null;
+      get_user_detail.mobile_number = data.mobile_number;
+      get_user_detail.email = data.email;
+    });
 
-    res.status(responseCode.SUCCESS).json({ status: true, data: user.body });
-
+    res
+      .status(responseCode.SUCCESS)
+      .json({ status: true, data: get_user_detail });
   } catch (error) {
-
     console.log(error);
 
     res
@@ -117,42 +112,29 @@ export const getUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-
   try {
+    const user = await parseJwtPayload(req.headers.authorization);
 
-    const { name, email,user_id } = req.body;
+    const { name, email } = req.body;
 
-    if (!user_id) {
-
+    if (!name || !email) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
-        .json({ status: false, message: "UserId is missing" });
-    }
-    if (!name) {
-      return res
-        .status(responseCode.FAILURE.BAD_REQUEST)
-        .json({ status: false, message: "Name is missing" });
-    }
-    if (!email) {
-      return res
-        .status(responseCode.FAILURE.BAD_REQUEST)
-        .json({ status: false, message: "Email is missing" });
-    }
-    if (!id) {
-      return res
-        .status(responseCode.FAILURE.BAD_REQUEST)
-        .json({ status: false, message: "user_id is missing" });
+        .json({ status: false, message: messages.MANDATORY_ERROR });
     }
 
-    if (!req.file) {
-      return res
-        .status(responseCode.FAILURE.BAD_REQUEST)
-        .json({ status: false, message: "file is missing" });
+    let query = {};
+
+    let image;
+    if (req.file) {
+      query.image = req.file.destination.slice(1) + "/" + req.file.filename;
     }
 
-    const image = req.file.destination.slice(1) + "/" + req.file.filename;
+    query.name = name;
+    query.email = email;
 
-    await knex("users").update({ name, email, image }).where({id : user_id});
+    console.log(query);
+    await knex("users").update(query).where({ id: user.user_id });
 
     return res
       .status(responseCode.SUCCESS)
@@ -161,88 +143,94 @@ export const updateUser = async (req, res) => {
     console.log(error);
     return res
       .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
-      .json({ status: false, message: error});
+      .json({ status: false, message: error });
   }
 };
 
 export const deleteUseraddress = async (req, res) => {
   try {
-    const { user_id, address } = req.body;
+    const { userId, address_id } = req.body;
 
-    const addresses = await delete_user_address(user_id);
-
-    if (!user_id)
-
+    if (!address_id)
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
-        .json({ status: false, message: "invalid User" });
+        .json({ status: false, message: messages.MANDATORY_ERROR});
+
+    const addresses = await delete_user_address(address_id,userId);
+
 
     res
       .status(responseCode.SUCCESS)
       .json({ status: true, message: "delete successfully" });
-
   } catch (error) {
-
     console.log(error);
 
     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error });
-  
-}
-}
-
-export const RemoveOrder = async (req,res) => {
-
-  try{
-    const {user_id} = req.body ;
-
-    const remove = await remove_order(user_id)
-    
-    res.status(responseCode.SUCCESS).json({ status: true, message : "remove successfully" })
-
   }
-  catch(error){
-
-    console.log(error)
-
-    res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error })
-  }
-} 
-
-export const Edit = async (req,res) => {
-
-  try{
-
-      const {id,user_id,value} = req.body; 
-
-      const edit_order = await edit (id,user_id,value)
-
-      res.status(responseCode.SUCCESS).json({ status: true, message : "edit successfully" })
-    }
-    catch(error){
-
-      console.log(error)
-      
-      res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error })
-    }
 };
 
-export const changePlan = async (req,res) => {
-  try{
-    const {user_id,product_id,subscribe_type_id,changeplan_name,start_date} = req.body;
-    if(!user_id && product_id && subscribe_type_id && changeplan_name && start_date){
+export const RemoveOrder = async (req, res) => {
+  try {
+    const { user_id } = req.body;
+
+    const remove = await remove_order(user_id);
+
+    res
+      .status(responseCode.SUCCESS)
+      .json({ status: true, message: "remove successfully" });
+  } catch (error) {
+    console.log(error);
+
+    res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error });
+  }
+};
+
+export const Edit = async (req, res) => {
+  try {
+    const { id, user_id, value } = req.body;
+
+    const edit_order = await edit(id, user_id, value);
+
+    res
+      .status(responseCode.SUCCESS)
+      .json({ status: true, message: "edit successfully" });
+  } catch (error) {
+    console.log(error);
+
+    res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error });
+  }
+};
+
+export const changePlan = async (req, res) => {
+  try {
+    const {
+      user_id,
+      product_id,
+      subscribe_type_id,
+      changeplan_name,
+      start_date,
+    } = req.body;
+    if (
+      !user_id &&
+      product_id &&
+      subscribe_type_id &&
+      changeplan_name &&
+      start_date
+    ) {
       return res
-      .status(responseCode.FAILURE.BAD_REQUEST)
-      .json({ status: false, message: "Mandatory Fields are missing" });
-     }
-     const plan = await change_plan(changeplan_name,start_date,subscribe_type_id)
-     res
+        .status(responseCode.FAILURE.BAD_REQUEST)
+        .json({ status: false, message: "Mandatory Fields are missing" });
+    }
+    const plan = await change_plan(
+      changeplan_name,
+      start_date,
+      subscribe_type_id
+    );
+    res
       .status(responseCode.SUCCESS)
       .json({ status: true, message: "updated successfully" });
-
-  }
-  catch(error) {
+  } catch (error) {
     console.log(error);
     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error });
-
   }
-}
+};
