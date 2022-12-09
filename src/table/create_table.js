@@ -472,7 +472,7 @@ export const createTable = async (req, res) => {
           t.integer("user_id").unsigned().notNullable();
           t.foreign("user_id").references("id").inTable("users");
 
-          t.integer("branch_id").unsigned().notNullable();
+          t.integer("branch_id").unsigned().nullable();
           t.foreign("branch_id").references("id").inTable("admin_users");
 
           t.integer("address_id").unsigned().notNullable();
@@ -511,7 +511,7 @@ export const createTable = async (req, res) => {
           t.integer("product_id").unsigned().notNullable();
           t.foreign("product_id").references("id").inTable("products");
 
-          t.enu("status", ["pending", "delivered", "undelivered"]).defaultTo(
+          t.enu("status", ["pending", "delivered", "undelivered","removed"]).defaultTo(
             "pending"
           );
           t.string("quantity", 255).nullable();
