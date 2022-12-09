@@ -785,6 +785,38 @@ export const createTable = async (req, res) => {
       }
     });
 
+  // user address subscribe branch 
+  await knex.schema.hasTable("user_address_subscribe_branch").then(function (exists) {
+    if (!exists) {
+      return knex.schema.createTable("user_address_subscribe_branch", function (t) {
+        t.increments("id").primary();
+        t.integer("user_id").unsigned().notNullable();
+        t.foreign("user_id").references("id").inTable("users");
+        t.integer("address_id").unsigned().notNullable();
+        t.foreign("address_id").references("id").inTable("user_address");
+        t.integer("branch_id").unsigned().notNullable();
+        t.foreign("branch_id").references("id").inTable("admin_users");
+        t.integer("subscription_id").unsigned().nullable();
+        t.foreign("subscription_id")
+          .references("id")
+          .inTable("subscribed_user_details");
+        t.integer("product_id").unsigned().notNullable();
+        t.foreign("product_id").references("id").inTable("products");
+        // t.enu("status", ["pending", "delivery", "not delivery"]).defaultTo(
+        //   "pending"
+        // );
+        // t.string("quantity", 255).nullable();
+        // t.integer("tax_price").nullable();
+        // t.integer("price").nullable();
+        // t.integer("total_price").nullable();
+        // t.integer("tax_id").nullable();
+
+        t.timestamps(true, true);
+      });
+    }
+  });
+
+
     return res
       .status(200)
       .json({ status: true, message: "table successfully created" });
