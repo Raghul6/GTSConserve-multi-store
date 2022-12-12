@@ -138,7 +138,7 @@ export const  getAllUsers = async (req,res) => {
 
     if (searchKeyword) {
       const search_data_length = await knex.raw(
-        `SELECT subscribed_user_details.id FROM subscribed_user_details JOIN users ON users.id = subscribed_user_details.user_id WHERE subscribed_user_details.subscription_status = "subscribed" AND users.user_unique_id LIKE '%${searchKeyword}%'`
+        `SELECT admin_users. FROM admin_users JOIN subscription_type ON subscription_type.id = admin_users.id WHERE admin_users.first_name AND subscription_type.name LIKE '%${searchKeyword}%'`
       );
 
       data_length = search_data_length[0];
