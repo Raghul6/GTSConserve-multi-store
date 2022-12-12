@@ -39,7 +39,7 @@ var mysql = require('mysql2');
 
 
 var connection = mysql.createConnection({
-  host     : 'awseb-e-npmmsipzhp-stack-awsebrdsdatabase-szxfw2ixfa9x.cnxyneaiybt8.ap-south-1.rds.amazonaws.com',
+  host     : 'awseb-e-x3s3f4wi2v-stack-awsebrdsdatabase-x1jmeljtlon9.cnxyneaiybt8.ap-south-1.rds.amazonaws.com',
   user     : 'maramdbadmin',
   password : 'q&HJIJ^EWF7N4sBs',
   port     : 3306
