@@ -134,8 +134,13 @@ export const createTable = async (req, res) => {
       if (!exists) {
         return knex.schema.createTable("user_address", function (t) {
           t.increments("id").primary();
+
           t.integer("user_id").unsigned().notNullable();
           t.foreign("user_id").references("id").inTable("users");
+
+          t.integer("branch_id").unsigned().notNullable();
+          t.foreign("branch_id").references("id").inTable("admin_users");
+
           t.string("title", 255).nullable();
           t.string("address", 255).nullable();
           t.string("landmark", 255).nullable();
@@ -391,8 +396,10 @@ export const createTable = async (req, res) => {
           t.integer("rider_id").unsigned().nullable();
           t.foreign("rider_id").references("id").inTable("rider_details");
 
-          // t.integer("city_id").unsigned().notNullable();
-          // t.foreign("city_id").references("id").inTable("cities");
+          t.integer("branch_id").unsigned().notNullable();
+          t.foreign("branch_id").references("id").inTable("admin_users");
+
+          t.json("user_mapping").nullable();
 
           t.string("name", 255).nullable();
           // t.string("ending_point", 255).nullable();
