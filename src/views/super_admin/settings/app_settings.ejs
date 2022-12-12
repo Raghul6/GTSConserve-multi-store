@@ -82,9 +82,9 @@
                                                 
                                                 <div class="form-row mb-4">
                                                     <div class="col-sm-6">
-                                                        <label>key_id</label>
+                                                        <label>key</label>
                                                         <input type="text" class="form-control" wire:model="name" 
-                                                            placeholder="key_id" name="key_id">
+                                                            placeholder="key" name="key">
                                                        
                                                     </div>
                                                     <div class="col-sm-6">
@@ -138,7 +138,7 @@
                                 colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
                                 style="width: 86px;"> Name</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                aria-label="NAME: activate to sort column ascending" style="width: 100px;">key_id</th>
+                                aria-label="NAME: activate to sort column ascending" style="width: 100px;">key</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                 aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">value</th>
                             <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
@@ -156,7 +156,7 @@
                             <% for(app_settings of data){ %>
                                     <td class="sorting_1"><%=app_settings.id %></td>
                                     <td><%=app_settings.name %></td>
-                                    <td><%=app_settings.key_id %> </td>
+                                    <td><%=app_settings.key %> </td>
                                     <td><%=app_settings.value %></td>
                                    
 
@@ -225,9 +225,9 @@
                                                     <div class="form-row mb-4">
                                                         
                                                             <div class="col-6 ">
-                                                                <label>key_id</label>
+                                                                <label>key</label>
                                                                 <input type="text" class="form-control" wire:model="name" 
-                                                                    placeholder="key_id" name="key_id" value="<%= app_settings.key_id %>">
+                                                                    placeholder="key" name="key" value="<%= app_settings.key %>">
                                                                
                                                             </div>
                                                             <div class="col-6">
