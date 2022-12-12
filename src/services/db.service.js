@@ -36,15 +36,38 @@ export default knex;
 
 
 // var mysql = require('mysql2');
+<<<<<<< HEAD
+=======
 
+>>>>>>> 0f8e5570efa619c7804c2ef2f8f49dd3ebe70687
 
 // var connection = mysql.createConnection({
-//   host     : 'awseb-e-npmmsipzhp-stack-awsebrdsdatabase-szxfw2ixfa9x.cnxyneaiybt8.ap-south-1.rds.amazonaws.com',
-//   user     : 'maramdbadmin',
-//   password : 'q&HJIJ^EWF7N4sBs',
-//   port     : 3306
+//   host     : process.env.DB_HOST,
+//   user     : process.env.DB_USER,
+//   // password : process.env.DB_PASSWORD,
+//   port     : process.env.DB_PORT
 // });
 
+<<<<<<< HEAD
+// connection.connect(function(err) {
+//   if (err) {
+//     console.error('Database connection failed: ' + err.stack);
+//     return;
+//   }
+=======
+var connection = mysql.createConnection({
+  host     : 'awseb-e-x3s3f4wi2v-stack-awsebrdsdatabase-x1jmeljtlon9.cnxyneaiybt8.ap-south-1.rds.amazonaws.com',
+  user     : 'maramdbadmin',
+  password : 'q&HJIJ^EWF7N4sBs',
+  port     : 3306
+});
+>>>>>>> 0f8e5570efa619c7804c2ef2f8f49dd3ebe70687
+
+//   console.log('Connected to database.');
+// });
+
+<<<<<<< HEAD
+=======
 
 // connection.connect(function(err) {
 //   if (err) {
@@ -55,4 +78,5 @@ export default knex;
 //   console.log('Connected to database.');
 // });
 
+>>>>>>> 0f8e5570efa619c7804c2ef2f8f49dd3ebe70687
 // connection.end();
