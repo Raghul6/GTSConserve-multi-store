@@ -138,8 +138,14 @@ export const  getAllUsers = async (req,res) => {
 
     if (searchKeyword) {
       const search_data_length = await knex.raw(
-        `SELECT admin_users. FROM admin_users JOIN subscription_type ON subscription_type.id = admin_users.id WHERE admin_users.first_name AND subscription_type.name LIKE '%${searchKeyword}%'`
+        `SELECT admin_users.first_name FROM admin_users WHERE admin_users.first_name LIKE '%${searchKeyword}%'`
       );
+      // `SELECT  .id,admin_users.first_name as admin_users.first_name,subscription_type.name,products.name,user_address.address,users.mobile_number,product_type.name
+      //   FROM subscription_type
+      //   JOIN product_type ON products.product_type_id = product_type.id 
+      //   JOIN admin_users ON admin_users.id = subscription_type.id 
+      //   JOIN user_address ON user_address.user_id = users.user_group_id
+      //    WHERE admin_users.first_name LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
 
       data_length = search_data_length[0];
 
@@ -150,21 +156,19 @@ export const  getAllUsers = async (req,res) => {
         return res.redirect("/super_admin/users_subscription/get_all_users");
       }
     } else {
-      data_length = await knex("subscribed_user_details")
-        .select("id")
-        .where({ subscription_status: "subscribed" });
+      data_length = await knex("subscription_type").select("id")
     }
 
-    const branches = await knex("admin_users")
-      .select("first_name", "id", "location")
-      .where({ user_group_id: "2" });
+    // const branches = await knex("admin_users")
+    //   .select("first_name", "id", "location")
+    //   .where({ user_group_id: "2" });
 
     if (data_length.length === 0) {
       loading = false;
       return res.render("super_admin/users_subscription/approve", {
         data: data_length,
         searchKeyword,
-        branches,
+        // branches,
       });
     }
 
@@ -198,7 +202,7 @@ export const  getAllUsers = async (req,res) => {
         JOIN categories ON categories.id = products.category_id
         JOIN admin_users ON admin_users.user_group_id = subscription_type.id
         WHERE sub.subscription_status = "subscribed" 
-        AND users.user_unique_id LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
+        AND admin_users.first_name LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
       );
       is_search = true;
       console.log(results)
@@ -235,7 +239,7 @@ export const  getAllUsers = async (req,res) => {
       is_search,
       searchKeyword,
       loading,
-      branches,
+      // branches,
     });
   } catch (error) {
     console.log(error);
