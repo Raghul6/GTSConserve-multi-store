@@ -1,129 +1,117 @@
 import knex from "../../../services/db.service";
 import { getPageNumber } from "../../../utils/helper.util";
 
+export const updateViewMapping = async (req, res) => {
+  try {
+    const { values } = req.body;
+    const { router_id } = req.query;
 
-export const getViewMapping = async (req,res) => {
+    await knex("routes")
+      .update({ user_mapping: JSON.stringify(values) })
+      .where({ id: router_id });
+
+    req.flash("success", "Updated Successfully");
+    return res.redirect(
+      "/branch_admin/route/user_mapping?route_id" + router_id
+    );
+  } catch (error) {
+    console.log(error);
+    return res.redirect("/home");
+  }
+};
+
+export const getViewMapping = async (req, res) => {
   try {
     const { admin_id } = req.body;
     let loading = true;
-    const { searchKeyword,route_id } = req.query;
+    const { searchKeyword, route_id } = req.query;
 
-    let data_length = [];
-    // user_mapping
+    const users = await knex("routes")
+      .select("user_mapping")
+      .where({ id: route_id });
 
-    const users = await knex("routes").select("user_mapping").where({id  :route_id})
-    console.log(users)
+    if (users.length === 0 || users[0].user_mapping === null) {
+      loading = false;
+      req.flash("error", "No User Found");
+      return res.render("branch_admin/route/view_mapping", {
+        data: [],
 
+        loading,
+        router_id: route_id,
+      });
+    }
 
-    if (data_length.length === 0) {
-          loading = false;
-         
-          req.flash("error", "No User Found");
-          return res.redirect("/branch_admin/route/user_mapping");
-        }
+    let get_user_details = [];
 
-    // const users2 = await knex("routes").select("id").whereIn("user_mapping")
+    for (let i = 0; i < users[0].user_mapping.length; i++) {
+      let user = await knex("users")
+        .select(
+          "users.id",
+          "users.name as user_name",
+          "user_address.address",
+          "user_address.landmark",
+          "users.user_unique_id"
+        )
+        .join("user_address", "user_address.user_id", "=", "users.id")
+        .where({ "users.id": users[0].user_mapping[i] });
 
-    // if (searchKeyword) {
-    //   const search_data_length = await knex.raw(
-    //     `SELECT sub.id FROM subscribed_user_details as sub
-    //     JOIN users ON users.id = sub.user_id
-    //     WHERE sub.router_id = ${route_id} AND sub.subscription_status = "subscribed" AND users.user_unique_id LIKE '%${searchKeyword}%'`
-    //   );
-
-    //   data_length = search_data_length[0];
-
-    //   if (data_length.length === 0) {
-    //     loading = false;
-    //     req.query.searchKeyword = "";
-    //     req.flash("error", "No User Found");
-    //     return res.redirect("/branch_admin/route/user_mapping");
-    //   }
-    // } else {
-    //   data_length = await knex("subscribed_user_details")
-    //     .select("id")
-    //     .where({ subscription_status: "subscribed" ,router_id : route_id  });
-    // }
-
-
-
-    // if (data_length.length === 0) {
-    //   loading = false;
-    //   return res.render("branch_admin/route/user_mapping", {
-    //     data: data_length,
-    //     searchKeyword,
-    //     router_id : route_id
-    //   });
-    // }
-
-    // let {
-    //   startingLimit,
-    //   page,
-    //   resultsPerPage,
-    //   numberOfPages,
-    //   iterator,
-    //   endingLink,
-    // } = await getPageNumber(req, res, data_length, "route/user_mapping");
-
-    let results;
-
-      results = await knex.raw(
-        `SELECT users.name as user_name, sub.id,user_address.address,user_address.landmark, users.user_unique_id FROM subscribed_user_details as sub 
-        JOIN users ON users.id = sub.user_id
-        JOIN user_address ON user_address.id = sub.user_address_id
-        WHERE sub.router_id = ${route_id} AND sub.subscription_status =  "subscribed"  `
-      );
-    
-
-    const data = results[0];
-
-        console.log(data)
-
-loading = false
-    // for (let i = 0; i < data.length; i++) {
-     
-    //   if (data[i].subscription_start_date) {
-    //     data[i].subscription_start_date = data[i].subscription_start_date
-    //       .toString()
-    //       .slice(4, 16);
-    //   }
-    // }
+      get_user_details.push(user[0]);
+    }
 
     loading = false;
+
     res.render("branch_admin/route/view_mapping", {
-      data,
-      // page,
-      // iterator,
-      // endingLink,
-      // numberOfPages,
-      // is_search,
-      // searchKeyword,
+      data: get_user_details,
+
       loading,
-      router_id : route_id
+      router_id: route_id,
     });
   } catch (error) {
     console.log(error);
     res.redirect("/home");
   }
-}
+};
 
-
-
-
-export const getUserMapping = async(req,res) => {
+export const getUserMapping = async (req, res) => {
   try {
     const { admin_id } = req.body;
     let loading = true;
-    const { searchKeyword,route_id } = req.query;
+    const { searchKeyword, route_id = 1 } = req.query;
 
     let data_length = [];
 
+    const check_users_id = await knex("routes")
+      .select("user_mapping")
+      .where({ id: route_id });
+
+    if (
+      check_users_id.length === 0 ||
+      check_users_id[0].user_mapping === null
+    ) {
+      loading = false;
+      return res.render("branch_admin/route/user_mapping", {
+        data: data_length,
+        searchKeyword,
+        router_id: route_id,
+      });
+    }
+
+    let user_ids = check_users_id[0].user_mapping;
+
+    console.log("1qwq", user_ids);
+
     if (searchKeyword) {
       const search_data_length = await knex.raw(
-        `SELECT sub.id FROM subscribed_user_details as sub
-        JOIN users ON users.id = sub.user_id
-        WHERE sub.router_id = ${route_id} AND sub.subscription_status = "subscribed" AND users.user_unique_id LIKE '%${searchKeyword}%'`
+        `SELECT id FROM users
+        WHERE id IN ${user_ids} 
+        AND user_unique_id LIKE '%${searchKeyword}%'`
       );
+      // const search_data_length = await knex.raw(
+      //   `SELECT sub.id FROM subscribed_user_details as sub
+      //   JOIN users ON users.id = sub.user_id
+      //   WHERE sub.router_id = ${route_id} AND sub.subscription_status = "subscribed"
+      //   AND users.user_unique_id LIKE '%${searchKeyword}%'`
+      // );
 
       data_length = search_data_length[0];
 
@@ -134,19 +122,19 @@ export const getUserMapping = async(req,res) => {
         return res.redirect("/branch_admin/route/user_mapping");
       }
     } else {
-      data_length = await knex("subscribed_user_details")
+      data_length = await knex("users")
         .select("id")
-        .where({ subscription_status: "subscribed" ,router_id : route_id  });
+        // .join("users", "users.id", "=", "sub.user_id")
+        .whereIn("id", user_ids);
     }
 
-
-
+    console.log(data_length);
     if (data_length.length === 0) {
       loading = false;
       return res.render("branch_admin/route/user_mapping", {
         data: data_length,
         searchKeyword,
-        router_id : route_id
+        router_id: route_id,
       });
     }
 
@@ -175,22 +163,54 @@ export const getUserMapping = async(req,res) => {
       );
       is_search = true;
     } else {
+
+      for (let i = 0; i < user_ids.length; i++) {
+        let user = await knex("users")
+          .select(
+            "users.id",
+            "users.name as user_name",
+            "user_address.address",
+            "user_address.landmark",
+            "users.user_unique_id"
+          )
+          .join("user_address", "user_address.user_id", "=", "users.id")
+          .where({ "users.id": user_ids[i] });
+  
+        get_user_details.push(user[0]);
+      }
+
       results = await knex.raw(
-        `SELECT sub.id,users.name as user_name,user_address.address,user_address.landmark, users.user_unique_id,users.mobile_number,products.name as product_name,products.unit_value,products.price,sub.quantity,unit_types.value,sub.subscription_start_date,sub.customized_days,subscription_type.name as sub_name FROM subscribed_user_details as sub 
-        JOIN users ON users.id = sub.user_id
-        JOIN products on products.id = sub.product_id
-        JOIN unit_types ON unit_types.id = products.unit_type_id
-        JOIN user_address ON user_address.id = sub.user_address_id
-        JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id
-        WHERE sub.router_id = ${route_id} AND sub.subscription_status =  "subscribed"  LIMIT ${startingLimit},${resultsPerPage}`
+        `SELECT users.id as user_id  LIMIT ${startingLimit},${resultsPerPage}`
       );
     }
+    // if (searchKeyword) {
+    //   results = await knex.raw(
+    //     `SELECT sub.id,users.name as user_name,user_address.address,user_address.landmark, users.user_unique_id,users.mobile_number,products.name as product_name,products.unit_value,products.price,sub.quantity,unit_types.value,sub.subscription_start_date,sub.customized_days,subscription_type.name as sub_name FROM subscribed_user_details as sub 
+    //     JOIN users ON users.id = sub.user_id
+    //     JOIN products on products.id = sub.product_id
+    //     JOIN unit_types ON unit_types.id = products.unit_type_id
+    //     JOIN user_address ON user_address.id = sub.user_address_id
+    //     JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id
+    //     WHERE sub.router_id = ${route_id} AND sub.subscription_status =  "subscribed" AND
+    //     users.user_unique_id  LIKE '%${searchKeyword}%' 
+    //     LIMIT ${startingLimit},${resultsPerPage}`
+    //   );
+    //   is_search = true;
+    // } else {
+    //   results = await knex.raw(
+    //     `SELECT sub.id,users.name as user_name,user_address.address,user_address.landmark, users.user_unique_id,users.mobile_number,products.name as product_name,products.unit_value,products.price,sub.quantity,unit_types.value,sub.subscription_start_date,sub.customized_days,subscription_type.name as sub_name FROM subscribed_user_details as sub 
+    //     JOIN users ON users.id = sub.user_id
+    //     JOIN products on products.id = sub.product_id
+    //     JOIN unit_types ON unit_types.id = products.unit_type_id
+    //     JOIN user_address ON user_address.id = sub.user_address_id
+    //     JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id
+    //     WHERE sub.router_id = ${route_id} AND sub.subscription_status =  "subscribed"  LIMIT ${startingLimit},${resultsPerPage}`
+    //   );
+    // }
 
     const data = results[0];
 
-
     for (let i = 0; i < data.length; i++) {
-     
       if (data[i].subscription_start_date) {
         data[i].subscription_start_date = data[i].subscription_start_date
           .toString()
@@ -208,20 +228,18 @@ export const getUserMapping = async(req,res) => {
       is_search,
       searchKeyword,
       loading,
-      router_id : route_id
+      router_id: route_id,
     });
   } catch (error) {
     console.log(error);
     res.redirect("/home");
   }
-}
-
+};
 
 export const updateRoute = async (req, res) => {
   try {
     const { name, city_id, rider_id, id } = req.body;
 
-  
     if (!name) {
       req.flash("error", "Route Name is missing");
       return res.redirect("/branch_admin/route/get_route");
@@ -230,7 +248,7 @@ export const updateRoute = async (req, res) => {
     let query = {};
 
     query.name = name;
-    
+
     // if (city_id) {
     //   query.city_id = city_id;
     // }
@@ -268,9 +286,8 @@ export const updateRouteStatus = async (req, res) => {
 
 export const createRoute = async (req, res) => {
   try {
-    const { name, admin_id, city_id, rider_id } =
-      req.body;
-  
+    const { name, admin_id, city_id, rider_id } = req.body;
+
     if (!name) {
       req.flash("error", "Route Name is missing");
       return res.redirect("/branch_admin/route/get_route");
@@ -281,15 +298,15 @@ export const createRoute = async (req, res) => {
     //   return res.redirect("/branch_admin/route/get_route");
     // }
 
-    let query = {}
+    let query = {};
     if (rider_id) {
-      query.rider_id = rider_id
+      query.rider_id = rider_id;
     }
 
-    query.name = name
-  
+    query.name = name;
+
     // query.city_id = city_id
-    query.branch_id = admin_id
+    query.branch_id = admin_id;
 
     await knex("routes").insert(query);
 
@@ -336,8 +353,7 @@ export const getRoute = async (req, res) => {
 
     if (data_length.length !== 0) {
       data_length.map((data) => {
-        if(data.rider_id){
-
+        if (data.rider_id) {
           is_rider.push(data.rider_id);
         }
       });
