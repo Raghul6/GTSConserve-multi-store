@@ -176,7 +176,7 @@ export const getUserMapping = async (req, res) => {
           .join("user_address", "user_address.user_id", "=", "users.id")
           .where({ "users.id": user_ids[i] });
   
-        get_user_details.push(user[0]);
+        // get_user_details.push(user[0]);
       }
 
       results = await knex.raw(
