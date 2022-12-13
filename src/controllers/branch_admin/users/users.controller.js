@@ -95,29 +95,32 @@ export const getusers = async (req, res) => {
     } else { 
       
       results = await knex.raw(
-        `SELECT sub.id ,users.name as user_name,sub.route_id,
-        sub.address,sub.landmark,users.user_unique_id as customer_id,
-        subscribed_user_details.date as subscription_start_date,
-        product_type.name as product_type,unit_types.value as unit_type,
-        products.name as product_name,
-        routes.name as route_name,
-        subscription_type.name as Subscription_type,
-        products.price,products.unit_value,
-        categories.name as category_name,
-
-         users.mobile_number AS mobile_number
-         FROM user_address AS sub             
-         JOIN users ON users.id = sub.user_id
-         JOIN routes ON  routes.id = sub.route_id
-         JOIN user_address_subscribe_branch ON  user_address_subscribe_branch.address_id = sub.id
-         JOIN products ON  products.id = user_address_subscribe_branch.product_id
-         JOIN product_type ON  product_type.id = products.product_type_id
-         JOIN categories ON  categories.id = products.category_id
-         JOIN unit_types ON  unit_types.id = products.unit_type_id
-
-         JOIN subscribed_user_details ON subscribed_user_details.user_id = users.id 
-         JOIN subscription_type ON subscription_type.id = subscribed_user_details.subscribe_type_id
-		     WHERE sub.branch_id = ${admin_id}`
+        `SELECT sub.id ,users.name as user_name,sub.route_id,     
+        sub.address,sub.landmark,users.user_unique_id as customer_id,     
+        subscribed_user_details.date as subscription_start_date,    
+        subscription_type.name as Subscription_type,    
+        products.price,products.unit_value,     
+        categories.name as category_name,    
+        routes.name as route_name,     
+        product_type.name as product_type,     
+        unit_types.value as unit_type,    
+        products.name as product_name,     
+        users.mobile_number AS mobile_number 
+     
+      FROM user_address AS sub             
+            
+      left JOIN users ON users.id = sub.user_id		
+      left JOIN routes ON  routes.id = sub.route_id 
+     
+      left JOIN user_address_subscribe_branch  as c ON c.user_id=sub.user_id
+      
+     left JOIN products ON  products.id = c.product_id      
+      left JOIN product_type ON  product_type.id = products.product_type_id     
+      left JOIN categories ON  categories.id = products.category_id     
+      left JOIN unit_types ON  unit_types.id = products.unit_type_id		 
+      left JOIN subscribed_user_details ON subscribed_user_details.user_id = users.id 		
+      left JOIN subscription_type ON subscription_type.id = subscribed_user_details.subscribe_type_id   
+      WHERE sub.branch_id = ${admin_id}`
       );
       
 
