@@ -20,6 +20,82 @@ export const updateViewMapping = async (req, res) => {
   }
 };
 
+
+export const tommorowRouteMapping  = async (req,res) => {
+  try {
+    const { admin_id } = req.body;
+    let loading = true;
+    const { searchKeyword, route_id } = req.query;
+
+    const users = await knex("routes")
+      .select("user_mapping")
+      .where({ id: route_id });
+
+    if (users.length === 0 || users[0].user_mapping === null) {
+      loading = false;
+      req.flash("error", "No User Found");
+      return res.render("branch_admin/route/tommorrow_mapping", {
+        data: [],
+
+        loading,
+        router_id: route_id,
+      });
+    }
+
+    let get_user_details = [];
+
+    for (let i = 0; i < users[0].user_mapping.length; i++) {
+      let user = await knex("user_address")
+        .select(
+          "user_address.id",
+          "users.name as user_name",
+          "user_address.address",
+          "user_address.landmark",
+          "users.user_unique_id"
+        )
+        .join("users", "users.id", "=", "user_address.user_id")
+        .where({ "user_address.id": users[0].user_mapping[i] });
+
+      get_user_details.push(user[0]);
+    }
+
+
+    const daily_orders = await knex("daily_orders").select("user_address_id").where({router_id : route_id})
+
+    const address= []
+    for(let i = 0 ; i< daily_orders.length ; i++){
+        address.push(daily_orders[i].user_address_id)
+    }
+
+    console.log(address)
+
+
+    for(let i = 0 ; i< get_user_details.length ; i++){
+
+
+
+      if(!address.includes(get_user_details[i].id)){
+    
+        get_user_details.splice([i], 1);
+      }
+    }
+
+    loading = false;
+    console.log(get_user_details)
+    res.render("branch_admin/route/tommorrow_mapping", {
+      data: get_user_details,
+
+      loading,
+      router_id: route_id,
+    });
+  } catch (error) {
+    console.log(error);
+    res.redirect("/home");
+  }
+}
+
+
+
 export const getViewMapping = async (req, res) => {
   try {
     const { admin_id } = req.body;
@@ -44,22 +120,22 @@ export const getViewMapping = async (req, res) => {
     let get_user_details = [];
 
     for (let i = 0; i < users[0].user_mapping.length; i++) {
-      let user = await knex("users")
+      let user = await knex("user_address")
         .select(
-          "users.id",
+          "user_address.id",
           "users.name as user_name",
           "user_address.address",
           "user_address.landmark",
           "users.user_unique_id"
         )
-        .join("user_address", "user_address.user_id", "=", "users.id")
-        .where({ "users.id": users[0].user_mapping[i] });
+        .join("users", "users.id", "=", "user_address.user_id")
+        .where({ "user_address.id": users[0].user_mapping[i] });
 
       get_user_details.push(user[0]);
     }
 
     loading = false;
-
+    console.log(get_user_details)
     res.render("branch_admin/route/view_mapping", {
       data: get_user_details,
 
@@ -96,14 +172,14 @@ export const getUserMapping = async (req, res) => {
       });
     }
 
-    let user_ids = check_users_id[0].user_mapping;
+    let address_ids = check_users_id[0].user_mapping;
 
-    console.log("1qwq", user_ids);
+  
 
     if (searchKeyword) {
       const search_data_length = await knex.raw(
-        `SELECT id FROM users
-        WHERE id IN ${user_ids} 
+        `SELECT id FROM user_address
+        WHERE id IN ${address_ids} 
         AND user_unique_id LIKE '%${searchKeyword}%'`
       );
       // const search_data_length = await knex.raw(
@@ -122,13 +198,13 @@ export const getUserMapping = async (req, res) => {
         return res.redirect("/branch_admin/route/user_mapping");
       }
     } else {
-      data_length = await knex("users")
+      data_length = await knex("user_address")
         .select("id")
         // .join("users", "users.id", "=", "sub.user_id")
-        .whereIn("id", user_ids);
+        .whereIn("id", address_ids);
     }
 
-    console.log(data_length);
+   
     if (data_length.length === 0) {
       loading = false;
       return res.render("branch_admin/route/user_mapping", {
@@ -148,6 +224,7 @@ export const getUserMapping = async (req, res) => {
     } = await getPageNumber(req, res, data_length, "route/user_mapping");
 
     let results;
+    let users = []
     let is_search = false;
     if (searchKeyword) {
       results = await knex.raw(
@@ -164,24 +241,28 @@ export const getUserMapping = async (req, res) => {
       is_search = true;
     } else {
 
-      for (let i = 0; i < user_ids.length; i++) {
-        let user = await knex("users")
+    
+
+      for (let i = 0; i < address_ids.length; i++) {
+        let user = await knex("user_address")
           .select(
             "users.id",
+            "users.mobile_number",
             "users.name as user_name",
             "user_address.address",
             "user_address.landmark",
             "users.user_unique_id"
           )
-          .join("user_address", "user_address.user_id", "=", "users.id")
-          .where({ "users.id": user_ids[i] });
+          .join("users", "users.id",  "=", "user_address.user_id")
+          .where({ "user_address.id": address_ids[i] });
   
+          users.push(user[0])
         // get_user_details.push(user[0]);
       }
 
-      results = await knex.raw(
-        `SELECT users.id as user_id  LIMIT ${startingLimit},${resultsPerPage}`
-      );
+      // results = await knex.raw(
+      //   `SELECT users.id as user_id  LIMIT ${startingLimit},${resultsPerPage}`
+      // );
     }
     // if (searchKeyword) {
     //   results = await knex.raw(
@@ -208,15 +289,15 @@ export const getUserMapping = async (req, res) => {
     //   );
     // }
 
-    const data = results[0];
+    const data = users;
 
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].subscription_start_date) {
-        data[i].subscription_start_date = data[i].subscription_start_date
-          .toString()
-          .slice(4, 16);
-      }
-    }
+    // for (let i = 0; i < data.length; i++) {
+    //   if (data[i].subscription_start_date) {
+    //     data[i].subscription_start_date = data[i].subscription_start_date
+    //       .toString()
+    //       .slice(4, 16);
+    //   }
+    // }
 
     loading = false;
     res.render("branch_admin/route/user_mapping", {

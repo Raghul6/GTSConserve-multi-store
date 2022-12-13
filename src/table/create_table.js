@@ -129,6 +129,54 @@ export const createTable = async (req, res) => {
       }
     });
 
+
+        // rider details
+        await knex.schema.hasTable("rider_details").then(function (exists) {
+          if (!exists) {
+            return knex.schema.createTable("rider_details", function (t) {
+              t.increments("id").primary().unsigned().notNullable();
+    
+              t.string("name", 255).notNullable();
+              t.string("user_name", 255).notNullable();
+              t.string("mobile_number", 255).nullable();
+    
+              t.integer("branch_id").unsigned().nullable();
+              t.foreign("branch_id").references("id").inTable("admin_users");
+    
+              t.string("password", 255).notNullable();
+              t.string("address", 255).nullable();
+              t.enu("status", ["0", "1"]).defaultTo("1");
+              t.timestamps(true, true);
+            });
+          }
+        });
+    
+        //  router
+        await knex.schema.hasTable("routes").then(function (exists) {
+          if (!exists) {
+            return knex.schema.createTable("routes", function (t) {
+              t.increments("id").primary().unsigned().notNullable();
+    
+              t.integer("rider_id").unsigned().nullable();
+              t.foreign("rider_id").references("id").inTable("rider_details");
+    
+              t.integer("branch_id").unsigned().notNullable();
+              t.foreign("branch_id").references("id").inTable("admin_users");
+    
+              t.json("user_mapping").nullable();
+    
+              t.string("name", 255).nullable();
+              // t.string("ending_point", 255).nullable();
+    
+              t.enu("status", ["0", "1"]).defaultTo("1");
+              t.timestamps(true, true);
+            });
+          }
+        });
+    
+
+
+
     // user address
     await knex.schema.hasTable("user_address").then(function (exists) {
       if (!exists) {
@@ -138,8 +186,11 @@ export const createTable = async (req, res) => {
           t.integer("user_id").unsigned().notNullable();
           t.foreign("user_id").references("id").inTable("users");
 
-          t.integer("branch_id").unsigned().notNullable();
+          t.integer("branch_id").unsigned().nullable();
           t.foreign("branch_id").references("id").inTable("admin_users");
+
+          t.integer("router_id").unsigned().nullable();
+          t.foreign("router_id").references("id").inTable("routes");
 
           t.string("title", 255).nullable();
           t.string("address", 255).nullable();
@@ -366,49 +417,6 @@ export const createTable = async (req, res) => {
       }
     });
 
-    // rider details
-    await knex.schema.hasTable("rider_details").then(function (exists) {
-      if (!exists) {
-        return knex.schema.createTable("rider_details", function (t) {
-          t.increments("id").primary().unsigned().notNullable();
-
-          t.string("name", 255).notNullable();
-          t.string("user_name", 255).notNullable();
-          t.string("mobile_number", 255).nullable();
-
-          t.integer("branch_id").unsigned().nullable();
-          t.foreign("branch_id").references("id").inTable("admin_users");
-
-          t.string("password", 255).notNullable();
-          t.string("address", 255).nullable();
-          t.enu("status", ["0", "1"]).defaultTo("1");
-          t.timestamps(true, true);
-        });
-      }
-    });
-
-    //  router
-    await knex.schema.hasTable("routes").then(function (exists) {
-      if (!exists) {
-        return knex.schema.createTable("routes", function (t) {
-          t.increments("id").primary().unsigned().notNullable();
-
-          t.integer("rider_id").unsigned().nullable();
-          t.foreign("rider_id").references("id").inTable("rider_details");
-
-          t.integer("branch_id").unsigned().notNullable();
-          t.foreign("branch_id").references("id").inTable("admin_users");
-
-          t.json("user_mapping").nullable();
-
-          t.string("name", 255).nullable();
-          // t.string("ending_point", 255).nullable();
-
-          t.enu("status", ["0", "1"]).defaultTo("1");
-          t.timestamps(true, true);
-        });
-      }
-    });
 
     //  subscribed user details
     await knex.schema
@@ -487,7 +495,7 @@ export const createTable = async (req, res) => {
 
           t.date("delivery_date").nullable();
 
-          t.enu("status", ["pending", "delivered", "undelivered"]).defaultTo(
+          t.enu("status", ["pending", "delivered", "undelivered","assigned",  "cancelled"]).defaultTo(
             "pending"
           );
           t.integer("tip_amount").nullable();
