@@ -193,57 +193,58 @@
                                                
                                                 
                                             </div>
+                                            <% for(data of data1){ %>
 
                                             <div class="col-sm-4">
                                                 <label> Category Name</label>
-                                                <p style="font-weight: 900;"><%=user.category_name %></p>
+                                                <p style="font-weight: 900;"><%=data.category_name %></p>
                                                 
                                             </div>
 
                                             <div class="col-sm-4 pb-4">
                                                 <label>Product name</label>
-                                                <p style="font-weight: 900;"><%=user.product_name %></p>
+                                                <p style="font-weight: 900;"><%=data.product_name %></p>
                                             </div>
 
                                             <div class="col-sm-4 ">
                                                 <label>Unit Type</label>
-                                                <p style="font-weight: 900;"><%=user.value %></p>
+                                                <p style="font-weight: 900;"><%=data.value %></p>
                                                 
                                             </div>
 
                                             <div class="col-sm-4">
                                                 <label>Unit Value</label>
-                                                <p style="font-weight: 900;"><%=user.unit_value %></p>
+                                                <p style="font-weight: 900;"><%=data.unit_value %></p>
                                                 
                                             </div>
                                            
                                             <div class="col-sm-4 ">
                                                 <label>Quantity</label>
-                                                <p style="font-weight: 900;"><%=user.quantity %></p>
+                                                <p style="font-weight: 900;"><%=data.quantity %></p>
                                                 
                                             </div>
 
                                             <div class="col-sm-4 pb-4">
                                                 <label>Price</label>
-                                                <p style="font-weight: 900;"><%=user.price %></p>
+                                                <p style="font-weight: 900;"><%=data.price %></p>
                                                 
                                             </div>
                                             
                                             <div class="col-sm-4 pb-4">
                                                 <label>Address</label>
-                                                <p style="font-weight: 900;"><%=user.address %></p>
+                                                <p style="font-weight: 900;"><%=data.address %></p>
                                                 
                                             </div>
 
                                             <div class="col-sm-4 pb-4">
                                                 <label>Branch</label>
-                                                <p style="font-weight: 900;"><%=user.first_name %></p>
+                                                <p style="font-weight: 900;"><%=data.first_name %></p>
                                                 
                                             </div>
                                             
                                             <div class="col-sm-4">
                                                 <label>Landmark</label>
-                                                <p style="font-weight: 900;"><%=user.landmark %></p>
+                                                <p style="font-weight: 900;"><%=data.landmark %></p>
                                               
                                             </div>
                                             <!-- <% for(data of data1){ %>
@@ -327,7 +328,7 @@
                                                         
                                                     </ul>
                                                 </div>
-                                                
+                                                <% } %>
                                             </div>
                                             <% } %> 
                                     </div>
