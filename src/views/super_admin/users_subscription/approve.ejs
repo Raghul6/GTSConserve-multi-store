@@ -16,7 +16,7 @@
                             <div class="w-100 row">
 
                                 <div class="w-100">
-                                    <input type="text" name="searchKeyword" oninput="onChangeSearch()" value="<%=searchKeyword? searchKeyword : ""  %>" class="w-100 form-control product-search br-30 col-9" id="searchText" placeholder="Search By Customer id">
+                                    <input type="text" name="searchKeyword" oninput="onChangeSearch()" value="<%=searchKeyword? searchKeyword : ""  %>" class="w-100 form-control product-search br-30 col-9" id="searchText" placeholder="Search">
                                     <button class="btn btn-primary" type="submit" onclick="onSearch()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></button>
                                 </div>
 
@@ -90,8 +90,8 @@
                             
                         <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                             aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Subscription Start Date</th>  -->
-                        <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Status</th> -->
+                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                            aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Status</th>
                             
                         <th class="text-center dt-no-sorting sorting" tabindex="0"
                             aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
@@ -142,7 +142,7 @@
                                     </td>
                                     
                                     <td  class="text-center" > 
-                                        <button style="font-weight: bold;" class="btn  btn-md  btn-info" data-toggle="modal"
+                                        <button style="font-weight: bold;" class="btn btn-sm btn-primary" data-toggle="modal"
                                         data-target="#view<%=user.id %>">view</button>
                                          
                                       

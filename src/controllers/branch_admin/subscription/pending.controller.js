@@ -19,11 +19,35 @@ export const updateCancel = async (req, res) => {
 
 export const updateSubscribed = async (req, res) => {
   try {
-    const { sub_id, router_id, date } = req.body;
+    const { sub_id, router_id, date, user_id } = req.body;
+
+    const { is_exist } = req.query;
 
     if (!date) {
       req.flash("error", "Please Choose a Date ");
       return res.redirect("/branch_admin/subscription/get_new_users");
+    }
+
+    if (!is_exist) {
+      const users = await knex("routes")
+        .select("user_mapping")
+        .where({ id: router_id });
+
+      if (users.length === 0 || users[0].user_mapping === null) {
+        let arr_users = [Number(user_id)];
+        await knex("routes")
+          .update({ user_mapping: JSON.stringify(arr_users) })
+          .where({ id: router_id });
+      } else {
+        const get_users = await knex("routes")
+          .select("user_mapping")
+          .where({ id: router_id });
+        get_users[0].user_mapping.push(Number(user_id))
+
+        await knex("routes")
+          .update({ user_mapping: JSON.stringify(get_users[0].user_mapping) })
+          .where({ id: router_id });
+      }
     }
 
     // const sub_type_id = await knex("subscribed_user_details as sub")
@@ -68,6 +92,9 @@ export const updateSubscribed = async (req, res) => {
       .where({ id: sub_id });
 
     req.flash("success", "subscribed successfully");
+    if (is_exist) {
+      return res.redirect("/branch_admin/subscription/get_exist_users");
+    }
     res.redirect("/branch_admin/subscription/get_new_users");
   } catch (error) {
     console.log(error);
@@ -122,13 +149,18 @@ export const getNewUsers = async (req, res) => {
       numberOfPages,
       iterator,
       endingLink,
-    } = await getPageNumber(req, res, data_length, "subscription/get_new_users");
+    } = await getPageNumber(
+      req,
+      res,
+      data_length,
+      "subscription/get_new_users"
+    );
 
     let results;
     let is_search = false;
     if (searchKeyword) {
       results = await knex.raw(
-        `SELECT sub.id , sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
+        `SELECT sub.id , sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,users.id as user_id,
           user_address.address,user_address.landmark,products.name as product_name,products.price,products.unit_value,
           unit_types.value,categories.name as category_name
           FROM subscribed_user_details AS sub 
@@ -144,7 +176,7 @@ export const getNewUsers = async (req, res) => {
       is_search = true;
     } else {
       results = await knex.raw(
-        `SELECT sub.id ,sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
+        `SELECT sub.id ,sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,users.id as user_id,
           user_address.address,user_address.landmark,products.name as product_name,products.price,products.unit_value,
           unit_types.value,categories.name as category_name
           FROM subscribed_user_details AS sub 
@@ -161,8 +193,7 @@ export const getNewUsers = async (req, res) => {
     const data = results[0];
 
     for (let i = 0; i < data.length; i++) {
-      console.log( data[i].start_date)
-      data[i].start_date = moment(data[i].start_date).format('YYYY-MM-DD')
+      data[i].start_date = moment(data[i].start_date).format("YYYY-MM-DD");
     }
 
     loading = false;
@@ -183,8 +214,7 @@ export const getNewUsers = async (req, res) => {
   }
 };
 
-
-export const getExistUsers = async (req,res) => {
+export const getExistUsers = async (req, res) => {
   try {
     const { admin_id } = req.body;
     let loading = true;
@@ -231,14 +261,19 @@ export const getExistUsers = async (req,res) => {
       numberOfPages,
       iterator,
       endingLink,
-    } = await getPageNumber(req, res, data_length, "subscription/get_exist_users");
+    } = await getPageNumber(
+      req,
+      res,
+      data_length,
+      "subscription/get_exist_users"
+    );
 
     let results;
     let is_search = false;
     if (searchKeyword) {
       results = await knex.raw(
         `SELECT sub.id , sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
-          user_address.address,user_address.landmark,products.name as product_name,products.price,products.unit_value,
+          user_address.address,user_address.landmark,routes.name as route_name, routes.id as route_id,products.name as product_name,products.price,products.unit_value,
           unit_types.value,categories.name as category_name
           FROM subscribed_user_details AS sub 
           JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id 
@@ -247,6 +282,7 @@ export const getExistUsers = async (req,res) => {
           JOIN products ON products.id = sub.product_id
           JOIN unit_types ON unit_types.id = products.unit_type_id
           JOIN categories ON categories.id = products.category_id
+          JOIN routes ON routes.id = user_address.router_id
           WHERE sub.subscription_status = "branch_pending" AND sub.branch_id = ${admin_id}
           AND users.user_unique_id LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
       );
@@ -254,7 +290,7 @@ export const getExistUsers = async (req,res) => {
     } else {
       results = await knex.raw(
         `SELECT sub.id ,sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
-          user_address.address,user_address.landmark,products.name as product_name,products.price,products.unit_value,
+          user_address.address,user_address.landmark,routes.name as route_name, routes.id as route_id,products.name as product_name,products.price,products.unit_value,
           unit_types.value,categories.name as category_name
           FROM subscribed_user_details AS sub 
           JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id 
@@ -263,6 +299,7 @@ export const getExistUsers = async (req,res) => {
           JOIN products ON products.id = sub.product_id
           JOIN unit_types ON unit_types.id = products.unit_type_id
           JOIN categories ON categories.id = products.category_id
+          JOIN routes ON routes.id = user_address.router_id
           WHERE sub.subscription_status = "branch_pending" AND sub.branch_id = ${admin_id} LIMIT ${startingLimit},${resultsPerPage}`
       );
     }
@@ -270,10 +307,8 @@ export const getExistUsers = async (req,res) => {
     const data = results[0];
 
     for (let i = 0; i < data.length; i++) {
-    
-      data[i].start_date = data[i].start_date.toString().slice(4, 16);
+      data[i].start_date = moment(data[i].start_date).format("YYYY-MM-DD");
     }
-
     loading = false;
     res.render("branch_admin/subscription/exist_user", {
       data: data,
@@ -289,5 +324,5 @@ export const getExistUsers = async (req,res) => {
   } catch (error) {
     console.log(error);
     res.redirect("/home");
-  } 
-}
+  }
+};
