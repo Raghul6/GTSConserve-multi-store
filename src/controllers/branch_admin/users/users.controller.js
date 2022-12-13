@@ -95,7 +95,7 @@ export const getusers = async (req, res) => {
     } else { 
       
       results = await knex.raw(
-        `SELECT sub.id ,users.name as user_name,sub.route_id,     
+        `SELECT sub.id ,users.name as user_name,sub.router_id,     
         sub.address,sub.landmark,users.user_unique_id as customer_id,     
         subscribed_user_details.date as subscription_start_date,    
         subscription_type.name as Subscription_type,    
@@ -110,7 +110,7 @@ export const getusers = async (req, res) => {
       FROM user_address AS sub             
             
       left JOIN users ON users.id = sub.user_id		
-      left JOIN routes ON  routes.id = sub.route_id 
+      left JOIN routes ON  routes.id = sub.router_id 
      
       left JOIN user_address_subscribe_branch  as c ON c.user_id=sub.user_id
       
@@ -146,7 +146,7 @@ export const getusers = async (req, res) => {
           customer_id: data[j].customer_id,
           user_name: data[j].user_name,
           address: data[j].address,
-          route_name: data[j].route_name,
+          router_name: data[j].router_name,
           mobile_number : data[j].mobile_number,
           landmark : data[j].landmark,
           subscription_start_date : data[j].subscription_start_date,
