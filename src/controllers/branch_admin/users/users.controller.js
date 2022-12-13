@@ -57,13 +57,14 @@ export const getusers = async (req, res) => {
 
 
     let results;
-    // let results1;
+
+    let results1;
     let is_search = false;
     if (searchKeyword) {
 
       
       results = await knex.raw(
-        `SELECT sub.id ,users.name as user_name,sub.route_id,
+        `SELECT sub.id ,users.name as user_name,sub.router_id,
         sub.address,sub.landmark,users.user_unique_id as customer_id,
         subscribed_user_details.date as subscription_start_date,
         product_type.name as product_type,unit_types.value as unit_type,
@@ -76,7 +77,7 @@ export const getusers = async (req, res) => {
          users.mobile_number AS mobile_number
          FROM user_address AS sub             
          JOIN users ON users.id = sub.user_id
-         JOIN routes ON  routes.id = sub.route_id
+         JOIN routes ON  routes.id = sub.router_id
          JOIN user_address_subscribe_branch ON  user_address_subscribe_branch.address_id = sub.id
          JOIN products ON  products.id = user_address_subscribe_branch.product_id
          JOIN product_type ON  product_type.id = products.product_type_id
@@ -95,33 +96,47 @@ export const getusers = async (req, res) => {
     } else { 
       
       results = await knex.raw(
-        `SELECT sub.id ,users.name as user_name,sub.route_id,     
+        `SELECT sub.id ,users.name as user_name,     
+        sub.address,sub.landmark,users.user_unique_id as customer_id,
+        routes.name as router_name,
+        subscribed_user_details.date as subscription_start_date, 
+        users.mobile_number AS mobile_number
+         FROM user_address AS sub
+         
+         left JOIN users ON users.id = sub.user_id		
+         left JOIN routes ON  routes.id = sub.router_id 
+         JOIN subscribed_user_details ON subscribed_user_details.user_id = sub.user_id		
+   
+         WHERE sub.branch_id = ${admin_id} AND  subscribed_user_details.user_address_id = sub.id 
+         GROUP BY users.name,subscribed_user_details.user_address_id;`
+      )
+      ;
+      results1 = await knex.raw(
+        `SELECT sub.id ,users.name as user_name,sub.router_id,     
         sub.address,sub.landmark,users.user_unique_id as customer_id,     
         subscribed_user_details.date as subscription_start_date,    
         subscription_type.name as Subscription_type,    
         products.price,products.unit_value,     
         categories.name as category_name,    
-        routes.name as route_name,     
         product_type.name as product_type,     
         unit_types.value as unit_type,    
         products.name as product_name,     
         users.mobile_number AS mobile_number 
-     
-      FROM user_address AS sub             
-            
-      left JOIN users ON users.id = sub.user_id		
-      left JOIN routes ON  routes.id = sub.route_id 
-     
-      left JOIN user_address_subscribe_branch  as c ON c.user_id=sub.user_id
-      
-     left JOIN products ON  products.id = c.product_id      
-      left JOIN product_type ON  product_type.id = products.product_type_id     
-      left JOIN categories ON  categories.id = products.category_id     
-      left JOIN unit_types ON  unit_types.id = products.unit_type_id		 
-      left JOIN subscribed_user_details ON subscribed_user_details.user_id = users.id 		
-      left JOIN subscription_type ON subscription_type.id = subscribed_user_details.subscribe_type_id   
-      WHERE sub.branch_id = ${admin_id}`
-      );
+         
+
+        FROM user_address AS sub
+         left JOIN users ON users.id = sub.user_id
+         left JOIN user_address_subscribe_branch  as c ON c.user_id=sub.user_id
+             
+         left JOIN products ON  products.id = c.product_id      
+         left JOIN product_type ON  product_type.id = products.product_type_id     
+         left JOIN categories ON  categories.id = products.category_id     
+         left JOIN unit_types ON  unit_types.id = products.unit_type_id		 
+         left JOIN subscribed_user_details ON subscribed_user_details.user_id = users.id 		
+         left JOIN subscription_type ON subscription_type.id = subscribed_user_details.subscribe_type_id		
+       WHERE  sub.branch_id = ${admin_id} AND subscribed_user_details.user_address_id = sub.id
+       GROUP BY sub.id,products.name;`
+      )
       
 
     }
@@ -130,8 +145,9 @@ export const getusers = async (req, res) => {
 
 
     const data = results[0];
+    const data2 = results1[0];
     const product = [];
-
+    const product2 =[];
     // for (let i = 0; i < data.length; i++) {
     //   data[i].start_date = data[i].start_date.toString().slice(4, 16);
     //   if (data[i].subscription_start_date) {
@@ -140,18 +156,18 @@ export const getusers = async (req, res) => {
     //       .slice(4, 16);
     //   }
       // const product = [];
-
+    
       for (let j=0 ;j<data.length;j++){
+        
         product.push({
           customer_id: data[j].customer_id,
           user_name: data[j].user_name,
           address: data[j].address,
-          route_name: data[j].route_name,
+          router_name: data[j].router_name,
           mobile_number : data[j].mobile_number,
           landmark : data[j].landmark,
           subscription_start_date : data[j].subscription_start_date,
           Subscription_type : data[j].Subscription_type,
-          product_name : data[j].product_name,
           product_type : data[j].product_type,
           price: data[j].price,
           unit_value : data[j].unit_value,
@@ -159,18 +175,33 @@ export const getusers = async (req, res) => {
           unit_type : data[j].unit_type
         });
       }
+    ;  // run
+    // Once(); 
     // }
     // products.price,products.unit_value,
+    for (let k=0 ;k<data2.length;k++){
+        
+      product2.push({
+        product_name : data2[k].product_name,
+        Subscription_type : data2[k].Subscription_type,
+        product_type : data2[k].product_type,
+        price: data2[k].price,
+        unit_value : data2[k].unit_value,
+        category_name : data2[k].category_name,
+        unit_type : data2[k].unit_type
 
-    // console.log(product)
+        
+      });
+    }
+  ;
 
 
-    
-
+    console.log(product2)
     loading = false;
     
     res.render("branch_admin/users/users", {
       data: product,
+      data2:product2,
       page,
       iterator,
       endingLink,
