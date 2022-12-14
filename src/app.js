@@ -204,12 +204,16 @@ app.get("/", (req, res) => {
 });
 
 app.get("/home", authenticateJWTSession, (req, res) => {
-  res.render("home");
+const {is_super_admin} = req.body
+  if(is_super_admin){
+
+    res.render("super_admin/home/home");
+  }else{
+
+    res.render("branch_admin/home/home");
+  }
 });
 
-app.get("/branch", authenticateJWTSession, (req, res) => {
-  res.render("branch_admin");
-});
 
 
 // app.get("/recovery",(req,res)=>{

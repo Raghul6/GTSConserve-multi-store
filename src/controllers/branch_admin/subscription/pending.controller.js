@@ -28,13 +28,20 @@ export const updateSubscribed = async (req, res) => {
       return res.redirect("/branch_admin/subscription/get_new_users");
     }
 
+
+    const get_address_id = await knex("subscribed_user_details").select("user_address_id").where({id : sub_id})
+    console.log("address id",get_address_id)
+
+    let address_id = get_address_id[0].user_address_id
+
+    // check if is not exist user(this api call in both new user and exist user)
     if (!is_exist) {
       const users = await knex("routes")
         .select("user_mapping")
         .where({ id: router_id });
 
       if (users.length === 0 || users[0].user_mapping === null) {
-        let arr_users = [Number(user_id)];
+        let arr_users = [Number(address_id)];
         await knex("routes")
           .update({ user_mapping: JSON.stringify(arr_users) })
           .where({ id: router_id });
@@ -42,12 +49,16 @@ export const updateSubscribed = async (req, res) => {
         const get_users = await knex("routes")
           .select("user_mapping")
           .where({ id: router_id });
-        get_users[0].user_mapping.push(Number(user_id))
+        get_users[0].user_mapping.push(Number(address_id))
 
         await knex("routes")
           .update({ user_mapping: JSON.stringify(get_users[0].user_mapping) })
           .where({ id: router_id });
       }
+
+      await knex("user_address").update({router_id}).where({id : address_id})
+
+
     }
 
     // const sub_type_id = await knex("subscribed_user_details as sub")
