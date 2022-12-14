@@ -1,5 +1,6 @@
 import knex from "../../../services/db.service";
 import { getPageNumber } from "../../../utils/helper.util";
+import moment from "moment";
 
 export const updateViewMapping = async (req, res) => {
   try {
@@ -20,8 +21,7 @@ export const updateViewMapping = async (req, res) => {
   }
 };
 
-
-export const tommorowRouteMapping  = async (req,res) => {
+export const tommorowRouteMapping = async (req, res) => {
   try {
     const { admin_id } = req.body;
     let loading = true;
@@ -59,29 +59,29 @@ export const tommorowRouteMapping  = async (req,res) => {
       get_user_details.push(user[0]);
     }
 
+    const tommorow_date = moment(new Date(), "YYYY-MM-DD").add(1, "days");
+    console.log(tommorow_date.format("YYYY-MM-DD"));
 
-    const daily_orders = await knex("daily_orders").select("user_address_id").where({router_id : route_id})
+    const daily_orders = await knex("daily_orders")
+      .select("user_address_id")
+      .where({ router_id: route_id, date: tommorow_date.format("YYYY-MM-DD") });
 
-    const address= []
-    for(let i = 0 ; i< daily_orders.length ; i++){
-        address.push(daily_orders[i].user_address_id)
+    const address = [];
+    for (let i = 0; i < daily_orders.length; i++) {
+      address.push(daily_orders[i].user_address_id);
     }
 
-    console.log(address)
+    console.log(address);
 
-
-    for(let i = 0 ; i< get_user_details.length ; i++){
-
-
-
-      if(!address.includes(get_user_details[i].id)){
-    
+    for (let i = 0; i < get_user_details.length; i++) {
+      console.log(get_user_details[i].id)
+      if (!address.includes(get_user_details[i].id)) {
         get_user_details.splice([i], 1);
       }
     }
 
     loading = false;
-    console.log(get_user_details)
+    console.log(get_user_details);
     res.render("branch_admin/route/tommorrow_mapping", {
       data: get_user_details,
 
@@ -92,9 +92,7 @@ export const tommorowRouteMapping  = async (req,res) => {
     console.log(error);
     res.redirect("/home");
   }
-}
-
-
+};
 
 export const getViewMapping = async (req, res) => {
   try {
@@ -135,7 +133,7 @@ export const getViewMapping = async (req, res) => {
     }
 
     loading = false;
-    console.log(get_user_details)
+    console.log(get_user_details);
     res.render("branch_admin/route/view_mapping", {
       data: get_user_details,
 
@@ -174,8 +172,6 @@ export const getUserMapping = async (req, res) => {
 
     let address_ids = check_users_id[0].user_mapping;
 
-  
-
     if (searchKeyword) {
       const search_data_length = await knex.raw(
         `SELECT id FROM user_address
@@ -204,7 +200,6 @@ export const getUserMapping = async (req, res) => {
         .whereIn("id", address_ids);
     }
 
-   
     if (data_length.length === 0) {
       loading = false;
       return res.render("branch_admin/route/user_mapping", {
@@ -224,7 +219,7 @@ export const getUserMapping = async (req, res) => {
     } = await getPageNumber(req, res, data_length, "route/user_mapping");
 
     let results;
-    let users = []
+    let users = [];
     let is_search = false;
     if (searchKeyword) {
       results = await knex.raw(
@@ -240,9 +235,6 @@ export const getUserMapping = async (req, res) => {
       );
       is_search = true;
     } else {
-
-    
-
       for (let i = 0; i < address_ids.length; i++) {
         let user = await knex("user_address")
           .select(
@@ -253,10 +245,10 @@ export const getUserMapping = async (req, res) => {
             "user_address.landmark",
             "users.user_unique_id"
           )
-          .join("users", "users.id",  "=", "user_address.user_id")
+          .join("users", "users.id", "=", "user_address.user_id")
           .where({ "user_address.id": address_ids[i] });
-  
-          users.push(user[0])
+
+        users.push(user[0]);
         // get_user_details.push(user[0]);
       }
 
@@ -266,20 +258,20 @@ export const getUserMapping = async (req, res) => {
     }
     // if (searchKeyword) {
     //   results = await knex.raw(
-    //     `SELECT sub.id,users.name as user_name,user_address.address,user_address.landmark, users.user_unique_id,users.mobile_number,products.name as product_name,products.unit_value,products.price,sub.quantity,unit_types.value,sub.subscription_start_date,sub.customized_days,subscription_type.name as sub_name FROM subscribed_user_details as sub 
+    //     `SELECT sub.id,users.name as user_name,user_address.address,user_address.landmark, users.user_unique_id,users.mobile_number,products.name as product_name,products.unit_value,products.price,sub.quantity,unit_types.value,sub.subscription_start_date,sub.customized_days,subscription_type.name as sub_name FROM subscribed_user_details as sub
     //     JOIN users ON users.id = sub.user_id
     //     JOIN products on products.id = sub.product_id
     //     JOIN unit_types ON unit_types.id = products.unit_type_id
     //     JOIN user_address ON user_address.id = sub.user_address_id
     //     JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id
     //     WHERE sub.router_id = ${route_id} AND sub.subscription_status =  "subscribed" AND
-    //     users.user_unique_id  LIKE '%${searchKeyword}%' 
+    //     users.user_unique_id  LIKE '%${searchKeyword}%'
     //     LIMIT ${startingLimit},${resultsPerPage}`
     //   );
     //   is_search = true;
     // } else {
     //   results = await knex.raw(
-    //     `SELECT sub.id,users.name as user_name,user_address.address,user_address.landmark, users.user_unique_id,users.mobile_number,products.name as product_name,products.unit_value,products.price,sub.quantity,unit_types.value,sub.subscription_start_date,sub.customized_days,subscription_type.name as sub_name FROM subscribed_user_details as sub 
+    //     `SELECT sub.id,users.name as user_name,user_address.address,user_address.landmark, users.user_unique_id,users.mobile_number,products.name as product_name,products.unit_value,products.price,sub.quantity,unit_types.value,sub.subscription_start_date,sub.customized_days,subscription_type.name as sub_name FROM subscribed_user_details as sub
     //     JOIN users ON users.id = sub.user_id
     //     JOIN products on products.id = sub.product_id
     //     JOIN unit_types ON unit_types.id = products.unit_type_id
