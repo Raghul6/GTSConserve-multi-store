@@ -238,7 +238,7 @@
                                         data-target="#viewCategory<%=user.id %>">View</button>
 
                                         <button class="btn btn-sm btn-primary" data-toggle="modal"
-                                        data-target="#viewCategory<%=user.id %>">Change password</button></td>
+                                        data-target="#passwordCategory<%=user.id %>">Change password</button></td>
                                     
                                 </div>
                                 
@@ -287,6 +287,55 @@
                                             <label>Mobile Number</label>
                                             <input type="text" class="form-control" wire:model="name"
                                                 placeholder="10 digit mobile number" minlength="10" maxlength="10" required  value="<%=user.mobile_number %>" name="mobile_number">
+    
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="modal-footer">
+                                        
+                                        <button type="button" name="id" value="<%=user.id %>" class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
+                                            class="flaticon-cancel-12"></i>Discard</button>
+                                            <button wire:click="save" name="id" value="<%=user.id %>"  type="submit" class="btn btn-success">Save</button>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+
+                 <!-- PASSWORD CHANGE -->
+                 <div wire:ignore.self="" class="modal fade" id="passwordCategory<%=user.id %>" tabindex="-1"
+                    aria-labelledby="addCategoryTitle" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Password change Branch Admin</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="feather feather-x">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </button>
+                            </div>
+    
+                            <div class="modal-body">
+                                <form method="post" action="/super_admin/branch/update_change_password"  >
+                                    <div class="form-row mb-4">
+                                        <div class="col-sm-6">
+                                            <label>New Password</label>
+                                            <input type="text" class="form-control" wire:model="new_password"
+                                                placeholder="New Password" name="new_password">
+    
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label>Confirm Password</label>
+                                            <input type="text" class="form-control" wire:model="confirm_new_password"
+                                            placeholder="Confirm Password" name="confirm_new_password">
+
     
                                         </div>
                                     </div>

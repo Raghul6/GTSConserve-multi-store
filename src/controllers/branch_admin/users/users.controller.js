@@ -118,7 +118,7 @@ export const getusers = async (req, res) => {
         FROM subscribed_user_details AS sub 
         JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id 
         JOIN users ON users.id = sub.user_id
-        JOIN user_address ON user_address.id = sub.user_address_id
+        JOIN user_address ON user_address.user_id = sub.user_address_id
         JOIN products ON products.product_type_id = sub.user_id
         JOIN unit_types ON unit_types.id = products.unit_type_id
         JOIN categories ON categories.product_type_id = products.category_id
