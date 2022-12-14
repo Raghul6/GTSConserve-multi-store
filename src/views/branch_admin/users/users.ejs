@@ -160,7 +160,7 @@
                                                 
                                             </div>
 
-                                            <div class="col-sm-6 pb-4">
+                                            <div class="col-sm-4 pb-4">
                                                 <label>Address</label>
                                                 <p style="font-weight: 900;"><%=user.address %></p>
                                                 
@@ -180,7 +180,7 @@
                                                 
                                             </div>
 
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-4">
                                                 <label>Subscription Start date</label>
                                                 <p style="font-weight: 900;"><%=user.subscription_start_date  %></p>
                                                 
@@ -188,51 +188,8 @@
                                             </div>
                                             
 
-                                            <% for(user1 of data2){ %>
+                                            <% for(user of data2){ %>
 
-                                            <div class="col-sm-4 pb-4">
-                                                <label>Product name</label>
-                                                <p style="font-weight: 900;"><%=user1.product_name %></p>
-
-                                                
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <label> Category Name</label>
-                                                <p style="font-weight: 900;"><%=user1.category_name %></p>
-                                                
-                                            </div>
-                                            <div class="col-sm-4 ">
-                                                <label>Quantity</label>
-                                                <p style="font-weight: 900;"><%=user1.quantity %></p>
-                                                
-                                            </div>
-                                            
-
-                                            <div class="col-sm-4">
-                                                <label>Unit Value</label>
-                                                <p style="font-weight: 900;"><%=user1.unit_value %></p>
-                                                
-                                            </div>
-                                            
-                                            <div class="col-sm-4 ">
-                                                <label>Unit Type</label>
-                                                <p style="font-weight: 900;"><%=user1.unit_type %></p>
-                                                
-                                            </div>
-                                            <div class="col-sm-4 pb-4">
-                                                <label>Price</label>
-                                                <p style="font-weight: 900;"><%=user1.price %></p>
-                                                
-                                            </div>
-                                                                                   
-                                                                                   
-                                                                                      
-                                            <div class="col-sm-6">
-                                                <label> Start date</label>
-                                                <p style="font-weight: 900;"><%=user1.start_date %></p>
-                                                
-                                                
-                                            <!-- </div>
                                             <div class="col-sm-4 pb-4">
                                                 <label>Product name</label>
                                                 <p style="font-weight: 900;"><%=user.product_name %></p>
@@ -266,19 +223,19 @@
                                                 <label>Price</label>
                                                 <p style="font-weight: 900;"><%=user.price %></p>
                                                 
-                                            <!-- </div> -->
-                                            
-                                           
-                                    </div>
-                                     
+                                            </div>
+                                                                            
+                                            <% } %>
+                                        </div>
+                                        
                                     <div class="modal-footer">
                                         
                                         <button type="button" name="id" value="<%=user.id %>" class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
                                             class="flaticon-cancel-12"></i>Discard</button>
                                             
                                     </div>
-                           
-                        </div> <% } %>
+                        </div> 
+                        
                     </div>
                 </div>
                 </div>
