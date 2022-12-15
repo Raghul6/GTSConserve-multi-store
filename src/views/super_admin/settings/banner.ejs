@@ -123,7 +123,7 @@
                         <tr role="row">
                             <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                 colspan="1"  aria-label="#: activate to sort column descending"
-                                style="width: 86px;">banner id</th>
+                                style="width: 86px;">#</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                 aria-label="NAME: activate to sort column ascending" style="width: 161px;">NAME</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
@@ -236,7 +236,7 @@
                 </table>
             </div>
   
-
+            <% if(numberOfPages != 1){ %> 
             <div class="dt--bottom-section d-sm-flex justify-content-sm-between text-center pt-4 ">
                 <div class="dt--pages-count  mb-sm-0 mb-3">
                   <% let search_query =  is_search ? `&searchKeyword=${searchKeyword}` : "" %>
@@ -270,6 +270,7 @@
                 </nav>
             </div>
             </div>
+            <% } %>
         </div>
         <% } %>
         <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">

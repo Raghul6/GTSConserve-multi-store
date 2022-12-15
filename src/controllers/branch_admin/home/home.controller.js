@@ -105,6 +105,7 @@ export const updateDailyTask = async (req, res) => {
         delivery_date: tommorow_date.format("YYYY-MM-DD"),
         status: "pending",
       });
+      console.log(tommorow_add_on_orders)
 
     // checking add on orders and subscription product
     if (tommorow_add_on_orders.length !== 0) {
