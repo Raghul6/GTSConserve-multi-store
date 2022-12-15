@@ -376,14 +376,15 @@
                     <div class="form-row mb-4">
                         <div class="col-6 ">
                             <label>Name</label>
-                            <input type="text" class="form-control" wire:model="name"  
-                                placeholder="Name"  value="<%= user.first_name %>">
+                            <p style="font-weight: 900;"><%=user.first_name %></p>
+                            <!-- <input type="text" class="form-control" wire:model="name"  
+                                placeholder="Name"  value="<%= user.first_name %>"> -->
     
                         </div>
                         <div class="col-sm-6">
                             <label>email</label>
-                            <input type="text" class="form-control" wire:model="name"
-                            placeholder="email" value="<%= user.email %>" >
+                            <p style="font-weight: 900;"><%=user.email %></p>
+                            
                            
                         </div>
                         
@@ -393,14 +394,16 @@
                     <div class="form-row mb-4">
                         <div class="col-sm-6">
                             <label>location</label>
-                            <input type="text" class="form-control" wire:model="name"
-                            placeholder="location" value="<%= user.location %>" >
+                            <p style="font-weight: 900;"><%=user.location %></p>
+                            <!-- <input type="text" class="form-control" wire:model="name"
+                            placeholder="location" value="<%= user.location %>" > -->
     
                         </div>
                         <div class="col-sm-6  ">
                             <label>Mobile Number</label>
-                            <input type="text" class="form-control" wire:model="name"
-                            placeholder="price" value="<%= user.mobile_number %>" >
+                            <p style="font-weight: 900;"><%=user.mobile_number %></p>
+                            <!-- <input type="text" class="form-control" wire:model="name"
+                            placeholder="price" value="<%= user.mobile_number %>" > -->
     
                         </div>
                     </div>
