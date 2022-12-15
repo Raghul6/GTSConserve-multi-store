@@ -96,15 +96,15 @@
                 <tbody>
     
                     <tr role="row" >
-    
-                        <% for(user of data){ %>
-                                <td class="sorting_1"><%=user.customer_id %></td>
-                                <td class="sorting_1"><%=user.user_name %></td>
-                                <td ><%=user.router_name%></td>
+
+                        <% for(user1 of data){ %>
+                                <td class="sorting_1"><%=user1.customer_id %></td>
+                                <td class="sorting_1"><%=user1.user_name %></td>
+                                <td ><%=user1.router_name%></td>
                                 
-                                <td><%=user.address %></td>
-                                <td><%=user.mobile_number %> </td>
-                                <td><%=user.product_type %></td>
+                                <td><%=user1.address %></td>
+                                <td><%=user1.mobile_number %> </td>
+                                <td><%=user1.product_type %></td>
                                 
                           
     
@@ -137,7 +137,9 @@
                                     </svg>
                                 </button>
                             </div>
-    
+                            <% if(data.address === data2.address){ %> 
+
+                            <% for(user of data2){ %>
                             <div class="modal-body" >
                                
                                     <div class="form-row mb-4" >
@@ -178,18 +180,9 @@
                                                 <p style="font-weight: 900;"><%=user. Subscription_type  %></p>
                                                
                                                 
-                                            </div>
+                                            </div>                                                                          
 
-                                            <div class="col-sm-4">
-                                                <label>Subscription Start date</label>
-                                                <p style="font-weight: 900;"><%=user.subscription_start_date  %></p>
-                                                
-                                                
-                                            </div>
-                                            
-
-                                            <% for(user of data2){ %>
-
+                                           
                                             <div class="col-sm-4 pb-4">
                                                 <label>Product name</label>
                                                 <p style="font-weight: 900;"><%=user.product_name %></p>
@@ -224,7 +217,7 @@
                                                 <p style="font-weight: 900;"><%=user.price %></p>
                                                 
                                             </div>
-                                                                            
+                                            <% } %>                           
                                             <% } %>
                                         </div>
                                         

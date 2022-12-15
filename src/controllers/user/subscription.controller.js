@@ -7,6 +7,7 @@ import {
   get_subscription_product,
   single_subscription,
   get_subcription_order,
+  remove_subscription,
 } from "../../models/user/subscription.model";
 import knex from "../../services/db.service";
 
@@ -310,3 +311,27 @@ export const getSubcription_order = async (req, res) => {
       .json({ status: false, message: messages.SERVER_ERROR });
   }
 };
+
+
+
+export const Remove_Subscription = async (req,res)=> {
+  try {
+    const {user_id,subscription_id}= req.body;
+
+    if (!user_id || !subscription_id) {
+      return res
+        .status(responseCode.FAILURE.BAD_REQUEST)
+        .json({ status: false, message: messages.MANDATORY_ERROR });
+    }
+
+    const unsubscription = await remove_subscription(user_id,subscription_id)
+    return res.status(responseCode.SUCCESS).json({status:true,message:'unsubscription complited'})
+
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
+      .json({ status: false, message: messages.SERVER_ERROR });
+    
+  }
+}

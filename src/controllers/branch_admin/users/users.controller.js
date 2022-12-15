@@ -112,26 +112,38 @@ export const getusers = async (req, res) => {
       )
       ;
       results1 = await knex.raw(
-        `SELECT sub.id ,sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
-        user_address.address,user_address.landmark,products.name as product_name,products.price,products.unit_value,
-        unit_types.value,categories.name as category_name,admin_users.first_name as first_name,user_address_subscribe_branch.user_id,products.unit_value as product_unit,products.price as product_price
-        FROM subscribed_user_details AS sub 
-        JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id 
-        JOIN users ON users.id = sub.user_id
-        JOIN user_address ON user_address.user_id = sub.user_address_id
-        JOIN products ON products.product_type_id = sub.user_id
-        JOIN unit_types ON unit_types.id = products.unit_type_id
-        JOIN categories ON categories.product_type_id = products.category_id
-        JOIN admin_users ON admin_users.user_group_id = users.id
-        JOIN user_address_subscribe_branch ON user_address_subscribe_branch.product_id = products.product_type_id
-        JOIN add_on_order_items ON add_on_order_items.add_on_order_id = products.product_type_id
-        WHERE sub.subscription_status = "subscribed" AND users.user_unique_id  LIMIT ${startingLimit},${resultsPerPage}`
+        `SELECT sub.id ,users.name as user_name,sub.router_id,     
+        sub.address,sub.landmark,users.user_unique_id as customer_id,     
+        subscribed_user_details.date as subscription_start_date,    
+        subscription_type.name as Subscription_type,    
+        products.price,products.unit_value,     
+        categories.name as category_name,    
+        routes.name as router_name,     
+        product_type.name as product_type,     
+        unit_types.value as unit_type,    
+        products.name as product_name,     
+        users.mobile_number AS mobile_number 
+     
+      FROM user_address AS sub             
+            
+      left JOIN users ON users.id = sub.user_id		
+      left JOIN routes ON  routes.id = sub.router_id 
+     
+      left JOIN user_address_subscribe_branch  as c ON c.user_id=sub.user_id
+      
+     left JOIN products ON  products.id = c.product_id      
+      left JOIN product_type ON  product_type.id = products.product_type_id     
+      left JOIN categories ON  categories.id = products.category_id     
+      left JOIN unit_types ON  unit_types.id = products.unit_type_id		 
+      left JOIN subscribed_user_details ON subscribed_user_details.user_id = users.id 		
+      left JOIN subscription_type ON subscription_type.id = subscribed_user_details.subscribe_type_id   
+      WHERE sub.branch_id = 2 AND  subscribed_user_details.user_address_id = sub.id  `
       )
       
 
     }
  
-console.log(results1)
+// console.log(results1)
 
 
     const data = results[0];
@@ -159,19 +171,26 @@ console.log(results1)
           subscription_start_date : data[j].subscription_start_date,
           Subscription_type : data[j].subscription_name,
           // product_type : data[j].product_type,
-          price: data[j].price,
-          unit_value : data[j].unit_value,
-          category_name : data[j].category_name,
-          unit_type : data[j].unit_type
+          // price: data[j].price,
+          // unit_value : data[j].unit_value,
+          // category_name : data[j].category_name,
+          // unit_type : data[j].unit_type
         });
       }
     ;  // run
     // Once(); 
     // }
     // products.price,products.unit_value,
-    for (let k=0 ;k<data2.length;k++){
-        
+    if (data2.address==data.address && data2.user_name==data.user_name ){
+    for (let k=0 ;k<data2.length;k++) {
+       
       product2.push({
+        customer_id: data2[k].customer_id,
+        user_name: data2[k].user_name,
+        address: data2[k].address,
+        router_name: data2[k].router_name,
+        mobile_number : data2[k].mobile_number,
+        landmark : data2[k].landmark,
         product_name : data2[k].product_name,
         Subscription_type : data2[k].subscription_name,
         product_type : data2[k].product_type,
@@ -184,6 +203,7 @@ console.log(results1)
         
       });
     }
+  }
   ;
 
 

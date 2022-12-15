@@ -160,3 +160,14 @@ export const get_subcription_order = async (
     return { status: false, message: error };
   }
 };
+
+
+export const remove_subscription = async (user_id,subscription_id) =>{
+  try {
+    const remove = await knex('subscribed_user_details').update({subscription_status:'unsubscribed'}).where({user_id:user_id,id:subscription_id})
+    return {status:true};
+  } catch (error) {
+    console.log(error);
+    return { status: false, message: error };    
+  }
+}
