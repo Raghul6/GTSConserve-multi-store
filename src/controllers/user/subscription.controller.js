@@ -325,7 +325,14 @@ export const Remove_Subscription = async (req,res)=> {
     }
 
     const unsubscription = await remove_subscription(user_id,subscription_id)
-    return res.status(responseCode.SUCCESS).json({status:true,message:'unsubscription complited'})
+
+    if(unsubscription.status){
+      return res.status(responseCode.SUCCESS).json(unsubscription)
+    }else{
+      return res.status(responseCode.FAILURE.DATA_NOT_FOUND).json(unsubscription)
+
+    }
+
 
   } catch (error) {
     console.log(error);
