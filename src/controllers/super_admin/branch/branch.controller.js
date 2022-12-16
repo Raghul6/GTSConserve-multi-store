@@ -68,10 +68,10 @@ export const createBranchAdmin = async (req, res) => {
       req.flash("error", "password is missing");
       return res.redirect("/super_admin/branch/get_branch_admin");
     }
-    if (!location) {
-      req.flash("error", "location is missing");
-      return res.redirect("/super_admin/branch/get_branch_admin");
-    }
+    // if (!location) {
+    //   req.flash("error", "location is missing");
+    //   return res.redirect("/super_admin/branch/get_branch_admin");
+    // }
     if (!mobile_number) {
       req.flash("error", "mobile number is missing");
       return res.redirect("/super_admin/branch/get_branch_admin");
@@ -88,7 +88,7 @@ export const createBranchAdmin = async (req, res) => {
       user_group_id: "2",
       first_name: name,
       password: hash_password,
-      location,
+      // location,
       mobile_number,
       email,
       zone_id

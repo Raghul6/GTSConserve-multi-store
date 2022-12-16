@@ -21,7 +21,43 @@ export const updateSubscribed = async (req, res) => {
   try {
     const { sub_id, router_id, date, user_id } = req.body;
 
-    const { is_exist } = req.query;
+    const { is_exist,is_user_mapping_assign } = req.query;
+
+
+    if(is_user_mapping_assign){
+      // is_user_mapping_assign - is a router id 
+      const {address_id} = req.body
+
+
+      const users = await knex("routes")
+        .select("user_mapping")
+        .where({ id: is_user_mapping_assign });
+
+      if (users.length === 0 || users[0].user_mapping === null) {
+        let arr_users = [Number(address_id)];
+        await knex("routes")
+          .update({ user_mapping: JSON.stringify(arr_users) })
+          .where({ id: is_user_mapping_assign });
+      } else {
+        const get_users = await knex("routes")
+          .select("user_mapping")
+          .where({ id: is_user_mapping_assign });
+        get_users[0].user_mapping.push(Number(address_id))
+
+        await knex("routes")
+          .update({ user_mapping: JSON.stringify(get_users[0].user_mapping) })
+          .where({ id: is_user_mapping_assign });
+      }
+
+
+
+
+      await knex("user_address").update({router_id : is_user_mapping_assign}).where({id : address_id})
+      req.flash("success","Route Assigned Successfully")
+      // return res.redirect(`/branch_admin/route/user_mapping?route_id=${is_user_mapping_assign}`)
+      return res.redirect(`/branch_admin/route/get_route`)
+
+    }
 
     if (!date) {
       req.flash("error", "Please Choose a Date ");
@@ -173,7 +209,7 @@ export const getNewUsers = async (req, res) => {
       results = await knex.raw(
         `SELECT sub.id , sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,users.id as user_id,
           user_address.address,user_address.landmark,products.name as product_name,products.price,products.unit_value,
-          unit_types.value,categories.name as category_name
+          unit_types.value,categories.name as category_name,products.image
           FROM subscribed_user_details AS sub 
           JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id 
           JOIN users ON users.id = sub.user_id 
@@ -189,7 +225,7 @@ export const getNewUsers = async (req, res) => {
       results = await knex.raw(
         `SELECT sub.id ,sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,users.id as user_id,
           user_address.address,user_address.landmark,products.name as product_name,products.price,products.unit_value,
-          unit_types.value,categories.name as category_name
+          unit_types.value,categories.name as category_name,products.image
           FROM subscribed_user_details AS sub 
           JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id 
           JOIN users ON users.id = sub.user_id 
@@ -205,6 +241,7 @@ export const getNewUsers = async (req, res) => {
 
     for (let i = 0; i < data.length; i++) {
       data[i].start_date = moment(data[i].start_date).format("YYYY-MM-DD");
+      data[i].image = process.env.BASE_URL + data[i].image 
     }
 
     loading = false;

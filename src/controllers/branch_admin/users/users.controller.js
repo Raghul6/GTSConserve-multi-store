@@ -138,8 +138,11 @@ export const getusers = async (req, res) => {
       left JOIN subscribed_user_details ON subscribed_user_details.user_id = users.id 		
       left JOIN subscription_type ON subscription_type.id = subscribed_user_details.subscribe_type_id   
       WHERE sub.branch_id = 2 AND  subscribed_user_details.user_address_id = sub.id  `
+<<<<<<< HEAD
 
        
+=======
+>>>>>>> 6766070178d895c317ef997d964ffd7513843c51
       )
       
 
