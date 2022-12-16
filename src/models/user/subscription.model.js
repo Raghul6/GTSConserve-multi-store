@@ -227,7 +227,7 @@ export const change_quantity = async (userId,subscription_id,quantity) => {
           }
           query.customized_days = JSON.stringify(store_weekdays);
 
-          const subscriptionplan = await knex("subscribed_user_details").update({start_date:start_date,subscribe_type_id: subscription_plan_id,customized_days:store_weekdays}).where({user_id:userId,id:subscription_id}) 
+          const subscriptionplan = await knex("subscribed_user_details").update({start_date:start_date,subscribe_type_id: subscription_plan_id,customized_days:query.customized_days}).where({user_id:userId,id:subscription_id}) 
 
           return{status:true,message:"plan change to customized"}
           }  
@@ -240,5 +240,15 @@ export const change_quantity = async (userId,subscription_id,quantity) => {
     catch(error){
       console.log(error)
       return {status:false,message:"cannot change plan"}
+    }
+  }
+
+  // pause subscription dates
+  export const pause_subscriptiondate = async () => {
+    try {
+      
+      
+    } catch (error) {
+      
     }
   }
