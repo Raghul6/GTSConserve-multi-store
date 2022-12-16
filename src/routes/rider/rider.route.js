@@ -1,12 +1,14 @@
 import express from 'express';
-import { login } from '../../controllers/rider/rider.controller'
+import { getRiderdetails, login, updateRiderstatus } from "../../controllers/rider/rider.controller"
 
-const riderRouter = express.Router({
+const loginRouter = express.Router({
     caseSensitive: true,
     strict: true,
 });
 
-riderRouter.post("/login",login)
+loginRouter.post("/login",login)
+loginRouter.get("/rider_details",getRiderdetails)
+loginRouter.post("/update_rider_status",updateRiderstatus);
 
 
-export default riderRouter
+export default loginRouter

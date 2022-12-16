@@ -112,7 +112,6 @@ export const getusers = async (req, res) => {
       )
       ;
       results1 = await knex.raw(
-<<<<<<< HEAD
         `SELECT sub.id ,users.name as user_name,sub.router_id,     
         sub.address,sub.landmark,users.user_unique_id as customer_id,     
         subscribed_user_details.date as subscription_start_date,    
@@ -132,29 +131,15 @@ export const getusers = async (req, res) => {
      
       left JOIN user_address_subscribe_branch  as c ON c.user_id=sub.user_id
       
-     left JOIN products ON  products.id = c.product_id      
+      left JOIN products ON  products.id = c.product_id      
       left JOIN product_type ON  product_type.id = products.product_type_id     
       left JOIN categories ON  categories.id = products.category_id     
       left JOIN unit_types ON  unit_types.id = products.unit_type_id		 
       left JOIN subscribed_user_details ON subscribed_user_details.user_id = users.id 		
       left JOIN subscription_type ON subscription_type.id = subscribed_user_details.subscribe_type_id   
       WHERE sub.branch_id = 2 AND  subscribed_user_details.user_address_id = sub.id  `
-=======
-        `SELECT sub.id ,sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
-        user_address.address,user_address.landmark,products.name as product_name,products.price,products.unit_value,
-        unit_types.value,categories.name as category_name,admin_users.first_name as first_name,user_address_subscribe_branch.user_id,products.unit_value as product_unit,products.price as product_price
-        FROM subscribed_user_details AS sub 
-        JOIN subscription_type ON subscription_type.id = sub.subscribe_type_id 
-        JOIN users ON users.id = sub.user_id
-        JOIN user_address ON user_address.id = sub.user_address_id
-        JOIN products ON products.product_type_id = sub.user_id
-        JOIN unit_types ON unit_types.id = products.unit_type_id
-        JOIN categories ON categories.product_type_id = products.category_id
-        JOIN admin_users ON admin_users.user_group_id = users.id
-        JOIN user_address_subscribe_branch ON user_address_subscribe_branch.product_id = products.product_type_id
-        JOIN add_on_order_items ON add_on_order_items.add_on_order_id = products.product_type_id
-        WHERE sub.subscription_status = "subscribed" AND users.user_unique_id  LIMIT ${startingLimit},${resultsPerPage}`
->>>>>>> 987f48f307f61a118cfbec3066eeac58d7a53789
+
+       
       )
       
 

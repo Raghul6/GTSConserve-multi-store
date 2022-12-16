@@ -15,6 +15,7 @@ import { authenticateJWTSession } from "./middlewares/authToken.middleware";
 import mainRouter from "./routes/user_main.route";
 import superAdminRouter from "./routes/super_admin_main.route";
 import branchAdminRouter from "./routes/branch_admin_main.route";
+import riderRouter from "./routes/rider_main.route";
 import authRouter from "./routes/auth_main.route";
 
 import { createTable } from "./table/create_table";
@@ -248,5 +249,12 @@ app.use(
   branchAdminRouter
 );
 app.use("/api", bodyParsercheck, mainRouter);
+
+app.use(
+  "/rider_api",
+  bodyParsercheck,
+  
+  riderRouter
+);
 
 export default app;
