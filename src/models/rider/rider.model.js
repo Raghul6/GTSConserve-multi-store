@@ -41,6 +41,7 @@ export const userLogin = async (password) => {
     }
   }
 
+  // get single rider details 
   export const get_riderdetails = async (delivery_partner_id) => {
     try {
       const getcategories = await knex
@@ -66,20 +67,68 @@ export const userLogin = async (password) => {
     }
   }
 
+  // update rider status
   export const update_riderstatus = async (delivary_partner_id,status) => {
     try{
-      if(status==1){
-        const update = await knex("rider_details").update({status:'0'}).where({id:delivary_partner_id})
-        return{status:true,body : update};
-      }
-      else{
-        return{status:false,message:"already updated"};
-      }
+        if(status==1){
+        const update = await knex("rider_details").update({status:status}).where({id:delivary_partner_id})
+        return{status:true,message: "SuccessFully Updated"};
+        }
+        else{
+          return{status:false,message:"cannot updated"}
+        }
+      
     }
     catch(error){
       console.log(error)
-      return{status:responseCode.FAILURE.INTERNAL_SERVER_ERROR,message:error.message};
+      return{ status: false, message: "Cannot Update the status" };
     }
   }
 
+
+  // update rider location 
+  export const update_location = async (delivary_partner_id,latitude,longitude) => {
+    try{
+        const riderlocation = await knex('rider_details').update({latitude:latitude,longitude:longitude}).where({id:delivary_partner_id})
+        return{status:true,data:riderlocation}
+    }catch(error){
+      console.log(error);
+      return{status:responseCode.FAILURE.INTERNAL_SERVER_ERROR,message:error.message}
+    }
+
+  }
+
+  // update start tour 
+  export const update_starttour = async (delivary_partner_id,tour_id,tour_status) => {
+    try {
+      if(tour_status==2){
+      const updatetour = await knex('routes').update({status:'2'}).where({id:tour_id,rider_id:delivary_partner_id})
+      return{status:true,message:"successfully updated"}
+      }
+      else{
+        return{status:false,message:"cannot updated"}
+      }
+    } catch (error) {
+      console.log(error);
+      return{ status: false, message: "Cannot Update the status" };
+    }
+  }
+
+
+  //  update endtour 
+  export const update_endtour = async (delivary_partner_id,tour_id,tour_status) => {
+    try{
+      if(tour_status==3){
+        const updatetour = await knex('routes').update({status:'3'}).where({id:tour_id,rider_id:delivary_partner_id})
+        return{status:true,message:"successfully updated"}
+        }
+        else{
+          return{status:false,message:"cannot updated"}
+        }
+    }
+    catch (error) {
+      console.log(error);
+      return{ status: false, message: "Cannot Update the status" };
+    }
+  }
   

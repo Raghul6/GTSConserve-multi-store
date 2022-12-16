@@ -8,6 +8,9 @@ import {
   single_subscription,
   get_subcription_order,
   remove_subscription,
+  change_quantity,
+  change_subscriptionplan,
+  pause_subscriptiondate,
 } from "../../models/user/subscription.model";
 import knex from "../../services/db.service";
 
@@ -341,4 +344,89 @@ export const Remove_Subscription = async (req,res)=> {
       .json({ status: false, message: messages.SERVER_ERROR });
     
   }
+}
+
+
+// change  subscription quantity 
+ export const changeQuantity = async (req,res) => {
+  try{
+       const {userId,subscription_id,quantity} = req.body;
+
+       if(!userId || !subscription_id || !quantity){
+        return res
+        .status(responseCode.FAILURE.BAD_REQUEST)
+        .json({ status: false, message: messages.MANDATORY_ERROR });
+       }
+       const quantity1 = await change_quantity(userId,subscription_id,quantity)
+       if(quantity.status){
+        return res.status(responseCode.SUCCESS).json(quantity1)
+    }else{
+      return res.status(responseCode.FAILURE.DATA_NOT_FOUND).json(quantity1)
+
+    }
+
+  }
+  catch(error){
+    console.log(error);
+    return res
+    .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
+    .json({ status: false, message: messages.SERVER_ERROR });
+  
+  }
+ }
+
+
+//  change subscription plan
+export const changeSubscriptionplan = async (req,res) => {
+  try{
+    const {userId,
+      subscription_id,
+      subscription_plan_id,
+      start_date,
+      customized_days
+    } = req.body;
+    
+    if(!userId || !subscription_id || !subscription_plan_id || start_date){
+      return res
+      .status(responseCode.FAILURE.BAD_REQUEST)
+      .json({ status: false, message: messages.MANDATORY_ERROR });
+     }
+
+    const changeplan = await change_subscriptionplan(userId,
+      subscription_id,
+      subscription_plan_id,
+      start_date,
+      customized_days
+      );
+      return res.status(responseCode.SUCCESS).json(changeplan)
+    
+  }
+  catch(error){
+    console.log(error);
+    return res
+    .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
+    .json({status:false,message: messages.SERVER_ERROR})
+  }
+}
+
+// pause subscription dates
+export const pauseSubscription = async (req,res) => {
+try {
+  const{userId,subscription_id,pausedates} = req.body;
+
+  if(!userId || !subscription_id || !pausedates){
+    return res
+    .status(responseCode.FAILURE.BAD_REQUEST)
+    .json({ status: false, message: messages.MANDATORY_ERROR });
+   }
+
+   const dates = await pause_subscriptiondate (userId,subscription_id,pausedates);
+
+   
+}
+catch(error){
+  console.log(error);
+  return res.status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
+  .json({status:false,message:messages.SERVER_ERROR})
+}
 }
