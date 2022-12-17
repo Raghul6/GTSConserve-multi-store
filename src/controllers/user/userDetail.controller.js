@@ -10,6 +10,7 @@ import {
   get_address,
   get_user,
   remove_order,
+  checkAddress
 } from "../../models/user/user_details.model";
 import messages from "../../constants/messages";
 
@@ -29,6 +30,12 @@ export const addUserAddress = async (req, res) => {
           title: payload.title,
 
           type: payload.type,
+
+          alternate_mobile: payload.alternate_mobile,
+
+          latitude: payload.latitude,
+
+          longitude: payload.longitude
         })
         .where({ user_id: payload.user_id });
 
@@ -93,8 +100,8 @@ export const getUser = async (req, res) => {
       get_user_detail.user_id = data.id;
       get_user_detail.name = data.name;
       get_user_detail.image = data.image
-        ? process.env.BASE_URL + data.image
-        : null;
+        // ? process.env.BASE_URL + data.image
+        // : null;
       get_user_detail.mobile_number = data.mobile_number;
       get_user_detail.email = data.email;
     });
@@ -234,3 +241,26 @@ export const changePlan = async (req, res) => {
     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error });
   }
 };
+
+export const checkDeliveryAddress = async (req, res) => {
+  try {
+    const { address_id } = req.body;    
+
+    // let maram_latitude = '10.369384601477861'
+    // let maram_longitude = '78.81283443421125'
+
+    const check_address = await checkAddress(address_id);
+    
+    if (check_address.body[0].latitude <= 10.9956 && check_address.body[0].longitude <= 77.2852) {
+      return res
+      .status(responseCode.SUCCESS) 
+      .json({ status: true, message: "successfully delivery" });  
+    }
+      
+  } catch (error) {
+    console.log(error);
+
+    res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error });
+  }
+};
+
