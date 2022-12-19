@@ -43,13 +43,14 @@ export const login = async (req, res) => {
 
     const { mobile_number, fcmToken, device, appOsFormat, appVersion } =
       payload;
-
+console.log(payload)
     if (payload.status) {
       // const checkPhoneNumber = await loginUser(mobile_number)
       const checkPhoneNumber = await knex
         .select("id")
         .from("users")
         .where({ mobile_number });
+        console.log(checkPhoneNumber)
       let query;
       let userId = 0;
       // const otp = process.env.USER_OTP || Math.floor(1000 + Math.random() * 9000)
@@ -67,7 +68,7 @@ export const login = async (req, res) => {
       } else {
         query = await updateUserOtp(payload, otp);
 
-        userId = checkPhoneNumber[0].user_id;
+        userId = checkPhoneNumber[0].id;
       }
 
       if (query.status === responseCode.SUCCESS) {
@@ -96,9 +97,11 @@ export const login = async (req, res) => {
 
 export const verifyUserOtp = async (req, res) => {
   try {
+    
     const today = format(new Date(), "yyyy-MM-dd H:i:s");
-
+   
     const payload = verifyOtpValidator(req.body);
+    console.log(payload);
 
     const { otp, userId } = payload;
 

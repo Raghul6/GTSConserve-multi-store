@@ -274,7 +274,7 @@ export const singleSubscription = async (req, res) => {
 
     return res
       .status(responseCode.SUCCESS)
-      .json({ status: true, data: sub.data });
+      .json({ status: true, data: sub.data[0] });
   } catch (error) {
     console.log(error);
     return res
@@ -352,11 +352,12 @@ export const Remove_Subscription = async (req,res)=> {
   try{
        const {userId,subscription_id,quantity} = req.body;
 
-       if(!userId || !subscription_id || !quantity){
+       if( !subscription_id || !quantity){
         return res
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: messages.MANDATORY_ERROR });
        }
+       console.log("hi");
        const quantity1 = await change_quantity(userId,subscription_id,quantity)
        if(quantity.status){
         return res.status(responseCode.SUCCESS).json(quantity1)
@@ -386,7 +387,7 @@ export const changeSubscriptionplan = async (req,res) => {
       customized_days
     } = req.body;
     
-    if(!userId || !subscription_id || !subscription_plan_id || start_date){
+    if(!userId || !subscription_id || !subscription_plan_id || !start_date){
       return res
       .status(responseCode.FAILURE.BAD_REQUEST)
       .json({ status: false, message: messages.MANDATORY_ERROR });
@@ -412,16 +413,17 @@ export const changeSubscriptionplan = async (req,res) => {
 // pause subscription dates
 export const pauseSubscription = async (req,res) => {
 try {
-  const{userId,subscription_id,pausedates} = req.body;
+  const{userId,subscription_id,dates} = req.body;
 
-  if(!userId || !subscription_id || !pausedates){
+  if(!userId || !subscription_id || !dates){
     return res
     .status(responseCode.FAILURE.BAD_REQUEST)
     .json({ status: false, message: messages.MANDATORY_ERROR });
    }
 
-   const dates = await pause_subscriptiondate (userId,subscription_id,pausedates);
-
+   const date = await pause_subscriptiondate (userId,subscription_id,dates);
+   return res.status(responseCode.SUCCESS).json(date)
+    
    
 }
 catch(error){
