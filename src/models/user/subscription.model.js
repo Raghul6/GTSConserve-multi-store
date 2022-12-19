@@ -232,12 +232,12 @@ export const change_quantity = async (userId,subscription_id,quantity,) => {
   }
 
   // pause subscription dates
-  export const pause_subscriptiondate = async (userId,subscription_id,pause_dates) => {
+  export const pause_subscriptiondate = async (userId,subscription_id,dates) => {
     try {
       
         
-        for(let i = 0; i < pause_dates.length; i++){
-          const subscriptiondate = await knex('pause_dates') .insert({date:pause_dates[i].date,user_id:userId,subscription_id:subscription_id});
+        for(let i = 0; i < dates.length; i++){
+          const subscriptiondate = await knex('pause_dates') .insert({date:dates[i].date,user_id:userId,subscription_id:subscription_id});
         }
        
         
