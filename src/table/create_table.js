@@ -469,6 +469,7 @@ export const createTable = async (req, res) => {
                 "change_date",
                 "change_qty",
                 "change_address",
+                "change_plan",
               ]).defaultTo("pending");
               t.enu("status", ["0", "1"]).defaultTo("1");
               t.timestamps(true, true);
