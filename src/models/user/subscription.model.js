@@ -244,9 +244,14 @@ export const change_quantity = async (userId,subscription_id,quantity) => {
   }
 
   // pause subscription dates
-  export const pause_subscriptiondate = async () => {
+  export const pause_subscriptiondate = async (userId,subscription_id,pausedates) => {
     try {
       
+        const subscriptiondate = await knex('pause_dates').select('user_id')
+        if(subscriptiondate.user_id == userId){
+          const pausedate = await knex('pause_dates').update({date:pausedates}).where({user_id:userId,subscription_id:subscription_id})
+        } 
+        return 
       
     } catch (error) {
       
