@@ -38,10 +38,9 @@ export const new_subscription = async (
       .whereNotNull("branch_id")
       .where({ user_id: userId, id: user_address_id });
 
-    console.log(is_exist_address)
+    console.log(is_exist_address);
 
-
-    if(is_exist_address.length !== 0){
+    if (is_exist_address.length !== 0) {
       query.branch_id = is_exist_address[0].branch_id;
       query.subscription_status = "branch_pending";
     }
