@@ -138,12 +138,16 @@ export const createTable = async (req, res) => {
           t.string("name", 255).notNullable();
           t.string("user_name", 255).notNullable();
           t.string("mobile_number", 255).nullable();
+          t.string("latitude", 255).nullable();
+          t.string("longitude", 255).nullable();
 
           t.integer("branch_id").unsigned().nullable();
           t.foreign("branch_id").references("id").inTable("admin_users");
 
           t.string("password", 255).notNullable();
           t.string("address", 255).nullable();
+          t.enu("online_status", ["0", "1"]).defaultTo("1");
+          t.enu("tour_status", ["0", "1", "2"]).defaultTo("0");
           t.enu("status", ["0", "1"]).defaultTo("1");
           t.timestamps(true, true);
         });
@@ -191,7 +195,10 @@ export const createTable = async (req, res) => {
           t.string("title", 255).nullable();
           t.string("address", 255).nullable();
           t.string("landmark", 255).nullable();
-          // t.string("name", 255).nullable();
+          t.string("alternate_mobile", 255).nullable();
+          t.string("latitude", 255).nullable();
+          t.string("longitude", 255).nullable();
+          
           t.string("type", 255).nullable();
           t.enu("status", ["0", "1"]).defaultTo("1");
           t.timestamps(true, true);
@@ -502,7 +509,7 @@ export const createTable = async (req, res) => {
             "cancelled",
             "branch_pending",
             "branch_cancelled",
-            "new_order"
+            "new_order",
           ]).defaultTo("pending");
           t.integer("tip_amount").nullable();
           t.integer("grand_total").nullable();
@@ -889,14 +896,16 @@ export const createTable = async (req, res) => {
               t.foreign("product_id").references("id").inTable("products");
 
               t.integer("product_type_id").unsigned().notNullable();
-              t.foreign("product_type_id").references("id").inTable("product_type");
+              t.foreign("product_type_id")
+                .references("id")
+                .inTable("product_type");
 
               t.enu("status", ["pending", "approved", "cancelled"]).defaultTo(
                 "pending"
               );
 
               t.integer("price").nullable();
-              
+
               t.string("qty", 255).nullable();
               t.string("excess_qty", 255).nullable();
               t.string("given_excess_qty", 255).nullable();
