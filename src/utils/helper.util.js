@@ -166,12 +166,14 @@ export const phoneNumberValidator = (phoneNumber) => {
 
 export const integerValidator = (value) => {
   if (!value) return false;
+ 
 
-  return isNumberValidator(value);
+  return true;
+  // return isNumberValidator(value);
 };
 
 export const isNumberValidator = (value) => {
-  if (typeof value == "number") return false;
+  if (typeof value !== "number") return false;
 
   return true;
 };
