@@ -325,7 +325,7 @@ export const getSubcription_order = async (req, res) => {
 
 
 
-export const UnSubscription = async (req,res)=> {
+export const Remove_Subscription = async (req,res)=> {
   try {
     const {user_id,subscription_id}= req.body;
 
