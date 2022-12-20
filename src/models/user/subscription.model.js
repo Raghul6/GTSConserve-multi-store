@@ -206,7 +206,7 @@ export const change_quantity = async (userId,subscription_id,quantity,) => {
       const subscription_status = await knex('subscribed_user_details').update({subscription_status:"change_plan"}).where({id:subscription_id});
       
       const previous = await knex('subscribed_user_details').select("subscribe_type_id").where({id:subscription_id});
-      console.log(previous)
+      // console.log(previous)
 
       let weekdays = await knex("weekdays").select("id", "name");
           let store_weekdays = [];
@@ -222,8 +222,8 @@ export const change_quantity = async (userId,subscription_id,quantity,) => {
 
       const changeplan = await knex("subscription_users_change_plan").insert({user_id:userId,subscription_id:subscription_id,previous_subscription_type_id:previous[0].subscribe_type_id,change_subscription_type_id: subscription_plan_id,start_date:start_date,customized_days:query.customized_days})
 
-
-  return {status:true}
+      // console.log(changeplan)
+  return {status:true, message: "Successfully change subscription plan"}
     }
     catch(error){
       console.log(error)

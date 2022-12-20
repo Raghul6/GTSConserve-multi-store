@@ -357,7 +357,7 @@ export const Remove_Subscription = async (req,res)=> {
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: messages.MANDATORY_ERROR });
        }
-       console.log("hi");
+      //  console.log("hi");
        const quantity1 = await change_quantity(userId,subscription_id,quantity)
        if(quantity.status){
         return res.status(responseCode.SUCCESS).json(quantity1)
@@ -387,7 +387,7 @@ export const changeSubscriptionplan = async (req,res) => {
       customized_days
     } = req.body;
     
-    if(!userId || !subscription_id || !subscription_plan_id || !start_date){
+    if(!subscription_id || !subscription_plan_id || !start_date){
       return res
       .status(responseCode.FAILURE.BAD_REQUEST)
       .json({ status: false, message: messages.MANDATORY_ERROR });
