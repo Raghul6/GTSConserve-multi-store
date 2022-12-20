@@ -247,6 +247,7 @@ export const singleSubscription = async (req, res) => {
 
     const sub = await single_subscription(userId, subscription_id);
 
+    console.log(sub)
     if (!sub.status) {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
@@ -271,12 +272,20 @@ export const singleSubscription = async (req, res) => {
       delete sub.data[i].unit_value;
       delete sub.data[i].unit_type;
     }
+    // const query = [{data: sub.data[0],additional_orders: sub.additional_orders[0]}]
 
+    const bottle_tracker = {
+      "delivered_orders": 25,
+      "remaining_orders": 5,
+      "additional_delivered_orders": 5,
+      "additional_remaining_orders": 25
+    }
+// data: sub.data[0],additional_orders: [sub.data[0]],this_month_item_detail:bottle_tracker
     return res
       .status(responseCode.SUCCESS)
-      .json({ status: true, data: sub.data[0] });
+      .json({ status: true, data: sub.data[0],additional_orders: [sub.query[0]],this_month_item_detail:bottle_tracker });
   } catch (error) {
-    console.log(error);
+    console.log(error); 
     return res
       .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
       .json({ status: false, message: messages.SERVER_ERROR });
@@ -352,12 +361,11 @@ export const Remove_Subscription = async (req,res)=> {
   try{
        const {userId,subscription_id,quantity} = req.body;
 
-       if( !subscription_id || !quantity){
+       if(!userId || !subscription_id || !quantity){
         return res
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: messages.MANDATORY_ERROR });
        }
-       console.log("hi");
        const quantity1 = await change_quantity(userId,subscription_id,quantity)
        if(quantity.status){
         return res.status(responseCode.SUCCESS).json(quantity1)
@@ -387,7 +395,7 @@ export const changeSubscriptionplan = async (req,res) => {
       customized_days
     } = req.body;
     
-    if(!userId || !subscription_id || !subscription_plan_id || !start_date){
+    if(!userId || !subscription_id || !subscription_plan_id || start_date){
       return res
       .status(responseCode.FAILURE.BAD_REQUEST)
       .json({ status: false, message: messages.MANDATORY_ERROR });
@@ -413,17 +421,16 @@ export const changeSubscriptionplan = async (req,res) => {
 // pause subscription dates
 export const pauseSubscription = async (req,res) => {
 try {
-  const{userId,subscription_id,dates} = req.body;
+  const{userId,subscription_id,pausedates} = req.body;
 
-  if(!userId || !subscription_id || !dates){
+  if(!userId || !subscription_id || !pausedates){
     return res
     .status(responseCode.FAILURE.BAD_REQUEST)
     .json({ status: false, message: messages.MANDATORY_ERROR });
    }
 
-   const date = await pause_subscriptiondate (userId,subscription_id,dates);
-   return res.status(responseCode.SUCCESS).json(date)
-    
+   const dates = await pause_subscriptiondate (userId,subscription_id,pausedates);
+
    
 }
 catch(error){

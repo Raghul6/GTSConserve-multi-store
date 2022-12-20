@@ -4,7 +4,7 @@ import { userAddressValidator } from "../../services/validator.service";
 import knex from "../../services/db.service";
 import {
   change_plan,
-  delete_user_address,
+  delete_user_address, 
   edit,
   edit_address,
   get_address,
@@ -261,6 +261,39 @@ export const checkDeliveryAddress = async (req, res) => {
     console.log(error);
 
     res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, error });
+  }
+};
+
+export const getEmptyBottle = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    if (userId) {
+
+      let get_user_bottle_detail = 
+      {
+        "delivered_orders": "0",
+        "remaining_orders": "30",
+        "additional_delivered_orders": "0",
+        "additional_remaining_orders": "30"
+      }
+    
+      res
+      .status(responseCode.SUCCESS)
+      .json({ status: true, this_month_item_detail: get_user_bottle_detail });
+    }
+    else{
+      return res
+      .status(responseCode.FAILURE.DATA_NOT_FOUND)
+      .json({ status: false, message: "Bottle Not Found" });
+    }
+
+  } catch (error) {
+    console.log(error);
+
+    res
+      .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
+      .json({ status: false, message: "no user" });
   }
 };
 
