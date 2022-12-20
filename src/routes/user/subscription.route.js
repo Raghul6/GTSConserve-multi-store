@@ -21,7 +21,11 @@ subscriptionRouter.post("/remove_additional_order",authenticateJWT,removeAdditio
 
 
 subscriptionRouter.post("/subcription_order",authenticateJWT, getSubcription_order);
+<<<<<<< HEAD
 subscriptionRouter.post("/remove_subscription",UnSubscription);
+=======
+subscriptionRouter.post("/un_subscription",authenticateJWT,Remove_Subscription);
+>>>>>>> 46dfa1c45d7a9997d66fc4d2331866253bc9e671
 subscriptionRouter.post("/change_quantity",authenticateJWT,changeQuantity);
 subscriptionRouter.post("/change_subscriptionplan",authenticateJWT,changeSubscriptionplan);
 subscriptionRouter.post("/pause_subscriptionplan",authenticateJWT,pauseSubscription);
