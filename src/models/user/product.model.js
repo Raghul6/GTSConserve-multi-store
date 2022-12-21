@@ -168,6 +168,9 @@ export const addon_order = async (
 export const remove_addonorders = async (product_id , delivery_date,addon_id) => {
   try{
 
+   const addon_status = await knex('add_on_orders').select('status').where({id:addon_id,delivery_date:delivery_date})
+   if(addon_status[0].status!="cancelled"){
+
     await knex("add_on_order_items").update({status : "removed"}).where({product_id:product_id,add_on_order_id:addon_id})
 
     const select = await knex('add_on_order_items').select("price").where({product_id:product_id,add_on_order_id:addon_id, status :"removed"});
@@ -182,6 +185,7 @@ export const remove_addonorders = async (product_id , delivery_date,addon_id) =>
   const status = await knex('add_on_orders').update({status:"cancelled"}).where({sub_total:0})
 return{status:true};
   }
+}
   catch(error){
     console.log(error);
     return { status: false, message: "Something Went Wrong", error };
