@@ -14,7 +14,7 @@ export const get_subscription_or_add_on_products = async (id, userId) => {
         "products.unit_value",
         "unit_types.value as unit_type",
         "products.price",
-        "subscribed_user_details.id as subscription_id"
+        // "subscribed_user_details.id as subscription_id"
       )
       .where({ product_type_id: id });
     const response = await GetProduct(product, userId);
