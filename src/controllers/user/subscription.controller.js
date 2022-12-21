@@ -16,9 +16,9 @@ import knex from "../../services/db.service";
 
 export const removeAdditionalOrder = async (req, res) => {
   try {
-    const { userId, subscription_id } = req.body;
+    const { userId, subscription_id ,additional_order_id } = req.body;
 
-    if (!subscription_id) {
+    if (!subscription_id || !additional_order_id) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: messages.MANDATORY_ERROR });
@@ -29,6 +29,7 @@ export const removeAdditionalOrder = async (req, res) => {
         subscription_id,
         status: "pending",
         user_id: userId,
+        id:additional_order_id
       })
       .del();
 
