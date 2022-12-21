@@ -151,7 +151,7 @@ export const single_subscription = async (userId, sub_id) => {
         "products.image",
         "products.unit_value",
         "unit_types.value as unit_type",
-        "user_address.address",
+        // "user_address.address",
     
       )
       .join("products", "products.id", "=", "additional_orders.id")
