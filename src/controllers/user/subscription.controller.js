@@ -294,7 +294,7 @@ export const singleSubscription = async (req, res) => {
     }
 
     const response = {
-      additional_orders: [sub.query[0]],
+      additional_orders: [sub.query[0],query1[0]],
       this_month_item_detail: bottle_tracker
     }
 
@@ -385,9 +385,9 @@ export const changeQuantity = async (req, res) => {
     }
     const quantity1 = await change_quantity(userId, subscription_id, quantity)
     if (quantity.status) {
-      return res.status(responseCode.SUCCESS).json(quantity1)
+      return res.status(200).json(quantity1)
     } else {
-      return res.status(responseCode.FAILURE.DATA_NOT_FOUND).json(quantity1)
+      return res.status(500).json(quantity1)
 
     }
 
@@ -412,7 +412,7 @@ export const changeSubscriptionplan = async (req, res) => {
       customized_days
     } = req.body;
 
-    if (!userId || !subscription_id || !subscription_plan_id || start_date) {
+    if (!userId || !subscription_id || !subscription_plan_id || !start_date) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: messages.MANDATORY_ERROR });
@@ -447,7 +447,7 @@ export const pauseSubscription = async (req, res) => {
     }
 
     const dates = await pause_subscriptiondate(userId, subscription_id, pausedates);
-
+    return res.status(responseCode.SUCCESS).json(dates)
 
   }
   catch (error) {
