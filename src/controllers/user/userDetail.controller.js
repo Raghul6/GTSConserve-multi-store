@@ -272,10 +272,10 @@ export const getEmptyBottle = async (req, res) => {
 
       let get_user_bottle_detail = 
       {
-        "delivered_orders": "0",
-        "remaining_orders": "30",
-        "additional_delivered_orders": "0",
-        "additional_remaining_orders": "30"
+        "empty_bottle_in_hand_1_litre": "0",
+        "empty_bottle_in_hand_0.5_litre": "30",
+        "empty_bottle_return_1_litre": "0",
+        "empty_bottle_return_0.5_litre": "30"
       }
     
       res
