@@ -26,7 +26,7 @@ export const new_subscription = async (
       for (let i = 0; i < customized_days.length; i++) {
         for (let j = 0; j < weekdays.length; j++) {
           if (weekdays[j].id == customized_days[i]) {
-            store_weekdays.push(weekdays[j].name);
+            store_weekdays.push(weekdays[j].id);
           }
         }
       }
@@ -80,7 +80,8 @@ export const get_subscription_product = async (userId) => {
         "products.unit_value",
         "unit_types.value as unit_type",
         "subscription_type.name as subscription_name",
-        "sub.subscription_status"
+        "sub.subscription_status",
+        "sub.quantity"
       )
       .join("products", "products.id", "=", "sub.product_id")
       .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
@@ -90,7 +91,7 @@ export const get_subscription_product = async (userId) => {
         "=",
         "sub.subscribe_type_id"
       )
-      .where({ "sub.subscription_status": "subscribed", user_id: userId });
+      .where({ "sub.subscription_status": "subscribed", "sub.subscription_status": "pending", user_id: userId });
 
 
     if (products.length === 0) {
