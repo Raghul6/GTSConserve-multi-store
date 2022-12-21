@@ -54,8 +54,8 @@ console.log(payload)
         // const otp = process.env.USER_OTP || Math.floor(1000 + Math.random() * 9000)
         // const otp = "1234";
   
-        let users = await knex.select("id").from("rider_details");
-        let users_length = users.length + 1;
+        // let users = await knex.select("id").from("rider_details");
+        // let users_length = users.length + 1;
   
         console.log(checkPassword);
   
@@ -100,7 +100,7 @@ console.log(payload)
   }
   catch (error) {
     console.error('Whooops! This broke with error: ', error)
-    res.status(500).send('Error!')
+    res.status(500).json({message:"user_id and password not matching"})
   }
   }
   
