@@ -412,7 +412,7 @@ export const changeSubscriptionplan = async (req, res) => {
       customized_days
     } = req.body;
 
-    if (!userId || !subscription_id || !subscription_plan_id || !start_date) {
+    if (!subscription_id || !subscription_plan_id || !start_date) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: messages.MANDATORY_ERROR });

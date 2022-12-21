@@ -239,12 +239,12 @@ export const change_quantity = async (userId,subscription_id,quantity,) => {
       const previous = await knex('subscribed_user_details').select("subscribe_type_id").where({id:subscription_id});
       // console.log(previous)
 
-      let weekdays = await knex("weekdays").select("id", "name");
+      let weekdays = await knex("weekdays").select("id");
           let store_weekdays = [];
           for (let i = 0; i < customized_days.length; i++) {
             for (let j = 0; j < weekdays.length; j++) {
               if (weekdays[j].id == customized_days[i]) {
-                store_weekdays.push(weekdays[j].name);
+                store_weekdays.push(weekdays[j].id);
               }
             }
           }
