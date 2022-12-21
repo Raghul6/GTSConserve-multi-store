@@ -41,14 +41,14 @@ export const customizedDay = async (date, user_days) => {
 
 export const GetProduct = async (product, userId) => {
   let sub_product = [];
-
+// console.log(userId)
   if (userId) {
     sub_product = await knex("subscribed_user_details")
       .select("product_id","id")
       .where({ user_id: userId, subscription_status: "pending" })
       .orWhere({ user_id: userId, subscription_status: "approved" });
   }
-//   console.log(sub_product[0].id)
+  // console.log(sub_product.id)
 // const subscription_id = sub_product[0].id;
 
   if (product.length === 0) {
@@ -64,8 +64,8 @@ let sub =[];
       .select("id")
       .where({ user_id: userId, subscription_status: "pending" })
       .orWhere({ user_id: userId, subscription_status: "approved" });
-      product[i].subscription_id = sub[0].id
-      console.log(product[i].subscription_id)
+      product[i].subscription_id = sub[0].id;
+      // console.log(product[i].subscription_id)
         } else {
           product[i].is_subscribed = "0";
           product[i].subscription_id ="0";
