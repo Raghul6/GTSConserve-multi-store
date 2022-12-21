@@ -1,3 +1,4 @@
+import e from "connect-flash";
 import knex from "../../services/db.service";
 import { GetProduct } from "../../utils/helper.util";
 
@@ -183,11 +184,15 @@ export const remove_addonorders = async (product_id , delivery_date,addon_id) =>
   const update = await knex('add_on_orders').update({sub_total:total}).where({id:addon_id,delivery_date:delivery_date});
 
   const status = await knex('add_on_orders').update({status:"cancelled"}).where({sub_total:0})
-return{status:true};
+return{status:true,message:"Successfully removed"};
+  }
+  
+  else{
+    return{status:false,message:"already cancelled"};
   }
 }
   catch(error){
     console.log(error);
-    return { status: false, message: "Something Went Wrong", error };
+    return { status: false, message: "Cannot Remove addon order"};
   }
 }
