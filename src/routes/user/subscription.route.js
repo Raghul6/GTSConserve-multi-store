@@ -10,13 +10,13 @@ const subscriptionRouter = express.Router({
 });
 
 subscriptionRouter.post("/new_subscription",authenticateJWT, newSubscription);
-subscriptionRouter.post("/get_all_subscription", getAllSubscription);
+subscriptionRouter.post("/get_all_subscription", authenticateJWT,getAllSubscription);
 subscriptionRouter.post("/single_subscription",authenticateJWT, singleSubscription);
 
-subscriptionRouter.get("/get_subscription_plan", getSubscriptionPlan);
+subscriptionRouter.get("/get_subscription_plan",authenticateJWT,getSubscriptionPlan);
 
 subscriptionRouter.post("/create_additional_order",authenticateJWT,createAdditionalOrder );
-subscriptionRouter.post("/edit_additional_order",editAdditionalOrder );
+subscriptionRouter.post("/edit_additional_order",authenticateJWT,editAdditionalOrder );
 subscriptionRouter.post("/remove_additional_order",authenticateJWT,removeAdditionalOrder );
 
 
@@ -25,7 +25,7 @@ subscriptionRouter.post("/subcription_order",authenticateJWT, getSubcription_ord
 subscriptionRouter.post("/un_subscription",authenticateJWT,Remove_Subscription);
 
 subscriptionRouter.post("/change_quantity",authenticateJWT,changeQuantity);
-subscriptionRouter.post("/change_subscriptionplan",authenticateJWT,changeSubscriptionplan);
+subscriptionRouter.post("/change_subscriptionplan",changeSubscriptionplan);
 subscriptionRouter.post("/pause_subscriptionplan",authenticateJWT,pauseSubscription);
 
 
