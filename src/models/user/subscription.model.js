@@ -116,7 +116,7 @@ export const single_subscription = async (userId, sub_id) => {
         "unit_types.value as unit_type",
         "subscription_type.name as subscription_name",
         "user_address.address",
-        "sub.date"
+        "sub.date as date"
       
       )
       .join("products", "products.id", "=", "sub.product_id")

@@ -260,6 +260,12 @@ export const singleSubscription = async (req, res) => {
         sub.data[i].subscription_start_date
       ).format("MMM Do YYYY");
 
+      sub.data[i].date = moment(
+        sub.data[i].date
+      ).format("YYYY-MM-DD");
+
+      
+
       if (sub.data[i].unit_value >= 500) {
         sub.data[i].unit =
           sub.data[i].unit_value / 1000 +
