@@ -189,59 +189,23 @@ export const logout = async (req, res) => {
 //   }
 // }
 
-export const userMobileNumberChange = async (req, res) => {
+
+export const userMobileNumberChange = async (req,res) => {
   try {
+      const {userId,mobile_number} = req.body
 
-    const payload = req.body;
-    const payload1 = NumberValidator(req.body);
- 
-    const {user_id,mobile_number} = payload;
+      let otp = "1234"
 
-    if (payload1.status) {
-    
-      // const checkPhoneNumber = await loginUser(mobile_number)
-      const checkPhoneNumber = await knex
-        .update({mobile_number:mobile_number})
-        .from("users")
-        .where({ id:user_id });
-        // console.log(checkPhoneNumber)
-      let query;
-      // const otp = process.env.USER_OTP || Math.floor(1000 + Math.random() * 9000)
-      const otp = "1234";
+      await knex("users").update({mobile_number : mobile_number, otp:otp }).where({id : userId})
 
-      
+      return res.status(responseCode.SUCCESS).json({status : true , user_id:userId, message : "OTP sended to your registered phone number"})
 
-      if (checkPhoneNumber.length === 0) {
-        query = await insertusernumber(payload, otp);
-
-      } else {
-        query = await updateUserOtp(payload, otp);
-
-      }
-
-      if (query.status === responseCode.SUCCESS) {
-        return res
-          .status(query.status)
-          .json({
-            status: true,
-            user_id: payload.user_id,
-            message: messageCode.LOGINMESSAGE.OTP_SENT,
-          });
-      } else {
-        res
-          .status(query.status)
-          .json({ status: false, message: query.message });
-      }
-    } else {
-      res
-        .status(responseCode.FAILURE.BAD_REQUEST)
-        .json({ status: false, message: payload.message });
-    }
   } catch (error) {
-    logger.error("Whooops! This broke with error: ", error);
-    res.status(500).send("Error!");
+    console.log(error)
+    return res.status(responseCode.FAILURE.INTERNAL_SERVER_ERROR).json({status : false , message : messages.SERVER_ERROR})
   }
-};
+}
+
 
 export const UserverifyOtp = async (req, res) => {
   try {
