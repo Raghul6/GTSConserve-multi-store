@@ -14,10 +14,10 @@ export const get_subscription_or_add_on_products = async (id, userId) => {
         "products.unit_value",
         "unit_types.value as unit_type",
         "products.price",
-        "products.demo_price"
+        // "products.demo_price"
         // "subscribed_user_details.id as subscription_id"
       )
-      .where({ product_type_id: id });
+      .where({ product_type_id: id,user_id:userId});
     const response = await GetProduct(product, userId);
 
     
@@ -45,7 +45,7 @@ export const get_products = async (category_id, product_type_id, userId) => {
         "products.unit_value",
         "unit_types.value as unit_type",
         "products.price",
-        "products.demo_price"
+        // "products.demo_price"
       )
       .where({ category_id, product_type_id });
 

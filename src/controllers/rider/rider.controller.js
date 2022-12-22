@@ -232,6 +232,7 @@ export const getSingleorder = async (req,res) => {
        .status(responseCode.FAILURE.BAD_REQUEST)
        .json({ status: false, message: "Mandatory field Is Missing" });
       }
+      console.log(order_status)
      const order = await getsingleorder (order_id,delivery_partner_id,order_status);
 
      return res.status(responseCode.SUCCESS).json({status: true,order })
@@ -242,6 +243,7 @@ export const getSingleorder = async (req,res) => {
     .json({ status: false, message: messages.SERVER_ERROR });
   }
   }
+  
 
 
 

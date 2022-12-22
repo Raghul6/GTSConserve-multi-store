@@ -24,7 +24,7 @@ productRouter.post("/search_products", searchProducts);
 productRouter.get("/get_subscription_product",authenticateJWT,getSubscriptionProducts);
 productRouter.get("/get_add_on_product", authenticateJWT,getAddOnProducts);
 
-productRouter.post("/get_single_product", authenticateJWT,getSingleProduct);
+productRouter.post("/get_single_product",getSingleProduct);
 
 productRouter.post("/create_add_on_products", authenticateJWT, addon_Order);
 productRouter.post("/remove_add_on_products", authenticateJWT,removeAddOnOrder);

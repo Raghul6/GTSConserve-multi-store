@@ -165,13 +165,14 @@ export const userLogin = async (password) => {
   
   // get single order
   export const getsingleorder = async (user_id,order_id,delivery_partner_id,order_status) => {
-    try {
+    console.log(order_status)
+        try {
 
       // const riderid = await knex('routes').select("id as router_id","rider_id")
       // .where({"rider_id":delivery_partner_id});
 
 
-      // console.log(riderid )
+      // console.log(riderid)
 
       
         const query1 =  await knex("daily_orders")
@@ -235,7 +236,8 @@ export const userLogin = async (password) => {
           "products.unit_value",
           "unit_types.value as unit_type",
           "products.price"
-        ).where({status:order_status})
+        )
+        .where({"daily_orders.status": order_status})
 
 
 
