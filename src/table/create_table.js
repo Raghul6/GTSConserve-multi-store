@@ -148,7 +148,7 @@ export const createTable = async (req, res) => {
           t.string("address", 255).nullable();
           t.enu("online_status", ["0", "1"]).defaultTo("1");
           t.enu("tour_status", ["0", "1", "2"]).defaultTo("0");
-          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.enu("status", ["0", "1",]).defaultTo("1");
           t.timestamps(true, true);
         });
       }
@@ -369,6 +369,7 @@ export const createTable = async (req, res) => {
           //   .references("id")
           //   .inTable("subscription_type");
 
+          t.string("demo_price", 255).nullable();
           t.string("name", 255).nullable();
           t.text("description").nullable();
           t.text("image").nullable();
@@ -655,6 +656,9 @@ export const createTable = async (req, res) => {
 
           t.enu("status", ["pending", "delivered", "undelivered"]).defaultTo(
             "pending"
+          );
+          t.enu("tour_status", ["0","1", "2",]).defaultTo(
+            "0"
           );
           t.timestamps(true, true);
         });

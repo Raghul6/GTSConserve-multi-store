@@ -1,5 +1,6 @@
 import responseCode from "../../constants/responseCode";
 import messages from "../../constants/messages";
+import { GetProduct } from "../../utils/helper.util";
 import {
   get_products,
   get_categories,
@@ -15,17 +16,17 @@ import knex from "../../services/db.service";
 export const removeAddOnOrder = async (req, res) => {
   try {
 
-    const {product_id , delivery_date,addon_id} = req.body
+    const { product_id, delivery_date, addon_id } = req.body
 
-    if(!product_id || !delivery_date ||!addon_id){
-      return res.status(responseCode.FAILURE.BAD_REQUEST).json({status : false , message : messages.MANDATORY_ERROR})
-    } 
+    if (!product_id || !delivery_date || !addon_id) {
+      return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: messages.MANDATORY_ERROR })
+    }
 
-const remove = await remove_addonorders(product_id , delivery_date,addon_id);
+    const remove = await remove_addonorders(product_id, delivery_date, addon_id);
 
     return res
-    .status(responseCode.SUCCESS)
-    .json({ status: true, body:remove.status});
+      .status(responseCode.SUCCESS)
+      .json({ status: true, body: remove.status });
 
   } catch (error) {
     console.log(error);
@@ -53,9 +54,12 @@ export const getSingleProduct = async (req, res) => {
         "products.image",
         "products.unit_value",
         "unit_types.value as unit_type",
-        "products.price"
+        "products.price",
+        "products.demo_price"
+        
       )
-      .where({ "products.id": product_id });
+      .where({ "products.id": product_id })
+      const response = await GetProduct(product);
 
     if (product.length === 0) {
       return res
@@ -67,7 +71,7 @@ export const getSingleProduct = async (req, res) => {
 
     return res
       .status(responseCode.SUCCESS)
-      .json({ status: true, data: product[0] });
+      .json({ status: true, data: response.data});
   } catch (error) {
     console.log(error);
     return res
@@ -154,9 +158,9 @@ export const getCategories = async (req, res) => {
 
 export const getSubscriptionProducts = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId, product_type_id } = req.body;
 
-    const products = await get_subscription_or_add_on_products("1", userId);
+    const products = await get_subscription_or_add_on_products( userId, product_type_id);
     if (!products.status) {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
@@ -255,5 +259,36 @@ export const addon_Order = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ status: false, error });
+  }
+};
+
+
+export const nextDayProduct = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    const static_response = [{
+        
+          "product_id": "18",
+          "product_name": "Farm Fresh Natural Milk",
+          "product_image": "https://i.pinimg.com/originals/af/31/cf/af31cff157e5304e32a3777c8245ae8c.jpg",
+          "product_status": 1,
+          "product_variation": "1.5 litres",
+          "Product price": 100
+  }]
+     
+    if (!static_response) {
+      return res
+        .status(responseCode.FAILURE.DATA_NOT_FOUND)
+        .json({ status: false, message: "No Product Available" });
+    }
+
+    return res.status(responseCode.SUCCESS).json({
+      status: true,
+      data: static_response,"date": "25 Oct | Mon"
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: false });
   }
 };

@@ -2,7 +2,7 @@ import e from "connect-flash";
 import knex from "../../services/db.service";
 import { GetProduct } from "../../utils/helper.util";
 
-export const get_subscription_or_add_on_products = async (id, userId) => {
+export const get_subscription_or_add_on_products = async (userId,id) => {
   try {
     const product = await knex("products")
       .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
@@ -14,12 +14,15 @@ export const get_subscription_or_add_on_products = async (id, userId) => {
         "products.unit_value",
         "unit_types.value as unit_type",
         "products.price",
+        "products.demo_price"
         // "subscribed_user_details.id as subscription_id"
       )
-      .where({ product_type_id: id });
+      .where({ "subscription_status":"subscribed",product_type_id: id })
+      
+      console.log(product)
+      
     const response = await GetProduct(product, userId);
 
-    
     if (response.status) {
       return { status: true, data: response.data };
     } else {
@@ -43,7 +46,8 @@ export const get_products = async (category_id, product_type_id, userId) => {
         "products.image",
         "products.unit_value",
         "unit_types.value as unit_type",
-        "products.price"
+        "products.price",
+        "products.demo_price"
       )
       .where({ category_id, product_type_id });
 
@@ -86,7 +90,7 @@ export const search_products = async (
 ) => {
   try {
     const product = await knex.raw(`
-                      SELECT products.id,products.name,products.image,products.unit_value,
+                      SELECT products.id,products.name,products.image,products.unit_value,products.demo_price,
                       unit_types.value as unit_type,products.price FROM products
                       JOIN unit_types ON unit_types.id = products.unit_type_id
                       WHERE products.product_type_id = ${product_type_id} 
@@ -170,7 +174,7 @@ export const addon_order = async (
 
 export const remove_addonorders = async (product_id , delivery_date,addon_id) => {
   try{
-
+      console.log(product_id)
    const addon_status = await knex('add_on_orders').select('status').where({id:addon_id,delivery_date:delivery_date})
 
    if(addon_status[0].status!="cancelled"){
@@ -187,7 +191,8 @@ export const remove_addonorders = async (product_id , delivery_date,addon_id) =>
   const update = await knex('add_on_orders').update({sub_total:total}).where({id:addon_id,delivery_date:delivery_date});
 
   const status = await knex('add_on_orders').update({status:"cancelled"}).where({sub_total:0})
-return{status:true,message:"Successfully removed"};
+
+  return{status:true,message:"Successfully removed"};
   }
   
   else{
