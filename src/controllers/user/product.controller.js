@@ -1,5 +1,6 @@
 import responseCode from "../../constants/responseCode";
 import messages from "../../constants/messages";
+import { GetProduct } from "../../utils/helper.util";
 import {
   get_products,
   get_categories,
@@ -54,9 +55,12 @@ export const getSingleProduct = async (req, res) => {
         "products.unit_value",
         "unit_types.value as unit_type",
         "products.price",
-        // "products.demo_price"
+
+        "products.demo_price"
+
       )
-      .where({ "products.id": product_id });
+      .where({ "products.id": product_id })
+      const response = await GetProduct(product);
 
     if (product.length === 0) {
       return res
@@ -68,7 +72,7 @@ export const getSingleProduct = async (req, res) => {
 
     return res
       .status(responseCode.SUCCESS)
-      .json({ status: true, data: product[0] });
+      .json({ status: true, data: response.data});
   } catch (error) {
     console.log(error);
     return res
@@ -270,7 +274,8 @@ export const nextDayProduct = async (req, res) => {
           "product_name": "Farm Fresh Natural Milk",
           "product_image": "https://i.pinimg.com/originals/af/31/cf/af31cff157e5304e32a3777c8245ae8c.jpg",
           "product_status": 1,
-          "product_variation": "1.5 litres"
+          "product_variation": "1.5 litres",
+          "Product price": 100
   }]
      
     if (!static_response) {
