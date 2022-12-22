@@ -55,6 +55,7 @@ export const getSingleProduct = async (req, res) => {
         "unit_types.value as unit_type",
         "products.price",
         "products.demo_price"
+        
       )
       .where({ "products.id": product_id });
 
@@ -270,7 +271,8 @@ export const nextDayProduct = async (req, res) => {
           "product_name": "Farm Fresh Natural Milk",
           "product_image": "https://i.pinimg.com/originals/af/31/cf/af31cff157e5304e32a3777c8245ae8c.jpg",
           "product_status": 1,
-          "product_variation": "1.5 litres"
+          "product_variation": "1.5 litres",
+          "Product price": 100
   }]
      
     if (!static_response) {
