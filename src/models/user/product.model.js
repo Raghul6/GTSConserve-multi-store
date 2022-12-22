@@ -171,7 +171,7 @@ export const addon_order = async (
 
 export const remove_addonorders = async (product_id , delivery_date,addon_id) => {
   try{
-
+      console.log(product_id)
    const addon_status = await knex('add_on_orders').select('status').where({id:addon_id,delivery_date:delivery_date})
 
    if(addon_status[0].status!="cancelled"){
