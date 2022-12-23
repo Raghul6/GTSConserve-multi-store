@@ -7,6 +7,7 @@ import { userValidator } from '../../services/validator.service';
 import id from 'date-fns/locale/id/index';
 import { createToken } from "../../services/jwt.service";
 import { updateRiderToken } from "../../models/rider/rider.model";
+import bcrypt from "bcrypt";
 
 
 
@@ -41,21 +42,16 @@ export const login = async (req, res) => {
     const payload = userValidator(req.body);
     const { user_name, password} = payload;
 
-    if (payload.status) {
-      
-      const check_user = await checkPassword(user_name, password);
-
-      const checkPassword1 =[];
-
-      if (!check_user.status) {
-       
-     
+    if (payload.status) {     
 
       const checkPassword1 = await knex
-      .select("id")
+      .select("id","password")
       .from("rider_details")
-      .where({ password,user_name });
- 
+      .where({user_name,status:"1" });
+      console.log(checkPassword1[0].password);
+
+      const isPassword = await bcrypt.compare(password,checkPassword1[0].password);
+      console.log(isPassword);
 
       console.log(checkPassword1);
      let query;
@@ -84,25 +80,14 @@ export const login = async (req, res) => {
           }
         } 
         
-      };
-    }
         else {
           res
             .status(responseCode.FAILURE.BAD_REQUEST)
-            .json({ status: false, message: "otp mismatch" });
+            .json({ status: false, message: "password mismatch" });
         }
       }
-            
-        // return res
-        // .status(200)
-        // .json({
-        //   status: true,
-        //   user_id:checkPassword[0].id,
-        //   message: "Rider login successfully",
-        // });
   
-  
-  
+    }
 
   catch (error) {
     console.error('Whooops! This broke with error: ', error)
@@ -114,19 +99,19 @@ export const login = async (req, res) => {
 //  get single rider details
 export const getRiderdetails = async (req, res) => {
   try {
-    const { delivary_partner_id } = req.body;
+    const { delivery_partner_id } = req.body;
 
-    if (!delivary_partner_id) {
+    if (!delivery_partner_id) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
-        .json({ status: false, message: "delivary_partner_id Is Missing" });
+        .json({ status: false, message: "delivery_partner_id Is Missing" });
     }
 
-    const delivary_partner = await get_riderdetails(delivary_partner_id);
+    const delivery_partner = await get_riderdetails(delivery_partner_id);
 
     return res
       .status(responseCode.SUCCESS)
-      .json({  data: delivary_partner.body,status: true,message:"ok" });
+      .json({  data: delivery_partner.body,status: true,message:"ok" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ status: false });
