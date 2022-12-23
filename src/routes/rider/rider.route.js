@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAppControls, getRiderdetails, getSingleorder, login, orderStatusUpdate, updateEndtour, updateRiderstatus,updateStartTour,updeteRiderLocation } from "../../controllers/rider/rider.controller"
+import { getAppControls, getRiderdetails, getSingleorder, login, orderStatusUpdate, riderDashboard, updateEndtour, updateRiderstatus,updateStartTour,updeteRiderLocation } from "../../controllers/rider/rider.controller"
 import { nonMandatoryToken } from '../../middlewares/authToken.middleware';
 
 const loginRouter = express.Router({
@@ -19,6 +19,8 @@ loginRouter.post("/update_end_tour",updateEndtour);
 
 loginRouter.post("/get_single_order",getSingleorder);
 loginRouter.post("/order_status_update",orderStatusUpdate);
+loginRouter.post("/rider_dashboard",riderDashboard);
+
 
 
 

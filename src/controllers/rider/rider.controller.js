@@ -1,6 +1,6 @@
 import express from 'express';
 import messages from '../../constants/messages';
-import { get_Appcontrol, get_riderdetails, statusupdate, update_endtour, update_location, update_riderstatus, update_starttour, userLogin,getsingleorder, checkPassword } from '../../models/rider/rider.model';
+import { get_Appcontrol, get_riderdetails, statusupdate, update_endtour, update_location, update_riderstatus, update_starttour, userLogin,getsingleorder, checkPassword, dashboard } from '../../models/rider/rider.model';
 import responseCode from '../../constants/responseCode';
 import knex from '../../services/db.service'
 import { userValidator } from '../../services/validator.service';
@@ -214,7 +214,13 @@ export const getSingleorder = async (req,res) => {
        .json({ status: false, message: "Mandatory field Is Missing" });
       }
       console.log(order_status)
-     const order = await getsingleorder (order_id,delivery_partner_id,order_status);
+      const rider = await knex('routes').select("id as router_id")
+      .where({rider_id:delivery_partner_id});
+
+      const router_id = rider[0].router_id
+      console.log(rider)
+
+     const order = await getsingleorder (order_id,delivery_partner_id,order_status,router_id);
 
      return res.status(responseCode.SUCCESS).json({status: true,order })
   }
@@ -250,6 +256,42 @@ export const orderStatusUpdate = async (req,res) => {
     .json({ status: false, message: messages.SERVER_ERROR });
   }
 }
+
+
+// rider dashboard
+export const riderDashboard = async (req,res) => {
+  try{
+    const {delivery_partner_id,date} = req.body;
+
+    const total = await dashboard(delivery_partner_id,date);
+    // console.log(total);
+
+    const bottle = await knex('daily_orders').select('collect_bottlle').where({router_id:total.data,date:date})
+    
+    let sum=0;
+    for(let i=0; i<bottle.length; i++){
+     sum+=Number(bottle[i].collect_bottlle)
+      }
+
+
+      let query ={
+       "total_orders":total.order.length,
+       "delivered_orders":total.delivery.length,
+       "undelivered_orders":total.pending.length+total.undelivered.length,
+       "empty_bottle":sum
+      }
+      console.log(query)
+      return res.status(responseCode.SUCCESS).json({status: true, query })
+    }
+
+
+  
+  catch(error){
+    console.log(error);
+    return res.status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
+    .json({ status: false, message: messages.SERVER_ERROR });
+  }
+  }
 
 
 export const ten = async (req,res)=>{
