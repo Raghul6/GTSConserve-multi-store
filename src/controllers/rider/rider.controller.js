@@ -11,6 +11,7 @@ import { updateRiderToken } from "../../models/rider/rider.model";
 
 
 
+
 //  rider app controls
 export const getAppControls = async (req, res) => {
   try{
@@ -68,7 +69,7 @@ export const login = async (req, res) => {
           if (tokens.status) {
             await updateRiderToken(tokens.refreshToken, user_name);
   
-            res
+            return res
               .status(responseCode.SUCCESS)
               .json({
                 status: true,
