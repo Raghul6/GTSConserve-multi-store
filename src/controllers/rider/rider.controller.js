@@ -59,8 +59,8 @@ export const login = async (req, res) => {
 
          if (isPassword) {
           res
-              .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
-              .json({ status: false, delivery_partner_id: checkPassword1[0].id, message: "Rider Login Successfully" });
+              .status(responseCode.SUCCESS)
+              .json({ status: true, delivery_partner_id: checkPassword1[0].id, message: "Rider Login Successfully" });
           }
   
         else {
