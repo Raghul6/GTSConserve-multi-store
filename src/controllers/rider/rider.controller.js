@@ -12,6 +12,7 @@ import bcrypt from "bcrypt";
 
 
 
+
 //  rider app controls
 export const getAppControls = async (req, res) => {
   try{
@@ -56,30 +57,12 @@ export const login = async (req, res) => {
       console.log(checkPassword1);
      let query;
 
-         if (checkPassword1[0].id ) {
-          const tokens = createToken({
-            user_name : user_name,
-          });
-  
-          if (tokens.status) {
-            await updateRiderToken(tokens.refreshToken, user_name);
-  
-            res
-              .status(responseCode.SUCCESS)
-              .json({
-                status: true,
-                token: tokens.token,
-                delivary_partner_id:checkPassword1[0].id,
-                message: "Rider login successfully",
-                
-              });
-          } else {
-            res
+         if (isPassword) {
+          res
               .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
-              .json({ status: false, message: "Token generation failed" });
+              .json({ status: false, delivery_partner_id: checkPassword1[0].id, message: "Rider Login Successfully" });
           }
-        } 
-        
+  
         else {
           res
             .status(responseCode.FAILURE.BAD_REQUEST)

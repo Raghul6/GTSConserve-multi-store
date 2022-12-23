@@ -1,5 +1,6 @@
 import knex from "../../services/db.service";
 import responseCode from "../../constants/responseCode";
+import bcrypt from "bcrypt"
 
 
 
@@ -140,7 +141,7 @@ export const userLogin = async (password) => {
         else{
           return{status:false,message:"cannot updated"}
         }
-      
+        
     }
     catch(error){
       console.log(error)
