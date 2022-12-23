@@ -18,6 +18,10 @@ export const getPoForm = async (req, res) => {
       return res.redirect("/home");
     }
 
+
+    const branch_details = await knex("admin_users").select("first_name").where({id : admin_id})
+    const today_date = moment(new Date()).format("YYYY-MM-DD")
+
     const daily_orders = await knex("daily_orders")
       .select("subscription_id", "add_on_order_id" , "total_qty")
       .where({ branch_id: admin_id, date: tommorow_date.format("YYYY-MM-DD") });
@@ -26,15 +30,21 @@ export const getPoForm = async (req, res) => {
 
     console.log(daily_orders)
 
-    const { add_on_products, subscription_products } = await getBothProducts(
+    const { add_on_products, subscription_products,excess_add_on_products } = await getBothProducts(
       daily_orders
     );
+
+      console.log(excess_add_on_products)
+      
 
     // console.log(add_on_products)
     // console.log(subscription_products)
     res.render("branch_admin/po/po_form", {
       add_on_products,
       subscription_products,
+      branch_details,
+      today_date,
+      excess_add_on_products
     });
   } catch (error) {
     console.log(error);

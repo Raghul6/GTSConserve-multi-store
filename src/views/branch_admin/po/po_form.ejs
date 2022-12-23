@@ -43,13 +43,13 @@
                                                     </div>
 
                                                     <div class="col-sm-6 align-self-center mt-3">
-                                                        <p class="inv-customer-name">Jesse Cory</p>
-                                                        <p class="inv-street-addr">405 Mulberry Rd. Mc Grady, NC, 28649</p>
+                                                        <p class="inv-customer-name"><%= branch_details[0].first_name %> </p>
+                                                        <!-- <p class="inv-street-addr">405 Mulberry Rd. Mc Grady, NC, 28649</p>
                                                         <p class="inv-email-address">redq@company.com</p>
-                                                        <p class="inv-email-address">(128) 666 070</p>
+                                                        <p class="inv-email-address">(128) 666 070</p> -->
                                                     </div>
                                                     <div class="col-sm-6 align-self-center mt-3 text-sm-right">
-                                                        <p class="inv-created-date"><span class="inv-title"> Date : </span> <span class="inv-date">20 Aug 2020</span></p>
+                                                        <p class="inv-created-date"><span class="inv-title"> Date : </span> <span class="inv-date"><%= today_date %> </span></p>
                                                         <!-- <p class="inv-due-date"><span class="inv-title">Due Date : </span> <span class="inv-date">26 Aug 2020</span></p> -->
                                                     </div>
                                                 
@@ -80,6 +80,7 @@
                                                                 <th class="text-right" scope="col">Qty</th>
                                                                 <th class="text-right" scope="col">Excess Qty</th>
                                                                 <th class="text-right" scope="col">Amount</th>
+                                                               
                                                             </tr>
                                                         </thead>  
                                                         <tbody>
@@ -162,7 +163,9 @@
                                                 <h6 class="ml-2 pb-2" style="font-weight: 900;">Add On Products : </h6>
                                                 <div class="row">
                                                     <div class="col-10"></div>
-                                                    <button class="btn btn-info btn-sm mb-3" onclick="addProducts()" type="button">Add Products</button>
+                                                    <% if(excess_add_on_products.length !== 0 ){ %> 
+                                                    <span class="badge badge-info mb-3 ml-3 p-2" onclick="addProducts()" style="cursor: pointer;">Add Products</span>
+                                                    <% } %> 
                                                 </div>
                                                 <div class="table-responsive">
                                                     <table class="table">
@@ -175,6 +178,7 @@
                                                                 <th class="text-right" scope="col">Qty</th>
                                                                 <th class="text-right" scope="col">Excess Qty</th>
                                                                 <th class="text-right" scope="col">Amount</th>
+                                                                <th class="text-right" scope="col"></th>
                                                             </tr>
                                                         </thead>  
                                                         <tbody id="addOnTable">
@@ -195,7 +199,8 @@
                                                                 <% }  %> 
                                                           
                                                         </tbody>
-                                                        <script>
+                                                      
+                                                        <script >
 
                                                             function addProducts() {
                                                             const addOnTable = document.getElementById("addOnTable")
@@ -210,15 +215,25 @@
                                                            
                                                             
                                                                     
-                                                                    <td>product name</td>
-                                                                    <td>adasd</td> 
+                                                                    <td><select size="1" id="${count}" onchange=changeHandler(this) wire:model="countryid" class="form-control" name="add_on_products" >
+                                                                        <option value="" selected >Select Product </option>
+                                                                        <% for(product of excess_add_on_products){ %>
+                    
+                                                                            <option id="optionid${count}" value="<%=product.id %>"><%=product.name %>  / <%= product.value %> 
+                                                                                </option>
+                                                                          
+                                                                        <% } %>
+                    
+                                                                    </select></td>
+                                                                    <td id="unitvalue">adasd</td> 
                                                                     <td class="text-right" id="addprice${count}">10</td>
                                                                     <td class="text-right" id="addqty${count}">0</td>
                                                                     <td class="text-right"><input style="width: 45px;" name="addexcess_qty" id="${count}" type="number" onkeyup="addOnChange(this)"></td>
                                                                     <td class="text-right getAddonTotalAmount"  id="addamount${count}">some
                                                                        
-                                                                        <span style="cursor: pointer;" id="${count}" onclick="removeProduct(this)" class="badge badge-danger ml-3"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg> </span>
+                                                                        
                                                                         </td>
+                                                                        <td><span style="cursor: pointer;" id="${count}" onclick="removeProduct(this)" class="badge badge-danger ml-3"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg> </span></td>
                                                            
                                                                 
                                                                  `
@@ -226,6 +241,23 @@
                                                                 addOnTable.appendChild(node)
                                                      
                                                         }
+
+                                                  
+                                                        
+                                                        // async function changeHandler (e) {
+                                                            
+
+                                                        //     let get_product
+
+                                                        // if(e.value){
+                                                      
+                                                        //     get_product =  await getAddOnExcessProductPO(e.value)
+                                                        // }
+                                                            
+                                                        // console.log(get_product)    
+                                                        // }
+
+
 
 
                                                         function removeProduct(event){
@@ -288,6 +320,7 @@
                                                               
                                                            }
                                                        </script>
+                                                       
 
                                                     </table>
                                                 </div>
