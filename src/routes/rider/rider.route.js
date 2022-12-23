@@ -6,11 +6,9 @@ const riderRouter = express.Router({
     caseSensitive: true,
     strict: true,
 });
-// riderRouter.get("/app_controls", getAppControls);
-// riderRouter.post("/login",nonMandatoryToken,login)
+
+
 riderRouter.post("/rider_details",getRiderdetails)
-
-
 riderRouter.post("/update_rider_status",updateRiderstatus);
 riderRouter.post("/update_rider_location",updeteRiderLocation);
 riderRouter.post("/update_start_tour",updateStartTour);
