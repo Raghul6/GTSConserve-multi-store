@@ -2,7 +2,7 @@ import e from "connect-flash";
 import knex from "../../services/db.service";
 import { GetProduct } from "../../utils/helper.util";
 
-export const get_subscription_or_add_on_products = async (id, userId) => {
+export const get_subscription_or_add_on_products = async (userId,id) => {
   try {
     const product = await knex("products")
       .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
@@ -17,9 +17,16 @@ export const get_subscription_or_add_on_products = async (id, userId) => {
         // "products.demo_price"
         // "subscribed_user_details.id as subscription_id"
       )
+<<<<<<< HEAD
 
       .where({ product_type_id: id })
 
+=======
+      .where({ "subscription_status":"subscribed",product_type_id: id })
+      
+      console.log(product)
+      
+>>>>>>> 11557cc8e4e9884c8846565c387d638fa9332afe
     const response = await GetProduct(product, userId);
 
     if (response.status) {
