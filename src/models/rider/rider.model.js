@@ -286,7 +286,7 @@ export const userLogin = async (password) => {
   // oder status update
   export const statusupdate = async (user_id,order_id,order_status,subscription_id,products,addons) => {
     try {
-         const update = await knex('')
+         const update = await knex('daily_orders')
       
     } catch (error) {
       

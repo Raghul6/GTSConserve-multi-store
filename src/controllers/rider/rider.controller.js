@@ -266,11 +266,11 @@ export const riderDashboard = async (req,res) => {
     const total = await dashboard(delivery_partner_id,date);
     // console.log(total);
 
-    const bottle = await knex('daily_orders').select('collect_bottlle').where({router_id:total.data,date:date})
+    const bottle = await knex('daily_orders').select('total_collective_bottle').where({router_id:total.data,date:date})
     
     let sum=0;
     for(let i=0; i<bottle.length; i++){
-     sum+=Number(bottle[i].collect_bottlle)
+     sum+=Number(bottle[i].total_collective_bottle)
       }
 
 
