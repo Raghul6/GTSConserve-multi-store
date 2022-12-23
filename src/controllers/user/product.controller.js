@@ -16,13 +16,13 @@ import knex from "../../services/db.service";
 export const removeAddOnOrder = async (req, res) => {
   try {
 
-    const { product_id, delivery_date, addon_id } = req.body
+    const { userId,product_id, delivery_date, addon_id } = req.body
 
     if (!product_id || !delivery_date || !addon_id) {
       return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: messages.MANDATORY_ERROR })
     }
-
-    const remove = await remove_addonorders(product_id, delivery_date, addon_id);
+     console.log(userId,product_id, delivery_date, addon_id);
+    const remove = await remove_addonorders(product_id, delivery_date, addon_id,userId);
 
     return res
       .status(responseCode.SUCCESS)
@@ -159,9 +159,9 @@ export const getCategories = async (req, res) => {
 
 export const getSubscriptionProducts = async (req, res) => {
   try {
-    const { userId, product_type_id } = req.body;
+    const { userId } = req.body;
 
-    const products = await get_subscription_or_add_on_products( userId, product_type_id);
+    const products = await get_subscription_or_add_on_products( "1",userId );
     if (!products.status) {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
