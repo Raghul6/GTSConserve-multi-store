@@ -18,6 +18,36 @@ export const updateRiderToken = async (refresh_token, user_name) => {
   }
 };
 
+
+export const checkPassword = async (user_name, password) => {
+  try {
+    const get_user = await knex("rider_details")
+      .select("user_name", "password")
+      .where({ user_name ,status : "1" });
+
+    if (get_user.length === 0) {
+      return { status: false, message: "Email Not Found" };
+    }
+    console.log(get_user);
+
+    // const isPassword = '12345678'
+
+    const isPassword = await bcrypt.compare(password, get_user[0].password);
+    console.log(isPassword);
+
+    if (!isPassword) {
+      return { status: false, message: "Invalid Password" };
+    }
+
+    return { status: true , data : get_user[0] };
+  } catch (error) {
+    console.log(error);
+    return { status: false, message: "Error at getting user details" };
+  }
+};
+
+
+
 export const userLogin = async (password) => {
 
     const checkPassword = await knex.select('*').from('rider_details').where({'password': password})

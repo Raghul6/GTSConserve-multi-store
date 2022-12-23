@@ -1,6 +1,6 @@
 import express from 'express';
 import messages from '../../constants/messages';
-import { get_Appcontrol, get_riderdetails, statusupdate, update_endtour, update_location, update_riderstatus, update_starttour, userLogin,getsingleorder } from '../../models/rider/rider.model';
+import { get_Appcontrol, get_riderdetails, statusupdate, update_endtour, update_location, update_riderstatus, update_starttour, userLogin,getsingleorder, checkPassword } from '../../models/rider/rider.model';
 import responseCode from '../../constants/responseCode';
 import knex from '../../services/db.service'
 import { userValidator } from '../../services/validator.service';
@@ -43,15 +43,24 @@ export const login = async (req, res) => {
 
     if (payload.status) {
       
-        const checkPassword = await knex
-          .select("id")
-          .from("rider_details")
-          .where({ password,user_name });
+      const check_user = await checkPassword(user_name, password);
 
-          console.log(checkPassword);
-         let query;
+      const checkPassword1 =[];
 
-         if (checkPassword[0].id ) {
+      if (!check_user.status) {
+       
+     
+
+      const checkPassword1 = await knex
+      .select("id")
+      .from("rider_details")
+      .where({ password,user_name });
+ 
+
+      console.log(checkPassword1);
+     let query;
+
+         if (checkPassword1[0].id ) {
           const tokens = createToken({
             user_name : user_name,
           });
@@ -64,7 +73,7 @@ export const login = async (req, res) => {
               .json({
                 status: true,
                 token: tokens.token,
-                delivary_partner_id:checkPassword[0].id,
+                delivary_partner_id:checkPassword1[0].id,
                 message: "Rider login successfully",
                 
               });
@@ -73,7 +82,11 @@ export const login = async (req, res) => {
               .status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
               .json({ status: false, message: "Token generation failed" });
           }
-        } else {
+        } 
+        
+      };
+    }
+        else {
           res
             .status(responseCode.FAILURE.BAD_REQUEST)
             .json({ status: false, message: "otp mismatch" });
@@ -89,8 +102,8 @@ export const login = async (req, res) => {
         // });
   
   
-  }
   
+
   catch (error) {
     console.error('Whooops! This broke with error: ', error)
     res.status(500).json({message:"user_id and password not matching"})
