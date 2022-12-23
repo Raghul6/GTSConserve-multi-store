@@ -21,13 +21,15 @@ export const updateRiderToken = async (refresh_token, user_name) => {
 
 
 export const checkPassword = async (user_name, password) => {
+  // console.log(user_name, password)
   try {
     const get_user = await knex("rider_details")
-      .select("user_name", "password")
+      .select( "password")
       .where({ user_name ,status : "1" });
+      console.log(get_user)
 
     if (get_user.length === 0) {
-      return { status: false, message: "Email Not Found" };
+      return { status: false, message: "User Not Found" };
     }
     console.log(get_user);
 
