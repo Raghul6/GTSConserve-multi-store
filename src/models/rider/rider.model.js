@@ -131,10 +131,10 @@ export const userLogin = async (password) => {
   }
 
   // update rider status
-  export const update_riderstatus = async (delivary_partner_id,status) => {
+  export const update_riderstatus = async (delivery_partner_id,status) => {
     try{
         if(status==1){
-        const update = await knex("rider_details").update({status:status}).where({id:delivary_partner_id})
+        const update = await knex("rider_details").update({status:status}).where({id:delivery_partner_id})
         return{status:true,message: "SuccessFully Updated"};
         }
         else{
@@ -150,9 +150,9 @@ export const userLogin = async (password) => {
 
 
   // update rider location 
-  export const update_location = async (delivary_partner_id,latitude,longitude) => {
+  export const update_location = async (delivery_partner_id,latitude,longitude) => {
     try{
-        const riderlocation = await knex('rider_details').update({latitude:latitude,longitude:longitude}).where({id:delivary_partner_id})
+        const riderlocation = await knex('rider_details').update({latitude:latitude,longitude:longitude}).where({id:delivery_partner_id})
         return{status:true,data:riderlocation}
     }catch(error){
       console.log(error);
@@ -162,10 +162,10 @@ export const userLogin = async (password) => {
   }
 
   // update start tour 
-  export const update_starttour = async (delivary_partner_id,tour_id,tour_status) => {
+  export const update_starttour = async (delivery_partner_id,tour_id,tour_status) => {
     try {
       if(tour_status==1){
-      const updatetour = await knex('rider_details').update({status:'1'}).where({id:delivary_partner_id})
+      const updatetour = await knex('rider_details').update({status:'1'}).where({id:delivery_partner_id})
       return{status:true,message:"successfully updated"}
       }
       else{
@@ -179,10 +179,10 @@ export const userLogin = async (password) => {
 
 
   //  update endtour 
-  export const update_endtour = async (delivary_partner_id,tour_id,tour_status) => {
+  export const update_endtour = async (delivery_partner_id,tour_id,tour_status) => {
     try{
       if(tour_status==2){
-        const updatetour = await knex('rider_details').update({status:'2'}).where({id:delivary_partner_id})
+        const updatetour = await knex('rider_details').update({status:'2'}).where({id:delivery_partner_id})
         return{status:true,message:"successfully updated"}
         }
         else{
