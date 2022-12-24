@@ -88,7 +88,7 @@ export const getBothProducts = async (daily_orders) => {
         "products.image",
         "products.unit_value",
         "unit_types.value as unit_type",
-        "products.price"
+        "products.branch_price as price"
       )
       .where({
         "products.product_type_id": 1,
@@ -114,7 +114,7 @@ export const getBothProducts = async (daily_orders) => {
         "products.image",
         "products.unit_value",
         "unit_types.value as unit_type",
-        "products.price"
+        "products.branch_price as price"
       )
       .where({
         "products.product_type_id": 2,
@@ -170,7 +170,7 @@ export const getBothProducts = async (daily_orders) => {
         "products.image",
         "products.unit_value",
         "unit_types.value as unit_type",
-        "products.price"
+        "products.branch_price as price"
       )
       .where({
         "products.product_type_id": 2,

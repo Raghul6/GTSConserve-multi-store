@@ -16,7 +16,7 @@
             
             <div class="doc-container">
 
-                <form action="/branch_admin/po/create_po" method="post">
+                <form>
                 <div class="row">
                     <div class="col-xl-9">
 
@@ -99,6 +99,10 @@
                                                                     <td class="text-right" id="qty<%= i %>"><%= subscription_products[i].total_qty %></td>
                                                                     <td class="text-right"><input style="width: 45px;" name="excess_qty" id="<%= i %>" type="number" onkeyup="subChange(this)"></td>
                                                                     <td class="text-right getSubTotalAmount" id="amount<%= i %>"><%= subscription_products[i].total_qty * subscription_products[i].price %> </td>
+                                                                    <input type="hidden" name="sub_product_id" value="<%= subscription_products[i].id %>">
+                                                                    <input type="hidden" name="sub_qty" value="<%= subscription_products[i].total_qty %>">
+                                                                    <input type="hidden" name="sub_price" value="<%= subscription_products[i].price %>">
+                                                                    <input type="hidden" name="sub_unit" value="<%= subscription_products[i].value %>">
                                                                 </tr>
                                                                 <% }  %> 
                                        
@@ -190,11 +194,15 @@
                                                                 <tr>
                                                                     
                                                                     <td><%= add_on_products[i].name %></td>
-                                                                    <td><%= add_on_products[i].value %></td> 
+                                                                    <td ><%= add_on_products[i].value %></td> 
                                                                     <td class="text-right" id="addprice<%= i %>"><%= add_on_products[i].price %></td>
                                                                     <td class="text-right" id="addqty<%= i %>"><%= add_on_products[i].total_qty %></td>
                                                                     <td class="text-right"><input style="width: 45px;" name="addexcess_qty" id="<%= i %>" type="number" onkeyup="addOnChange(this)"></td>
                                                                     <td class="text-right getAddonTotalAmount"  id="addamount<%= i %>"><%= add_on_products[i].total_qty * add_on_products[i].price %> </td>
+                                                                    <input type="hidden" name="add_product_id" value="<%= add_on_products[i].id %>">
+                                                                    <input type="hidden" name="add_qty" value="<%= add_on_products[i].total_qty %>">
+                                                                    <input type="hidden" name="add_price" value="<%= add_on_products[i].price %>">
+                                                                    <input type="hidden" name="add_unit" value="<%= add_on_products[i].value %>">
                                                                 </tr>
                                                                 <% }  %> 
                                                           
@@ -215,7 +223,7 @@
                                                            
                                                             
                                                                     
-                                                                    <td><select size="1" id="${count}" onchange=changeHandler(this) wire:model="countryid" class="form-control" name="add_on_products" >
+                                                                    <td><select size="1" id="${count}" onchange=changeHandler(this) wire:model="countryid" required class="form-control" name="add_on_products" >
                                                                         <option value="" selected >Select Product </option>
                                                                         <% for(product of excess_add_on_products){ %>
                     
@@ -225,14 +233,16 @@
                                                                         <% } %>
                     
                                                                     </select></td>
-                                                                    <td id="unitvalue">adasd</td> 
-                                                                    <td class="text-right" id="addprice${count}">10</td>
+                                                                    <td id="unitvalue${count}">N/A</td> 
+                                                                    <td  class="text-right" id="addprice${count}">0</td>
                                                                     <td class="text-right" id="addqty${count}">0</td>
-                                                                    <td class="text-right"><input style="width: 45px;" name="addexcess_qty" id="${count}" type="number" onkeyup="addOnChange(this)"></td>
-                                                                    <td class="text-right getAddonTotalAmount"  id="addamount${count}">some
-                                                                       
+                                                                    <td class="text-right"><input style="width: 45px;" name="addexcess_qty" required id="${count}" type="number" onkeyup="addOnChange(this)"></td>
+                                                                    <td class="text-right getAddonTotalAmount"  id="addamount${count}">0</td>
+                                                                        <input type="hidden" name="add_product_id" id="setProductId${count}" >
+                                                                        <input type="hidden" name="add_qty" id="setQty${count}">
+                                                                        <input type="hidden" name="add_price" id="setPrice${count}">
+                                                                        <input type="hidden" name="add_unit" id="setUnit${count}">
                                                                         
-                                                                        </td>
                                                                         <td><span style="cursor: pointer;" id="${count}" onclick="removeProduct(this)" class="badge badge-danger ml-3"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg> </span></td>
                                                            
                                                                 
@@ -244,35 +254,58 @@
 
                                                   
                                                         
-                                                        // async function changeHandler (e) {
+                                                        async function changeHandler (e) {
                                                             
+                                                            const id = e.id
 
-                                                        //     let get_product
 
-                                                        // if(e.value){
+                                                            const unitvalue = document.getElementById("unitvalue"+ id)
+                                                            const price = document.getElementById("addprice"+ id)
+                                                            const setProductId = document.getElementById("setProductId"+ id)
+                                                            const setQty = document.getElementById("setQty"+ id)
+                                                            const setPrice = document.getElementById("setPrice"+ id)
+                                                            const setUnit = document.getElementById("setUnit"+ id)
+                                                            
+                                                            let response
+
+                                                        if(e.value){
                                                       
-                                                        //     get_product =  await getAddOnExcessProductPO(e.value)
-                                                        // }
+                                                            response =   await fetch('/branch_admin/po/add_on_excess_po', {
+                                                                            method: 'POST',
+                                                                            headers: {
+                                                                                'Accept': 'application/json',
+                                                                                'Content-Type': 'application/json'
+                                                                            },
+                                                                            body: JSON.stringify({"id": e.value })
+                                                                            })
+
+
+
+                                                        }
+                                                        const  get_data = await response.json();
+                                                       
+                                                        const product = get_data.data[0]  
+                                                        
+                                                            price.innerText = product.price
+                                                            unitvalue.innerText = product.value
+                                                            setProductId.value = product.id
+                                                            setQty.value = 0
+                                                            setPrice.value = product.price
+                                                            setUnit.value = product.value
                                                             
-                                                        // console.log(get_product)    
-                                                        // }
-
-
-
-
+                                                            
+                                                        }
+                                                        
+                                                        
                                                         function removeProduct(event){
+
+                                                            const grandTotal = document.getElementById("grandTotal")
+                                                            const amount = document.getElementById("addamount"+event.id).innerText
+
+                                                            grandTotal.innerText = Number(grandTotal.innerText) - Number(amount)
+
                                                             document.getElementById(`remove${event.id}`).remove();
                                                         }
-
-
-
-
-
-
-
-
-
-
 
 
                                                             function addOnChange(event){
@@ -319,6 +352,108 @@
                                                                     grandTotal.innerText = SubTotalAmount + AddtotalAmount
                                                               
                                                            }
+                                                       
+                                                       
+                                                           const form=document.querySelector("form")
+                                                    form.addEventListener("submit",async(e)=>{
+
+                                                e.preventDefault()
+                                                // action="/branch_admin/po/create_po" method="post"
+                                                let query = {}
+
+                                                const sub_product_id = e.target.sub_product_id
+                                                const excess_qty = e.target.excess_qty
+                                                const sub_qty = e.target.sub_qty
+                                                const sub_price = e.target.sub_price
+                                                const sub_unit = e.target.sub_unit
+
+                                      
+
+                                               
+                                                const addexcess_qty = e.target.addexcess_qty
+                                                const add_product_id = e.target.add_product_id
+                                                const add_qty = e.target.add_qty
+                                                const add_price = e.target.add_price
+                                                const add_unit = e.target.add_unit
+
+
+                                                let sub_products = []
+                                                if(sub_product_id != undefined){
+
+                                                    if(excess_qty.length == undefined){
+                                                        sub_products.push({
+                                                            product_id : sub_product_id.value,
+                                                            excess_qty : excess_qty.value,
+                                                            qty : sub_qty.value,
+                                                            total_qty : Number(excess_qty.value) + Number(sub_qty.value),
+                                                            price : Number(sub_price.value),
+                                                            total_price : (Number(excess_qty.value) + Number(sub_qty.value)) * Number(sub_price.value),
+                                                            value : sub_unit.value
+                                                        })
+                                                    }else{
+                                                        
+                                                        for(let i = 0 ; i < sub_product_id.length ; i++){
+                                                            sub_products.push({
+                                                                product_id : sub_product_id[i].value,
+                                                                excess_qty : excess_qty[i].value,
+                                                                qty : sub_qty[i].value,
+                                                                total_qty : Number(excess_qty[i].value) + Number(sub_qty[i].value),
+                                                                price : Number(sub_price[i].value),
+                                                                total_price : (Number(excess_qty[i].value) + Number(sub_qty[i].value)) * Number(sub_price[i].value),
+                                                                value : sub_unit[i].value
+
+                                                            })
+                                                        }
+                                                    }
+                                                }
+
+                                                let add_on_products = []
+                                                if(add_product_id != undefined){
+
+                                                    if(addexcess_qty.length == undefined){
+                                                        add_on_products.push({
+                                                            product_id : add_product_id.value,
+                                                            excess_qty : addexcess_qty.value,
+                                                            qty : add_qty.value,
+                                                            total_qty : Number(addexcess_qty.value) + Number(add_qty.value),
+                                                            price : Number(add_price.value),
+                                                            total_price : (Number(addexcess_qty.value) + Number(add_qty.value)) * Number(add_price.value),
+                                                            value : add_unit.value
+                                                    })
+                                                }else{
+                                                    for(let i = 0 ; i < add_product_id.length ; i++){
+                                                        add_on_products.push({
+                                                        product_id : add_product_id[i].value,
+                                                        excess_qty : addexcess_qty[i].value,
+                                                        qty : add_qty[i].value,
+                                                        total_qty : Number(addexcess_qty[i].value) + Number(add_qty[i].value),
+                                                        price : Number(add_price[i].value),
+                                                        total_price : (Number(addexcess_qty[i].value) + Number(add_qty[i].value)) * Number(add_price[i].value),
+                                                        value : add_unit[i].value
+
+                                                    })
+                                                    }
+                                                }
+                                            }
+
+                                                console.log(sub_products)
+                                                console.log(add_on_products)
+
+                                                await fetch('/branch_admin/po/create_po', {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Accept': 'application/json',
+                                                        'Content-Type': 'application/json'
+                                                    },
+                                                    body: JSON.stringify({"sub_products":sub_products , "add_on_products" : add_on_products})
+                                                    })
+                                                    
+                                                
+                                                window.location.href = "/home"
+
+
+                                            })
+
                                                        </script>
                                                        
 
@@ -397,29 +532,9 @@
                         <div class="invoice-actions-btn">
 
                             <div class="invoice-action-btn">
-
-                                <input type="hidden" name="sub_products" value="<%= subscription_products %>" >
-                                <input type="hidden" name="add_on_products" value="<%= add_on_products %>" >
                      
 
-                                <!-- <script >
-                                    async function onToDochange(event) {
-                                    await fetch('/branch_admin/po/create_po', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Accept': 'application/json',
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({"sub_products":"<%=subscription_products %>" , "add_on_products" : "<%=add_on_products %>"})
-                                    })
-                                    
-                                   
-                                 window.location.reload("/branch_admin/rider/get_rider")
-                                 
-
-                                    
-                                };
-                                </script> -->
+                           
 
                                 <div class="row">
                                     <div class="col-xl-12 col-md-3 col-sm-6">

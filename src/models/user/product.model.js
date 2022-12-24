@@ -17,13 +17,9 @@ export const get_subscription_or_add_on_products = async (id,userId) => {
         // "products.demo_price"
         // "subscribed_user_details.id as subscription_id"
       )
-<<<<<<< HEAD
-      .where({ "subscription_status":"subscribed",product_type_id: id })
-=======
 
       .where({ product_type_id: id })
       // .where({ "subscription_status":"subscribed",product_type_id: id })
->>>>>>> 2dfe4ca46e35596e570f18b25d1dc14f246127eb
       
       console.log(product)
       
