@@ -328,6 +328,19 @@ export const riderDashboard = async (req,res) => {
   }
 
 
+  // order list 
+  export const OrderList = async (req,res) => {
+    try{
+      
+
+    }
+    catch(error){
+      console.log(error);
+      return res.status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
+     .json({ status: false, message: messages.SERVER_ERROR });
+    }
+  }
+
 export const ten = async (req,res)=>{
   try{
  const payload = userValidator(req.body)

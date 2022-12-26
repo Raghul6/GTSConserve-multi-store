@@ -21,6 +21,11 @@ riderRouter.post("/rider_dashboard",riderDashboard);
 
 riderRouter.post("/cancel_order",cancelOrder);
 
+riderRouter.post("/order_list",cancelOrder);
+
+
+
+
 
 
 
