@@ -26,9 +26,15 @@ productRouter.get("/get_add_on_product", nonMandatoryToken,getAddOnProducts);
 
 productRouter.post("/get_single_product",authenticateJWT,nonMandatoryToken,getSingleProduct);
 
+<<<<<<< HEAD
+
+productRouter.post("/create_add_on_products", authenticateJWT,nonMandatoryToken,addon_Order);
+productRouter.post("/remove_add_on_products",authenticateJWT,nonMandatoryToken,removeAddOnOrder);
+=======
 productRouter.post("/create_add_on_products", authenticateJWT,nonMandatoryToken,addon_Order);
 productRouter.post("/remove_add_on_products",authenticateJWT,nonMandatoryToken,removeAddOnOrder);
 
+>>>>>>> dbf07976ab45eef4f8345c422d3f4292a20ba8d0
 
 // next day delivery product api for static
 
