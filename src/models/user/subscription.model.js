@@ -108,7 +108,7 @@ export const get_subscription_product = async (userId) => {
   }
 };
 
-export const single_subscription = async (userId, sub_id) => {
+export const single_subscription = async (userId, subscribe_type_id) => {
   try {
     const products = await knex("subscribed_user_details AS sub")
       .select(
@@ -117,7 +117,6 @@ export const single_subscription = async (userId, sub_id) => {
         "sub.customized_days",
         "sub.subscription_status",
         "sub.quantity",
-        // "product.id",
         "products.name as product_name",
         "products.image",
         "products.price",
@@ -126,7 +125,8 @@ export const single_subscription = async (userId, sub_id) => {
         "subscription_type.name as subscription_name",
         "user_address.address",
         "user_address.id as address_id",
-        "sub.date as date"
+        "sub.date as date",
+        
       
       )
       .join("products", "products.id", "=", "sub.product_id")
@@ -138,7 +138,7 @@ export const single_subscription = async (userId, sub_id) => {
         "sub.subscribe_type_id"
       )
       .join("user_address", "user_address.id", "=", "sub.user_address_id")
-      // .where({ "sub.user_id": userId, "sub.id": sub_id });
+      .where({ "sub.user_id": userId, "sub.subscribe_type_id": subscribe_type_id });
       
       // const query1 = await knex("additional_orders").select("date")
       // console.log(query1[0].date)
@@ -159,7 +159,7 @@ export const single_subscription = async (userId, sub_id) => {
       .join("products", "products.id", "=", "additional_orders.id")
       .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
       .join("user_address", "user_address.id", "=", "additional_orders.subscription_id")
-      // .where({ "add_on_orders.user_id": userId, "add_on_orders.id": add_on_orders.user_id });
+      .where({ "additional_orders.user_id": userId });
 
     if (products.length === 0) {
       return { status: false, message: "No Subscription Found" };

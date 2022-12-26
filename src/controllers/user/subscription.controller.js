@@ -242,7 +242,7 @@ export const getAllSubscription = async (req, res) => {
 };
 
 export const singleSubscription = async (req, res) => {
-  console.log(req,res)
+  // console.log(req,res)
   try {
     const { userId, subscription_id } = req.body;
 
@@ -254,7 +254,7 @@ export const singleSubscription = async (req, res) => {
 
     const sub = await single_subscription(userId, subscription_id);
 
-    // console.log(sub)
+    console.log(sub)
     if (!sub.status) {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
