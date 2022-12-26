@@ -304,7 +304,7 @@ export const riderDashboard = async (req,res) => {
     try{
       const {user_id,order_id,delivery_partner_id,order_status,reason,date}= req.body;
 
-      if(!user_id || !delivery_partner_id || !order_status || !date){
+      if(!delivery_partner_id || !order_status || !date){
         return res
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: "Mandatory field Is Missing" });
