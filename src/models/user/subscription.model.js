@@ -138,12 +138,12 @@ export const single_subscription = async (userId, sub_id) => {
         "sub.subscribe_type_id"
       )
       .join("user_address", "user_address.id", "=", "sub.user_address_id")
-      .where({ "sub.user_id": userId, "sub.id": sub_id });
-
+      // .where({ "sub.user_id": userId, "sub.id": sub_id });
+      
       // const query1 = await knex("additional_orders").select("date")
       // console.log(query1[0].date)
       // // .moment(query1[0].additional_orders.date).format('YYYY-MM-DD');
-
+        console.log(products)
       const query = await knex("additional_orders")
       .select(
         "additional_orders.id",
