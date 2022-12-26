@@ -664,7 +664,7 @@ export const createTable = async (req, res) => {
           t.integer("total_given_bottle").nullable();
           t.integer("total_collective_bottle").nullable();
 
-          t.enu("status", ["pending", "delivered", "undelivered"]).defaultTo(
+          t.enu("status", ["pending", "delivered", "undelivered","cancelled"]).defaultTo(
             "pending"
           );
           t.enu("tour_status", ["0","1", "2",]).defaultTo(

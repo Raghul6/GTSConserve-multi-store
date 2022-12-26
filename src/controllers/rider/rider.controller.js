@@ -302,16 +302,21 @@ export const riderDashboard = async (req,res) => {
   // rider cancel order 
   export const cancelOrder = async (req,res) => {
     try{
-      const {user_id,order_id,delivery_partner_id,order_status,reason} = req.body;
+      const {user_id,order_id,delivery_partner_id,order_status,reason,date}= req.body;
 
-      if(!user_id || !delivery_partner_id || !order_status){
+      if(!user_id || !delivery_partner_id || !order_status || !date){
         return res
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: "Mandatory field Is Missing" });
        }
 
-      const cancel = await cancel_order(user_id,order_id,delivery_partner_id,order_status,reason);
-      return res.status(responseCode.SUCCESS).json({status: true, cancel })
+      const cancel = await cancel_order(user_id,order_id,delivery_partner_id,order_status,date);
+      
+    // if(cancel.status=true){
+    //   const reason1 = await knex('daily_orders').insert({reason:reason})
+    // }
+
+      return res.status(responseCode.SUCCESS).json({data:cancel})
 
 
     }
