@@ -198,24 +198,28 @@ export const userLogin = async (password) => {
   
   // get single order
   export const getsingleorder = async (user_id,order_id,delivery_partner_id,order_status,router_id) => {
-    console.log(router_id)
+    
         try {
+              
+          const daily = await knex('daily_orders').select('id','router_id','status','total_collective_bottle','add_on_order_id','user_id','subscription_id','additional_order_id').where({status:order_status,user_id:user_id})
 
-      const rider = await knex('routes').select("id as router_id")
-      .where({rider_id:delivery_partner_id});
+          console.log(daily);
+
+      // const rider = await knex('routes').select("id as router_id")
+      // .where({id:router_id});
 
 
-      console.log(rider[0].id)
+      // console.log(rider[0].router_id)
 
       
         const query1 =  await knex("daily_orders")
         .select(
           "daily_orders.id",
-          "daily_orders.task_name",
+          // "daily_orders.task_name",
           "daily_orders.tour_status",
           "daily_orders.status as order_status",
         )
-        .where({user_id:user_id,router_id:router_id});
+        .where({user_id:daily[0].user_id})
         
         const query2 = await knex("users")
         .join("user_address", "user_address.user_id", "=", "users.id")        
@@ -229,7 +233,9 @@ export const userLogin = async (password) => {
           "user_address.latitude as user_latitude",
           "user_address.longitude as user_longitude"
         )
-        .where({user_id:user_id})
+        .where({"users.id":daily[0].user_id})
+
+        console.log(query2)
 
         const query3 = await knex('daily_orders')
         .join("subscribed_user_details", "subscribed_user_details.id", "=", "daily_orders.subscription_id")
@@ -242,10 +248,12 @@ export const userLogin = async (password) => {
           "products.unit_value",
           "unit_types.value as unit_type",
           "products.price"
-        )
+        ).where({"subscribed_user_details.id":daily[0].subscription_id})
+
+
         const query4 = await knex('daily_orders')
-        .join("additional_orders", "additional_orders.id", "=", "daily_orders.subscription_id")
-        .join("subscribed_user_details", "subscribed_user_details.id", "=", "daily_orders.additional_order_id")
+        .join("additional_orders", "additional_orders.id", "=", "daily_orders.additional_order_id")
+        .join("subscribed_user_details", "subscribed_user_details.id", "=", "daily_orders.subscription_id")
         .join("products", "products.id", "=", "subscribed_user_details.product_id")
         .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
         .select(
@@ -255,7 +263,7 @@ export const userLogin = async (password) => {
           "products.unit_value",
           "unit_types.value as unit_type",
           "products.price"
-        )
+        ).where({"additional_orders.id":daily[0].additional_order_id})
 
         const query5 = await knex('daily_orders')
         .join("add_on_orders", "add_on_orders.id", "=", "daily_orders.add_on_order_id")
@@ -270,11 +278,11 @@ export const userLogin = async (password) => {
           "unit_types.value as unit_type",
           "products.price"
         )
-        .where({"daily_orders.status": order_status})
+        .where({"add_on_orders.id":daily[0].add_on_order_id})
       console.log(query5)
       
       
-      return{status:true,data:query1}
+      return{status:true,data:query1,query2,query3,query4,query5}
 
 
     } catch (error) {

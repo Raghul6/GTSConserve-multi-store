@@ -213,14 +213,18 @@ export const getSingleorder = async (req,res) => {
        .status(responseCode.FAILURE.BAD_REQUEST)
        .json({ status: false, message: "Mandatory field Is Missing" });
       }
-      console.log(order_status)
-      const rider = await knex('routes').select("id as router_id")
-      .where({rider_id:delivery_partner_id});
+      // console.log(order_status)
+      // const rider = await knex('routes').select("id as router_id")
+      // .where({rider_id:delivery_partner_id});
 
-      const router_id = rider[0].router_id
-      console.log(rider)
+      // const router_id = rider[0].router_id
+      // console.log(rider)
 
-     const order = await getsingleorder (order_id,delivery_partner_id,order_status,router_id);
+     const order = await getsingleorder (user_id,order_id,delivery_partner_id,order_status);
+
+     if(order.status = true){
+      
+     }
 
      return res.status(responseCode.SUCCESS).json({status: true,order })
   }
@@ -348,7 +352,7 @@ export const riderDashboard = async (req,res) => {
         "bottle_return":order.order1[0].total_collective_bottle,
         "order_status":order.order1[0].status
        }
-       return res.status(responseCode.SUCCESS).json({status: true, query,data:data })
+       return res.status(responseCode.SUCCESS).json({status: true,data:query,data })
     }
     catch(error){
       console.log(error);
