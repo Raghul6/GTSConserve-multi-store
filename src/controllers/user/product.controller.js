@@ -161,7 +161,7 @@ export const getSubscriptionProducts = async (req, res) => {
   try {
     const { userId } = req.body;
 
-    const products = await get_subscription_or_add_on_products( "1",userId );
+    const products = await get_subscription_or_add_on_products("1",userId );
     if (!products.status) {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
