@@ -331,20 +331,21 @@ export const userLogin = async (password) => {
   }
 
 
-  // rider cancel order
-  export const cancel_order = async (user_id,order_id,delivery_partner_id,order_status,date,reason) => {
-    try { 
+  // // rider cancel order
+  // export const cancel_order = async (user_id,order_id,delivery_partner_id,order_status,date,reason) => {
+  //   try { 
          
-        const router = await knex('routes').select('id').where({rider_id:delivery_partner_id});
+  //       const router = await knex('routes').select('id').where({rider_id:delivery_partner_id});
 
-         const order = await knex('daily_orders').update({status:order_status}).where({user_id:user_id,router_id:router[0].id,date:date});
-         return{status:true,message:"order cancelled by rider"};
+  //        const order = await knex('daily_orders').update({status:order_status}).where({user_id:user_id,router_id:router[0].id,date:date});
 
-    } catch (error) {
-      console.log(error);
-      return{ status: false, message: "No data found" };
-    }
-  }
+  //        return{status:true,message:"order cancelled by rider"};
+
+  //   } catch (error) {
+  //     console.log(error);
+  //     return{ status: false, message: "No data found" };
+  //   }
+  // }
 
 // order list 
 export const order_list = async (delivery_partner_id,status) =>{
@@ -356,12 +357,11 @@ export const order_list = async (delivery_partner_id,status) =>{
         .join("products", "products.id", "=", "subscribed_user_details.product_id")
         .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
         .select(
-         
+          "daily_orders.router_id",
           "products.unit_value as unit_value",
           "unit_types.value as unit_type",
-          "products.price as price",
           
-        )
+        ).where({"daily_orders.router_id":router[0].id});
 
     const order = await knex('daily_orders').select(
       'id',
@@ -398,3 +398,26 @@ export const order_list = async (delivery_partner_id,status) =>{
     return{ status: false, message: "No data found" };    
   }
 }
+
+// location check 
+export const locationcheck =async(delivery_partner_id,order_id) => {
+  try {
+      const check = await knex('rider_details').select('latitude','longitude').where({id:delivery_partner_id});
+
+      const address = await knex('daily_orders')
+      .join("user_address", "user_address.user_id", "=", "daily_orders.user_id")
+      .select(
+        'user_address.latitude',
+        'user_address.longitude')
+        .where({'daily_orders.id':order_id});
+
+      // console.log(check,address)
+
+      return{status:true,check,address};
+
+    
+  } catch (error) {
+    console.log(error)
+    return{ status: false, message: "No data found" };  
+  }
+} 
