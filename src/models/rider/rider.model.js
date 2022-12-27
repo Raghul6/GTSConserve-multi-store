@@ -331,20 +331,21 @@ export const userLogin = async (password) => {
   }
 
 
-  // rider cancel order
-  export const cancel_order = async (user_id,order_id,delivery_partner_id,order_status,date,reason) => {
-    try { 
+  // // rider cancel order
+  // export const cancel_order = async (user_id,order_id,delivery_partner_id,order_status,date,reason) => {
+  //   try { 
          
-        const router = await knex('routes').select('id').where({rider_id:delivery_partner_id});
+  //       const router = await knex('routes').select('id').where({rider_id:delivery_partner_id});
 
-         const order = await knex('daily_orders').update({status:order_status}).where({user_id:user_id,router_id:router[0].id,date:date});
-         return{status:true,message:"order cancelled by rider"};
+  //        const order = await knex('daily_orders').update({status:order_status}).where({user_id:user_id,router_id:router[0].id,date:date});
 
-    } catch (error) {
-      console.log(error);
-      return{ status: false, message: "No data found" };
-    }
-  }
+  //        return{status:true,message:"order cancelled by rider"};
+
+  //   } catch (error) {
+  //     console.log(error);
+  //     return{ status: false, message: "No data found" };
+  //   }
+  // }
 
 // order list 
 export const order_list = async (delivery_partner_id,status) =>{

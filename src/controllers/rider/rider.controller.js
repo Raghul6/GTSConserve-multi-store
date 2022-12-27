@@ -363,13 +363,16 @@ export const riderDashboard = async (req,res) => {
         .json({ status: false, message: "Mandatory field Is Missing" });
        }
 
-      const cancel = await cancel_order(user_id,order_id,delivery_partner_id,order_status,date);
-      
+       const router = await knex('routes').select('id').where({rider_id:delivery_partner_id});
+
+       const order = await knex('daily_orders').update({status:order_status}).where({user_id:user_id,router_id:router[0].id,date:date});
+       
+       return res.status(responseCode.SUCCESS).json({status:true,message:"order cancelled by rider"});
     // if(cancel.status=true){
     //   const reason1 = await knex('daily_orders').insert({reason:reason})
     // }
 
-      return res.status(responseCode.SUCCESS).json({data:cancel})
+      // return res.status(responseCode.SUCCESS).json({data:cancel.status})
 
 
     }
@@ -427,7 +430,7 @@ export const riderDashboard = async (req,res) => {
     try {
          const{delivery_partner_id,order_id} = req.body;
 
-         if(!delivery_partner_id || !order_id || !date){
+         if(!delivery_partner_id || !order_id ){
           return res
           .status(responseCode.FAILURE.BAD_REQUEST)
           .json({ status: false, message: "Mandatory field Is Missing" });
@@ -443,8 +446,8 @@ export const riderDashboard = async (req,res) => {
          var haversine_m = haversine(point1, point2); //Results in meters (default)
          var haversine_km = haversine_m /1000; //Results in kilometers
          
-         console.log("distance (in meters): " + haversine_m + "m");
-         console.log("distance (in kilometers): " + haversine_km + "km");
+        //  console.log("distance (in meters): " + haversine_m + "m");
+        //  console.log("distance (in kilometers): " + haversine_km + "km");
 
          if(haversine_km<=1000){
           return res.status(responseCode.SUCCESS).json({status: true,message:"ok" })
