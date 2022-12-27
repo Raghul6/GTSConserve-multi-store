@@ -51,7 +51,7 @@ userRouter.get("/get_empty_bottle", authenticateJWT, getEmptyBottle);
 
 // get bill history api
 userRouter.post("/get_bill_list", authenticateJWT, getBillList);
-userRouter.post("/get_single_bill_list", authenticateJWT, getSingleBillList);
+// userRouter.post("/get_single_bill_list", authenticateJWT, getSingleBillList);
 
 // empty bottle tracking api for static
 

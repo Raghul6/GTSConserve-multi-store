@@ -222,3 +222,11 @@ export const get_user_bill = async (userId) => {
     return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, error };
   }
 };
+
+export const get_single_bill = async () => {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
