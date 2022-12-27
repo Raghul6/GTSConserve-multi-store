@@ -85,13 +85,13 @@ export const getProducts = async (req, res) => {
   try {
     const { category_id, product_type_id } = req.body;
 
-    // const token = req.headers.authorization;
+    const token = req.headers.authorization;
 
-    // let userId;
-    // if (token) {
-    //   const user = await parseJwtPayload(token);
-    //   userId = user.user_id;
-    // }
+    let userId;
+    if (token) {
+      const user = await parseJwtPayload(token);
+      userId = user.user_id;
+    }
 
     if (!category_id || !product_type_id) {
       return res
@@ -218,7 +218,7 @@ export const searchProducts = async (req, res) => {
     const product = await search_products(
       product_type_id,
       search_keyword,
-      userId
+      // userId
     );
     if (!product.status) {
       return res
