@@ -402,19 +402,22 @@ export const riderDashboard = async (req,res) => {
         "tour_id":order.router[0].id,
         "tour_route":order.router[0].name,
         "total_orders":order.order.length,
+        "tour_status":order.order[0].status,
         "completed_orders":order.delivery.length       
        }
 
        console.log(query)
-       let data ={
+       let data =[{
         "order_id":order.order[0].id,
         "milk_variation":order.order[0].total_qty +" "+ order.query3[0].unit_type,
-        "addon_items":order.addon.length,
+        "addon_items_delivered":order.addon.length,
         "user_name":order.user[0].name,
         "customer_id":order.user[0].user_unique_id,
         "bottle_return":order.order1[0].total_collective_bottle,
         "order_status":order.order1[0].status
-       }
+       }]
+       
+      //  const  = Object.keys(person);
 
        return res.status(responseCode.SUCCESS).json({status: true, ...query,data })
     }

@@ -402,8 +402,9 @@ export const order_list = async (delivery_partner_id,status) =>{
 
     const addon = await knex('add_on_order_items')
     .select('id')
-    .where({add_on_order_id:order1[0].add_on_order_id});
-
+    .where({add_on_order_id:order1[0].add_on_order_id,status:"delivered"});
+    orWhere({add_on_order_id:order1[0].add_on_order_id,status:"undelivered"})
+    
     const user = await knex('users')
     .select('name','user_unique_id')
     .where({id:order[0].user_id})
