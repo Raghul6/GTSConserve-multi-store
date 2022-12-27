@@ -219,7 +219,7 @@ export const getSingleorder = async (req,res) => {
      const order = await getsingleorder (order_id,delivery_partner_id,order_status)
 
 
-     console.log(order.query5)
+    //  console.log(order.query5)
      if(order.status = true){
       let data = {
                 "task_id":order.query1[0].id,
@@ -243,22 +243,22 @@ export const getSingleorder = async (req,res) => {
                  "user_longitude": order.query2[0].user_longitude
       }
 
-      let products = [
-        {
-   
+      let products = [];
+      for( let i=0;i<order.query3.length;i++){
+   products.push({
      "product_id": order.query3[0].id,
      "product_name":order.query3[0].product_name,
      "variation":order.query3[0].unit_value + "" +order.query3[0].unit_type,
-     "quantity": order.query3[0].quantity},
-     {
-
+     "quantity": order.query3[0].quantity
+    })}
+    for( let i=0;i<order.query4.length;i++){
+      products.push({
      "product_id": order.query4[0].add_id,
      "product_name":order.query4[0].product_name,
      "variation":order.query4[0].unit_value + "" +order.query3[0].unit_type,
      "quantity": order.query4[0].quantity,
-       }
- 
-]
+       })}
+
 
       let addons =[];
 
@@ -291,16 +291,17 @@ export const getSingleorder = async (req,res) => {
 // order_status_update
 export const orderStatusUpdate = async (req,res) => {
   try {
-        const {user_id,order_id,order_status,subscription_id,products,addons} = req.body;
+        const {user_id,delivery_partner_id,one_iltre_count,half_litre_count,order_id,order_status,products,addons} = req.body;
         if(!user_id || !order_id || !order_status){
           return res
           .status(responseCode.FAILURE.BAD_REQUEST)
           .json({ status: false, message: "Mandatory field Is Missing" });
          }
 
-        const orderstatus = await statusupdate(user_id,order_id,order_status,subscription_id,products,addons);
+        const orderstatus = await statusupdate(user_id,delivery_partner_id,one_iltre_count,half_litre_count,order_id,order_status,products,addons);
 
 
+        return res.status(responseCode.SUCCESS).json({status: true,orderstatus})
 
         }
    catch (error) {
