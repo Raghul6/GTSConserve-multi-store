@@ -397,7 +397,7 @@ export const riderDashboard = async (req,res) => {
        }
 
       const order = await order_list(delivery_partner_id,status)
-      console.log(order)
+      // console.log(order)
       let query ={
         "tour_id":order.router[0].id,
         "tour_route":order.router[0].name,
@@ -406,11 +406,12 @@ export const riderDashboard = async (req,res) => {
         "completed_orders":order.delivery.length       
        }
 
-       console.log(query)
+      //  console.log(query)
        let data =[{
         "order_id":order.order[0].id,
         "milk_variation":order.order[0].total_qty +" "+ order.query3[0].unit_type,
         "addon_items_delivered":order.addon.length,
+        "addon_items_undelivered":order.addon1.length,
         "user_name":order.user[0].name,
         "customer_id":order.user[0].user_unique_id,
         "bottle_return":order.order1[0].total_collective_bottle,

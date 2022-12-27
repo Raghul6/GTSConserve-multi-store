@@ -368,7 +368,7 @@ export const userLogin = async (password) => {
 export const order_list = async (delivery_partner_id,status) =>{
   try {
     const router = await knex('routes').select('id','name').where({rider_id:delivery_partner_id});
-    console.log(router)
+    // console.log(router)
     const query3 = await knex('daily_orders')
         .join("subscribed_user_details", "subscribed_user_details.id", "=", "daily_orders.subscription_id")
         .join("products", "products.id", "=", "subscribed_user_details.product_id")
@@ -403,14 +403,18 @@ export const order_list = async (delivery_partner_id,status) =>{
     const addon = await knex('add_on_order_items')
     .select('id')
     .where({add_on_order_id:order1[0].add_on_order_id,status:"delivered"});
-    orWhere({add_on_order_id:order1[0].add_on_order_id,status:"undelivered"})
+
+    const addon1 = await knex('add_on_order_items')
+    .select('id')
+    .where({add_on_order_id:order1[0].add_on_order_id,status:"undelivered"});
+   
     
     const user = await knex('users')
     .select('name','user_unique_id')
     .where({id:order[0].user_id})
 
     // console.log(router,router1,order,delivery,addon)
-    return{status:true,router,order,delivery,addon,order1,user,query3};
+    return{status:true,router,order,delivery,addon,addon1,order1,user,query3};
   } catch (error) {
     console.log(error)
     return{ status: false, message: "No data found" };    
