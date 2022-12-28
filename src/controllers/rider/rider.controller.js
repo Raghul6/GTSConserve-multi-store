@@ -314,42 +314,37 @@ export const orderStatusUpdate = async (req,res) => {
        let query4 = [];
 
 
-      //  for(let i=0; i<product.length; i++){
-      //   await knex('subscribed_user_details').select("subscribed_user_details.id ").where({"subscribed_user_details.id":product[i].subscription_id})
+       for(let i=0; i<product.length; i++){
+        await knex('products').select("unit_value ").where({"products.id":product[i].id})
 
-      //   query4.push({id:product[i].subscription_id})
+        query4.push({unit_value})
 
-      //   console.log(query4)
-      // }
+        console.log(query4)
+      }
 
-        for(let i=0; i<product.length; i++){
-       const query3 =    await knex('subscribed_user_details')
-        .join("additional_orders", "additional_orders.subscription_id", "=", product[i].subscription_id)
-        .join("products", "products.id", "=", "subscribed_user_details.product_id")
-        .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
-        .select(
-          "products.id ",
-          "products.name ",
-          "subscribed_user_details.quantity ",
-          "products.unit_value ",
-          "unit_types.value ",
-          "products.price ",
-          "additional_orders.quantity ",
-          "subscribed_user_details.id "
-        ).where({"subscribed_user_details.id":product[i].subscription_id})
+      //   for(let i=0; i<product.length; i++){
+      //  const query3 =    await knex('products')
+      //   // .join("additional_orders", "additional_orders.subscription_id", "=", product[i].subscription_id)
+      //   // .join("products", "products.id", "=", "subscribed_user_details.product_id")
+      //   .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+      //   .select(
+      //     // "products.id ",
+      //     // "products.name ",
+      //     "products.unit_value "
+      //   ).where({"products.id ":product[i].id})
 
-        query4.push({
-          product_id: query3.products.id,
-          product_name: product_name,
-          sub_quantity: quantity,
-          products_unit_value: unit_value,
-          products_unit_type: unit_type,
-          product_price: price,
-          additional_quantity: quantity1,
-          id: id 
-        })
+      //   query4.push({
+      //     // product_id: query3.products.id,
+      //     // product_name: product_name,
+      //     // sub_quantity: quantity,
+      //     products_unit_value:query3.products.unit_value,
+      //     // products_unit_type: unit_type,
+      //     // product_price: price,
+      //     // additional_quantity: quantity1,
+      //     // id: id 
+      //   })
 
-        }
+      //   }
 
          console.log(query4)
 
