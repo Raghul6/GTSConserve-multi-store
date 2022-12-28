@@ -48,7 +48,10 @@ export const edit_address = async (
   title,
   address,
   landmark,
-  type
+  type,
+  alternate_mobile,
+  latitude,
+  longitude
 ) => {
   let query = {};
 
@@ -64,10 +67,20 @@ export const edit_address = async (
   if (type) {
     query.type = type;
   }
+  if (alternate_mobile) {
+    query.alternate_mobile = alternate_mobile;
+  }
+  if (latitude) {
+    query.latitude = latitude
+  }
+  if (longitude) {
+    query.longitude = longitude
+  }
 
   const user = await knex("user_address")
     .update(query)
-    .where({ user_id: user_id, id: address_id });
+    .where({ user_id: user_id });
+    console.log(user)
   try {
     return { status: responseCode.SUCCESS, body: user };
   } catch (error) {
