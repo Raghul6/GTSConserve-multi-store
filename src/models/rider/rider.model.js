@@ -458,7 +458,7 @@ export const locationcheck =async(delivery_partner_id,order_id) => {
         'user_address.longitude')
         .where({'daily_orders.id':order_id});
 
-      // console.log(check,address)
+      console.log(address)
 
       return{status:true,check,address};
 
