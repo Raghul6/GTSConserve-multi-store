@@ -250,15 +250,17 @@ export const getSingleorder = async (req,res) => {
      "product_name":order.query3[0].product_name,
      "variation":order.query3[0].unit_value + "" +order.query3[0].unit_type,
      "quantity": order.query3[0].quantity,
-     "subscription_delivered_status" :order.query5[i].status
+     "delivered_status" :order.query5[i].status
     })}
+
+    let additional = [];
     for( let i=0;i<order.query4.length;i++){
-      products.push({
+      additional.push({
      "product_id": order.query4[0].add_id,
      "product_name":order.query4[0].product_name,
      "variation":order.query4[0].unit_value + "" +order.query3[0].unit_type,
      "quantity": order.query4[0].quantity,
-     "additional_delivered_status" :order.query4[i].status
+     "delivered_status" :order.query4[i].status
        })}
 
 
@@ -270,13 +272,13 @@ export const getSingleorder = async (req,res) => {
           "addon_name":order.query5[i].product_name,
           "variation": order.query5[i].unit_value + "" +order.query5[i].unit_type,
           "quantity": order.query5[i].quantity,
-          "addons_delivered_status" :order.query5[i].status
+          "delivered_status" :order.query5[i].status
         })
 
       }
      
 
-     return res.status(responseCode.SUCCESS).json({status: true,data:data,user,products,addons})
+     return res.status(responseCode.SUCCESS).json({status: true,data:data,user,products,additional,addons})
     
   }
   }
