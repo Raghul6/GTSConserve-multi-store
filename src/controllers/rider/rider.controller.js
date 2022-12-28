@@ -498,13 +498,15 @@ export const riderDashboard = async (req,res) => {
 
          const location = await locationcheck(delivery_partner_id,order_id);
 
+         console.log(location)
+
          var point1 = { lat: location.check[0].latitude, lng: location.check[0].longitude }
 
          //Second point in your haversine calculation
          var point2 = { lat: location.address[0].latitude, lng: location.address[0].longitude}
          
          var haversine_m = haversine(point1, point2); //Results in meters (default)
-         var haversine_km = haversine_m /1000; //Results in kilometers
+         var haversine_km = haversine_m /20000; //Results in kilometers
          
         //  console.log("distance (in meters): " + haversine_m + "m");
         //  console.log("distance (in kilometers): " + haversine_km + "km");
