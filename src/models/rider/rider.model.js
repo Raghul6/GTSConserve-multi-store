@@ -127,7 +127,7 @@ export const userLogin = async (password) => {
        }
     catch(error){
       console.log(error);
-      return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, message: error.message };
+      return { status: responseCode.FAILURE.DATA_NOT_FOUND, message: error.message };
     }
   }
 
@@ -241,9 +241,11 @@ export const userLogin = async (password) => {
           "products.unit_value as unit_value",
           "unit_types.value as unit_type",
           "products.price as price",
-          "subscribed_user_details.id as id"
-        ).where({"subscribed_user_details.id":daily[0].subscription_id})
-        // console.log(query3)
+          "subscribed_user_details.id as id",
+          "subscribed_user_details.status as status",
+          "daily_orders.id"
+        ).where({"subscribed_user_details.id":daily[0].subscription_id,"daily_orders.id":order_id})
+        console.log(query3.length)
 
         const query4 = await knex('daily_orders')
         .join("additional_orders", "additional_orders.id", "=", "daily_orders.additional_order_id")
@@ -257,8 +259,10 @@ export const userLogin = async (password) => {
           "products.unit_value",
           "unit_types.value as unit_type",
           "products.price",
-          "additional_orders.id as add_id"
-        ).where({"additional_orders.id":daily[0].additional_order_id});
+          "additional_orders.id as add_id",
+          "additional_orders.status as status",
+          "daily_orders.id"
+        ).where({"additional_orders.id":daily[0].additional_order_id,"daily_orders.id":order_id});
         // console.log(query4)
 
 
@@ -275,10 +279,12 @@ export const userLogin = async (password) => {
           "unit_types.value as unit_type",
           "products.price",
           "add_on_orders.id as order_id",
-          "add_on_orders.id as addon_id"
+          "add_on_orders.id as addon_id",
+          "add_on_order_items.status as status",
+          "daily_orders.id"
         )
-        .where({"add_on_orders.id":daily[0].add_on_order_id})
-      console.log(query5.length)
+        .where({"add_on_orders.id":daily[0].add_on_order_id,"daily_orders.id":order_id})
+      console.log(query5)
 
 
       const query6 = await knex('add_on_order_items').select('id','add_on_order_id').where({"add_on_order_items.add_on_order_id":daily[0].add_on_order_id,status:"delivered"})
@@ -295,35 +301,49 @@ export const userLogin = async (password) => {
   }
 
   // oder status update
-  export const statusupdate = async (user_id,delivery_partner_id,one_iltre_count,half_litre_count,order_id,order_status,products,addons) => {
-    try {
-         const update = await knex('daily_orders')
-         .update({
-          status:order_status,
-          collected_one_liter_bottle:one_iltre_count ,
-          collected_half_liter_bottle:half_litre_count
-         }).where({user_id:user_id,id:order_id});
+  // export const statusupdate = async (user_id,delivery_partner_id,one_liter_count,half_liter_count,order_id,order_status,product,addons) => {
+  //   try {
+  //        const update = await knex('daily_orders')
+  //        .update({
+  //         status:order_status,
+  //         collected_one_liter_bottle:one_liter_count ,
+  //         collected_half_liter_bottle:half_liter_count
+  //        }).where({user_id:user_id,id:order_id});
+
+
          
-         if(products){
-         for(let i=0; i<products.length; i++){
-          const subscription = await knex('subscribed_user_details').update({subscription_status:order_status}).where({id:products[i].subscription_id})
-         }
-        }
-        else{
-          return{status:false,message:"no subscription product"}
-        }
+  //        if(product){
+  //        for(let i=0; i<product.length; i++){
+  //         const subscription = await knex('subscribed_user_details').update({subscription_status:order_status}).where({id:product[i].subscription_id})
+  //        }
+  //        for(let i=0; i<product.length; i++){
+  //         const subscription_list = await knex('additional_orders').update({status:order_status}).where({subscription_id:product[i].subscription_id})
+  //        }
+  //       }
+  //       else{
+  //         return{status:false,message:"no subscription product"}
+  //       }
+  //       if(addons){
+  //         for(let i=0; i<addons.length; i++){
+  //          const add_on_subscription = await knex('add_on_orders')
+  //          .update({status:order_status}).where({id:addons[i].id})
+  //         }
+  //         for(let i=0; i<addons.length; i++){
+  //           const add_on_order_items_subscription = await knex('add_on_order_items')
+  //           .update({status:order_status}).where({add_on_order_id:addons[i].id})
+  //          }
 
-
-
-
-
-         return{status:true,update}
+  //        }
+  //        else{
+  //          return{status:false,message:"no addon product"}
+  //        }
+  //       return{status:true}
       
-    } catch (error) {
-      console.log(error);
-      return{ status: false, message: "Cannot Update the status" };
-    }
-  }
+  //   } catch (error) {
+  //     console.log(error);
+  //     return{ status: false, message: "Cannot Update the status" };
+  //   }
+  // }
 
   // dashboard
   export const dashboard = async(delivery_partner_id,date) => {
@@ -385,7 +405,9 @@ export const order_list = async (delivery_partner_id,status) =>{
       'total_collective_bottle',
       'status','add_on_order_id',
       'user_id','total_qty')
-      .where({router_id:router[0].id});
+      .where({router_id:router[0].id,status:status});
+
+      console.log(order)
 
     const delivery = await knex('daily_orders')
     .select('id')
@@ -398,12 +420,15 @@ export const order_list = async (delivery_partner_id,status) =>{
       'add_on_order_id',
       'user_id','total_qty')
       .where({router_id:router[0].id,status:status});
-    // console.log(order1)
-
+    console.log(order1)
+  
     const addon = await knex('add_on_order_items')
     .select('id')
     .where({add_on_order_id:order1[0].add_on_order_id,status:"delivered"});
 
+    const bottle = await knex('empty_bottle_tracking').select('status');
+
+    
     const addon1 = await knex('add_on_order_items')
     .select('id')
     .where({add_on_order_id:order1[0].add_on_order_id,status:"undelivered"});
@@ -414,7 +439,7 @@ export const order_list = async (delivery_partner_id,status) =>{
     .where({id:order[0].user_id})
 
     // console.log(router,router1,order,delivery,addon)
-    return{status:true,router,order,delivery,addon,addon1,order1,user,query3};
+    return{status:true,router,order,delivery,addon,addon1,order1,user,query3,bottle};
   } catch (error) {
     console.log(error)
     return{ status: false, message: "No data found" };    
@@ -433,7 +458,7 @@ export const locationcheck =async(delivery_partner_id,order_id) => {
         'user_address.longitude')
         .where({'daily_orders.id':order_id});
 
-      // console.log(check,address)
+      console.log(address)
 
       return{status:true,check,address};
 
@@ -443,3 +468,43 @@ export const locationcheck =async(delivery_partner_id,order_id) => {
     return{ status: false, message: "No data found" };  
   }
 } 
+
+
+// home delivery details 
+// export const home_delivery = async (delivery_partner_id) => {
+//   try {
+//     const router = await knex('routes').select('id','name').where({rider_id:delivery_partner_id});
+
+//     const order = await knex('daily_orders').select(
+//       'id',
+//       'total_collective_bottle',
+//       'status','add_on_order_id',
+//       'user_id','total_qty')
+//       .where({router_id:router[0].id});
+
+//     const delivery = await knex('daily_orders')
+//     .select('id')
+//     .where({router_id:router[0].id});
+
+//   } catch (error) {
+//     console.log(error)
+//     return{ status: false, message: "No data found" };  
+//   }
+// }
+
+
+// rider logout
+export const logout_rider = async (delivery_partner_id) => {
+  try {
+    const query = await knex("rider_details")
+      .update({status: "0"})
+      .where({ id: delivery_partner_id });
+
+    return { status: responseCode.SUCCESS, body: query };
+  } catch (error) {
+    return {
+      status: responseCode.FAILURE.INTERNAL_SERVER_ERROR,
+      message: error.message,
+    };
+  }
+};
