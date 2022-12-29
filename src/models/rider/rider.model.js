@@ -307,7 +307,16 @@ export const userLogin = async (password) => {
 
   // oder status update
 
-  export const statusupdate = async (user_id,delivery_partner_id,one_liter_count,half_liter_count,order_id,order_status,product,addons,additional_orders) => {
+  export const statusupdate = async (
+    user_id,
+    delivery_partner_id,
+    one_liter_count,
+    half_liter_count,
+    order_id,
+    order_status,
+    product,
+    addons,
+    additional_orders) => {
     try {
          const update = await knex('daily_orders')
          .update({
@@ -321,7 +330,9 @@ export const userLogin = async (password) => {
          let bottle_entry1 =[]
          if(product){
          for(let i=0; i<product.length; i++){
-          const subscription = await knex('subscribed_user_details').update({subscription_status:order_status}).where({id:product[i].subscription_id})
+          const subscription = await knex('subscribed_user_details')
+          .update({subscription_status:order_status})
+          .where({id:product[i].subscription_id})
 
           const one =await knex('subscribed_user_details')
           .select("subscribed_user_details.id","products.unit_value ","subscribed_user_details.quantity")
@@ -331,50 +342,72 @@ export const userLogin = async (password) => {
           bottle_entry.push(one[0])
           
         }
-        console.log(bottle_entry.length)
+        // console.log(bottle_entry.length)
         for( let j =0;j<bottle_entry.length;j++){
           if(bottle_entry[j].unit_value==1000){
-            const entry = await knex('users').update({today_one_liter:bottle_entry[j].quantity}).where({id:user_id});
+            const entry = await knex('users')
+            .update({today_one_liter:bottle_entry[j].quantity})
+            .where({id:user_id});
 
-            const total_one_liter =await  knex('users').select('total_one_liter').where({id:user_id});
-            console.log(total_one_liter);
+            const total_one_liter =await  knex('users')
+            .select('total_one_liter')
+            .where({id:user_id});
+
+            // console.log(total_one_liter);
+
               let sum_total = 0;
+
             sum_total +=Number(total_one_liter[0].total_one_liter + bottle_entry[j].quantity)
 
-           const sum = await  knex('users').update({total_one_liter:sum_total}).where({id:user_id})
+           const sum = await  knex('users')
+           .update({total_one_liter:sum_total})
+           .where({id:user_id})
 
-           const return1 = await knex('users').select('total_one_liter').where({id:user_id});
+           const return1 = await knex('users')
+           .select('total_one_liter')
+           .where({id:user_id});
 
            let given_bottle = return1[0].total_one_liter - one_liter_count
 
-           const sum1 = await  knex('users').update({one_liter_in_hand:given_bottle}).where({id:user_id})
+           const sum1 = await  knex('users')
+           .update({one_liter_in_hand:given_bottle})
+           .where({id:user_id})
 
 
-            console.log(given_bottle)
+            // console.log(given_bottle)
           }
-         else if(bottle_entry[j].unit_value==500){
-            const entry = await knex('users').update({today_half_liter:bottle_entry[j].quantity}).where({id:user_id});
 
-            const total_half_liter1 =await  knex('users').select('total_half_liter').where({id:user_id});
+         else if(bottle_entry[j].unit_value==500){
+
+            const entry = await knex('users')
+            .update({today_half_liter:bottle_entry[j].quantity})
+            .where({id:user_id});
+
+            const total_half_liter1 =await  knex('users')
+            .select('total_half_liter')
+            .where({id:user_id});
             // console.log(total_one_liter);
               let sum_total = 0;
+
             sum_total +=Number(total_half_liter1[0].total_half_liter + bottle_entry[j].quantity)
 
-           const sum = await  knex('users').update({total_half_liter:sum_total}).where({id:user_id})
+           const sum = await  knex('users')
+           .update({total_half_liter:sum_total})
+           .where({id:user_id})
 
-           const return1 = await knex('users').select('total_half_liter').where({id:user_id});
+           const return1 = await knex('users')
+           .select('total_half_liter')
+           .where({id:user_id});
 
            let given_bottle = return1[0].total_half_liter - half_liter_count
 
-           const sum1 = await  knex('users').update({half_liter_in_hand:given_bottle}).where({id:user_id})
+           const sum1 = await  knex('users')
+           .update({half_liter_in_hand:given_bottle})
+           .where({id:user_id})
 
-
-            console.log(given_bottle)
+            // console.log(given_bottle)
           }
 
-          else{
-
-          }
         }
         
       }
@@ -382,12 +415,12 @@ export const userLogin = async (password) => {
           return{status:false,message:"no subscription product"}
         }
 
-      //  console.log(additional_orders[0]);
-
          if(additional_orders.length !==0){
          for(let j=0; j<additional_orders.length; j++){
           // console.log(j)
-          const additional_order = await knex('additional_orders').update({status:order_status}).where({id:additional_orders[j].additional_order_id,subscription_id:additional_orders[j].subscription_id})
+          const additional_order = await knex('additional_orders')
+          .update({status:order_status})
+          .where({id:additional_orders[j].additional_order_id,subscription_id:additional_orders[j].subscription_id})
          
          
           const one1 =await knex('subscribed_user_details')
@@ -400,14 +433,22 @@ export const userLogin = async (password) => {
           
         }
         console.log(bottle_entry1)
+
         for( let j =0;j<bottle_entry1.length;j++){
 
           if(bottle_entry1[j].unit_value==1000){
-            const entry = await knex('users').update({today_one_liter:bottle_entry1[j].quantity}).where({id:user_id});
+            const entry = await knex('users')
+            .update({today_one_liter:bottle_entry1[j].quantity})
+            .where({id:user_id});
 
-            const total_one_liter =await  knex('users').select('total_one_liter').where({id:user_id});
-            console.log(total_one_liter);
+            const total_one_liter =await  knex('users')
+            .select('total_one_liter')
+            .where({id:user_id});
+
+            // console.log(total_one_liter);
+
               let sum_total = 0;
+              
             sum_total +=Number(total_one_liter[0].total_one_liter) + Number(bottle_entry1[j].quantity)
 console.log( sum_total)
            const sum = await  knex('users').update({total_one_liter:sum_total}).where({id:user_id})
@@ -419,7 +460,7 @@ console.log( sum_total)
            const sum1 = await  knex('users').update({one_liter_in_hand:given_bottle}).where({id:user_id})
 
 
-            console.log(given_bottle)
+            // console.log(given_bottle)
           }
          else if(bottle_entry1[j].unit_value==500){
             const entry = await knex('users').update({today_half_liter:bottle_entry1[j].quantity}).where({id:user_id});
@@ -438,14 +479,8 @@ console.log( sum_total)
            const sum1 = await  knex('users').update({half_liter_in_hand:given_bottle}).where({id:user_id})
 
 
-            console.log(given_bottle)
+            // console.log(given_bottle)
           }
-
-          else{
-
-          }
-
-
 
          }}
         else{
@@ -463,44 +498,6 @@ console.log( sum_total)
           }
         }
 
-  // export const statusupdate = async (user_id,delivery_partner_id,one_liter_count,half_liter_count,order_id,order_status,product,addons) => {
-  //   try {
-  //        const update = await knex('daily_orders')
-  //        .update({
-  //         status:order_status,
-  //         collected_one_liter_bottle:one_liter_count ,
-  //         collected_half_liter_bottle:half_liter_count
-  //        }).where({user_id:user_id,id:order_id});
-
-
-         
-  //        if(product){
-  //        for(let i=0; i<product.length; i++){
-  //         const subscription = await knex('subscribed_user_details').update({subscription_status:order_status}).where({id:product[i].subscription_id})
-  //        }
-  //        for(let i=0; i<product.length; i++){
-  //         const subscription_list = await knex('additional_orders').update({status:order_status}).where({subscription_id:product[i].subscription_id})
-  //        }
-  //       }
-  //       else{
-  //         return{status:false,message:"no subscription product"}
-  //       }
-  //       if(addons){
-  //         for(let i=0; i<addons.length; i++){
-  //          const add_on_subscription = await knex('add_on_orders')
-  //          .update({status:order_status}).where({id:addons[i].id})
-  //         }
-  //         for(let i=0; i<addons.length; i++){
-  //           const add_on_order_items_subscription = await knex('add_on_order_items')
-  //           .update({status:order_status}).where({add_on_order_id:addons[i].id})
-  //          }
-
-
-  //        }
-  //        else{
-  //          return{status:false,message:"no addon product"}
-  //        }
-  //       return{status:true}
       
      catch (error) {
       console.log(error);
