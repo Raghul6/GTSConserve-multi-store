@@ -168,7 +168,8 @@ export const updateStartTour = async (req, res) => {
     if (starttour.status) {
       const route = await knex('routes').select('id').where({ rider_id: delivery_partner_id });
 
-      const status = await knex("daily_orders").update({ tour_status: "started" }).where({ router_id: route[0].id })
+      const status = await knex("daily_orders").update({ tour_status: "started" }).where({ router_id: route.id })
+      console.log(status)
       return res.status(responseCode.SUCCESS).json(starttour)
     } else {
       return res.status(responseCode.FAILURE.DATA_NOT_FOUND).json(starttour)

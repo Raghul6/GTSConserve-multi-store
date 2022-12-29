@@ -675,8 +675,8 @@ export const createTable = async (req, res) => {
           t.enu("status", ["pending", "started", "completed","delivered", "undelivered","cancelled"]).defaultTo(
             "pending"
           );
-          t.enu("tour_status", ["0","1", "2",]).defaultTo(
-            "0"
+          t.enu("tour_status", ['pending', 'started', 'completed']).defaultTo(
+            "pending"
           );
           t.timestamps(true, true);
         });
