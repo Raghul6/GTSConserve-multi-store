@@ -134,7 +134,8 @@ export const userLogin = async (password) => {
   // update rider status
   export const update_riderstatus = async (delivery_partner_id,status) => {
     try{
-        if(status==1){
+      console.log(status)
+        if(status){
         const update = await knex("rider_details").update({status:status}).where({id:delivery_partner_id})
         return{status:true,message: "SuccessFully Updated"};
         }
@@ -301,13 +302,13 @@ export const userLogin = async (password) => {
   }
 
   // oder status update
-  export const statusupdate = async (user_id,delivery_partner_id,one_iltre_count,half_litre_count,order_id,order_status,product,addons) => {
+  export const statusupdate = async (user_id,delivery_partner_id,one_liter_count,half_liter_count,order_id,order_status,product,addons) => {
     try {
          const update = await knex('daily_orders')
          .update({
           status:order_status,
-          collected_one_liter_bottle:one_iltre_count ,
-          collected_half_liter_bottle:half_litre_count
+          collected_one_liter_bottle:one_liter_count ,
+          collected_half_liter_bottle:half_liter_count
          }).where({user_id:user_id,id:order_id});
 
 
@@ -317,7 +318,7 @@ export const userLogin = async (password) => {
           const subscription = await knex('subscribed_user_details').update({subscription_status:order_status}).where({id:product[i].subscription_id})
          }
          for(let i=0; i<product.length; i++){
-          const subscription = await knex('additional_orders').update({status:order_status}).where({subscription_id:product[i].subscription_id})
+          const additional_orders = await knex('additional_orders').update({status:order_status}).where({subscription_id:product[i].subscription_id})
          }
         }
         else{
@@ -325,11 +326,11 @@ export const userLogin = async (password) => {
         }
         if(addons){
           for(let i=0; i<addons.length; i++){
-           const subscription = await knex('add_on_orders')
+           const add_on_orders = await knex('add_on_orders')
            .update({status:order_status}).where({id:addons[i].id})
           }
           for(let i=0; i<addons.length; i++){
-            const subscription = await knex('add_on_order_items')
+            const add_on_order_items = await knex('add_on_order_items')
             .update({status:order_status}).where({add_on_order_id:addons[i].id})
            }
 
