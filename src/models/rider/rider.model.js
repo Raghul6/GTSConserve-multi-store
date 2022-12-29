@@ -631,26 +631,54 @@ export const locationcheck =async(delivery_partner_id,order_id) => {
 
 
 // home delivery details 
-// export const home_delivery = async (delivery_partner_id) => {
-//   try {
-//     const router = await knex('routes').select('id','name').where({rider_id:delivery_partner_id});
+export const home_delivery = async (delivery_partner_id) => {
+  try {
+    const router = await knex('routes').select('id','name').where({rider_id:delivery_partner_id});
 
-//     const order = await knex('daily_orders').select(
-//       'id',
-//       'total_collective_bottle',
-//       'status','add_on_order_id',
-//       'user_id','total_qty')
-//       .where({router_id:router[0].id});
+    const order = await knex('daily_orders').select(
+      'id',
+      'total_collective_bottle',
+      'status','add_on_order_id',
+      'user_id','total_qty')
+      .where({router_id:router[0].id});
 
-//     const delivery = await knex('daily_orders')
-//     .select('id')
-//     .where({router_id:router[0].id});
+    const delivery = await knex('daily_orders')
+    .join("users", "users.id", "=", "daily_orders.user_id")
+    .select("today_one_liter","today_half_liter","one_liter_in_return","half_liter_in_return")
+    .where({router_id:router[0].id});
 
-//   } catch (error) {
-//     console.log(error)
-//     return{ status: false, message: "No data found" };  
-//   }
-// }
+    let sum = 0;
+    let sum1 = 0;
+    let sum2 = 0;
+    let sum3 = 0;
+    for(let i=0; i<delivery.length; i++){
+        sum += delivery[i].today_one_liter;
+        sum1 += delivery[i].today_half_liter;
+        sum2 += delivery[i].one_liter_in_return;
+        sum2 += delivery[i].half_liter_in_return;
+    }
+
+console.log(sum,sum1);
+
+const delivery1 = await knex('daily_orders')
+.join("add_on_order_items", "add_on_order_items.add_on_order_id", "=", "daily_orders.add_on_order_id")
+.select("quantity")
+.where({router_id:router[0].id});
+
+let sum4 = 0;
+    for(let i=0; i<delivery1.length; i++){
+        sum4 += Number(delivery1[i].quantity);
+       
+    }
+
+    console.log(delivery1)
+    return{status:true,router,order,delivery,sum,sum1,sum2,sum3,sum4};
+
+  } catch (error) {
+    console.log(error)
+    return{ status: false, message: "No data found" };  
+  }
+}
 
 
 // rider logout

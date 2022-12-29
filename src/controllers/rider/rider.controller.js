@@ -529,7 +529,27 @@ export const homeDelivery = async (req, res) => {
         .json({ status: false, message: "Mandatory field Is Missing" });
     }
 
-    // const home = await home_delivery(delivery_partner_id, date);
+    const home = await home_delivery(delivery_partner_id, date);
+    let query = {
+      "tour_id": home.router[0].id,
+      "tour_route": home.router[0].name,
+      "total_orders": home.order.length,
+      "completed_orders": home.delivery.length
+    }
+    let milk = {
+      "one_litre_count":home.sum,
+       "half_litre_count":home.sum1,
+        "half_litre_pouch":home.sum,
+        
+        }
+    let addon = {
+      "addons_count":home.sum4,
+
+    } 
+    let empty_bottle = {
+          "one_litre_bottle":home.sum2,
+           "half_litre_bottle":home.sum3
+            }
 
     const router = {
 
@@ -549,8 +569,8 @@ export const homeDelivery = async (req, res) => {
       }
     }
     res
-      .status(responseCode.SUCCESS)
-      .json({ status: true, data: router });
+    .status(responseCode.SUCCESS)
+    .json({ status: true, data: query,milk,addon,empty_bottle });
   }
   catch (error) {
     console.log(error);

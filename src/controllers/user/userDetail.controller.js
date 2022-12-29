@@ -285,17 +285,36 @@ export const getEmptyBottle = async (req, res) => {
 
     if (userId) {
 
+<<<<<<< HEAD
+      const this_month_item_detail = await knex("users").select(
+          "one_liter_in_hand as delivered_orders",
+          "half_liter_in_hand as additional_delivered_orders",
+          "one_liter_in_return as remaining_orders",
+          "one_liter_in_return as additional_remaining_orders"
+        )
+        let empty_bottle_in_hand= {
+                 one_liter : this_month_item_detail[0].delivered_orders,
+                 half_liter : this_month_item_detail[0].additional_delivered_orders
+        }
+      let empty_bottle_in_return = {
+                 one_liter : this_month_item_detail[0].remaining_orders,
+                 half_liter : this_month_item_detail[0].additional_remaining_orders
+                }
+   
+
+=======
       const this_month_item_detail = await knex("empty_bottle_tracking").select(
         "one_liter_in_hand as delivered_orders",
         "one_liter_in_return as remaining_orders",
         "half_liter_in_hand as additional_delivered_orders",
         "one_liter_in_return as additional_remaining_orders"
       )
+>>>>>>> 096d759078e14fa14b85a3e825ec77eadd4e5aa8
 
       res
         .status(responseCode.SUCCESS)
-        .json({ status: true, this_month_item_detail: get_user_bottle_detail });
-    }
+        .json({ status: true,empty_bottle_in_hand,empty_bottle_in_return });
+      }
     else {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
