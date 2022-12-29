@@ -165,6 +165,9 @@ export const updateStartTour = async (req, res) => {
 
     const starttour = await update_starttour(delivery_partner_id, tour_id, tour_status);
     if (starttour.status) {
+      const route = await knex('routes').select('id').where({rider_id:delivery_partner_id});
+
+      const status = await knex("daily_orders").update({tour_status:"started"}).where({router_id:route[0].id})
       return res.status(responseCode.SUCCESS).json(starttour)
     } else {
       return res.status(responseCode.FAILURE.DATA_NOT_FOUND).json(starttour)
@@ -193,6 +196,9 @@ export const updateEndtour = async (req, res) => {
 
     const endtour = await update_endtour(delivery_partner_id, tour_id, tour_status)
     if (endtour.status) {
+      const route = await knex('routes').select('id').where({rider_id:delivery_partner_id});
+
+      const status = await knex("daily_orders").update({tour_status:"completed"}).where({router_id:route[0].id})
       return res.status(responseCode.SUCCESS).json(endtour);
     }
     else {
@@ -252,6 +258,7 @@ export const getSingleorder = async (req, res) => {
         products.push({
           "product_id": order.query3[0].id,
           "product_name": order.query3[0].product_name,
+          "subscription_id": order.query3[0].id,
           "variation": order.query3[0].unit_value + "" + order.query3[0].unit_type,
           "quantity": order.query3[0].quantity,
           "delivered_status": order.query5[i].status
@@ -263,6 +270,8 @@ export const getSingleorder = async (req, res) => {
         additional.push({
           "product_id": order.query4[0].add_id,
           "product_name": order.query4[0].product_name,
+          "additional_order_id": order.query4[0].add_id,
+          "subscription_id": order.query4[0].id,
           "variation": order.query4[0].unit_value + "" + order.query3[0].unit_type,
           "quantity": order.query4[0].quantity,
           "delivered_status": order.query4[i].status
@@ -303,17 +312,20 @@ export const getSingleorder = async (req, res) => {
 export const orderStatusUpdate = async (req, res) => {
   try {
 
+    const { user_id, delivery_partner_id, one_liter_count, half_liter_count, order_id, order_status, product, addons,additional_orders } = req.body;
 
-        const orderstatus = await statusupdate(user_id,delivery_partner_id,one_liter_count,half_liter_count,order_id,order_status,product,addons);
-
-        
-
-    const { user_id, delivery_partner_id, one_iltre_count, half_litre_count, order_id, order_status, product, addons } = req.body;
     if (!user_id || !order_id || !order_status) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: "Mandatory field Is Missing" });
     }
+
+   const orderstatus = await statusupdate(user_id,delivery_partner_id,one_liter_count,half_liter_count,order_id,order_status,product,addons,additional_orders);
+
+        
+
+    // const { user_id, delivery_partner_id, one_iltre_count, half_litre_count, order_id, order_status, product, addons } = req.body;
+   
     let sum = one_liter_count + half_liter_count;
     // const orderstatus = await statusupdate(user_id, delivery_partner_id, one_iltre_count, half_litre_count, order_id, order_status, product, addons);
 
@@ -322,20 +334,27 @@ export const orderStatusUpdate = async (req, res) => {
 
     // // console.log(sum)
 
-    // const collect_bottle = await knex('daily_orders').update({ total_collective_bottle: sum }).where({ user_id: user_id, id: order_id })
+    const collect_bottle = await knex('daily_orders').update({ total_collective_bottle: sum }).where({ user_id: user_id, id: order_id })
+
+    const collect_bottle1 = await knex('users').update({ one_liter_in_return: one_liter_count,half_liter_in_return :  half_liter_count}).where({ id: user_id })
 
 
-      //  let query4 = [];
+      //  let one = [];
 
+      let query4 = [];
+       for(let i=0; i<product.length; i++){
+        //  const one =await knex('subscribed_user_details')
+        // // .join("products", "products.id", "=", "subscribed_user_details.product_id")
+        // .select("subscribed_user_details.id")
+        // .where({"subscribed_user_details.id":product[i].subscription_id})
 
-      //  for(let i=0; i<product.length; i++){
-      //   await knex('products').select("unit_value ").where({"products.id":product[i].id})
+       
+        // console.log(one)
+        // query4.push(one)
 
-      //   query4.push({unit_value})
+        // console.log(query4)
 
-      //   console.log(query4)
-
-    // let query4 = [];
+   
 
 
     // for (let i = 0; i < product.length; i++) {
@@ -377,6 +396,8 @@ export const orderStatusUpdate = async (req, res) => {
     return res.status(responseCode.SUCCESS).json({ status: true, message: "Ok" })
 
   }
+}
+
   catch (error) {
     console.log(error);
     return res.status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
@@ -478,7 +499,7 @@ export const OrderList = async (req, res) => {
       "tour_id": order.router[0].id,
       "tour_route": order.router[0].name,
       "total_orders": order.order.length,
-      "tour_status": order.order[0].status,
+      "tour_status": order.order[0].tour_status,
       "completed_orders": order.delivery.length
     }
 
