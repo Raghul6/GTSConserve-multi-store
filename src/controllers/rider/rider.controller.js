@@ -50,7 +50,8 @@ export const login = async (req, res) => {
         .select("id", "password")
         .from("rider_details")
         .where({ user_name, status: "1" });
-      console.log(checkPassword1[0].password);
+
+      console.log(checkPassword1);
 
       const isPassword = await bcrypt.compare(password, checkPassword1[0].password);
       console.log(isPassword);
@@ -109,10 +110,10 @@ export const updateRiderstatus = async (req, res) => {
     const { delivery_partner_id, status } = req.body;
 
 
-       console.log(status)
+    console.log(status)
 
-       if (!delivery_partner_id) {
-       return res
+    if (!delivery_partner_id) {
+      return res
 
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: "Mandatory field Is Missing" });
@@ -165,9 +166,10 @@ export const updateStartTour = async (req, res) => {
 
     const starttour = await update_starttour(delivery_partner_id, tour_id, tour_status);
     if (starttour.status) {
-      const route = await knex('routes').select('id').where({rider_id:delivery_partner_id});
+      const route = await knex('routes').select('id').where({ rider_id: delivery_partner_id });
 
-      const status = await knex("daily_orders").update({tour_status:"started"}).where({router_id:route[0].id})
+      const status = await knex("daily_orders").update({ tour_status: "started" }).where({ router_id: route.id })
+      console.log(status)
       return res.status(responseCode.SUCCESS).json(starttour)
     } else {
       return res.status(responseCode.FAILURE.DATA_NOT_FOUND).json(starttour)
@@ -196,9 +198,9 @@ export const updateEndtour = async (req, res) => {
 
     const endtour = await update_endtour(delivery_partner_id, tour_id, tour_status)
     if (endtour.status) {
-      const route = await knex('routes').select('id').where({rider_id:delivery_partner_id});
+      const route = await knex('routes').select('id').where({ rider_id: delivery_partner_id });
 
-      const status = await knex("daily_orders").update({tour_status:"completed"}).where({router_id:route[0].id})
+      const status = await knex("daily_orders").update({ tour_status: "completed" }).where({ router_id: route[0].id })
       return res.status(responseCode.SUCCESS).json(endtour);
     }
     else {
@@ -312,7 +314,7 @@ export const getSingleorder = async (req, res) => {
 export const orderStatusUpdate = async (req, res) => {
   try {
 
-    const { user_id, delivery_partner_id, one_liter_count, half_liter_count, order_id, order_status, product, addons,additional_orders } = req.body;
+    const { user_id, delivery_partner_id, one_liter_count, half_liter_count, order_id, order_status, product, addons, additional_orders } = req.body;
 
     if (!user_id || !order_id || !order_status) {
       return res
@@ -320,83 +322,28 @@ export const orderStatusUpdate = async (req, res) => {
         .json({ status: false, message: "Mandatory field Is Missing" });
     }
 
-   const orderstatus = await statusupdate(user_id,delivery_partner_id,one_liter_count,half_liter_count,order_id,order_status,product,addons,additional_orders);
+    const orderstatus = await statusupdate(user_id,
+      delivery_partner_id,
+      one_liter_count,
+      half_liter_count,
+      order_id, order_status,
+      product, addons,
+      additional_orders);
 
-        
-
-    // const { user_id, delivery_partner_id, one_iltre_count, half_litre_count, order_id, order_status, product, addons } = req.body;
-   
     let sum = one_liter_count + half_liter_count;
-    // const orderstatus = await statusupdate(user_id, delivery_partner_id, one_iltre_count, half_litre_count, order_id, order_status, product, addons);
 
-    // let sum = one_iltre_count + half_litre_count;
+    const collect_bottle = await knex('daily_orders')
+      .update({ total_collective_bottle: sum })
+      .where({ user_id: user_id, id: order_id })
 
-
-    // // console.log(sum)
-
-    const collect_bottle = await knex('daily_orders').update({ total_collective_bottle: sum }).where({ user_id: user_id, id: order_id })
-
-    const collect_bottle1 = await knex('users').update({ one_liter_in_return: one_liter_count,half_liter_in_return :  half_liter_count}).where({ id: user_id })
-
-
-      //  let one = [];
-
-      let query4 = [];
-       for(let i=0; i<product.length; i++){
-        //  const one =await knex('subscribed_user_details')
-        // // .join("products", "products.id", "=", "subscribed_user_details.product_id")
-        // .select("subscribed_user_details.id")
-        // .where({"subscribed_user_details.id":product[i].subscription_id})
-
-       
-        // console.log(one)
-        // query4.push(one)
-
-        // console.log(query4)
-
-   
-
-
-    // for (let i = 0; i < product.length; i++) {
-    //   await knex('products').select("unit_value ").where({ "products.id": product[i].id })
-
-    //   query4.push({ unit_value })
-
-    //   console.log(query4)
-    // }
-
-
-    //   for(let i=0; i<product.length; i++){
-    //  const query3 =    await knex('products')
-    //   // .join("additional_orders", "additional_orders.subscription_id", "=", product[i].subscription_id)
-    //   // .join("products", "products.id", "=", "subscribed_user_details.product_id")
-    //   .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
-    //   .select(
-    //     // "products.id ",
-    //     // "products.name ",
-    //     "products.unit_value "
-    //   ).where({"products.id ":product[i].id})
-
-    //   query4.push({
-    //     // product_id: query3.products.id,
-    //     // product_name: product_name,
-    //     // sub_quantity: quantity,
-    //     products_unit_value:query3.products.unit_value,
-    //     // products_unit_type: unit_type,
-    //     // product_price: price,
-    //     // additional_quantity: quantity1,
-    //     // id: id 
-    //   })
-
-    //   }
-
-
-
+    const collect_bottle1 = await knex('users')
+      .update({ one_liter_in_return: one_liter_count, half_liter_in_return: half_liter_count })
+      .where({ id: user_id })
 
     return res.status(responseCode.SUCCESS).json({ status: true, message: "Ok" })
 
   }
-}
+
 
   catch (error) {
     console.log(error);
@@ -614,7 +561,7 @@ export const homeDelivery = async (req, res) => {
       "milk": {
         "one_liter_count": 30,
         "half_liter_count": 30,
-        "half_liter_pouch":10
+        "half_liter_pouch": 10
       },
       "addons_count": 30,
       "empty_bottle": {
@@ -626,34 +573,34 @@ export const homeDelivery = async (req, res) => {
     .status(responseCode.SUCCESS)
     .json({ status: true, data: query,milk,addon,empty_bottle });
   }
-    catch (error) {
-      console.log(error);
-      return res.status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
-        .json({ status: false, message: messages.SERVER_ERROR });
-    }
+  catch (error) {
+    console.log(error);
+    return res.status(responseCode.FAILURE.INTERNAL_SERVER_ERROR)
+      .json({ status: false, message: messages.SERVER_ERROR });
   }
+}
 
-  // rider logout 
-  export const logout = async (req, res) => {
-    try {
-      const { delivery_partner_id } = req.body;
+// rider logout 
+export const logout = async (req, res) => {
+  try {
+    const { delivery_partner_id } = req.body;
 
-      if (delivery_partner_id) {
-        const rider = await logout_rider(delivery_partner_id);
+    if (delivery_partner_id) {
+      const rider = await logout_rider(delivery_partner_id);
 
-        console.log(delivery_partner_id);
-        res
-          .status(responseCode.SUCCESS)
-          .json({ status: true, message: "Succesfully Logout.." });
-      } else {
-        res
-          .status(responseCode.FAILURE.BAD_REQUEST)
-          .json({ status: false, message: "Logout failed.." });
-      }
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({ status: false, message: "Server Error" });
+      console.log(delivery_partner_id);
+      res
+        .status(responseCode.SUCCESS)
+        .json({ status: true, message: "Succesfully Logout.." });
+    } else {
+      res
+        .status(responseCode.FAILURE.BAD_REQUEST)
+        .json({ status: false, message: "Logout failed.." });
     }
-  };
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ status: false, message: "Server Error" });
+  }
+};
 
 

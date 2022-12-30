@@ -1,5 +1,7 @@
 // import { add_feedback, get_AppSettings } from '../../models/user/payment.model';
 
+import knex from "../../services/db.service";
+
 export const getPaymentReminder = async (req, res) => {
     try {
 
@@ -15,23 +17,14 @@ export const getPaymentReminder = async (req, res) => {
 
 export const getPaymentMethod = async (req, res) => {
     try {
-        const payment_method = [
-                {
-                    "payment_method_id": "1",
-                    "payment_method_name": "Cash on Delivery",
-                    "payment_method_status": "1"
-                },
-                {
-                    "payment_method_id": "2",
-                    "payment_method_name": "Razorpay",
-                    "payment_method_status": "1"
-                }
-            ]
-        
-        
+        const payment_method = await knex('payment_gateways').select(
+            'payment_gateways.id as payment_method_id',
+            'payment_gateways.gatewayname as payment_method_name',
+            'payment_gateways.status as payment_method_status')
+    
+        console.log(payment_method)
         res.status(200).json({ status: true, data: payment_method })
 
-        // res.status(200).json({ status: true,data: settings.body }) 
     }
     catch (error) {
         console.log(error);

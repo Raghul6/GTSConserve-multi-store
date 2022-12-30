@@ -302,8 +302,6 @@ export const getEmptyBottle = async (req, res) => {
                 }
    
 
-
-
       res
         .status(responseCode.SUCCESS)
         .json({ status: true,empty_bottle_in_hand,empty_bottle_in_return });
