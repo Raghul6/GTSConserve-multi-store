@@ -765,7 +765,7 @@ export const createTable = async (req, res) => {
 
           t.integer("bill_value", 255).unsigned().notNullable();
 
-          t.enu("status", ["0", "1"]).defaultTo("1");
+          t.enu("status", ["0", "1","2"]).defaultTo("1");
           t.timestamps(true, true);
         });
       }
