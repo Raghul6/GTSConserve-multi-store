@@ -285,6 +285,7 @@ export const getEmptyBottle = async (req, res) => {
 
     if (userId) {
 
+
       const this_month_item_detail = await knex("users").select(
           "one_liter_in_hand as delivered_orders",
           "half_liter_in_hand as additional_delivered_orders",
@@ -383,11 +384,11 @@ export const getSingleCalendar = async (req, res) => {
 
 export const getOverallCalendar = async (req, res) => {
   try {
-    // const { date } = req.body;
+    const { date } = req.body;
 
-    const overall_calendar_data = [
+    const overall_calendar_data = 
       {
-        "date": "01/01/2022",
+        "date": date,
         "products": {
           "subscription": {
             "1-liter": 1,
@@ -395,10 +396,10 @@ export const getOverallCalendar = async (req, res) => {
             "packed-milk": 0
           },
           "addons-products": 0,
-          "is_delivered": 1
+          "is_delivered": 0
         }
       }
-    ]
+    
 
     // await edit_address(userId, address_id, title, address, landmark, type);
 
@@ -439,7 +440,7 @@ export const getBillList = async (req, res) => {
 
     res
       .status(responseCode.SUCCESS)
-      .json({ status: true, data: get_bill });
+      .json({ status: true, data: [get_bill] });
   } catch (error) {
     console.log(error);
 
@@ -462,9 +463,9 @@ export const getSingleBillList = async (req, res) => {
     // const list = await get_single_bill(bill_id);
     const data =
     {
-      "bill_id": "7",
-      "payment_id": "7",
-      "month": "Jan 2022",
+      "bill_id": "1",
+      "payment_id": "1",
+      "month": "Jan 2023",
       "order_string": "Bill No#MA3948F3J492",
       "bill_value": 1085,
       "payment_status": 0,
@@ -473,6 +474,7 @@ export const getSingleBillList = async (req, res) => {
       "subscription_products": [
         {
           "no_quantity": 1,
+          "product_name": "Milk",
           "product_id": 664,
           "product_total": 1252,
           "recipe_price": 1242,
@@ -484,6 +486,7 @@ export const getSingleBillList = async (req, res) => {
       "addons_products": [
         {
           "no_quantity": 1,
+          "product_name": "Vegetables",
           "product_id": 664,
           "product_total": 1252,
           "recipe_price": 1242,

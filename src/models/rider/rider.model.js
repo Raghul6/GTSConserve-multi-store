@@ -134,14 +134,11 @@ export const userLogin = async (password) => {
   // update rider status
   export const update_riderstatus = async (delivery_partner_id,status) => {
     try{
-      console.log(status)
-        if(status){
-        const update = await knex("rider_details").update({status:status}).where({id:delivery_partner_id})
+      
+        const update = await knex("rider_details").update({"rider_details.status":status}).where({id:delivery_partner_id})
+        
         return{status:true,message: "SuccessFully Updated"};
-        }
-        else{
-          return{status:false,message:"cannot updated"}
-        }
+      
         
     }
     catch(error){
@@ -303,83 +300,161 @@ export const userLogin = async (password) => {
 
   // oder status update
 
-  export const statusupdate = async (user_id,delivery_partner_id,one_liter_count,half_liter_count,order_id,order_status,product,addons) => {
+  export const statusupdate = async (user_id,delivery_partner_id,one_liter_count,half_liter_count,order_id,order_status,product,addons,additional_orders) => {
     try {
+      const update1 = await knex('daily_orders')
+      .select("tour_status").where({user_id:user_id,id:order_id});
+      if(update1[0].tour_status=="started"){
+
          const update = await knex('daily_orders')
-         .update({
-          status:order_status,
-          collected_one_liter_bottle:one_liter_count ,
-          collected_half_liter_bottle:half_liter_count
-         }).where({user_id:user_id,id:order_id});
+         .update({status:order_status }).where({user_id:user_id,id:order_id});
 
+         let bottle_entry =[]
+         let bottle_entry1 =[]
 
-         
          if(product){
-         for(let i=0; i<product.length; i++){
-          const subscription = await knex('subscribed_user_details').update({subscription_status:order_status}).where({id:product[i].subscription_id})
-         }
-         for(let i=0; i<product.length; i++){
-          const additional_orders = await knex('additional_orders').update({status:order_status}).where({subscription_id:product[i].subscription_id})
-         }
-        }
-        else{
-          return{status:false,message:"no subscription product"}
-        }
-        if(addons){
-          for(let i=0; i<addons.length; i++){
-           const add_on_orders = await knex('add_on_orders')
-           .update({status:order_status}).where({id:addons[i].id})
+          for(let i=0; i<product.length; i++){
+           const subscription = await knex('subscribed_user_details').update({subscription_status:order_status}).where({id:product[i].subscription_id})
+            
+           const one =await knex('subscribed_user_details')
+          .select("subscribed_user_details.id","products.unit_value ","subscribed_user_details.quantity")
+          .join("products", "products.id", "=", "subscribed_user_details.product_id")
+          .where({"subscribed_user_details.id":product[i].subscription_id});
+
+          bottle_entry.push(one[0])
           }
-          for(let i=0; i<addons.length; i++){
-            const add_on_order_items = await knex('add_on_order_items')
-            .update({status:order_status}).where({add_on_order_id:addons[i].id})
-           }
-          }
-        }
-  // export const statusupdate = async (user_id,delivery_partner_id,one_liter_count,half_liter_count,order_id,order_status,product,addons) => {
-  //   try {
-  //        const update = await knex('daily_orders')
-  //        .update({
-  //         status:order_status,
-  //         collected_one_liter_bottle:one_liter_count ,
-  //         collected_half_liter_bottle:half_liter_count
-  //        }).where({user_id:user_id,id:order_id});
-
-
-         
-  //        if(product){
-  //        for(let i=0; i<product.length; i++){
-  //         const subscription = await knex('subscribed_user_details').update({subscription_status:order_status}).where({id:product[i].subscription_id})
-  //        }
-  //        for(let i=0; i<product.length; i++){
-  //         const subscription_list = await knex('additional_orders').update({status:order_status}).where({subscription_id:product[i].subscription_id})
-  //        }
-  //       }
-  //       else{
-  //         return{status:false,message:"no subscription product"}
-  //       }
-  //       if(addons){
-  //         for(let i=0; i<addons.length; i++){
-  //          const add_on_subscription = await knex('add_on_orders')
-  //          .update({status:order_status}).where({id:addons[i].id})
-  //         }
-  //         for(let i=0; i<addons.length; i++){
-  //           const add_on_order_items_subscription = await knex('add_on_order_items')
-  //           .update({status:order_status}).where({add_on_order_id:addons[i].id})
-  //          }
-
-
-  //        }
-  //        else{
-  //          return{status:false,message:"no addon product"}
-  //        }
-  //       return{status:true}
       
-     catch (error) {
-      console.log(error);
-      return{ status: false, message: "Cannot Update the status" };
-    }
+        
+          for( let j =0;j<bottle_entry.length;j++){
+            if(bottle_entry[j].unit_value==1000){
+              const entry = await knex('users').update({today_one_liter:bottle_entry[j].quantity}).where({id:user_id});
+  
+              const total_one_liter =await  knex('users').select('total_one_liter').where({id:user_id});
+              console.log(total_one_liter);
+                let sum_total = 0;
+              sum_total +=Number(total_one_liter[0].total_one_liter + bottle_entry[j].quantity)
+  
+             const sum = await  knex('users').update({total_one_liter:sum_total}).where({id:user_id})
+  
+             const return1 = await knex('users').select('total_one_liter').where({id:user_id});
+  
+             let given_bottle = return1[0].total_one_liter - one_liter_count
+  
+             const sum1 = await  knex('users').update({one_liter_in_hand:given_bottle}).where({id:user_id})
+  
+  
+              console.log(given_bottle)
+            }
+            else if(bottle_entry[j].unit_value==500){
+              const entry = await knex('users').update({today_half_liter:bottle_entry[j].quantity}).where({id:user_id});
+  
+              const total_half_liter1 =await  knex('users').select('total_half_liter').where({id:user_id});
+              // console.log(total_one_liter);
+                let sum_total = 0;
+              sum_total +=Number(total_half_liter1[0].total_half_liter + bottle_entry[j].quantity)
+  
+             const sum = await  knex('users').update({total_half_liter:sum_total}).where({id:user_id})
+  
+             const return1 = await knex('users').select('total_half_liter').where({id:user_id});
+  
+             let given_bottle = return1[0].total_half_liter - half_liter_count
+  
+             const sum1 = await  knex('users').update({half_liter_in_hand:given_bottle}).where({id:user_id})
+  
+  
+              console.log(given_bottle)
+            
+  
+          }
+  
+          }
+           
+        //  console.log(additional_orders[0]);
+  
+           if(additional_orders.length !==0){
+           for(let j=0; j<additional_orders.length; j++){
+            // console.log(j)
+            const additional_order = await knex('additional_orders').update({status:order_status}).where({id:additional_orders[j].additional_order_id,subscription_id:additional_orders[j].subscription_id})
+  
+  
+            const one1 =await knex('subscribed_user_details')
+            .select("products.unit_value ","additional_orders.quantity","subscribed_user_details.id")
+            .join("additional_orders", "additional_orders.subscription_id", "=", "subscribed_user_details.id")
+            .join("products", "products.id", "=", "subscribed_user_details.product_id")
+            .where({"additional_orders.id":additional_orders[j].additional_order_id,"subscribed_user_details.id":additional_orders[j].subscription_id});
+  
+            bottle_entry1.push(one1[0])
+  
+          }
+          console.log(bottle_entry1)
+          for( let j =0;j<bottle_entry1.length;j++){
+  
+            if(bottle_entry1[j].unit_value==1000){
+              const entry = await knex('users').update({today_one_liter:bottle_entry1[j].quantity}).where({id:user_id});
+  
+              const total_one_liter =await  knex('users').select('total_one_liter').where({id:user_id});
+              console.log(total_one_liter);
+                let sum_total = 0;
+              sum_total +=Number(total_one_liter[0].total_one_liter) + Number(bottle_entry1[j].quantity)
+            console.log( sum_total)
+             const sum = await  knex('users').update({total_one_liter:sum_total}).where({id:user_id})
+  
+             const return1 = await knex('users').select('total_one_liter').where({id:user_id});
+  
+             let given_bottle = return1[0].total_one_liter - one_liter_count
+  
+             const sum1 = await  knex('users').update({one_liter_in_hand:given_bottle}).where({id:user_id})
+  
+  
+              console.log(given_bottle)
+            }
+           else if(bottle_entry1[j].unit_value==500){
+              const entry = await knex('users').update({today_half_liter:bottle_entry1[j].quantity}).where({id:user_id});
+  
+              const total_half_liter1 =await  knex('users').select('total_half_liter').where({id:user_id});
+              // console.log(total_one_liter);
+                let sum_total = 0;
+              sum_total +=Number(total_half_liter1[0].total_half_liter + bottle_entry[j].quantity)
+  
+             const sum = await  knex('users').update({total_half_liter:sum_total}).where({id:user_id})
+  
+             const return1 = await knex('users').select('total_half_liter').where({id:user_id});
+  
+             let given_bottle = return1[0].total_half_liter - half_liter_count
+  
+             const sum1 = await  knex('users').update({half_liter_in_hand:given_bottle}).where({id:user_id})
+  
+  
+              console.log(given_bottle)
+            }
+            else{
+              return{status:false,message:"no additional_orders product"}
+            }
+            if(addons){
+                      for(let i=0; i<addons.length; i++){
+                       const add_on_orders = await knex('add_on_orders')
+                       .update({status:order_status}).where({id:addons[i].id})
+                      }
+                      for(let i=0; i<addons.length; i++){
+                        const add_on_order_items = await knex('add_on_order_items')
+                        .update({status:order_status}).where({add_on_order_id:addons[i].id})
+                       }
+                      }
+                    }
+          }
+          return{status:true,message:"ok"};
+        }}
+        else{
+          return{ status: false, message: "tour cannot started" };    
+
+        }
+          } catch (error) {
+    console.log(error)
+    return{ status: false, message: "No data found" };    
   }
+}
+
+  // /
 
   // dashboard
   export const dashboard = async(delivery_partner_id,date) => {
@@ -403,23 +478,55 @@ export const userLogin = async (password) => {
     }
   }
 
-
-  // // rider cancel order
-  // export const cancel_order = async (user_id,order_id,delivery_partner_id,order_status,date,reason) => {
-  //   try { 
-         
-  //       const router = await knex('routes').select('id').where({rider_id:delivery_partner_id});
-
-  //        const order = await knex('daily_orders').update({status:order_status}).where({user_id:user_id,router_id:router[0].id,date:date});
-
-  //        return{status:true,message:"order cancelled by rider"};
-
-  //   } catch (error) {
-  //     console.log(error);
-  //     return{ status: false, message: "No data found" };
-  //   }
-  // }
-
+  export const home_delivery = async (delivery_partner_id) => {
+    try {
+      const router = await knex('routes').select('id','name').where({rider_id:delivery_partner_id});
+  
+      const order = await knex('daily_orders').select(
+        'id',
+        'total_collective_bottle',
+        'status','add_on_order_id',
+        'user_id','total_qty')
+        .where({router_id:router[0].id});
+  
+      const delivery = await knex('daily_orders')
+      .join("users", "users.id", "=", "daily_orders.user_id")
+      .select("today_one_liter","today_half_liter","one_liter_in_return","half_liter_in_return")
+      .where({router_id:router[0].id});
+  
+      let sum = 0;
+      let sum1 = 0;
+      let sum2 = 0;
+      let sum3 = 0;
+      for(let i=0; i<delivery.length; i++){
+          sum += delivery[i].today_one_liter;
+          sum1 += delivery[i].today_half_liter;
+          sum2 += delivery[i].one_liter_in_return;
+          sum2 += delivery[i].half_liter_in_return;
+      }
+  
+  console.log(sum,sum1);
+  
+  const delivery1 = await knex('daily_orders')
+  .join("add_on_order_items", "add_on_order_items.add_on_order_id", "=", "daily_orders.add_on_order_id")
+  .select("quantity")
+  .where({router_id:router[0].id});
+  
+  let sum4 = 0;
+      for(let i=0; i<delivery1.length; i++){
+          sum4 += Number(delivery1[i].quantity);
+  
+      }
+  
+      console.log(delivery1)
+      return{status:true,router,order,delivery,sum,sum1,sum2,sum3,sum4};
+  
+    } catch (error) {
+      console.log(error)
+      return{ status: false, message: "No data found" };  
+    }
+  }
+  
 // order list 
 export const order_list = async (delivery_partner_id,status) =>{
   try {
@@ -440,42 +547,84 @@ export const order_list = async (delivery_partner_id,status) =>{
       'id',
       'total_collective_bottle',
       'status','add_on_order_id',
-      'user_id','total_qty')
-      .where({router_id:router[0].id,status:status});
+      'user_id','total_qty','tour_status')
+      .where({router_id:router[0].id});
 
-      console.log(order)
+      
 
     const delivery = await knex('daily_orders')
     .select('id')
     .where({router_id:router[0].id,status:status});
 
-    const order1 = await knex('daily_orders').select(
-      'id',
-      'total_collective_bottle',
-      'status',
-      'add_on_order_id',
-      'user_id','total_qty')
-      .where({router_id:router[0].id,status:status});
-    console.log(order1)
+    const order1 = await knex('daily_orders')
+    .join("users", "users.id", "=", "daily_orders.user_id")
+    .select(
+      'daily_orders.id',
+      'daily_orders.total_collective_bottle',
+      'daily_orders.status','daily_orders.add_on_order_id',
+      'daily_orders.user_id','daily_orders.total_qty','daily_orders.tour_status','users.name','users.user_unique_id','users.bottle_status',"daily_orders.router_id")
+      .where({"daily_orders.router_id":router[0].id,"daily_orders.status":status});
+
+    //  console.log(order1)
+    let data3 = [];
+     let data = []; 
+     let  addon =[];
+     let bottle =[];
+     let user =[];
+     let addon1=[];
+     let addon2=[]
+     for(let i=0; i<order.length;i++){
+     addon = await knex('add_on_order_items')
+     .select('id')
+     .where({status:"delivered",user_id:order[i].user_id})
+     addon2.push(addon[0])
+    }
+ 
+      bottle = await knex('empty_bottle_tracking').select('status');
+ 
+      
+    //  console.log(addon2)
+
+      addon1 = await knex('add_on_order_items')
+     .select('id')
+     .where({add_on_order_id:order[0].add_on_order_id,status:"undelivered"});
+    
+     
+      user = await knex('users')
+     .select('name','user_unique_id')
+     .where({id:order[0].user_id})
+     let query = {
+      "tour_id": router[0].id,
+      "tour_route": router[0].name,
+      "total_orders": order.length,
+      "tour_status": order[0].tour_status,
+      "completed_orders": delivery.length
+    }
+    console.log(query)
+    // const add_on_count = await knex('add_on_order_items').where({id:order[0].user_id})
+    // console.log(add_on_count[0].status)
+    
+
+
+     for(let i=0; i<order1.length;i++){
+    
+    data.push({
+      "order_id": order1[i].id,
+      "order_string": "Task " + order1[i].user_id,
+      "milk_variation": order1[i].total_qty + " " + query3[0].unit_type,
+      "addon_items_delivered": 2,
+      "addon_items_undelivered": 1,
+      // "addon_items_delivered": add_on_count[0].status,
+      // "addon_items_undelivered": add_on_count[0].status,
+      "user_name": order1[i].name,
+      "customer_id": order1[i].user_unique_id,
+      "bottle_return":order1[0].bottle_status,
+      "order_status": order1[i].status
+    })
+  }
   
-    const addon = await knex('add_on_order_items')
-    .select('id')
-    .where({add_on_order_id:order1[0].add_on_order_id,status:"delivered"});
-
-    const bottle = await knex('empty_bottle_tracking').select('status');
-
-    
-    const addon1 = await knex('add_on_order_items')
-    .select('id')
-    .where({add_on_order_id:order1[0].add_on_order_id,status:"undelivered"});
-   
-    
-    const user = await knex('users')
-    .select('name','user_unique_id')
-    .where({id:order[0].user_id})
-
-    // console.log(router,router1,order,delivery,addon)
-    return{status:true,router,order,delivery,addon,addon1,order1,user,query3,bottle};
+  
+    return{status:true,...query,data:data};
   } catch (error) {
     console.log(error)
     return{ status: false, message: "No data found" };    
