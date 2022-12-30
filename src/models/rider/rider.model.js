@@ -535,7 +535,7 @@ export const userLogin = async (password) => {
 export const order_list = async (delivery_partner_id,status) =>{
   try {
     const router = await knex('routes').select('id','name').where({rider_id:delivery_partner_id});
-    // console.log(router)
+    console.log(router)
     const query3 = await knex('daily_orders')
         .join("subscribed_user_details", "subscribed_user_details.id", "=", "daily_orders.subscription_id")
         .join("products", "products.id", "=", "subscribed_user_details.product_id")
@@ -569,7 +569,7 @@ export const order_list = async (delivery_partner_id,status) =>{
       'daily_orders.user_id','daily_orders.total_qty','daily_orders.tour_status','users.name','users.user_unique_id','users.bottle_status',"daily_orders.router_id")
       .where({"daily_orders.router_id":router[0].id,"daily_orders.status":status});
 
-    //  console.log(order1)
+     console.log(order1)
     let data3 = [];
      let data = []; 
      let  addon =[];
@@ -605,6 +605,8 @@ export const order_list = async (delivery_partner_id,status) =>{
       "completed_orders": delivery.length
     }
 
+    // const add_on_count = await knex('add_on_order_items').count({status: "delivered" })
+    // console.log(add_on_count)
 
      for(let i=0; i<order1.length;i++){
       
@@ -612,7 +614,8 @@ export const order_list = async (delivery_partner_id,status) =>{
       "order_id": order1[i].id,
       "order_string": "Task " + order1[i].user_id,
       "milk_variation": order1[i].total_qty + " " + query3[0].unit_type,
-      "addon_items_delivered": addon2[i].length,
+      // "addon_items_delivered": addon2[i].length,
+      // "addon_items_undelivered": addon2[i].length,
       "user_name": order1[i].name,
       "customer_id": order1[i].user_unique_id,
       "bottle_return":order1[0].bottle_status,
