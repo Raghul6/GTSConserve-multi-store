@@ -460,6 +460,8 @@ export const getSingleBillList = async (req, res) => {
         .json({ status: false, message: "Cannot find bill list" });
     }
 
+    
+
     // const list = await get_single_bill(bill_id);
     const data =
     {
