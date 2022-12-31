@@ -18,7 +18,7 @@ const productRouter = express.Router({
 });
 
 productRouter.post("/get_categories",nonMandatoryToken,getCategories);
-productRouter.post("/get_products", nonMandatoryToken,authenticateJWT,getProducts);
+productRouter.post("/get_products", nonMandatoryToken,getProducts);
 productRouter.post("/search_products",nonMandatoryToken,authenticateJWT,searchProducts);
 
 productRouter.get("/get_subscription_product",nonMandatoryToken,authenticateJWT,getSubscriptionProducts);
