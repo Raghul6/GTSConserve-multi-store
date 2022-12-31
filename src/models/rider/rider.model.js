@@ -180,6 +180,11 @@ export const userLogin = async (password) => {
   //  update endtour 
   export const update_endtour = async (delivery_partner_id,tour_id,tour_status) => {
     try{
+
+      const router = await knex('routes').select('id','name').where({rider_id:delivery_partner_id});
+
+      const daily = await knex('daily_orders').select("status").where({router_id:router[0].id})
+     if(daily.status == "pending"){
       if(tour_status==2){
         const updatetour = await knex('rider_details').update({status:'2'}).where({id:delivery_partner_id})
         return{status:true,message:"successfully updated"}
@@ -188,6 +193,9 @@ export const userLogin = async (password) => {
           return{status:false,message:"cannot updated"}
         }
     }
+    else{
+      return{status:false,message:"your orders not completed"}
+    }}
     catch (error) {
       console.log(error);
       return{ status: false, message: "Cannot Update the status" };

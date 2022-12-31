@@ -229,7 +229,7 @@ export const getSingleorder = async (req, res) => {
     }
     // console.log(order_status)
 
-    const order = await getsingleorder(order_id, delivery_partner_id, order_status)
+    const order = await getsingleorder(order_id,delivery_partner_id, order_status)
 
 
     //  console.log(order.query5)
