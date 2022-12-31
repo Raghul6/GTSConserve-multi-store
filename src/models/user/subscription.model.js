@@ -113,10 +113,8 @@ export const single_subscription = async (userId, sub_id) => {
     const products = await knex("subscribed_user_details AS sub")
       .select(
         "sub.id as subscription_id",
-        "sub.customized_days",
         "sub.subscription_start_date",
-        "sub.subscription_status",
-        "sub.quantity",
+        "sub.customized_days",
         "products.name as product_name",
         "products.image",
         "products.unit_value",
@@ -135,34 +133,18 @@ export const single_subscription = async (userId, sub_id) => {
       .join("user_address", "user_address.id", "=", "sub.user_address_id")
       .where({ "sub.user_id": userId, "sub.id": sub_id });
 
-      const query = await knex("subscribed_user_details AS sub").select(
-        "additional_orders.user_id as id",
-        "additional_orders.date ",
-        "additional_orders.quantity",
-        "additional_orders.status",
-        "products.name as product_name",
-        "products.image",
-        "products.unit_value",
-        "unit_types.value as unit_type",
-      )
-      .join("additional_orders","additional_orders.user_id","=","sub.user_id")
-      .join("products", "products.id", "=", "sub.product_id")
-      .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
-      .where({"sub.user_id": userId, "sub.id": sub_id })
-// console.log(query)
-
-      const this_month_item_detail = await knex("empty_bottle_tracking").select(
+      const this_month_item_detail = await knex("users").select(
         "one_liter_in_hand as delivered_orders",
         "one_liter_in_return as remaining_orders",
         "half_liter_in_hand as additional_delivered_orders",
         "one_liter_in_return as additional_remaining_orders"
-      )
+      ).where({id: userId })
 
     if (products.length === 0) {
       return { status: false, message: "No Subscription Found" };
     }
 
-    return { status: true, data: products, query, this_month_item_detail  };
+    return { status: true, data: products, this_month_item_detail };
   } catch (error) {
     console.log(error);
     return { status: false, message: error };

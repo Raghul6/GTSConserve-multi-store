@@ -273,16 +273,9 @@ export const singleSubscription = async (req, res) => {
     }
 
     for (let i = 0; i < sub.data.length; i++) {
-      sub.data[i].image = process.env.BASE_URL + sub.data[i].image;
+      sub.data[i].image = process.env.BASE_URL + sub.data[i].image; 
       sub.data[i].subscription_start_date = moment().format("YYYY-MM-DD");
       sub.data[i].customized_days = sub.data[i].customized_days;
-      sub.data[i].address_id = sub.data[i].address_id;
-      sub.data[i].quantity = sub.data[i].quantity;
-      sub.data[i].price = sub.data[i].price;
-      sub.data[i].date = [moment().format("YYYY-MM-DD")];
-      sub.query[i].id = sub.query[i].id;
-      sub.query[i].image = process.env.IMAGE + sub.query[i].image;
-      sub.query[i].date = [moment().format("YYYY-MM-DD")];
 
       if (sub.data[i].unit_value >= 500) {
         sub.data[i].unit =
@@ -298,13 +291,12 @@ export const singleSubscription = async (req, res) => {
     }
 
     const response = {
-      additional_orders: [sub.query[0]],
       this_month_item_detail: sub.this_month_item_detail[0],
     };
 
     return res
       .status(responseCode.SUCCESS)
-      .json({ status: true, data: { ...sub.data[0], ...response } });
+      .json({ status: true, data: sub.data, ...response });
   } catch (error) {
     console.log(error);
     return res
