@@ -17,14 +17,14 @@ const productRouter = express.Router({
   strict: true,
 });
 
-productRouter.post("/get_categories",nonMandatoryToken,getCategories);
+productRouter.post("/get_categories",nonMandatoryToken,authenticateJWT,getCategories);
 productRouter.post("/get_products", nonMandatoryToken,authenticateJWT,getProducts);
 productRouter.post("/search_products",nonMandatoryToken,authenticateJWT,searchProducts);
 
 productRouter.get("/get_subscription_product",nonMandatoryToken,authenticateJWT,getSubscriptionProducts);
 productRouter.get("/get_add_on_product", nonMandatoryToken,authenticateJWT,getAddOnProducts);
 
-productRouter.post("/get_single_product",authenticateJWT,nonMandatoryToken,getSingleProduct);
+productRouter.post("/get_single_product",nonMandatoryToken,getSingleProduct);
 
 
 productRouter.post("/create_add_on_products", authenticateJWT,nonMandatoryToken,addon_Order);
