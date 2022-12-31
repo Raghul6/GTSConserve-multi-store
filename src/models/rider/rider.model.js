@@ -135,7 +135,7 @@ export const userLogin = async (password) => {
   export const update_riderstatus = async (delivery_partner_id,status) => {
     try{
       
-        const update = await knex("rider_details").update({"rider_details.status":status}).where({id:delivery_partner_id})
+        const update = await knex("rider_details").update({"rider_details.online_status":status}).where({id:delivery_partner_id})
         
         return{status:true,message: "SuccessFully Updated"};
       

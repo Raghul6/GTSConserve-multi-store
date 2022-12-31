@@ -53,7 +53,7 @@ export const login = async (req, res) => {
 
       console.log(checkPassword1);
 
-      const isPassword = await bcrypt.compare(password, checkPassword1[0].password);
+      const isPassword = await bcrypt.compare(password,checkPassword1[0].password);
       console.log(isPassword);
 
       console.log(checkPassword1);
