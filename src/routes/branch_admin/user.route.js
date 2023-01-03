@@ -1,5 +1,5 @@
 import express  from 'express';
-import { getusers,getSingleUser,getAddUser,createUser,newSubscription,newAddOn } from '../../controllers/branch_admin/users/users.controller';
+import { getusers,getSingleUser,getAddUser,createUser,newSubscription,newAddOn,createAdditional,editAdditional } from '../../controllers/branch_admin/users/users.controller';
 
 
 
@@ -11,6 +11,9 @@ const userRouter = express.Router({
 userRouter.get('/branch_user',getusers)
 userRouter.get('/single_user',getSingleUser)
 
+// additional orders
+userRouter.post('/create_additional',createAdditional)
+userRouter.post('/edit_additional',editAdditional)
 
 // add user
 userRouter.get('/get_add_users',getAddUser)

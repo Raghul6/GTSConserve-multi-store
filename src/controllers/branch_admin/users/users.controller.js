@@ -123,7 +123,7 @@ export const getSingleUser = async (req, res) => {
 
     const user = get_user_query[0][0];
 
-    // console.log(user);
+   
 
     const get_subscription_products = await knex(
       "subscribed_user_details as sub"
@@ -158,51 +158,73 @@ export const getSingleUser = async (req, res) => {
 
     const current_month = moment().format("M");
     
+      let get_additional_orders = []
+
+      let subscription_ids = []
+
     let is_subscription_active = 0;
     if (get_subscription_products.length !== 0) {
       for (let i = 0; i < get_subscription_products.length; i++) {
+
+        subscription_ids.push(get_subscription_products[i].sub_id)
+
         const additional_orders_parent_id = await knex(
           "additional_orders_parent"
           )
           .select("id")
           .where({
             subscription_id: get_subscription_products[i].sub_id,
-            month: current_month,
+            // month: current_month,
           });
           
-          if (additional_orders_parent_id.length !== 0) {
+          // if (additional_orders_parent_id.length !== 0) {
           let additional_orders = {};
           const additional_orders_query = await knex("additional_orders")
             .select("date", "status", "quantity")
             .where({
-              additional_orders_parent_id: additional_orders_parent_id[0].id,
-            });
+              subscription_id: get_subscription_products[i].sub_id,
+            })
+            // .where({
+            //   additional_orders_parent_id: additional_orders_parent_id[0].id,
+            // });
 
           if (additional_orders_query.length !== 0) {
-            additional_orders.additional_orders_parent_id =
-              additional_orders_parent_id[0].id;
+            // additional_orders.additional_orders_parent_id =
+            //   additional_orders_parent_id[0].id;
             additional_orders.qty = additional_orders_query[0].quantity;
             let orders = [];
             let dates = [];
+            let is_active = false
             for (let i = 0; i < additional_orders_query.length; i++) {
+
+              if(additional_orders_query[i].status == "pending"){
+                is_active = true
+              }
+
+
               orders.push({
                 date: moment(additional_orders_query[i].date).format(
-                  "YYYY-MM-DD"
+                  "DD-MM-YYYY"
                 ),
                 qty: additional_orders_query[i].quantity,
                 status: additional_orders_query[i].status,
               });
 
               dates.push(
-                moment(additional_orders_query[i].date).format("YYYY-MM-DD")
+                moment(additional_orders_query[i].date).format("DD-MM-YYYY")
               );
             }
             additional_orders.dates = dates
             additional_orders.order_details = orders;
+            additional_orders.sub_id = get_subscription_products[i].sub_id
+            additional_orders.is_active  = is_active
             orders = [];
 
+            // additional_orders
+
             get_subscription_products[i].additional_orders = additional_orders;
-          }
+            get_additional_orders.push(additional_orders)
+          // }
         }
 
 
@@ -213,7 +235,7 @@ export const getSingleUser = async (req, res) => {
 
         get_subscription_products[i].start_date = moment(
           get_subscription_products[i].start_date
-        ).format("YYYY-MM-DD");
+        ).format("DD-MM-YYYY");
       }
     }
 
@@ -259,7 +281,7 @@ export const getSingleUser = async (req, res) => {
         }
         add_on[i].add_on_products = get_user_products_query;
         add_on[i].delivery_date = moment(add_on[i].delivery_date).format(
-          "YYYY-MM-DD"
+          "DD-MM-YYYY"
         );
       }
     }
@@ -306,7 +328,8 @@ export const getSingleUser = async (req, res) => {
         "products.status": "1",
       });
 
-      console.log(get_subscription_products[0].additional_orders)
+      console.log(get_additional_orders , "check")
+      console.log(get_subscription_products)
 
     res.render("branch_admin/users/user_detail", {
       user,
@@ -317,6 +340,7 @@ export const getSingleUser = async (req, res) => {
       get_plan,
       get_subscription_products: add_subscription_products,
       add_on_products,
+      get_additional_orders
     });
   } catch (error) {
     console.log(error);
@@ -608,3 +632,57 @@ export const newAddOn = async (req, res) => {
     return res.redirect("/home");
   }
 };
+
+
+
+
+export const createAdditional = async (req,res) => {
+  try {
+      const {data} = req.body
+    console.log("hitting")
+console.log(data)
+
+    for(let i = 0 ; i< data.dates.length ; i++){
+      await knex("additional_orders").insert({
+        "subscription_id" : data.sub_id,
+        "user_id" : data.user_id,
+        "quantity" : data.qty,
+        "date" : data.dates[i]
+       })
+    }
+
+    return res.status(200).json({status : true})
+
+
+  } catch (error) {
+    console.log(error)
+    res.redirect("/home")
+  }
+}
+export const editAdditional = async (req,res) => {
+  try {
+    
+      const {data} = req.body
+    console.log("hitting")
+console.log(data)
+
+    await knex("additional_orders").where({ "subscription_id" : data.sub_id,
+    "user_id" : data.user_id,}).del()
+
+    for(let i = 0 ; i< data.editDate.length ; i++){
+      await knex("additional_orders").insert({
+        "subscription_id" : data.sub_id,
+        "user_id" : data.user_id,
+        "quantity" : data.qty,
+        "date" : data.editDate[i]
+       })
+    }
+
+    return res.status(200).json({status : true})
+
+
+  } catch (error) {
+    console.log(error)
+    res.redirect("/home")
+  }
+}
