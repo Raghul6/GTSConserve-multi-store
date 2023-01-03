@@ -435,6 +435,34 @@ export const createTable = async (req, res) => {
       }
     });
 
+
+          // subscription_users_change_plan
+          await knex.schema.hasTable("subscription_users_change_plan").then(function (exists) {
+            if (!exists) {
+              return knex.schema.createTable("subscription_users_change_plan", function (t) {
+                t.increments("id").primary();
+    
+                t.integer("user_id").unsigned().notNullable();
+                t.foreign("user_id").references("id").inTable("users");
+    
+                t.integer("subscription_id").unsigned().nullable();
+                  t.foreign("subscription_id")
+                    .references("id")
+                    .inTable("subscribed_user_details");
+    
+                    t.integer("previous_subscription_type_id").nullable();
+                    t.integer("change_subscription_type_id").nullable();
+      
+                t.date("start_date").nullable();
+                t.json("customized_days").nullable();
+        
+                t.timestamps(true, true);
+              });
+            }
+          });
+    
+
+
     //  subscribed user details
     await knex.schema
       .hasTable("subscribed_user_details")
@@ -470,6 +498,13 @@ export const createTable = async (req, res) => {
               t.foreign("user_address_id")
                 .references("id")
                 .inTable("user_address");
+
+              t.integer("change_plan_id").nullable();
+              t.foreign("change_plan_id")
+                .references("id")
+                .inTable("subscription_users_change_plan");
+
+                t.date("change_start_date").nullable();
 
               t.integer("product_id").unsigned().notNullable();
               t.foreign("product_id").references("id").inTable("products");
@@ -621,6 +656,9 @@ export const createTable = async (req, res) => {
           t.enu("status", ["pending", "delivered", "undelivered" , "cancelled"]).defaultTo(
             "pending"
           );
+
+            t.enu("is_cancelled" , ["0","1"]).defaultTo("0")
+
           t.integer("quantity", 255).nullable();
           t.integer("price").nullable();
 
@@ -977,30 +1015,6 @@ export const createTable = async (req, res) => {
         }
       });
 
-      // subscription_users_change_plan
-      await knex.schema.hasTable("subscription_users_change_plan").then(function (exists) {
-        if (!exists) {
-          return knex.schema.createTable("subscription_users_change_plan", function (t) {
-            t.increments("id").primary();
-
-            t.integer("user_id").unsigned().notNullable();
-            t.foreign("user_id").references("id").inTable("users");
-
-            t.integer("subscription_id").unsigned().nullable();
-              t.foreign("subscription_id")
-                .references("id")
-                .inTable("subscribed_user_details");
-
-                t.integer("previous_subscription_type_id").nullable();
-                t.integer("change_subscription_type_id").nullable();
-  
-            t.date("start_date").nullable();
-            t.json("customized_days").nullable();
-    
-            t.timestamps(true, true);
-          });
-        }
-      });
 
       // empty bottle tracking
 
