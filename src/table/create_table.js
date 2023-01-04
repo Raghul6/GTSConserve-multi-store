@@ -379,7 +379,7 @@ export const createTable = async (req, res) => {
           //   .inTable("subscription_type");
 
           t.string("branch_price", 255).nullable();
-          t.string("demo_price", 255).nullable();
+          t.integer("demo_price").nullable();
           t.string("name", 255).nullable();
           t.text("description").nullable();
           t.text("image").nullable();
