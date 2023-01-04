@@ -238,35 +238,96 @@ export const get_user_bill = async (userId) => {
 
 export const get_single_bill = async (bill_id,userId) => {
   try {
-    const getSingleList = await knex.select("id","bill_value",)
-      .from("bill_history").where({user_id: bill_id})
+    const getSingleBillList = await knex("bill_history")
+    .select(
+      "bill_history.id",
+      "bill_history.bill_no",
+      "bill_history.bill_value",
+      "bill_history.date",
+      "payment_gateways.id as payment_id",
+      "payment_gateways.status as payment_status",
+      "add_on_orders.sub_total as sub_total",
+    )
+    .join("payment_gateways","payment_gateways.user_id","=","bill_history.user_id")
+    .join("add_on_orders","add_on_orders.user_id","=","payment_gateways.user_id")
+    // .where({user_id: bill_id})
+   
 
     const sub_products = await knex("subscribed_user_details as sub").select(
-      "sub.quantity",
       "sub.product_id",
-      "products.price",
+      "sub.quantity",
       "unit_types.name",
-      "unit_types.id"
+      "unit_types.id",
+      "products.price"
     )
     .join("products","products.id","=","sub.user_id")
     .join("unit_types","unit_types.id","=","unit_type_id")
     .where({ user_id: bill_id })
 
+
     const add_on_products = await knex("add_on_order_items as add").select(
-      "add.quantity",
       "add.product_id",
+      "add.quantity",
+      "unit_types.id as variation_id",
+      "unit_types.name as variation_type",
+      "products.unit_value",
       "add.total_price",
-      "unit_types.name",
-      "unit_types.id"
     )
-    .join("unit_types","unit_types.id","=","add.id")
-    // .join("add_on_order_items","add.user_id","=","add.product_id")
+    .join("products","products.id","=","add.user_id")
+    .join("unit_types","unit_types.id","=","products.unit_type_id")
     .where({ user_id: bill_id })
+    
 
     // console.log(sub_products)
-      return { status: responseCode.SUCCESS, body: getSingleList, sub_products, add_on_products };
+      return { data: getSingleBillList, sub_products, add_on_products };
   } catch (error) {
     console.log(error);
     return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, error };
   }
+}
+
+// rider location 
+export const rider_location = async (userId) => {
+try {
+     const router = await knex('daily_orders')
+     .join("routes","routes.id","=","daily_orders.router_id")
+     .join("rider_details","rider_details.id","=","routes.rider_id")
+     .select('rider_details.tour_status as status')
+     .where({user_id:userId});
+      // console.log(router)
+
+    if(router[0].status==1){
+    const location = await knex('daily_orders')
+    .join("users","users.id","=","daily_orders.user_id")
+    .join("user_address","user_address.user_id","=","daily_orders.user_id")  
+    .join("admin_users","admin_users.id","=","daily_orders.branch_id")
+    .join("routes","routes.id","=","daily_orders.router_id")
+    .join("rider_details","rider_details.id","=","routes.rider_id")
+    .select(
+      'users.id as user_id',
+      'users.name as user_name',
+      'user_address.address as user_address',
+      'user_address.latitude as user_latitude',
+      'user_address.longitude as user_longitude',
+      'admin_users.id as admin_id',
+      'admin_users.first_name as admin_name',
+      'admin_users.address as admin_address',
+      'admin_users.latitude as admin_latitude',
+      'admin_users.longitude as admin_longitude',
+      'rider_details.id as rider_id',
+      'rider_details.name as rider_name',
+      'rider_details.latitude as rider_latitude',
+      'rider_details.longitude as rider_longitude',
+      )
+     .where({'daily_orders.user_id':userId});
+    //  console.log(location)
+    return { status: responseCode.SUCCESS, location };
+    }
+else{
+  return { status: false, message:"no order placed today SORRY!!!!!" };
+}
+} catch (error) {
+  console.log(error);
+    return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, error };
+}
 }

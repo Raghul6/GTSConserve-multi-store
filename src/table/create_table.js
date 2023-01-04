@@ -70,8 +70,10 @@ export const createTable = async (req, res) => {
 
           t.integer("zone_id").unsigned().nullable();
           t.foreign("zone_id").references("id").inTable("zones");
-
+          t.string("address", 255).nullable();
           t.string("location", 255).nullable();
+          t.string("latitude", 255).nullable();
+          t.string("longitude", 255).nullable();
           t.string("mobile_number", 255).nullable();
           t.string("alternate_mobile_number", 255).nullable();
           t.string("email", 255).unique().notNullable();
@@ -157,7 +159,7 @@ export const createTable = async (req, res) => {
           t.string("address", 255).nullable();
           t.enu("online_status", ["0", "1"]).defaultTo("1");
           t.enu("tour_status", ["0", "1", "2"]).defaultTo("0");
-          t.enu("status", ["0", "1","2"]).defaultTo("0");
+          t.enu("status", ["0", "1","2"]).defaultTo("1");
           t.timestamps(true, true);
         });
       }
@@ -379,7 +381,7 @@ export const createTable = async (req, res) => {
           //   .inTable("subscription_type");
 
           t.string("branch_price", 255).nullable();
-          t.string("demo_price", 255).nullable();
+          t.integer("demo_price").nullable();
           t.string("name", 255).nullable();
           t.text("description").nullable();
           t.text("image").nullable();
@@ -445,10 +447,7 @@ export const createTable = async (req, res) => {
                 t.integer("user_id").unsigned().notNullable();
                 t.foreign("user_id").references("id").inTable("users");
     
-                t.integer("subscription_id").unsigned().nullable();
-                  t.foreign("subscription_id")
-                    .references("id")
-                    .inTable("subscribed_user_details");
+                
     
                     t.integer("previous_subscription_type_id").nullable();
                     t.integer("change_subscription_type_id").nullable();
@@ -499,7 +498,7 @@ export const createTable = async (req, res) => {
                 .references("id")
                 .inTable("user_address");
 
-              t.integer("change_plan_id").nullable();
+              t.integer("change_plan_id").unsigned().nullable();
               t.foreign("change_plan_id")
                 .references("id")
                 .inTable("subscription_users_change_plan");
@@ -1068,6 +1067,34 @@ export const createTable = async (req, res) => {
         }
       });
 
+
+      // rider daily details
+      await knex.schema.hasTable("rider_daily_details").then(function (exists) {
+        if (!exists) {
+          return knex.schema.createTable("rider_daily_details", function (t) {
+            t.increments("id").primary().unsigned().notNullable();
+
+            t.integer("router_id").unsigned().nullable();
+            t.foreign("router_id").references("id").inTable("routes");
+
+            t.integer("rider_id").unsigned().nullable();
+            t.foreign("rider_id").references("id").inTable("rider_details");
+
+            
+            t.integer("total_one_liter").nullable();
+            t.integer("total_half_liter").nullable();
+            t.integer("remainding_one_liter").nullable();
+            t.integer("remainding_half_lite").nullable();
+            t.integer("bottle_collected_one_liter").nullable();
+            t.integer("bottle_collected_half_liter").nullable();
+
+            t.json("order_details").nullable();
+
+            t.enu("status", ["0", "1"]).defaultTo("1");
+            t.timestamps(true, true);
+          });
+        }
+      });
 
     return res
       .status(200)
