@@ -22,11 +22,7 @@ export const banners = [
     image: "https://i.pinimg.com/originals/5f/c6/39/5fc63959e52072aa559578577ace6d70.jpg",
     status: "1",
   },
-  {
-    name: "bannner 2",
-    image: "bannner image 2",
-    status: "1",
-  },
+  
 ];
 
 export const user_groups = [
