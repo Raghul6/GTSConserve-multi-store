@@ -2,7 +2,7 @@
 
 import knex from "../../services/db.service";
 
-import Razorpay from "razorpay"
+// import Razorpay from "razorpay"
 
 export const getPaymentReminder = async (req, res) => {
     try {
