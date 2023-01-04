@@ -9,7 +9,7 @@ import { hmac } from "crypto";
 
 import knex from "../../services/db.service";
 
-import Razorpay from "razorpay"
+// import Razorpay from "razorpay"
 
 import shortid from "shortid"
 
