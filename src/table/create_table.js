@@ -1055,6 +1055,34 @@ export const createTable = async (req, res) => {
       });
 
 
+      // rider daily details
+      await knex.schema.hasTable("rider_daily_details").then(function (exists) {
+        if (!exists) {
+          return knex.schema.createTable("rider_daily_details", function (t) {
+            t.increments("id").primary().unsigned().notNullable();
+
+            t.integer("router_id").unsigned().nullable();
+            t.foreign("router_id").references("id").inTable("routes");
+
+            t.integer("rider_id").unsigned().nullable();
+            t.foreign("rider_id").references("id").inTable("rider_details");
+
+            
+            t.integer("total_one_liter").nullable();
+            t.integer("total_half_liter").nullable();
+            t.integer("remainding_one_liter").nullable();
+            t.integer("remainding_half_lite").nullable();
+            t.integer("bottle_collected_one_liter").nullable();
+            t.integer("bottle_collected_half_liter").nullable();
+
+            t.json("order_details").nullable();
+
+            t.enu("status", ["0", "1"]).defaultTo("1");
+            t.timestamps(true, true);
+          });
+        }
+      });
+
     return res
       .status(200)
       .json({ status: true, message: "table successfully created" });
