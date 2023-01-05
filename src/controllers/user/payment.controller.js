@@ -56,7 +56,7 @@ export const getPaymentStatusUpdate = async (req, res) => {
             token 
         } = req.body
 
-        const response = await knex('')
+        // const response = await knex('')
 
 
         res.status(200).json({ status: true, message: "Ok" })
