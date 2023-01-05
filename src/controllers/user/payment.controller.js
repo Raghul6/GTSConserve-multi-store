@@ -1,6 +1,6 @@
 import responseCode from "../../constants/responseCode";
 import messages from "../../constants/messages"
-import { PaymentMethod } from '../../models/user/payment.model';
+// import { PaymentMethod } from '../../models/user/payment.model';
 import crypto from "crypto";
 
 import { hmac } from "crypto";
