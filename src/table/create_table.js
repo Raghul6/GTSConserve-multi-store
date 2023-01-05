@@ -511,6 +511,13 @@ export const createTable = async (req, res) => {
 
               t.integer("quantity").notNullable();
 
+              t.integer("subscription_monthly_price").nullable();
+              t.integer("additional_monthly_price").nullable();
+              t.integer("total_monthly_price").nullable();
+              t.integer("subscription_delivered_quantity").nullable();
+              t.integer("additional_delivered_quantity").nullable();
+              t.integer("total_delivered_quantity").nullable();
+
               t.enu("subscription_status", [
                 "pending",
                 "assigned",
@@ -523,6 +530,11 @@ export const createTable = async (req, res) => {
                 "change_qty",
                 "change_address",
                 "change_plan",
+              ]).defaultTo("pending");
+              t.enu("rider_status", [
+                "pending",
+                "delivered",
+                "undelivered",
               ]).defaultTo("pending");
               t.enu("status", ["0", "1"]).defaultTo("1");
               t.timestamps(true, true);
