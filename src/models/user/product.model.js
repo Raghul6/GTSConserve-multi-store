@@ -232,30 +232,11 @@ export const remove_addonorders = async (product_id , delivery_date) => {
 
      const date = await knex('daily_orders').select('date').where({user_id:userId});
       // console.log(product)
-   
-     
-    
-  //   let date = await knex('daily_orders').select("*");
-  //   // let date1 = await knex('rider_daily_details').insert({order_details:date})
-  //   for (let j = 0; j < date.length; j++) {
-  //   let date1 = await knex.table('rider_daily_details')
-  //   //.where({id: 1})
-  //   .update({order_details: JSON.stringify(date)});
-  //   //   let store_weekdays = [];
-  //   //  let query =[];
-  //   //     for (let j = 0; j < date.length; j++) {
-          
-  //   //         store_weekdays.push(date1[0].order_details);
-  //   console.log(date1)      
-  // }
-        
-      
-    //   query = JSON.stringify(store_weekdays);
     
     return { status: true, product,date };
   }
     catch(error){
-      console.log(error);
+      console.log(error); 
       return { status: false, message: "no next day products"}; 
        }
     }
