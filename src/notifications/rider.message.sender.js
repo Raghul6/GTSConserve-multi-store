@@ -68,7 +68,7 @@
 //   console.log(message.app_id)
 // };
 
-import axios from "axios"
+// import axios from "axios"
 import nodemailer from "nodemailer"
 
 export const riderSendNotification = async (data) => {
@@ -85,7 +85,9 @@ export const riderSendNotification = async (data) => {
       "https://pickneats.com/yummychopps/dashboard/assets/img/favicon.png";
 
     const response = await instance.post(
-      `?app_id=${process.env.RIDER_APP_ID}`,
+      `?app_id
+      
+      =${process.env.RIDER_APP_ID}`,
       data
     );
 
