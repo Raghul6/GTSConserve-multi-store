@@ -381,9 +381,9 @@ export const riderDashboard = async (req, res) => {
 
 
     let query = {
-      "total_orders": total.order.length,
-      "delivered_orders": total.delivery.length,
-      "undelivered_orders": total.pending.length + total.undelivered.length,
+      "total_orders": total.unique.length,
+      "delivered_orders": total.unique1.length,
+      "undelivered_orders": total.unique2.length + total.unique3.length,
       "empty_bottle": sum
     }
     console.log(query)
