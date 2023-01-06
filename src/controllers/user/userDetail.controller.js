@@ -2,6 +2,7 @@ import responseCode from "../../constants/responseCode";
 import { parseJwtPayload } from "../../services/jwt.service";
 import { userAddressValidator } from "../../services/validator.service";
 import knex from "../../services/db.service";
+import { sendNotification } from "../../notifications/message.sender";
 import moment from "moment";
 import {
   change_plan,
@@ -182,6 +183,19 @@ export const updateUser = async (req, res) => {
     console.log(query);
     await knex("users").update(query).where({ id: user.user_id });
 
+    // await sendNotification({
+      //   include_external_user_ids: [userId],
+      //   contents: { en: `Addon Products Created notificaiton` },
+      //   headings: { en: "Addon Products Notification" },
+      //   name: "Addon Products",
+      //   data: {
+      //     status: "new_order",
+      //     type: 2,
+      //     // appointment_id: user._id,
+      //     // appointment_chat_id: user_chat._id
+      //   },
+      // });
+
     return res
       .status(responseCode.SUCCESS)
       .json({ status: true, message: "User Profile Updated" });
@@ -204,6 +218,18 @@ export const deleteUseraddress = async (req, res) => {
 
     const addresses = await delete_user_address(address_id, userId);
 
+    // await sendNotification({
+      //   include_external_user_ids: [userId],
+      //   contents: { en: `Addon Products Created notificaiton` },
+      //   headings: { en: "Addon Products Notification" },
+      //   name: "Addon Products",
+      //   data: {
+      //     status: "new_order",
+      //     type: 2,
+      //     // appointment_id: user._id,
+      //     // appointment_chat_id: user_chat._id
+      //   },
+      // });
 
     res
       .status(responseCode.SUCCESS)
@@ -220,6 +246,19 @@ export const RemoveOrder = async (req, res) => {
     const { user_id } = req.body;
 
     const remove = await remove_order(user_id);
+
+    // await sendNotification({
+      //   include_external_user_ids: [userId],
+      //   contents: { en: `Addon Products Created notificaiton` },
+      //   headings: { en: "Addon Products Notification" },
+      //   name: "Addon Products",
+      //   data: {
+      //     status: "new_order",
+      //     type: 2,
+      //     // appointment_id: user._id,
+      //     // appointment_chat_id: user_chat._id
+      //   },
+      // });
 
     res
       .status(responseCode.SUCCESS)
@@ -274,6 +313,20 @@ export const changePlan = async (req, res) => {
       start_date,
       subscribe_type_id
     );
+
+    // await sendNotification({
+      //   include_external_user_ids: [userId],
+      //   contents: { en: `Addon Products Created notificaiton` },
+      //   headings: { en: "Addon Products Notification" },
+      //   name: "Addon Products",
+      //   data: {
+      //     status: "new_order",
+      //     type: 2,
+      //     // appointment_id: user._id,
+      //     // appointment_chat_id: user_chat._id
+      //   },
+      // });
+
     res
       .status(responseCode.SUCCESS)
       .json({ status: true, message: "updated successfully" });
@@ -458,6 +511,20 @@ export const getBillList = async (req, res) => {
     const { userId } = req.body;
 
     const user = await get_user_bill(userId);
+
+    // await sendNotification({
+      //   include_external_user_ids: [userId],
+      //   contents: { en: `Addon Products Created notificaiton` },
+      //   headings: { en: "Addon Products Notification" },
+      //   name: "Addon Products",
+      //   data: {
+      //     status: "new_order",
+      //     type: 2,
+      //     // appointment_id: user._id,
+      //     // appointment_chat_id: user_chat._id
+      //   },
+      // });
+      
     if (user.body.length === 0) {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)

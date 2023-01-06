@@ -1,6 +1,7 @@
 import responseCode from "../../constants/responseCode";
 import messages from "../../constants/messages";
 import { GetProduct } from "../../utils/helper.util";
+import { sendNotification } from "../../notifications/message.sender";
 import moment from "moment";
 
 import {
@@ -26,6 +27,19 @@ export const removeAddOnOrder = async (req, res) => {
     }
     //  console.log(userId,product_id, delivery_date);
     const remove = await remove_addonorders(product_id, delivery_date,userId);
+
+    // await sendNotification({
+    //   include_external_user_ids: [userId],
+    //   contents: { en: `Addon Products Created notificaiton` },
+    //   headings: { en: "Addon Products Notification" },
+    //   name: "Addon Products",
+    //   data: {
+    //     status: "new_order",
+    //     type: 1,
+    //     // appointment_id: user._id,
+    //     // appointment_chat_id: user_chat._id
+    //   },
+    // });
 
     return res
       .status(responseCode.SUCCESS)
@@ -190,6 +204,18 @@ export const getAddOnProducts = async (req, res) => {
         .json({ status: false, message: product.message });
     }
 
+    // await sendNotification({
+    //   include_external_user_ids: [userId],
+    //   contents: { en: `Addon Products Created notificaiton` },
+    //   headings: { en: "Addon Products Notification" },
+    //   name: "Addon Products",
+    //   data: {
+    //     status: "new_order",
+    //     type: 1,
+    //     // appointment_id: user._id,
+    //     // appointment_chat_id: user_chat._id
+    //   },
+    // });
     return res.status(responseCode.SUCCESS).json({
       status: true,
       data: product.data,
@@ -255,7 +281,22 @@ export const addon_Order = async (req, res) => {
       delivery_date,
       products,
       address_id
-    );
+      );
+      
+      console.log(addon)
+    // await sendNotification({
+    //   include_external_user_ids: [userId],
+    //   contents: { en: `Addon Products Created notificaiton` },
+    //   headings: { en: "Addon Products Notification" },
+    //   name: "Addon Products",
+    //   data: {
+    //     status: "new_order",
+    //     type: 1,
+    //     // appointment_id: user._id,
+    //     // appointment_chat_id: user_chat._id
+    //   },
+    // });
+    
     return res.status(responseCode.SUCCESS).json({
       status: true,
       message: "order added",
