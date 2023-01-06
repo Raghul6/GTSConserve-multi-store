@@ -68,7 +68,7 @@
 //   console.log(message.app_id)
 // };
 
-import axios from "axios"
+// import axios from "axios"
 import nodemailer from "nodemailer"
 
 export const sendNotification = async (data) => {

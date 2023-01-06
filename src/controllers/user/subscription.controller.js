@@ -1,6 +1,5 @@
 import responseCode from "../../constants/responseCode";
 import messages from "../../constants/messages";
-import { sendNotification } from "../../notifications/message.sender";
 import moment from "moment";
 
 import {
@@ -113,19 +112,6 @@ export const createAdditionalOrder = async (req, res) => {
       });
     });
 
-    // await sendNotification({
-    //   include_external_user_ids: [userId],
-    //   contents: { en: `Addon Products Created notificaiton` },
-    //   headings: { en: "Addon Products Notification" },
-    //   name: "Addon Products",
-    //   data: {
-    //     status: "new_order",
-    //     type: 2,
-    //     // appointment_id: user._id,
-    //     // appointment_chat_id: user_chat._id
-    //   },
-    // });
-
     return res
       .status(responseCode.SUCCESS)
       .json({ status: true, message: "Additional Order Added SuccessFully" });
@@ -199,19 +185,6 @@ export const newSubscription = async (req, res) => {
       qty,
       customized_days
     );
-
-    // await sendNotification({
-    //   include_external_user_ids: [userId],
-    //   contents: { en: `Addon Products Created notificaiton` },
-    //   headings: { en: "Addon Products Notification" },
-    //   name: "Addon Products",
-    //   data: {
-    //     status: "new_order",
-    //     type: 2,
-    //     // appointment_id: user._id,
-    //     // appointment_chat_id: user_chat._id
-    //   },
-    // });
 
     if (subscription.status) {
       return res
@@ -298,9 +271,9 @@ export const singleSubscription = async (req, res) => {
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
         .json({ status: false, message: sub.message });
     }
-    // console.log(sub.add_product)
+    console.log( sub.add_product[0])
     for (let i = 0; i < sub.data.length; i++) {
-     
+      
       sub.data[i].image = process.env.BASE_URL + sub.data[i].image;
       sub.data[i].subscription_start_date = moment().format("YYYY-MM-DD");
       sub.data[i].customized_days = sub.data[i].customized_days;
@@ -309,11 +282,11 @@ export const singleSubscription = async (req, res) => {
       sub.data[i].price = sub.data[i].price;
       sub.data[i].date = [moment().format("YYYY-MM-DD")];
 
-
-
-      sub.add_product[i].id = sub.add_product[i].id;
-      sub.add_product[i].image = sub.add_product[i].image;
-      sub.add_product[i].date = [moment().format("YYYY-MM-DD")];
+      for (let j = 0; j < sub.add_product[0].length; j++) {  
+        console.log( sub.add_product[0][j].id)    
+      sub.add_product[0][j].id = sub.add_product[0][j].id;
+      sub.add_product[0][j].image = sub.add_product[0][j].image;
+      sub.add_product[0][j].date = [moment().format("YYYY-MM-DD")];
 
       if (sub.data[i].unit_value >= 500) {
         sub.data[i].unit =
@@ -322,22 +295,21 @@ export const singleSubscription = async (req, res) => {
           (sub.data[i].unit_type === "ml" ? "litre" : sub.data[i].unit_type);
       } else {
         sub.data[i].unit =
-          sub.data[i].unit_value + " " + sub.data[0].unit_type;
+          sub.data[i].unit_value + " " + sub.data[i].unit_type;
       }
       delete sub.data[i].unit_value;
       delete sub.data[i].unit_type;
-    
+    }
 
     const response = {
       additional_orders: [sub.add_product[0]],
       this_month_item_detail: sub.this_month_item_detail[0],
     };
- 
 
     return res
       .status(responseCode.SUCCESS)
-      .json({ status: true, data: { ...sub.data[i], ...response} });
-     } }catch (error) {
+      .json({ status: true, data: { ...sub.data[0], ...response } });
+  } }catch (error) {
     console.log(error);
     return res
       .status(responseCode.FAILURE.DATA_NOT_FOUND)
@@ -389,19 +361,6 @@ export const Remove_Subscription = async (req, res) => {
 
     const unsubscription = await remove_subscription(user_id, subscription_id);
 
-    // await sendNotification({
-    //   include_external_user_ids: [userId],
-    //   contents: { en: `Addon Products Created notificaiton` },
-    //   headings: { en: "Addon Products Notification" },
-    //   name: "Addon Products",
-    //   data: {
-    //     status: "new_order",
-    //     type: 2,
-    //     // appointment_id: user._id,
-    //     // appointment_chat_id: user_chat._id
-    //   },
-    // });
-
     if (unsubscription.status) {
       return res.status(responseCode.SUCCESS).json(unsubscription);
     } else {
@@ -428,19 +387,6 @@ export const changeQuantity = async (req, res) => {
         .json({ status: false, message: messages.MANDATORY_ERROR });
     }
     const quantity1 = await change_quantity(userId, subscription_id, quantity);
-
-    // await sendNotification({
-    //   include_external_user_ids: [userId],
-    //   contents: { en: `Addon Products Created notificaiton` },
-    //   headings: { en: "Addon Products Notification" },
-    //   name: "Addon Products",
-    //   data: {
-    //     status: "new_order",
-    //     type: 2,
-    //     // appointment_id: user._id,
-    //     // appointment_chat_id: user_chat._id
-    //   },
-    // });
 
     if (quantity1.status) {
       return res.status(responseCode.SUCCESS).json(quantity1);
@@ -481,20 +427,6 @@ export const changeSubscriptionplan = async (req, res) => {
       start_date,
       customized_days
     );
-
-    // await sendNotification({
-    //   include_external_user_ids: [userId],
-    //   contents: { en: `Addon Products Created notificaiton` },
-    //   headings: { en: "Addon Products Notification" },
-    //   name: "Addon Products",
-    //   data: {
-    //     status: "new_order",
-    //     type: 2,
-    //     // appointment_id: user._id,
-    //     // appointment_chat_id: user_chat._id
-    //   },
-    // });
-
     return res.status(responseCode.SUCCESS).json(changeplan);
   } catch (error) {
     console.log(error);
