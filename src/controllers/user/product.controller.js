@@ -204,18 +204,18 @@ export const getAddOnProducts = async (req, res) => {
         .json({ status: false, message: product.message });
     }
 
-    await sendNotification({
-      include_external_user_ids: [userId],
-      contents: { en: `Addon Products Created notificaiton` },
-      headings: { en: "Addon Products Notification" },
-      name: "Addon Products",
-      data: {
-        status: "new_order",
-        type: 1,
-        // appointment_id: user._id,
-        // appointment_chat_id: user_chat._id
-      },
-    });
+    // await sendNotification({
+    //   include_external_user_ids: [userId],
+    //   contents: { en: `Addon Products Created notificaiton` },
+    //   headings: { en: "Addon Products Notification" },
+    //   name: "Addon Products",
+    //   data: {
+    //     status: "new_order",
+    //     type: 1,
+    //     // appointment_id: user._id,
+    //     // appointment_chat_id: user_chat._id
+    //   },
+    // });
     return res.status(responseCode.SUCCESS).json({
       status: true,
       data: product.data,
@@ -281,8 +281,9 @@ export const addon_Order = async (req, res) => {
       delivery_date,
       products,
       address_id
-    );
-
+      );
+      
+      console.log(addon)
     // await sendNotification({
     //   include_external_user_ids: [userId],
     //   contents: { en: `Addon Products Created notificaiton` },
@@ -295,6 +296,7 @@ export const addon_Order = async (req, res) => {
     //     // appointment_chat_id: user_chat._id
     //   },
     // });
+    
     return res.status(responseCode.SUCCESS).json({
       status: true,
       message: "order added",
