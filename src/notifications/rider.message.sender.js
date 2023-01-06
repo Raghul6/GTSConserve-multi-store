@@ -71,12 +71,12 @@
 import axios from "axios"
 import nodemailer from "nodemailer"
 
-export const sendNotification = async (data) => {
+export const riderSendNotification = async (data) => {
   try {
     const instance = axios.create({
       baseURL: "https://onesignal.com/api/v1/notifications",
       headers: {
-        authorization: `Basic ${process.env.ONE_SIGNAL_REST_API_KEY}`,
+        authorization: `Basic ${process.env.RIDER_REST_API_KEY}`,
       },
     });
 
@@ -85,7 +85,7 @@ export const sendNotification = async (data) => {
       "https://pickneats.com/yummychopps/dashboard/assets/img/favicon.png";
 
     const response = await instance.post(
-      `?app_id=${process.env.ONESIGNAL_APP_ID}`,
+      `?app_id=${process.env.RIDER_APP_ID}`,
       data
     );
 

@@ -1,5 +1,6 @@
 import responseCode from "../../constants/responseCode";
 import messages from "../../constants/messages";
+import { sendNotification } from "../../notifications/message.sender";
 import moment from "moment";
 
 import {
@@ -112,6 +113,19 @@ export const createAdditionalOrder = async (req, res) => {
       });
     });
 
+    // await sendNotification({
+    //   include_external_user_ids: [userId],
+    //   contents: { en: `Addon Products Created notificaiton` },
+    //   headings: { en: "Addon Products Notification" },
+    //   name: "Addon Products",
+    //   data: {
+    //     status: "new_order",
+    //     type: 2,
+    //     // appointment_id: user._id,
+    //     // appointment_chat_id: user_chat._id
+    //   },
+    // });
+
     return res
       .status(responseCode.SUCCESS)
       .json({ status: true, message: "Additional Order Added SuccessFully" });
@@ -185,6 +199,19 @@ export const newSubscription = async (req, res) => {
       qty,
       customized_days
     );
+
+    // await sendNotification({
+    //   include_external_user_ids: [userId],
+    //   contents: { en: `Addon Products Created notificaiton` },
+    //   headings: { en: "Addon Products Notification" },
+    //   name: "Addon Products",
+    //   data: {
+    //     status: "new_order",
+    //     type: 2,
+    //     // appointment_id: user._id,
+    //     // appointment_chat_id: user_chat._id
+    //   },
+    // });
 
     if (subscription.status) {
       return res
@@ -357,6 +384,19 @@ export const Remove_Subscription = async (req, res) => {
 
     const unsubscription = await remove_subscription(user_id, subscription_id);
 
+    // await sendNotification({
+    //   include_external_user_ids: [userId],
+    //   contents: { en: `Addon Products Created notificaiton` },
+    //   headings: { en: "Addon Products Notification" },
+    //   name: "Addon Products",
+    //   data: {
+    //     status: "new_order",
+    //     type: 2,
+    //     // appointment_id: user._id,
+    //     // appointment_chat_id: user_chat._id
+    //   },
+    // });
+
     if (unsubscription.status) {
       return res.status(responseCode.SUCCESS).json(unsubscription);
     } else {
@@ -383,6 +423,19 @@ export const changeQuantity = async (req, res) => {
         .json({ status: false, message: messages.MANDATORY_ERROR });
     }
     const quantity1 = await change_quantity(userId, subscription_id, quantity);
+
+    // await sendNotification({
+    //   include_external_user_ids: [userId],
+    //   contents: { en: `Addon Products Created notificaiton` },
+    //   headings: { en: "Addon Products Notification" },
+    //   name: "Addon Products",
+    //   data: {
+    //     status: "new_order",
+    //     type: 2,
+    //     // appointment_id: user._id,
+    //     // appointment_chat_id: user_chat._id
+    //   },
+    // });
 
     if (quantity1.status) {
       return res.status(responseCode.SUCCESS).json(quantity1);
@@ -423,6 +476,20 @@ export const changeSubscriptionplan = async (req, res) => {
       start_date,
       customized_days
     );
+
+    // await sendNotification({
+    //   include_external_user_ids: [userId],
+    //   contents: { en: `Addon Products Created notificaiton` },
+    //   headings: { en: "Addon Products Notification" },
+    //   name: "Addon Products",
+    //   data: {
+    //     status: "new_order",
+    //     type: 2,
+    //     // appointment_id: user._id,
+    //     // appointment_chat_id: user_chat._id
+    //   },
+    // });
+
     return res.status(responseCode.SUCCESS).json(changeplan);
   } catch (error) {
     console.log(error);
