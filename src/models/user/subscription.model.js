@@ -110,6 +110,8 @@ export const get_subscription_product = async (userId) => {
 
 export const single_subscription = async (userId, sub_id) => {
   try {
+
+    let add_product = []
     const products = await knex("subscribed_user_details AS sub")
       .select(
         "sub.id as subscription_id",
@@ -135,11 +137,16 @@ export const single_subscription = async (userId, sub_id) => {
       .join("user_address", "user_address.id", "=", "sub.user_address_id")
       .where({ "sub.user_id": userId, "sub.id": sub_id });
 
-      console.log(products)
+      // console.log(products)
+     const additional = await knex('additional_orders').select('id','subscription_id','user_id').where({subscription_id: sub_id})
 
+     console.log(additional)
 
+     for (let i=0;i<additional.length;i++){
+      console.log(additional[i].user_id)
       const query = await knex("subscribed_user_details AS sub").select(
-        "additional_orders.id as id",
+        "additional_orders.id",
+        "additional_orders.id as id", 
         "additional_orders.date ",
         "additional_orders.quantity",
         "additional_orders.status",
@@ -151,9 +158,12 @@ export const single_subscription = async (userId, sub_id) => {
       .join("additional_orders","additional_orders.user_id","=","sub.user_id")
       .join("products", "products.id", "=", "sub.product_id")
       .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
-      .where({"additional_orders.id": userId })
-// console.log(query)
+      .where({'additional_orders.user_id':additional[i].user_id})
+      
 
+     add_product.push(query)
+      }
+console.log(add_product)
       const this_month_item_detail = await knex("users").select(
         "one_liter_in_hand as delivered_orders",
         "one_liter_in_return as remaining_orders",
@@ -165,7 +175,7 @@ export const single_subscription = async (userId, sub_id) => {
       return { status: false, message: "No Subscription Found" };
     }
 
-    return { status: true, data: products, query, this_month_item_detail  };
+    return { status: true, data: products,add_product,this_month_item_detail  };
   } catch (error) {
     console.log(error);
     return { status: false, message: error };
