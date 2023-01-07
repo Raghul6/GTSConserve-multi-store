@@ -200,7 +200,24 @@ export const newSubscription = async (req, res) => {
       qty,
       customized_days
     );
+    console.log(userId)
 
+  
+    const message = {
+      app_id: process.env.ONESIGNAL_APP_ID,
+      contents: {"en": "This Is testing Message"},
+      "filters": [{"field": "tag", "key": "level", "relation": ">", "value": "10"},{"operator": "OR"},{"field": "amount_spent", "relation": ">","value": "0"}],
+      include_external_user_ids: [userId],
+      small_icon: "notify_icon",
+      large_icon :
+      "https://pickneats.com/yummychopps/dashboard/assets/img/favicon.png",
+      
+    };
+    sendNotification(message);
+
+    console.log(message)
+
+    
     if (subscription.status) {
       return res
         .status(responseCode.SUCCESS)
