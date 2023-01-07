@@ -2,6 +2,7 @@ import responseCode from "../../constants/responseCode";
 import messages from "../../constants/messages";
 import { GetProduct } from "../../utils/helper.util";
 import { sendNotification } from "../../notifications/message.sender";
+import axios from 'axios';
 import moment from "moment";
 
 import {
@@ -204,8 +205,37 @@ export const getAddOnProducts = async (req, res) => {
         .json({ status: false, message: product.message });
     }
 
-    // await sendNotification({
+    await sendNotification({
+      include_external_user_ids: [product.userId],
+      contents: {
+        en: `interested to join in your buddy`,
+      },
+      headings: { en:  `interested to join in your buddy`},
+      name: "Invoice Status",
+      data: {
+        live_order_status: 0,
+        bar_id: 0,
+        type: 4,
+        live_order_id: 0,
+        invoice_id: 0,
+      },
+    });
+
+    // const message = {
+    //   app_id: process.env.ONESIGNAL_APP_ID,
+    //   contents: {"en": "This Is testing Message"},
+    //   // included_segments: ["Subscribed Users"],
+    //   include_external_user_ids: [product.userId],
+    //   small_icon: "notify_icon",
+    //   large_icon :
+    //   "https://pickneats.com/yummychopps/dashboard/assets/img/favicon.png",
+      
+    // };
+    // sendNotification(message);
+
+    // await sendNotification({   
     //   include_external_user_ids: [userId],
+    //   // include_phone_numbers: ["+19840730996"],
     //   contents: { en: `Addon Products Created notificaiton` },
     //   headings: { en: "Addon Products Notification" },
     //   name: "Addon Products",
@@ -216,12 +246,13 @@ export const getAddOnProducts = async (req, res) => {
     //     // appointment_chat_id: user_chat._id
     //   },
     // });
+ 
     return res.status(responseCode.SUCCESS).json({
       status: true,
       data: product.data,
     });
   } catch (error) {
-    console.log(error);
+   // console.log(error);
     res.status(500).json({ status: false });
   }
 };

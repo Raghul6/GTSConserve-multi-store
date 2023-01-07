@@ -1,5 +1,7 @@
 import responseCode from "../../constants/responseCode";
 import messages from "../../constants/messages";
+import axios from "axios"
+import { sendNotification } from "../../notifications/message.sender";
 import moment from "moment";
 
 import {
@@ -29,6 +31,19 @@ export const removeAdditionalOrder = async (req, res) => {
       status: "pending",
       user_id: userId,
     });
+
+    // await sendNotification({
+    //   include_external_user_ids: [userId],
+    //   contents: { en: `Addon Products Created notificaiton` },
+    //   headings: { en: "Addon Products Notification" },
+    //   name: "Addon Products",
+    //   data: {
+    //     status: "pending",
+    //     type: 1,
+    //     // appointment_id: user._id,
+    //     // appointment_chat_id: user_chat._id
+    //   },
+    // });
 
     res
       .status(responseCode.SUCCESS)

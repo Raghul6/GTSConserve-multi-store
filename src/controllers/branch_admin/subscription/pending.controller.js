@@ -331,6 +331,9 @@ export const getNewUsers = async (req, res) => {
         subscription_users[i].start_date = moment(
           subscription_users[i].start_date
         ).format("DD-MM-YYYY");
+        subscription_users[i].default_show_start_date = moment(
+          subscription_users[i].start_date
+        ).format("YYYY-DD-MM");
         subscription_users[i].image =
           process.env.BASE_URL + subscription_users[i].image;
       }
