@@ -1,7 +1,7 @@
 import moment from "moment";
 import knex from "../../../services/db.service";
 import { getPageNumber } from "../../../utils/helper.util";
-
+import {sendNotification} from "../../../notifications/message.sender"
 
 export const createUserBill = async (req, res) => {
   const { add_on, sub, user_id, sub_total, discount } = req.body;
@@ -772,7 +772,22 @@ export const newSubscription = async (req, res) => {
       sub_product_query.customized_days = JSON.stringify(store_weekdays);
     }
 
-    await knex("subscribed_user_details").insert(sub_product_query);
+   const sub_id =  await knex("subscribed_user_details").insert(sub_product_query);
+
+    await sendNotification({
+      include_external_user_ids: [ user.user_id.toString()],
+      contents: { en: `New Subsciption Was Placed By Maram Admin, Your Susbcription Start From ${moment(data.sub_start_date).format("DD-MM-YYYY")}` },
+      headings: { en: "Subscription Notification" },
+      name: "Appoinment Request",
+      data: {
+        subscription_status: "subscribed",
+        category_id: 0,
+        product_type_id: 0,
+        type: 2,
+        subscription_id: sub_id[0],
+        bill_id: 0,
+      },
+    });
 
     return res.status(200).json({ status: true });
   } catch (error) {
@@ -822,6 +837,21 @@ export const newAddOn = async (req, res) => {
 
     await knex("add_on_orders").update({ sub_total }).where({ id: order_id });
 
+    await sendNotification({
+      include_external_user_ids: [ user.user_id.toString()],
+      contents: { en: `New Add on Order Was Placed By Maram Admin, Your Add On Will be delivered On ${moment(data.delivery_date).format("DD-MM-YYYY")}` },
+      headings: { en: "Add On Notification" },
+      name: "New Add On ",
+      data: {
+        subscription_status: 0,
+        category_id: 0,
+        product_type_id: 0,
+        type: 2,
+        subscription_id: 0,
+        bill_id: 0,
+      },
+    });
+
     return res.status(200).json({ status: true });
   } catch (error) {
     console.log(error);
@@ -834,8 +864,6 @@ export const newAddOn = async (req, res) => {
 export const createAdditional = async (req, res) => {
   try {
     const { data } = req.body;
-    console.log("hitting");
-    console.log(data);
 
     for (let i = 0; i < data.dates.length; i++) {
       await knex("additional_orders").insert({
@@ -846,6 +874,21 @@ export const createAdditional = async (req, res) => {
       });
     }
 
+    await sendNotification({
+      include_external_user_ids: [ data.user_id.toString()],
+      contents: { en: `Additional Order was Placed for Your Subscription` },
+      headings: { en: "Subscription Notification" },
+      name: "Subscription Updated",
+      data: {
+        subscription_status: "subscribed",
+        category_id: 0,
+        product_type_id: 0,
+        type: 2,
+        subscription_id: data.sub_id,
+        bill_id: 0,
+      },
+    });
+
     return res.status(200).json({ status: true });
   } catch (error) {
     console.log(error);
@@ -855,8 +898,7 @@ export const createAdditional = async (req, res) => {
 export const editAdditional = async (req, res) => {
   try {
     const { data } = req.body;
-    console.log("hitting");
-    console.log(data);
+
 
     await knex("additional_orders")
       .where({
@@ -874,6 +916,20 @@ export const editAdditional = async (req, res) => {
         date: data.dates[i],
       });
     }
+    await sendNotification({
+      include_external_user_ids: [ data.user_id.toString()],
+      contents: { en: `Additional Order was Updated for Your Subscription` },
+      headings: { en: "Subscription Notification" },
+      name: "Subscription Updated",
+      data: {
+        subscription_status: "subscribed",
+        category_id: 0,
+        product_type_id: 0,
+        type: 2,
+        subscription_id: data.sub_id,
+        bill_id: 0,
+      },
+    });
 
     return res.status(200).json({ status: true });
   } catch (error) {
@@ -889,6 +945,21 @@ export const cancelAdditional = async (req, res) => {
     await knex("additional_orders")
       .update({ status: "cancelled", is_cancelled: "1" })
       .where({ subscription_id: sub_id, user_id });
+
+      await sendNotification({
+        include_external_user_ids: [ user_id.toString()],
+        contents: { en: `Additional Order was Cancelled for Your Subscription` },
+        headings: { en: "Subscription Notification" },
+        name: "Subscription Updated",
+        data: {
+          subscription_status: "subscribed",
+          category_id: 0,
+          product_type_id: 0,
+          type: 2,
+          subscription_id: sub_id,
+          bill_id: 0,
+        },
+      });
 
     req.flash("success", "SuccessFully Additional Orders Cancelled");
     res.redirect(
@@ -909,6 +980,23 @@ export const unsubscribeSubscription = async (req, res) => {
       .update({ subscription_status: "unsubscribed" })
       .where({ id: sub_id, user_id });
 
+
+      await sendNotification({
+        include_external_user_ids: [ user_id.toString()],
+        contents: { en: `Your Subscription Was UnSubscribed` },
+        headings: { en: "Subscription Notification" },
+        name: "Subscription Updated",
+        data: {
+          subscription_status: "subscribed",
+          category_id: 0,
+          product_type_id: 0,
+          type: 2,
+          subscription_id: sub_id,
+          bill_id: 0,
+        },
+      });
+
+
     req.flash("success", "UnSubscribed SuccessFully");
     res.redirect(
       `/branch_admin/user/single_user?user_address_id=${user_address_id}`
@@ -926,6 +1014,21 @@ export const subscribeSubscription = async (req, res) => {
     await knex("subscribed_user_details")
       .update({ subscription_status: "subscribed" })
       .where({ id: sub_id, user_id });
+
+      await sendNotification({
+        include_external_user_ids: [ user_id.toString()],
+        contents: { en: `Your Subscription Was Re Subscribed SuccessFully` },
+        headings: { en: "Subscription Notification" },
+        name: "Subscription Updated",
+        data: {
+          subscription_status: "subscribed",
+          category_id: 0,
+          product_type_id: 0,
+          type: 2,
+          subscription_id: sub_id,
+          bill_id: 0,
+        },
+      });
 
     req.flash("success", "Subscribed SuccessFully");
     res.redirect(
@@ -952,6 +1055,21 @@ export const createPaused = async (req, res) => {
       });
     }
 
+    await sendNotification({
+      include_external_user_ids: [ data.user_id.toString()],
+      contents: { en: `Paused Dates Created for Your Subscription` },
+      headings: { en: "Subscription Notification" },
+      name: "Subscription Updated",
+      data: {
+        subscription_status: "subscribed",
+        category_id: 0,
+        product_type_id: 0,
+        type: 2,
+        subscription_id: data.sub_id,
+        bill_id: 0,
+      },
+    });
+
     return res.status(200).json({ status: true });
   } catch (error) {
     console.log(error);
@@ -976,6 +1094,21 @@ export const editPaused = async (req, res) => {
         });
       }
     }
+
+    await sendNotification({
+      include_external_user_ids: [ data.user_id.toString()],
+      contents: { en: `Paused Dates Updated for Your Subscription` },
+      headings: { en: "Subscription Notification" },
+      name: "Subscription Updated",
+      data: {
+        subscription_status: "subscribed",
+        category_id: 0,
+        product_type_id: 0,
+        type: 2,
+        subscription_id: data.sub_id,
+        bill_id: 0,
+      },
+    });
 
     return res.status(200).json({ status: true });
   } catch (error) {
@@ -1002,6 +1135,22 @@ export const updateQty = async (req, res) => {
     await knex("subscribed_user_details")
       .update({ quantity: data.qty })
       .where({ user_id: data.user_id, id: data.sub_id });
+
+      await sendNotification({
+        include_external_user_ids: [ data.user_id.toString()],
+        contents: { en: `Subscription Quantity Updated` },
+        headings: { en: "Subscription Notification" },
+        name: "Subscription Updated",
+        data: {
+          subscription_status: "subscribed",
+          category_id: 0,
+          product_type_id: 0,
+          type: 2,
+          subscription_id: data.sub_id,
+          bill_id: 0,
+        },
+      });
+
     return res.status(200).json({ status: true });
   } catch (error) {
     console.log(error);
