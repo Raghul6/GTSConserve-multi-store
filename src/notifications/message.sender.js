@@ -59,32 +59,32 @@
 //   };
 
 // new one signal
-export const sendNotification = function(data) {
-  var headers = {
-    "Content-Type": "application/json; charset=utf-8",
-    "Authorization": `Basic ${process.env.ONE_SIGNAL_REST_API_KEY}`
-  };
-  var options = {
-    host: "onesignal.com",
-    port: 443,
-    path: "/api/v1/notifications",
-    method: "POST",
-    headers: headers
-  };
-  var https = require('https');
-  var req = https.request(options, function(res) {  
-    res.on('data', function(data) {
-      console.log("Response:");
-      console.log(JSON.parse(data));
-    });
-  });
-  req.on('error', function(e) {
-    console.log("ERROR:");
-    console.log(e);
-  });
-  req.write(JSON.stringify(data));
-  req.end();
-};
+// export const sendNotification = function(data) {
+//   var headers = {
+//     "Content-Type": "application/json; charset=utf-8",
+//     "Authorization": `Basic ${process.env.ONE_SIGNAL_REST_API_KEY}`
+//   };
+//   var options = {
+//     host: "onesignal.com",
+//     port: 443,
+//     path: "/api/v1/notifications",
+//     method: "POST",
+//     headers: headers
+//   };
+//   var https = require('https');
+//   var req = https.request(options, function(res) {  
+//     res.on('data', function(data) {
+//       console.log("Response:");
+//       console.log(JSON.parse(data));
+//     });
+//   });
+//   req.on('error', function(e) {
+//     console.log("ERROR:");
+//     console.log(e);
+//   });
+//   req.write(JSON.stringify(data));
+//   req.end();
+// };
 // var message = {
 //   "app_id": "5eb5a37e-b458-11",
 //   "name": "Identifier for SMS Message",
@@ -110,21 +110,21 @@ export const sendNotification = function(data) {
 // import axios from "axios"
 import nodemailer from "nodemailer"
 
-// export const sendNotification = async (data) => {
+export const sendNotification = async (data) => {
   
-//   try {
-//     let instance = axios.create({
-//       baseURL: "https://onesignal.com/api/v1/notifications",
-//       headers: {
-//         authorization: `Basic ${process.env.ONE_SIGNAL_REST_API_KEY}`,
-//       },
-//     });
-//     console.log('l')
+  try {
+    let instance = axios.create({
+      baseURL: "https://onesignal.com/api/v1/notifications",
+      headers: {
+        authorization: `Basic ${process.env.ONE_SIGNAL_REST_API_KEY}`,
+      },
+    });
+    console.log('l')
 
-//     const response = await instance.post(
-//       `?app_id=${process.env.ONESIGNAL_APP_ID}`,data
+    // const response = await instance.post(
+    //   `?app_id=${process.env.ONESIGNAL_APP_ID}`,data
      
-//     );
+    // );
 
 //     console.log('2')
 //   console.log(response)
@@ -137,6 +137,46 @@ import nodemailer from "nodemailer"
 // };
 
 
+
+    data.small_icon = "notify_icon"
+    data.large_icon = "https://pickneats.com/yummychopps/dashboard/assets/img/favicon.png";
+
+    const response = await instance.post(
+      `?app_id=${process.env.ONESIGNAL_APP_ID}`,
+      data
+    );
+
+
+    return { status: true };
+  } catch (error) {
+    console.log(error.data);
+    return { status: false };
+  }
+};
+
+
+// const test = sendNotification({
+//   included_segments: ["Subscribed Users"],
+//   include_phone_numbers: ["+19840730996"],
+//   contents: { en: "Successfully Appoinment Created" },
+//   name: "Appoinment",
+//   data: {
+//     appointment_status: "1",
+//     hospital_id: 0,
+//     type: 0,
+//     appointment_id: "1",
+//     // smallIcon: "0",
+//   },
+// });
+
+//call the above function
+// test
+//   .then((res) => {
+//     console.log(res);
+//   })
+//   .catch((e) => {
+//     console.log(e);
+//   });
 
  
 export const transporter = nodemailer.createTransport({
