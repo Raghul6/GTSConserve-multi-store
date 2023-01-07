@@ -1,8 +1,8 @@
 import responseCode from "../../constants/responseCode";
 import messages from "../../constants/messages";
 import axios from "axios"
-import { sendNotification } from "../../notifications/message.sender";
 import moment from "moment";
+import { sendNotification } from "../../notifications/message.sender";
 
 import {
   new_subscription,
@@ -31,19 +31,6 @@ export const removeAdditionalOrder = async (req, res) => {
       status: "pending",
       user_id: userId,
     });
-
-    // await sendNotification({
-    //   include_external_user_ids: [userId],
-    //   contents: { en: `Addon Products Created notificaiton` },
-    //   headings: { en: "Addon Products Notification" },
-    //   name: "Addon Products",
-    //   data: {
-    //     status: "pending",
-    //     type: 1,
-    //     // appointment_id: user._id,
-    //     // appointment_chat_id: user_chat._id
-    //   },
-    // });
 
     res
       .status(responseCode.SUCCESS)
@@ -127,6 +114,21 @@ export const createAdditionalOrder = async (req, res) => {
       });
     });
 
+    await sendNotification({
+      include_external_user_ids: [userId.toString()],
+      contents: { en: `Your Additional Order Placed SuccessFully` },
+      headings: { en: "Subscription Notification" },
+      name: "Additional Order",
+      data: {
+        subscription_status: "pending",
+        category_id: 0,
+        product_type_id: 0,
+        type: 2,
+        subscription_id: subscription_id[0],
+        bill_id: 0,
+      },
+    });
+
     return res
       .status(responseCode.SUCCESS)
       .json({ status: true, message: "Additional Order Added SuccessFully" });
@@ -201,22 +203,6 @@ export const newSubscription = async (req, res) => {
       customized_days
     );
     console.log(userId)
-
-  
-    const message = {
-      app_id: process.env.ONESIGNAL_APP_ID,
-      contents: {"en": "This Is testing Message"},
-      "filters": [{"field": "tag", "key": "level", "relation": ">", "value": "10"},{"operator": "OR"},{"field": "amount_spent", "relation": ">","value": "0"}],
-      include_external_user_ids: [userId],
-      small_icon: "notify_icon",
-      large_icon :
-      "https://pickneats.com/yummychopps/dashboard/assets/img/favicon.png",
-      
-    };
-    sendNotification(message);
-
-    console.log(message)
-
     
     if (subscription.status) {
       return res

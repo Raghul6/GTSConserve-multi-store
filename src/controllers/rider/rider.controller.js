@@ -128,7 +128,7 @@ export const updateRiderstatus = async (req, res) => {
         headings: { en: "RIDER CAN UPDATED" },
         name: "Addon Products",
         data: {
-          status: "new_order",
+          status: "pending",
           type: 4,
           // appointment_id: user._id,
           // appointment_chat_id: user_chat._id
@@ -161,18 +161,18 @@ export const updeteRiderLocation = async (req, res) => {
     }
     const location = await update_location(delivery_partner_id, latitude, longitude);
 
-    // await sendNotification({
-      //   include_external_user_ids: [userId],
-      //   contents: { en: `Addon Products Created notificaiton` },
-      //   headings: { en: "Addon Products Notification" },
-      //   name: "Addon Products",
-      //   data: {
-      //     status: "new_order",
-      //     type: 2,
-      //     // appointment_id: user._id,
-      //     // appointment_chat_id: user_chat._id
-      //   },
-      // });
+    await riderSendNotification({
+      include_external_user_ids: [delivery_partner_id],
+      contents: { en: `Rider Location Updated notificaiton` },
+      headings: { en: "RIDER CAN UPDATED" },
+      name: "Addon Products",
+      data: {
+        status: "pending",
+        type: 4,
+        // appointment_id: user._id,
+        // appointment_chat_id: user_chat._id
+      },
+    });
 
     return res.status(responseCode.SUCCESS).json({ status: true, message: "ok" })
   }
@@ -196,18 +196,18 @@ export const updateStartTour = async (req, res) => {
 
     const starttour = await update_starttour(delivery_partner_id, tour_id, tour_status);
 
-    // await sendNotification({
-      //   include_external_user_ids: [userId],
-      //   contents: { en: `Addon Products Created notificaiton` },
-      //   headings: { en: "Addon Products Notification" },
-      //   name: "Addon Products",
-      //   data: {
-      //     status: "new_order",
-      //     type: 2,
-      //     // appointment_id: user._id,
-      //     // appointment_chat_id: user_chat._id
-      //   },
-      // });
+    await riderSendNotification({
+      include_external_user_ids: [delivery_partner_id],
+      contents: { en: `Rider Start Tour Updated notificaiton` },
+      headings: { en: "RIDER CAN UPDATED" },
+      name: "Addon Products",
+      data: {
+        status: "new_order",
+        type: 4,
+        // appointment_id: user._id,
+        // appointment_chat_id: user_chat._id
+      },
+    });
 
     if (starttour.status) {
       const route = await knex('routes').select('id').where({ rider_id: delivery_partner_id });
@@ -242,18 +242,18 @@ export const updateEndtour = async (req, res) => {
 
     const endtour = await update_endtour(delivery_partner_id, tour_id, tour_status)
 
-    // await sendNotification({
-      //   include_external_user_ids: [userId],
-      //   contents: { en: `Addon Products Created notificaiton` },
-      //   headings: { en: "Addon Products Notification" },
-      //   name: "Addon Products",
-      //   data: {
-      //     status: "new_order",
-      //     type: 2,
-      //     // appointment_id: user._id,
-      //     // appointment_chat_id: user_chat._id
-      //   },
-      // });
+    await riderSendNotification({
+      include_external_user_ids: [delivery_partner_id],
+      contents: { en: `Rider Rider End Tour Updated notificaiton` },
+      headings: { en: "RIDER CAN UPDATED" },
+      name: "Addon Products",
+      data: {
+        status: "pending",
+        type: 4,
+        // appointment_id: user._id,
+        // appointment_chat_id: user_chat._id
+      },
+    });
 
     if (endtour.status) {
       const route = await knex('routes').select('id').where({ rider_id: delivery_partner_id });
@@ -398,18 +398,18 @@ export const orderStatusUpdate = async (req, res) => {
       .update({ one_liter_in_return: one_liter_count, half_liter_in_return: half_liter_count,bottle_status:"0" })
       .where({ id: user_id })
 
-      // await sendNotification({
-      //   include_external_user_ids: [userId],
-      //   contents: { en: `Addon Products Created notificaiton` },
-      //   headings: { en: "Addon Products Notification" },
-      //   name: "Addon Products",
-      //   data: {
-      //     status: "new_order",
-      //     type: 2,
-      //     // appointment_id: user._id,
-      //     // appointment_chat_id: user_chat._id
-      //   },
-      // });
+      await riderSendNotification({
+        include_external_user_ids: [delivery_partner_id],
+        contents: { en: `Order Status Updated notificaiton` },
+        headings: { en: "RIDER CAN UPDATED" },
+        name: "Addon Products",
+        data: {
+          status: "pending",
+          type: 4,
+          // appointment_id: user._id,
+          // appointment_chat_id: user_chat._id
+        },
+      });
 
     return res.status(responseCode.SUCCESS).json({  data:orderstatus })
 
@@ -483,18 +483,18 @@ export const cancelOrder = async (req, res) => {
 
     const order = await knex('daily_orders').update({ status: order_status }).where({ user_id: user_id, router_id: router[0].id, date: date });
 
-    // await sendNotification({
-      //   include_external_user_ids: [userId],
-      //   contents: { en: `Addon Products Created notificaiton` },
-      //   headings: { en: "Addon Products Notification" },
-      //   name: "Addon Products",
-      //   data: {
-      //     status: "new_order",
-      //     type: 2,
-      //     // appointment_id: user._id,
-      //     // appointment_chat_id: user_chat._id
-      //   },
-      // });
+    await riderSendNotification({
+      include_external_user_ids: [delivery_partner_id],
+      contents: { en: `order cancelled by rider` },
+      headings: { en: "RIDER CAN UPDATED" },
+      name: "order cancelled by rider",
+      data: {
+        status: "pending",
+        type: 4,
+        // appointment_id: user._id,
+        // appointment_chat_id: user_chat._id
+      },
+    });
 
     return res.status(responseCode.SUCCESS).json({ status: true, message: "order cancelled by rider" });
     // if(cancel.status=true){

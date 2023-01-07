@@ -2,7 +2,6 @@
 import knex from "../../services/db.service";
 import moment from "moment";
 import messages from "../../constants/messages";
-
 import { sendNotification } from "../../notifications/message.sender";
 
 export const new_subscription = async (
@@ -53,36 +52,22 @@ export const new_subscription = async (
       }
     }
 
-   
-
-    // const branch_id = await knex("subscribed_user_details")
-    //   .select("branch_id", "router_id")
-    //   .where({
-    //     user_id: userId,
-    //     subscription_status: "subscribed",
-    //     user_address_id,
-    //   });
-    // if (branch_id.length !== 0) {
-    //   query.branch_id = branch_id[0].branch_id;
-    //   query.subscription_status = "branch_pending";
-    // }
-
    const sub_id =  await knex("subscribed_user_details").insert(query);
 
-    await sendNotification({
-      include_external_user_ids: [userId.toString()],
-      contents: { en: `Your Subscription Placed SuccessFully` },
-      headings: { en: "Subscription Notification" },
-      name: "Appoinment Request",
-      data: {
-        subscription_status: "pending",
-        category_id: 0,
-        product_type_id: 0,
-        type: 2,
-        subscription_id: sub_id[0],
-        bill_id: 0,
-      },
-    });
+   await sendNotification({
+    include_external_user_ids: [userId.toString()],
+    contents: { en: `Your Subscription Placed SuccessFully` },
+    headings: { en: "Subscription Notification" },
+    name: "Appoinment Request",
+    data: {
+      subscription_status: "pending",
+      category_id: 0,
+      product_type_id: 0,
+      type: 2,
+      subscription_id: sub_id[0],
+      bill_id: 0,
+    },
+  });
 
 
     return { status: true };
@@ -233,6 +218,22 @@ export const remove_subscription = async (user_id, subscription_id) => {
     const remove = await knex("subscribed_user_details")
       .update({ subscription_status: "unsubscribed" })
       .where({ user_id: user_id, id: subscription_id });
+
+      await sendNotification({
+        include_external_user_ids: [user_id.toString()],
+        contents: { en: `Your Additional Order Placed SuccessFully` },
+        headings: { en: "Subscription Notification" },
+        name: "Remove Subscription",
+        data: {
+          subscription_status: "unsubscribed",
+          category_id: 0,
+          product_type_id: 0,
+          type: 2,
+          subscription_status: subscription_status[0],
+          bill_id: 0,
+        },
+      });
+
     return { status: true, message: "SuccessFully Updated" };
   } catch (error) {
     console.log(error);
@@ -245,6 +246,21 @@ export const remove_subscription = async (user_id, subscription_id) => {
 export const change_quantity = async (userId,subscription_id,quantity,) => {
   try {
        const change = await knex('subscribed_user_details').update({quantity:quantity}).where({id:subscription_id,user_id:userId});
+
+       await sendNotification({
+        include_external_user_ids: [user_id.toString()],
+        contents: { en: `Your Additional Order Placed SuccessFully` },
+        headings: { en: "Subscription Notification" },
+        name: "Remove Subscription",
+        data: {
+          subscription_status: "pending",
+          category_id: 0,
+          product_type_id: 0,
+          type: 2,
+          bill_id: 0,
+        },
+      });
+
        return { status: true, message: "SuccessFully Updated" };
 
   } catch (error) {
@@ -271,7 +287,23 @@ export const change_quantity = async (userId,subscription_id,quantity,) => {
 
       const subscription_status = await knex('subscribed_user_details').update({subscription_status:"change_plan"}).where({id:subscription_id});
       
+      
       const previous = await knex('subscribed_user_details').select("subscribe_type_id").where({id:subscription_id});
+
+      await sendNotification({
+        include_external_user_ids: [userId].toString(),
+        contents: { en: `Your Subscription Placed SuccessFully` },
+        headings: { en: "Subscription Notification" },
+        name: "Appoinment Request",
+        data: {
+          subscription_status: "change_plan",
+          category_id: 0,
+          product_type_id: 0,
+          type: 2,
+          subscription_id: previous[0],
+          bill_id: 0,
+        },
+      });
       // console.log(previous)
 
       let weekdays = await knex("weekdays").select("id");

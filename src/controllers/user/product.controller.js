@@ -29,19 +29,6 @@ export const removeAddOnOrder = async (req, res) => {
     //  console.log(userId,product_id, delivery_date);
     const remove = await remove_addonorders(product_id, delivery_date,userId);
 
-    // await sendNotification({
-    //   include_external_user_ids: [userId],
-    //   contents: { en: `Addon Products Created notificaiton` },
-    //   headings: { en: "Addon Products Notification" },
-    //   name: "Addon Products",
-    //   data: {
-    //     status: "new_order",
-    //     type: 1,
-    //     // appointment_id: user._id,
-    //     // appointment_chat_id: user_chat._id
-    //   },
-    // });
-
     return res
       .status(responseCode.SUCCESS)
       .json({ status: true, body: remove });
@@ -271,20 +258,6 @@ export const addon_Order = async (req, res) => {
       products,
       address_id
       );
-      
-      console.log(addon.userId)
-    const message = {
-      app_id: process.env.ONESIGNAL_APP_ID,
-      contents: {"en": "This Is testing Message"},
-      include_external_user_ids: [userId],
-      small_icon: "notify_icon",
-      large_icon :
-      "https://pickneats.com/yummychopps/dashboard/assets/img/favicon.png",
-      
-    };
-    sendNotification(message);
-
-    console.log(message)
     
     return res.status(responseCode.SUCCESS).json({
       status: true,

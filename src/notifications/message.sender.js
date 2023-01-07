@@ -107,7 +107,7 @@
   // console.log(message.app_id)
 // };
 
-// import axios from "axios"
+import axios from "axios"
 import nodemailer from "nodemailer"
 
 export const sendNotification = async (data) => {
@@ -119,25 +119,7 @@ export const sendNotification = async (data) => {
         authorization: `Basic ${process.env.ONE_SIGNAL_REST_API_KEY}`,
       },
     });
-    console.log('l')
-
-    // const response = await instance.post(
-    //   `?app_id=${process.env.ONESIGNAL_APP_ID}`,data
-     
-    // );
-
-//     console.log('2')
-//   console.log(response)
-
-//     return { status: true };
-//   } catch (error) {
     
-//     return { status: false };
-//   }
-// };
-
-
-
     data.small_icon = "notify_icon"
     data.large_icon = "https://pickneats.com/yummychopps/dashboard/assets/img/favicon.png";
 
