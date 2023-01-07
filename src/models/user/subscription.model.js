@@ -3,6 +3,7 @@ import knex from "../../services/db.service";
 import moment from "moment";
 import messages from "../../constants/messages";
 
+import { sendNotification } from "../../notifications/message.sender";
 
 export const new_subscription = async (
   userId,
@@ -52,6 +53,8 @@ export const new_subscription = async (
       }
     }
 
+   
+
     // const branch_id = await knex("subscribed_user_details")
     //   .select("branch_id", "router_id")
     //   .where({
@@ -64,7 +67,23 @@ export const new_subscription = async (
     //   query.subscription_status = "branch_pending";
     // }
 
-    await knex("subscribed_user_details").insert(query);
+   const sub_id =  await knex("subscribed_user_details").insert(query);
+
+    await sendNotification({
+      include_external_user_ids: [userId.toString()],
+      contents: { en: `Your Subscription Placed SuccessFully` },
+      headings: { en: "Subscription Notification" },
+      name: "Appoinment Request",
+      data: {
+        subscription_status: "pending",
+        category_id: 0,
+        product_type_id: 0,
+        type: 2,
+        subscription_id: sub_id[0],
+        bill_id: 0,
+      },
+    });
+
 
     return { status: true };
   } catch (error) {

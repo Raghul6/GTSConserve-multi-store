@@ -108,17 +108,15 @@ export const sendNotification = async (data) => {
       },
     });
 
-    console.log(instance)
 
-    data.small_icon = process.env.SMALL_ICON;
-    data.large_icon = process.env.LARGE_ICON;
+    data.small_icon = "notify_icon"
+    data.large_icon = "https://pickneats.com/yummychopps/dashboard/assets/img/favicon.png";
 
     const response = await instance.post(
-      `?app_id=${process.env.ONE_SIGNAL_APP_ID}`,
+      `?app_id=${process.env.ONESIGNAL_APP_ID}`,
       data
     );
 
-    console.log(response)
 
     return { status: true };
   } catch (error) {
