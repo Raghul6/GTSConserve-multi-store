@@ -134,6 +134,19 @@ export const getUser = async (req, res) => {
     }
 
     let get_user_detail = {};
+     let status = [];
+    if(user.rider[0].status==0){
+      status.push("rider is assigned")
+    }
+    else if(user.rider[0].status==1){
+      status.push("rider can start the tour and delivered soon")
+    }
+    else if(user.rider[0].status==2){
+      status.push("rider can end the tour")
+    }
+    else{
+      status.push("no rider can assigned")
+    }
 
     user.body.map((data) => {
 
@@ -144,6 +157,8 @@ export const getUser = async (req, res) => {
       : null;
       get_user_detail.mobile_number = data.mobile_number;
       get_user_detail.email = data.email;
+      get_user_detail.rider_name = user.rider[0].name;
+      get_user_detail.rider_status = status;
     });
 
     res

@@ -1,3 +1,6 @@
+// import axios from "axios"
+import nodemailer from "nodemailer"
+
 // sendNotificationToSpecific =function (token) {
 
 // const sdk = require('api')('@onesignal/v9.0#26fd81ml9sbufxr');
@@ -68,18 +71,20 @@
 //   console.log(message.app_id)
 // };
 
-// import axios from "axios"
-import nodemailer from "nodemailer"
+
 
 export const riderSendNotification = async (data) => {
+ 
   try {
+   
     const instance = axios.create({
       baseURL: "https://onesignal.com/api/v1/notifications",
       headers: {
         authorization: `Basic ${process.env.RIDER_REST_API_KEY}`,
       },
+      
     });
-
+    console.log("hi2")
     data.small_icon = "notify_icon";
     data.large_icon =
       "https://pickneats.com/yummychopps/dashboard/assets/img/favicon.png";
@@ -90,7 +95,7 @@ export const riderSendNotification = async (data) => {
       =${process.env.RIDER_APP_ID}`,
       data
     );
-
+    console.log("hi2")
     return { status: true };
   } catch (error) {
     console.log(error.data);
