@@ -640,7 +640,7 @@ export const RiderLocation = async (req,res) => {
   }
   catch(error){
     console.log(error);
-    res.status(500).json({ status: false });
+    res.status(500).json({ status: false, message:"no order placed today SORRY!!!!!" });
   }
 }
 

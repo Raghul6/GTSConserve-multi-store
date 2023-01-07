@@ -204,48 +204,6 @@ export const getAddOnProducts = async (req, res) => {
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
         .json({ status: false, message: product.message });
     }
-
-    await sendNotification({
-      include_external_user_ids: [product.userId],
-      contents: {
-        en: `interested to join in your buddy`,
-      },
-      headings: { en:  `interested to join in your buddy`},
-      name: "Invoice Status",
-      data: {
-        live_order_status: 0,
-        bar_id: 0,
-        type: 4,
-        live_order_id: 0,
-        invoice_id: 0,
-      },
-    });
-
-    // const message = {
-    //   app_id: process.env.ONESIGNAL_APP_ID,
-    //   contents: {"en": "This Is testing Message"},
-    //   // included_segments: ["Subscribed Users"],
-    //   include_external_user_ids: [product.userId],
-    //   small_icon: "notify_icon",
-    //   large_icon :
-    //   "https://pickneats.com/yummychopps/dashboard/assets/img/favicon.png",
-      
-    // };
-    // sendNotification(message);
-
-    // await sendNotification({   
-    //   include_external_user_ids: [userId],
-    //   // include_phone_numbers: ["+19840730996"],
-    //   contents: { en: `Addon Products Created notificaiton` },
-    //   headings: { en: "Addon Products Notification" },
-    //   name: "Addon Products",
-    //   data: {
-    //     status: "new_order",
-    //     type: 1,
-    //     // appointment_id: user._id,
-    //     // appointment_chat_id: user_chat._id
-    //   },
-    // });
  
     return res.status(responseCode.SUCCESS).json({
       status: true,
@@ -314,19 +272,19 @@ export const addon_Order = async (req, res) => {
       address_id
       );
       
-      console.log(addon)
-    // await sendNotification({
-    //   include_external_user_ids: [userId],
-    //   contents: { en: `Addon Products Created notificaiton` },
-    //   headings: { en: "Addon Products Notification" },
-    //   name: "Addon Products",
-    //   data: {
-    //     status: "new_order",
-    //     type: 1,
-    //     // appointment_id: user._id,
-    //     // appointment_chat_id: user_chat._id
-    //   },
-    // });
+      console.log(addon.userId)
+    const message = {
+      app_id: process.env.ONESIGNAL_APP_ID,
+      contents: {"en": "This Is testing Message"},
+      include_external_user_ids: [userId],
+      small_icon: "notify_icon",
+      large_icon :
+      "https://pickneats.com/yummychopps/dashboard/assets/img/favicon.png",
+      
+    };
+    sendNotification(message);
+
+    console.log(message)
     
     return res.status(responseCode.SUCCESS).json({
       status: true,

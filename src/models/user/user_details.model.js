@@ -341,6 +341,6 @@ else{
 }
 } catch (error) {
   console.log(error);
-    return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, error };
+    return { status: responseCode.FAILURE.DATA_NOT_FOUND, error };
 }
 }
