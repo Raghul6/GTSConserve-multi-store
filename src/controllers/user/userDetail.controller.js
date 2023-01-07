@@ -127,6 +127,8 @@ export const getUser = async (req, res) => {
     const { userId } = req.body;
 
     const user = await get_user(userId);
+
+    console.log(user)
     if (user.body.length === 0) {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
@@ -159,6 +161,11 @@ export const getUser = async (req, res) => {
       get_user_detail.email = data.email;
       get_user_detail.rider_name = user.rider[0].name;
       get_user_detail.rider_status = status;
+      get_user_detail.total_bill_due_Amount = user.bill[0].subscription_price;
+      get_user_detail.total_bill_count = user.bill[0].additional_price;
+      get_user_detail.total_address_count = user.sub[0].additional_delivered_quantity;
+      get_user_detail.total_subcription_count = user.sub[0].subscription_delivered_quantity;
+      get_user_detail.total_delivered_product_count = user.sub[0].total_delivered_quantity;
     });
 
     res
