@@ -92,13 +92,26 @@ export const edit_address = async (
   }
 };
 
-export const get_user = async (id) => {
+export const get_user = async (id,userId) => {
   const getuser = await knex
     .select("id", "name", "image", "mobile_number", "email")
     .from("users")
     .where({ id });
+    // console.log(getuser)
+  const rider = await knex('daily_orders')
+  .join("routes","routes.id","=","daily_orders.router_id")
+  .join("rider_details","rider_details.id","=","routes.rider_id")
+  .select(
+    "rider_details.id",
+    "rider_details.name",
+    "rider_details.tour_status as status"
+  )
+  .where({user_id: id})
+
+  // console.log(rider)
+
   try {
-    return { status: responseCode.SUCCESS, body: getuser };
+    return { status: responseCode.SUCCESS, body: getuser,rider };
   } catch (error) {
     console.log(error);
     return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, error };

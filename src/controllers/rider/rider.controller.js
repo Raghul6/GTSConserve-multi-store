@@ -4,13 +4,13 @@ import { get_Appcontrol, get_riderdetails, statusupdate, update_endtour, update_
 import responseCode from '../../constants/responseCode';
 import knex from '../../services/db.service'
 import { userValidator } from '../../services/validator.service';
-import id from 'date-fns/locale/id/index';
-import { createToken } from "../../services/jwt.service";
-import { updateRiderToken } from "../../models/rider/rider.model";
+// import id from 'date-fns/locale/id/index';
+// import { createToken } from "../../services/jwt.service";
+// import { updateRiderToken } from "../../models/rider/rider.model";
 import bcrypt from "bcrypt";
 import haversine from "haversine-distance";
 import { riderSendNotification } from '../../notifications/rider.message.sender';
-
+// import { riderSendNotification } from '../../notifications/rider.message.sender';
 
 
 
@@ -122,18 +122,18 @@ export const updateRiderstatus = async (req, res) => {
     }
     const riderstatus = await update_riderstatus(delivery_partner_id, status)
 
-    // await sendNotification({
-      //   include_external_user_ids: [userId],
-      //   contents: { en: `Addon Products Created notificaiton` },
-      //   headings: { en: "Addon Products Notification" },
-      //   name: "Addon Products",
-      //   data: {
-      //     status: "new_order",
-      //     type: 2,
-      //     // appointment_id: user._id,
-      //     // appointment_chat_id: user_chat._id
-      //   },
-      // });
+    await riderSendNotification({
+        include_external_user_ids: [delivery_partner_id],
+        contents: { en: `Addon Products Created notificaiton` },
+        headings: { en: "RIDER CAN UPDATED" },
+        name: "Addon Products",
+        data: {
+          status: "new_order",
+          type: 4,
+          // appointment_id: user._id,
+          // appointment_chat_id: user_chat._id
+        },
+      });
 
     if (riderstatus.status) {
       return res.status(responseCode.SUCCESS).json(riderstatus)
