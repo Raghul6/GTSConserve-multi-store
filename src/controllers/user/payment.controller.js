@@ -113,10 +113,10 @@ export const getRazorpayMethod = async (req, res) => {
         };
         const response = await razorpay.orders.create(options);
 
-        console.log(response.id)
+        // console.log(response.id)
 
-            const payment = await knex('bill_history_details').insert({"razorpay_bill_id":response.id})
-            .where({id: order_id})
+        //     const payment = await knex('bill_history_details').insert({"razorpay_bill_id":response.id})
+        //     .where({id: order_id})
      
 
         // console.log(payment)
