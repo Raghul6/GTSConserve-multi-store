@@ -71,7 +71,19 @@ export const getPaymentStatusUpdate = async (req, res) => {
             token 
         } = req.body
 
-        // const response = await knex('')
+        if (!payment_type && !payment_status) {
+            return res
+                .status(responseCode.FAILURE.DATA_NOT_FOUND)
+                .json({ status: false, message: messages.MANDATORY_ERROR });
+        }
+
+        const response = await knex('bill_history').update({
+            payment_status: payment_status 
+        })
+
+        const type = await knex('payment_gateways').update({
+            payment_type: payment_type 
+        })
 
 
         res.status(200).json({ status: true, message: "Ok" })
@@ -112,14 +124,6 @@ export const getRazorpayMethod = async (req, res) => {
 
         };
         const response = await razorpay.orders.create(options);
-
-        // console.log(response.id)
-
-        //     const payment = await knex('bill_history_details').insert({"razorpay_bill_id":response.id})
-        //     .where({id: order_id})
-     
-
-        // console.log(payment)
 
         await sendNotification({
             include_external_user_ids: [order_id.toString()],
