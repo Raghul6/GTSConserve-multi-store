@@ -203,6 +203,8 @@ export const getCategory = async (req, res) => {
       }
     }
 
+    console.log(data)
+
 
     for (let i = 0; i < data.length; i++) {
       data[i].image = process.env.BASE_URL + data[i].image;

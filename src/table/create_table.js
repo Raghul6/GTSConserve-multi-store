@@ -1010,6 +1010,9 @@ export const createTable = async (req, res) => {
           t.enu("status", ["pending", "approved", "cancelled"]).defaultTo(
             "pending"
           );
+          t.enu("is_bill_generated", ["0", "1"]).defaultTo(
+            "0"
+          );
           t.integer("grand_total").nullable();
 
           t.timestamps(true, true);
@@ -1141,6 +1144,31 @@ export const createTable = async (req, res) => {
         });
       }
     });
+
+// branch bills
+    await knex.schema.hasTable("branch_bills").then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable("branch_bills", function (t) {
+          t.increments("id").primary();
+
+          t.integer("branch_id").unsigned().nullable();
+          t.foreign("branch_id").references("id").inTable("admin_users");
+
+          t.date("generated_date").nullable();
+          t.date("payed_date").nullable();
+          t.date("completed_date").nullable();
+
+          t.enu("payment_status", ["pending", "payed", "completed", "cancelled"]).defaultTo(
+            "pending"
+          );
+          t.integer("grand_total").nullable();
+
+          t.timestamps(true, true);
+        });
+      }
+    });
+
+
 
     return res
       .status(200)
