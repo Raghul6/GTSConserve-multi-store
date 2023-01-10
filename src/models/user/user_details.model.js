@@ -289,6 +289,63 @@ export const get_single_bill = async (bill_id,userId) => {
   }
 }
 
+export const single_calendar_data = async (date,userId, sub_id,id) => {
+  try {
+
+    let add_product = []
+    const products = await knex("subscribed_user_details AS sub")
+      .select(
+        "sub.id as subscription_id",
+        "sub.subscription_status",
+        "products.name as product_name",
+        "products.image as product_image",
+        "products.unit_value as product_variation",
+        "products.price as product_price",
+        // "products.quantity as product_quantity",
+        "unit_types.value as product_variation_type",
+        "subscription_type.name as subscription_mode",
+      )
+      .join("products", "products.id", "=", "sub.product_id")
+      .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+      .join(
+        "subscription_type",
+        "subscription_type.id",
+        "=",
+        "sub.subscribe_type_id"
+      )
+      .join("user_address", "user_address.id", "=", "sub.user_address_id")
+      .where({ "sub.date": date });
+
+      // console.log(products)
+     const additional = await knex("products")
+     .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+     .select(
+       "products.id as product_id",
+       "products.name as product_name",
+       "products.image as product_image",
+       "products.unit_value as product_variation",
+       "unit_types.value as product_variation_type",
+       "products.price as product_price",
+      //  "products.quantity as product_quantity",
+
+     )
+     .where({ "products.product_type_id" : userId});
+    
+     add_product.push(additional)
+      
+
+    if (products.length === 0) {
+      return { status: false, message: "No Subscription Found" };
+    }
+
+    return { status: true, data: products, add_product };
+  } catch (error) {
+    console.log(error);
+    return { status: false, message: "No Subscription Found"};
+  }
+};
+
+
 // rider location 
 export const rider_location = async (userId) => {
 try {
