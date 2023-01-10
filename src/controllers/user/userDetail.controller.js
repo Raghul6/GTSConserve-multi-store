@@ -123,9 +123,10 @@ export const editAddress = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
+  console.log("hi");
   try {
     const { userId } = req.body;
-
+    
     const user = await get_user(userId);
 
     console.log(user)
