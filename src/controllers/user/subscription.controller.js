@@ -320,7 +320,7 @@ export const singleSubscription = async (req, res) => {
     }
 
     const response = {
-      additional_orders: [sub.add_product[0]],
+      additional_orders: sub.add_product[0],
       this_month_item_detail: sub.this_month_item_detail[0],
     };
 
