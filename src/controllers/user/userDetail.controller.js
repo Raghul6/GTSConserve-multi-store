@@ -797,6 +797,7 @@ export const getSingleBillList = async (req, res) => {
     }
 
     const list = await get_single_bill(bill_id);
+    console.log(list)
 
     if (!list) {
       return res
