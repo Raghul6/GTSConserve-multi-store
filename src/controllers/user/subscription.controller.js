@@ -1,6 +1,6 @@
 import responseCode from "../../constants/responseCode";
 import messages from "../../constants/messages";
-import axios from "axios"
+// import axios from "axios"
 import moment from "moment";
 import { sendNotification } from "../../notifications/message.sender";
 
