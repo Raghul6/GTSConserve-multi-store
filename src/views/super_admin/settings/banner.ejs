@@ -162,6 +162,8 @@
                                                 body: JSON.stringify({"id": event.id , "status" : event.value})
                                                 })
                                              
+                                                await  swal("Done", "Status Updated", "success");
+
                                                 window.location.reload("/super_admin/settings/get_banner")
                                             };
                                             </script>
