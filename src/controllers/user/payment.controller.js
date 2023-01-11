@@ -219,7 +219,7 @@ export const getVerifyPaymentMethod = async (req, res) => {
             razorpay_signature_id: digest
         }) .where({user_id:userId,bill_no:order_id})
 
-
+        console.log(signature)
         if (digest === req.headers["x-razorpay-signature"]) {
             console.log("request is properly");
             res.status(200).json({
