@@ -34,7 +34,7 @@ productRouter.post("/remove_add_on_products",authenticateJWT,nonMandatoryToken,r
 
 // next day delivery product api
 
-productRouter.post("/next_day_product",authenticateJWT,nonMandatoryToken,nextDayProduct);
+productRouter.post("/next_day_product",nonMandatoryToken,nextDayProduct);
 
 
 export default productRouter;

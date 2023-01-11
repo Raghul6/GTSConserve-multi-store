@@ -221,19 +221,18 @@ export const userLogin = async (password) => {
 //         }
         const daily = await knex('daily_orders').select('*').where({router_id:router[0].id})
 
-        console.log(daily);
+        // console.log(daily);
         const json_array =  JSON.stringify(daily);
         // await knex('rider_daily_details').insert({
         //   order_details : daily[0],
         // });
 
-        console.log("hi")
-       
-        console.log("hi2")
-        const rider2 = await knex('rider_daily_details').insert({"order_details":json_array}).where({router_id:router[0].id})
+        
+        const rider2 = await knex('rider_daily_details').update({"order_details":json_array}).where({router_id:router[0].id})
 
-        // rider1[0].order_details.push(daily[0]);
+        
 
+        
         return{status:true,message:"successfully updated"}
         }
         else{
