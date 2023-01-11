@@ -244,7 +244,7 @@ export const get_single_bill = async (bill_id,userId) => {
     const getSingleBillList = await knex("bill_history")
     .select(
       "bill_history.id",
-      "bill_history.bill_no",
+      "bill_history.bill_no as bill_id",
       "bill_history.sub_total as bill_value",
       "bill_history.date",
       "payment_gateways.id as payment_id",
