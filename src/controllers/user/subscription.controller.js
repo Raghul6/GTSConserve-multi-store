@@ -325,9 +325,8 @@ export const singleSubscription = async (req, res) => {
       delete sub.data[i].unit_value;
       delete sub.data[i].unit_type;
     }
-
     const response = {
-      additional_orders: sub.add_product[0],
+      additional_orders: sub.add_product[0]!=null? sub.add_product[0]:[],
       this_month_item_detail: sub.this_month_item_detail[0],
     };
 
