@@ -1,3 +1,4 @@
+
 import knex from "../services/db.service";
 
 export const createTable = async (req, res) => {
@@ -615,6 +616,9 @@ export const createTable = async (req, res) => {
             "removed",
             "cancelled",
           ]).defaultTo("pending");
+          t.enu("remove_status", [
+            "0","1",
+          ]).defaultTo("0");
           t.string("quantity", 255).nullable();
           t.integer("tax_price").nullable();
           t.integer("price").nullable();
