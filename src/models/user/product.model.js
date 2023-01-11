@@ -1,6 +1,7 @@
 import e from "connect-flash";
 import knex from "../../services/db.service";
 import { GetProduct } from "../../utils/helper.util";
+import { sendNotification } from "../../notifications/message.sender";
 import moment from "moment";
 
 
@@ -200,12 +201,12 @@ export const addon_order = async (
 };
 
 
-export const remove_addonorders = async (userId,product_id , delivery_date) => {
+export const remove_addonorders = async (product_id,delivery_date,userId ) => {
   // console.log("hi");
   try{
       console.log(userId)
    const addon_status = await knex('add_on_orders').select('status','id')
-   .where({delivery_date:delivery_date, user_id: userId})
+   .where({ user_id: userId, delivery_date:delivery_date})
 
    console.log(addon_status)
 
@@ -221,9 +222,11 @@ export const remove_addonorders = async (userId,product_id , delivery_date) => {
 
     const select1 = await knex('add_on_orders')
     .select("sub_total")
-    .where({id:addon_status[0].id,delivery_date:delivery_date});   
-
-
+    .where({id:addon_status[0].id,delivery_date:delivery_date});
+    
+    
+    console.log(select1[0].price)
+    
     const total = select1[0].sub_total-select[0].price;
 
     // console.log(total)
