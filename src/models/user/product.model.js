@@ -220,12 +220,14 @@ export const remove_addonorders = async (product_id,delivery_date,userId ) => {
     .select("price")
     .where({product_id:product_id,add_on_order_id:addon_status[0].id, status :"removed"});
 
+    console.log(select)
+
     const select1 = await knex('add_on_orders')
     .select("sub_total")
     .where({id:addon_status[0].id,delivery_date:delivery_date});
     
     
-    console.log(select1[0].price)
+    console.log(select1)
     
     const total = select1[0].sub_total-select[0].price;
 
@@ -249,7 +251,7 @@ export const remove_addonorders = async (product_id,delivery_date,userId ) => {
         category_id: 0,
         product_type_id: 0,
         type: 2,
-        subscription_id: select1.id[0],
+        subscription_id: addon_status.id,
         bill_id: 0,
       },
     });
