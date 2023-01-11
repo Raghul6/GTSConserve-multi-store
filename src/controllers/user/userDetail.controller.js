@@ -634,13 +634,14 @@ export const getSingleCalendarEvent = async (req, res) => {
       }
 
       const response = {
+        subscription_products: [sub.data[0]],
         addons_products: sub.add_product[0],
 
       };
 
       return res
         .status(responseCode.SUCCESS)
-        .json({ status: true, data: { ...sub.data[0], ...response } });
+        .json({ status: true, data: { ...response } });
     }
   } catch (error) {
     console.log(error);

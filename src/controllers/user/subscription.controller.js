@@ -302,7 +302,7 @@ export const singleSubscription = async (req, res) => {
       sub.data[i].price = sub.data[i].price;
       sub.data[i].demo_price = sub.data[i].demo_price;
       sub.data[i].date = moment().format("YYYY-MM-DD");
-
+      
       for (let j = 0; j < sub.add_product.length; j++) {  
         console.log( sub.add_product[0][j].id)    
       sub.add_product[0][j].id = sub.add_product[0][j].id;
