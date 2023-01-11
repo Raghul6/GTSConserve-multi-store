@@ -226,11 +226,24 @@ export const checkAddress = async (id) => {
 };
 
 export const get_user_bill = async (userId) => {
-  const getuser = await knex
-    .select("id", "payment_status","bill_no", "sub_total")
+  const getuser = await knex("bill_history")
+    .join("bill_history_details","bill_history_details.bill_history_id","=","bill_history.id")
+    .select(
+      "bill_history.id", 
+      "bill_history.payment_status",
+      "bill_history.bill_no", 
+      "bill_history.sub_total",
+      'bill_history_details.total_qty as items')
     .from("bill_history")
     .where({ user_id: userId });
     console.log(getuser)
+
+    const items = await knex('bill_history_details').select('total_qty').where({bill_history_id:getuser[0].id})
+    let sum = 0;
+    for (let i=0;i<items.length;i++){
+      sum+=items[i].total_qty;
+    }
+    console.log(sum)
   try {
     return { status: responseCode.SUCCESS, body: getuser };
   } catch (error) {
