@@ -269,33 +269,56 @@ export const get_single_bill = async (bill_id,userId) => {
     .where({"bill_history.user_id": userId})
    
 
-    const sub_products = await knex("subscribed_user_details as sub").select(
-      "sub.product_id",
-      "sub.quantity",
-      "unit_types.name",
-      "unit_types.id",
-      "products.price"
+    const subscription_products = await knex("subscribed_user_details as sub").select(
+       "sub.id as subscription_id",
+        "sub.subscription_status",
+        "products.name as product_name",
+        "products.image as product_image",
+        "products.unit_value as product_variation",
+        "products.price as product_price",
+        "sub.quantity as product_quantity",
+        "unit_types.value as product_variation_type",
+        
     )
     .join("products","products.id","=","sub.user_id")
     .join("unit_types","unit_types.id","=","unit_type_id")
+    // .join("subscription_type.id","=","products.unit_type_id")
     .where({"sub.user_id": userId })
+
+    const additional_order_product = await knex("subscribed_user_details AS sub").select(
+      "additional_orders.id as product_id",
+      "additional_orders.quantity as no_quantity",
+      "products.name as product_name",
+      "products.price as product_total",
+      "additional_orders.price as recipe_price",
+      "products.unit_value as variation_id",
+      "unit_types.value as variation_name",
+    )
+    .join("additional_orders","additional_orders.user_id","=","sub.user_id")
+    .join("products", "products.id", "=", "sub.product_id")
+    .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+    .where({'additional_orders.user_id':userId })
 
 
     const add_on_products = await knex("add_on_order_items as add").select(
-      "add.product_id",
-      "add.quantity",
+      "add.product_id as product_id",
+      "add.quantity as no_quantity",
       "unit_types.id as variation_id",
       "unit_types.name as variation_type",
-      "products.unit_value",
-      "add.total_price",
+      "products.unit_value as variation_name",
+      "add.total_price as product_total",
+    
     )
     .join("products","products.id","=","add.user_id")
     .join("unit_types","unit_types.id","=","products.unit_type_id")
+    
     .where({ "add.user_id": userId })
+
+    
     
 
     // console.log(sub_products)
-      return { data: getSingleBillList, sub_products, add_on_products };
+      return { data: getSingleBillList, subscription_products, add_on_products, additional_order_product };
   } catch (error) {
     console.log(error);
     return { status: responseCode.FAILURE.INTERNAL_SERVER_ERROR, error };
@@ -357,7 +380,7 @@ export const single_calendar_data = async (date,userId, sub_id,id) => {
       "additional_orders.id as additional_order_id",
      )
      .where({ "subscribed_user_details.user_id" : userId});
-     console.log(additional)
+    //  console.log(additional)
      additional1.push(additional)
 
      const additional2 = await knex("add_on_orders")
@@ -376,7 +399,7 @@ export const single_calendar_data = async (date,userId, sub_id,id) => {
      )
      .where({"add_on_orders.user_id" : userId});
 
-    //  console.log(additional2)
+     console.log(additional2)
      add_product.push(additional2)
 
     if (products.length === 0) {
