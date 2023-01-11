@@ -260,15 +260,15 @@ export const get_single_bill = async (bill_id,userId) => {
       "bill_history.bill_no as bill_id",
       "bill_history.sub_total as bill_value",
       "bill_history.date",
-      "payment_gateways.id as payment_id",
-      "payment_gateways.status as payment_status",
+      "bill_history.razorpay_payment_id as payment_id",
+      "bill_history.status as payment_status",
       "add_on_orders.sub_total as sub_total",
     )
     .join("payment_gateways","payment_gateways.user_id","=","bill_history.user_id")
     .join("add_on_orders","add_on_orders.user_id","=","payment_gateways.user_id")
     .where({"bill_history.user_id": userId})
    
-
+console.log(getSingleBillList)
     const sub_products = await knex("subscribed_user_details as sub").select(
       "sub.product_id",
       "sub.quantity",
@@ -318,8 +318,8 @@ export const single_calendar_data = async (date,userId, sub_id,id) => {
         // "products.quantity as product_quantity",
         "unit_types.value as product_variation_type",
         "subscription_type.name as subscription_mode",
-        "additional_orders.id as additional_order_id",
-        "additional_orders.additional_orders_parent_id as additional_order_parent_id",
+        // "additional_orders.id as additional_order_id",
+        // "additional_orders.additional_orders_parent_id as additional_order_parent_id",
       )
       .join("additional_orders", "additional_orders.subscription_id", "=", "sub.id")
       .join("products", "products.id", "=", "sub.product_id")

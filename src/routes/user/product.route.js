@@ -29,7 +29,7 @@ productRouter.post("/get_single_product",nonMandatoryToken,authenticateJWT,getSi
 
 
 productRouter.post("/create_add_on_products", authenticateJWT,nonMandatoryToken,addon_Order);
-productRouter.post("/remove_add_on_products",authenticateJWT,nonMandatoryToken,removeAddOnOrder);
+productRouter.post("/remove_add_on_products",nonMandatoryToken,authenticateJWT,nonMandatoryToken,removeAddOnOrder);
 
 
 // next day delivery product api

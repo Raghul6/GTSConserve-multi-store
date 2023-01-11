@@ -859,6 +859,10 @@ export const createTable = async (req, res) => {
             "success",
             "payment_failed",
           ]).defaultTo("pending");
+          t.enu("status", [
+            "0",
+            "1",
+          ]).defaultTo("0");
           t.string("razorpay_bill_id", 255);
           t.timestamps(true, true);
         });

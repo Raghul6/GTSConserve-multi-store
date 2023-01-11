@@ -156,7 +156,7 @@ export const getRazorpayMethod = async (req, res) => {
 
         const signature = await knex('bill_history')
         .update({
-            razorpay_payment_id: response.id
+            razorpay_payment_id: response.id,status:"1"
         }) .where({user_id:userId,bill_no:order_id})
 
         if (!signature) {
