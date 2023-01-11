@@ -253,7 +253,7 @@ export const get_single_bill = async (bill_id,userId) => {
     )
     .join("payment_gateways","payment_gateways.user_id","=","bill_history.user_id")
     .join("add_on_orders","add_on_orders.user_id","=","payment_gateways.user_id")
-    .where({user_id: bill_id})
+    .where({"bill_history.user_id": userId})
    
 
     const sub_products = await knex("subscribed_user_details as sub").select(
@@ -265,7 +265,7 @@ export const get_single_bill = async (bill_id,userId) => {
     )
     .join("products","products.id","=","sub.user_id")
     .join("unit_types","unit_types.id","=","unit_type_id")
-    .where({ user_id: bill_id })
+    .where({"sub.user_id": userId })
 
 
     const add_on_products = await knex("add_on_order_items as add").select(
@@ -278,7 +278,7 @@ export const get_single_bill = async (bill_id,userId) => {
     )
     .join("products","products.id","=","add.user_id")
     .join("unit_types","unit_types.id","=","products.unit_type_id")
-    .where({ user_id: bill_id })
+    .where({ "add.user_id": userId })
     
 
     // console.log(sub_products)

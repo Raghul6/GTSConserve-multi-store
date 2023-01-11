@@ -755,6 +755,7 @@ export const getOverallCalendarEvent = async (req, res) => {
 export const getBillList = async (req, res) => {
   try {
     const { userId } = req.body;
+    console.log(userId)
 
     const user = await get_user_bill(userId);
 
@@ -804,7 +805,7 @@ export const getBillList = async (req, res) => {
 
 export const getSingleBillList = async (req, res) => {
   try {
-    const { bill_id } = req.body;
+    const { bill_id,userId } = req.body;
 
     if (!bill_id) {
       return res
@@ -812,7 +813,7 @@ export const getSingleBillList = async (req, res) => {
         .json({ status: false, message: "Cannot find bill list" });
     }
 
-    const list = await get_single_bill(bill_id);
+    const list = await get_single_bill(bill_id,userId);
     console.log(list)
 
     if (!list) {

@@ -128,17 +128,12 @@ export const getRazorpayMethod = async (req, res) => {
 
         // console.log(userId)
 
-        const pay = await getPayment(amount, order_id, userId)
-        
-
-        
-
         if (!amount && !order_id) {
             return res
                 .status(responseCode.FAILURE.DATA_NOT_FOUND)
                 .json({ status: false, message: messages.MANDATORY_ERROR });
         }
-//console.log(pay);
+
         var razorpay = new Razorpay({
             key_id: process.env.RAZORPAY_KEY_ID,
             key_secret: process.env.RAZORPAY_KEY_SECRET,
@@ -156,21 +151,22 @@ export const getRazorpayMethod = async (req, res) => {
             receipt: order_id,
 
         };
-        // const signature = await knex('users').select('id')
-        // .insert({
-        //     razorpay_payment_id: options.id
-        // }) .where({"users.id":userId})
-        // console.log(options[0].id)
+        
         const response = await razorpay.orders.create(options);
 
-        
-        //  .into('')
-       
-        
-        // console.log(signature)
+        const signature = await knex('bill_history')
+        .update({
+            razorpay_payment_id: response.id
+        }) .where({user_id:userId,bill_no:order_id})
+
+        if (!signature) {
+            return res
+                .status(responseCode.FAILURE.DATA_NOT_FOUND)
+                .json({ status: false, message: "please check bill number" });
+        }
 
         await sendNotification({
-            include_external_user_ids: [order_id.toString()],
+            include_external_user_ids: [userId.toString()],
             contents: { en: `Your Razorpay Placed SuccessFully` },
             headings: { en: "Razorpay Notification" },
             name: "Razorpay Notification",
@@ -199,6 +195,7 @@ export const getRazorpayMethod = async (req, res) => {
 export const getVerifyPaymentMethod = async (req, res) => {
     try {
         const {
+            userId,
             order_id,
             payment_id,
         } = req.body
@@ -215,8 +212,14 @@ export const getVerifyPaymentMethod = async (req, res) => {
         shasum.update(order_id + "|" + payment_id);
         const digest = shasum.digest('hex');
 
-        console.log(digest, req.headers["x-razorpay-signature"]);
+        console.log(digest)
 
+        const signature = await knex('bill_history')
+        .update({
+            razorpay_signature_id: digest
+        }) .where({user_id:userId,bill_no:order_id})
+
+        console.log(signature)
         if (digest === req.headers["x-razorpay-signature"]) {
             console.log("request is properly");
             res.status(200).json({
