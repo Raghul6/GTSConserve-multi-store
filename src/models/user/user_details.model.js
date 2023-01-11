@@ -226,11 +226,24 @@ export const checkAddress = async (id) => {
 };
 
 export const get_user_bill = async (userId) => {
-  const getuser = await knex
-    .select("id", "payment_status","bill_no", "sub_total")
+  const getuser = await knex("bill_history")
+    .join("bill_history_details","bill_history_details.bill_history_id","=","bill_history.id")
+    .select(
+      "bill_history.id", 
+      "bill_history.payment_status",
+      "bill_history.bill_no", 
+      "bill_history.sub_total",
+      'bill_history_details.total_qty as items')
     .from("bill_history")
     .where({ user_id: userId });
     console.log(getuser)
+
+    const items = await knex('bill_history_details').select('total_qty').where({bill_history_id:getuser[0].id})
+    let sum = 0;
+    for (let i=0;i<items.length;i++){
+      sum+=items[i].total_qty;
+    }
+    console.log(sum)
   try {
     return { status: responseCode.SUCCESS, body: getuser };
   } catch (error) {
@@ -244,7 +257,7 @@ export const get_single_bill = async (bill_id,userId) => {
     const getSingleBillList = await knex("bill_history")
     .select(
       "bill_history.id",
-      "bill_history.bill_no",
+      "bill_history.bill_no as bill_id",
       "bill_history.sub_total as bill_value",
       "bill_history.date",
       "payment_gateways.id as payment_id",
@@ -253,7 +266,7 @@ export const get_single_bill = async (bill_id,userId) => {
     )
     .join("payment_gateways","payment_gateways.user_id","=","bill_history.user_id")
     .join("add_on_orders","add_on_orders.user_id","=","payment_gateways.user_id")
-    .where({user_id: bill_id})
+    .where({"bill_history.user_id": userId})
    
 
     const sub_products = await knex("subscribed_user_details as sub").select(
@@ -265,7 +278,7 @@ export const get_single_bill = async (bill_id,userId) => {
     )
     .join("products","products.id","=","sub.user_id")
     .join("unit_types","unit_types.id","=","unit_type_id")
-    .where({ user_id: bill_id })
+    .where({"sub.user_id": userId })
 
 
     const add_on_products = await knex("add_on_order_items as add").select(
@@ -278,7 +291,7 @@ export const get_single_bill = async (bill_id,userId) => {
     )
     .join("products","products.id","=","add.user_id")
     .join("unit_types","unit_types.id","=","products.unit_type_id")
-    .where({ user_id: bill_id })
+    .where({ "add.user_id": userId })
     
 
     // console.log(sub_products)
@@ -292,7 +305,8 @@ export const get_single_bill = async (bill_id,userId) => {
 export const single_calendar_data = async (date,userId, sub_id,id) => {
   try {
 
-    let add_product = []
+    let add_product = [];
+    let additional1 = [];
     const products = await knex("subscribed_user_details AS sub")
       .select(
         "sub.id as subscription_id",
@@ -304,7 +318,10 @@ export const single_calendar_data = async (date,userId, sub_id,id) => {
         // "products.quantity as product_quantity",
         "unit_types.value as product_variation_type",
         "subscription_type.name as subscription_mode",
+        "additional_orders.id as additional_order_id",
+        "additional_orders.additional_orders_parent_id as additional_order_parent_id",
       )
+      .join("additional_orders", "additional_orders.subscription_id", "=", "sub.id")
       .join("products", "products.id", "=", "sub.product_id")
       .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
       .join(
@@ -317,7 +334,35 @@ export const single_calendar_data = async (date,userId, sub_id,id) => {
       .where({ "sub.date": date });
 
       // console.log(products)
-     const additional = await knex("products")
+     const additional = await knex("additional_orders")
+     .join("subscribed_user_details", "subscribed_user_details.id", "=", "additional_orders.subscription_id")
+     .join("products", "products.id", "=", "subscribed_user_details.product_id")
+     .join(
+      "subscription_type",
+      "subscription_type.id",
+      "=",
+      "subscribed_user_details.subscribe_type_id"
+    )
+     .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+     .select(
+      "subscribed_user_details.id as subscription_id",
+      "subscribed_user_details.subscription_status",
+      "products.name as product_name",
+      "products.image as product_image",
+      "products.unit_value as product_variation",
+      "products.price as product_price",
+      // "products.quantity as product_quantity",
+      "unit_types.value as product_variation_type",
+      "subscription_type.name as subscription_mode",
+      "additional_orders.id as additional_order_id",
+     )
+     .where({ "subscribed_user_details.user_id" : userId});
+     console.log(additional)
+     additional1.push(additional)
+
+     const additional2 = await knex("add_on_orders")
+     .join("add_on_order_items", "add_on_order_items.add_on_order_id", "=", "add_on_orders.id")
+     .join("products", "products.id", "=", "add_on_order_items.product_id")
      .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
      .select(
        "products.id as product_id",
@@ -326,19 +371,19 @@ export const single_calendar_data = async (date,userId, sub_id,id) => {
        "products.unit_value as product_variation",
        "unit_types.value as product_variation_type",
        "products.price as product_price",
-      //  "products.quantity as product_quantity",
+       "add_on_order_items.remove_status as remove_status",
 
      )
-     .where({ "products.product_type_id" : userId});
-    
-     add_product.push(additional)
-      
+     .where({"add_on_orders.user_id" : userId});
+
+    //  console.log(additional2)
+     add_product.push(additional2)
 
     if (products.length === 0) {
       return { status: false, message: "No Subscription Found" };
     }
 
-    return { status: true, data: products, add_product };
+    return { status: true, data: products,additional1,add_product };
   } catch (error) {
     console.log(error);
     return { status: false, message: "No Subscription Found"};

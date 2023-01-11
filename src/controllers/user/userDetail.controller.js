@@ -615,10 +615,24 @@ export const getSingleCalendarEvent = async (req, res) => {
       sub.data[i].quantity = sub.data[i].quantity;
       sub.data[i].price = sub.data[i].price;
 
+      for (let j = 0; j < sub.additional1.length; j++) {
+
+        sub.additional1[0][j].product_id = sub.additional1[0][j].product_id;
+        sub.additional1[0][j].image = sub.additional1[0][j].image;
+
+
+        if (sub.data[i].product_variation_type >= 500) {
+          sub.data[i].product_variation_type =
+            sub.data[i].product_variation_type / 1000 +
+            " " +
+            (sub.data[i].product_variation_type === "ml" ? "litre" : sub.data[i].unit_type);
+        }
+      }
+
 
       for (let j = 0; j < sub.add_product.length; j++) {
 
-        sub.add_product[0][j].id = sub.add_product[0][j].id;
+        sub.add_product[0][j].product_id = sub.add_product[0][j].product_id;
         sub.add_product[0][j].image = sub.add_product[0][j].image;
 
 
@@ -634,13 +648,15 @@ export const getSingleCalendarEvent = async (req, res) => {
       }
 
       const response = {
+        subscription_products: [sub.data[0]],
+        additional_order_products:sub.additional1[0],
         addons_products: sub.add_product[0],
 
       };
 
       return res
         .status(responseCode.SUCCESS)
-        .json({ status: true, data: { ...sub.data[0], ...response } });
+        .json({ status: true, data: { ...response } });
     }
   } catch (error) {
     console.log(error);
@@ -739,6 +755,7 @@ export const getOverallCalendarEvent = async (req, res) => {
 export const getBillList = async (req, res) => {
   try {
     const { userId } = req.body;
+    console.log(userId)
 
     const user = await get_user_bill(userId);
 
@@ -761,18 +778,12 @@ export const getBillList = async (req, res) => {
         .json({ status: false, message: "User Not Found" });
     }
 
-    // let get_bill = {};
-    // user.body.map((data) => {
-    //   get_bill.id = data.id;
-    //   get_bill.user_id = data.user_id;
-    //   get_bill.payment_id = data.id // payment id set to id
-    //   // ? process.env.BASE_URL + data.image
-    //   // : null;
-    //   get_bill.items = data.items;
-    //   get_bill.bill_no = data.bill_no
-    //   get_bill.bill_value = data.bill_value;
-    //   get_bill.status = data.status;
-    // });
+    let get_bill = {
+      "id": user.id,
+      "payment_status": "pending",
+      "bill_no": "MA1673413428513",
+      "sub_total": 1450
+     }
 
     res
       .status(responseCode.SUCCESS)
@@ -788,7 +799,7 @@ export const getBillList = async (req, res) => {
 
 export const getSingleBillList = async (req, res) => {
   try {
-    const { bill_id } = req.body;
+    const { bill_id,userId } = req.body;
 
     if (!bill_id) {
       return res
@@ -796,7 +807,7 @@ export const getSingleBillList = async (req, res) => {
         .json({ status: false, message: "Cannot find bill list" });
     }
 
-    const list = await get_single_bill(bill_id);
+    const list = await get_single_bill(bill_id,userId);
     console.log(list)
 
     if (!list) {
