@@ -225,6 +225,8 @@ export const getAllSubscription = async (req, res) => {
   try {
     const { userId } = req.body;
 
+    console.log(userId)
+
     const subscription_product = await get_subscription_product(userId);
 
     if (!subscription_product.status) {
@@ -240,9 +242,9 @@ export const getAllSubscription = async (req, res) => {
         subscription_product.data[i].quantity),
         (subscription_product.data[i].price =
           subscription_product.data[i].price),
-        // below next delivery date in static
-        (subscription_product.data[i].next_delivery_date = "22-Jan");
-      subscription_product.data[i].next_delviery = "Next delivery 22-Jan-2022";
+          (subscription_product.data[i].date = moment().format("YYYY-MM-DD"));
+      subscription_product.data[i].date = moment().format("YYYY-MM-DD");;
+        
 
       if (subscription_product.data[i].unit_value >= 500) {
         subscription_product.data[i].unit =

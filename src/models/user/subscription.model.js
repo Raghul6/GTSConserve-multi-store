@@ -78,10 +78,12 @@ export const new_subscription = async (
 };
 
 export const get_subscription_product = async (userId) => {
+  console.log(userId)
   try {
     const products = await knex("subscribed_user_details AS sub")
       .select(
         "sub.id as subscription_id",
+        "sub.date",
         "products.name as product_name",
         "products.image",
         "products.price",
@@ -99,7 +101,7 @@ export const get_subscription_product = async (userId) => {
         "=",
         "sub.subscribe_type_id"
       ).orderBy('subscription_id','desc')
-      .where({ user_id: userId });
+      .where({ "sub.user_id": userId });
 
     if (products.length === 0) {
       return { status: false, message: "No Subscription Found" };
