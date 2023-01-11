@@ -618,7 +618,7 @@ export const getSingleCalendarEvent = async (req, res) => {
 
       for (let j = 0; j < sub.add_product.length; j++) {
 
-        sub.add_product[0][j].id = sub.add_product[0][j].id;
+        sub.add_product[0][j].product_id = sub.add_product[0][j].product_id;
         sub.add_product[0][j].image = sub.add_product[0][j].image;
 
 
