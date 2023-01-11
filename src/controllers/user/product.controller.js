@@ -23,6 +23,8 @@ export const removeAddOnOrder = async (req, res) => {
 
     const { userId,product_id, delivery_date } = req.body
 
+    // console.log(userId,product_id, delivery_date)
+
     if (!product_id || !delivery_date ) {
       return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: messages.MANDATORY_ERROR })
     }

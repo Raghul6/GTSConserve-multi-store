@@ -203,21 +203,21 @@ export const addon_order = async (
 export const remove_addonorders = async (userId,product_id , delivery_date) => {
   // console.log("hi");
   try{
-      console.log(product_id)
+      console.log(userId)
    const addon_status = await knex('add_on_orders').select('status','id')
-   .where({delivery_date:delivery_date})
+   .where({delivery_date:delivery_date, user_id: userId})
 
-  //  console.log(addon_status[0].userId)
+   console.log(addon_status)
 
-   if(addon_status[0]!="cancelled"){
+   if(addon_status[0]!="cancelled"){ 
 
     await knex("add_on_order_items")
     .update({status : "removed",remove_status:"1"})
-    .where({product_id:product_id,add_on_order_id:userId})
+    .where({product_id:product_id,add_on_order_id:addon_status[0].id})
 
     const select = await knex('add_on_order_items')
     .select("price")
-    .where({product_id:product_id,add_on_order_id:addon_status[0].userId, status :"removed"});
+    .where({product_id:product_id,add_on_order_id:addon_status[0].id, status :"removed"});
 
     const select1 = await knex('add_on_orders')
     .select("sub_total")
@@ -237,7 +237,7 @@ export const remove_addonorders = async (userId,product_id , delivery_date) => {
     .where({sub_total:0})
 
     await sendNotification({
-      include_external_user_ids: [user_id.toString()],
+      include_external_user_ids: [userId.toString()],
       contents: { en: `Your Add_on Remove SuccessFully` },
       headings: { en: "Remove Add_on Notification" },
       name: "Remove Add_on Notification",
