@@ -53,6 +53,7 @@ export const getSingleProduct = async (req, res) => {
 
     const product = await knex("products")
       .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+      .join("subscribed_user_details", "subscribed_user_details.product_id", "=", "products.id")
       .select(
         "products.id as product_id",
         "products.name",
@@ -60,9 +61,8 @@ export const getSingleProduct = async (req, res) => {
         "products.unit_value",
         "unit_types.value as unit_type",
         "products.price",
-
-        "products.demo_price"
-
+        "products.demo_price",
+        "subscribed_user_details.is_subscribed"
       )
       .where({ "products.id": product_id })
       const response = await GetProduct(product);
