@@ -814,7 +814,7 @@ export const getSingleBillList = async (req, res) => {
     .select(
       "bill_history.id",
       "bill_history.bill_no as bill_id",
-      "bill_history_details.total_price as bill_value",
+      "bill_history.sub_total as bill_value",
       "bill_history.date",
       "bill_history.razorpay_payment_id as payment_id",
       "bill_history.payment_status as payment_status",
@@ -832,14 +832,16 @@ export const getSingleBillList = async (req, res) => {
         "products.name as product_name",
         "products.image as product_image",
         "products.unit_value as product_variation",
+        "bill_history_details.total_price as bill_value",
         "products.price as product_price",
         "sub.quantity as product_quantity",
         "unit_types.value as product_variation_type",
+        // "sub.no_delivered_days as no_of_days"
         
     )
     .join("products","products.id","=","sub.user_id")
     .join("unit_types","unit_types.id","=","unit_type_id")
-    // .join("subscription_type.id","=","products.unit_type_id")
+    .join("bill_history_details","bill_history_details.subscription_id","=","sub.id")
     .where({"sub.user_id": userId })
 
     const additional_order_product = await knex("subscribed_user_details AS sub").select(
@@ -865,14 +867,16 @@ export const getSingleBillList = async (req, res) => {
       "unit_types.name as variation_type",
       "products.unit_value as variation_name",
       "add.total_price as product_total",
+      "add_on_orders.delivery_date as delivery_date"
     
     )
     .join("products","products.id","=","add.user_id")
+    .join("add_on_orders","add_on_orders.id","=","add.add_on_order_id")
     .join("unit_types","unit_types.id","=","products.unit_type_id")
     
     .where({ "add.user_id": userId })
 
-    // console.log(list)
+    // console.log(getSingleBillList)
 
     if (!getSingleBillList) {
       return res
@@ -887,8 +891,21 @@ export const getSingleBillList = async (req, res) => {
       getSingleBillList[i].date = moment().format("DD-MM-YYYY"); 
     }
 
-    const data = getSingleBillList
-    return res.status(responseCode.SUCCESS).json({ status: true, data: getSingleBillList, subscription_products, add_on_products, additional_order_product });
+    for (let i = 0; i < subscription_products.length; i++) {
+      // subscription_products[i].no_of_days = 0; 
+    }
+
+    for (let i = 0; i < additional_order_product.length; i++) {
+      additional_order_product[i].delivery_date = moment().format("DD-MM-YYYY"); 
+      // additional_order_product[i].no_of_days = 0; 
+    }
+    for (let i = 0; i < add_on_products.length; i++) {
+      add_on_products[i].delivery_date = moment().format("DD-MM-YYYY"); 
+      // add_on_products[i].no_of_days = 0; 
+    }
+    
+
+    return res.status(responseCode.SUCCESS).json({ status: true, data: getSingleBillList[0], subscription_products, add_on_products, additional_order_product });
   } catch (error) {
     console.log(error);
 

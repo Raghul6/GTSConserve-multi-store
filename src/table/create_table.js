@@ -523,6 +523,8 @@ export const createTable = async (req, res) => {
               t.integer("subscription_delivered_quantity").nullable();
               t.integer("additional_delivered_quantity").nullable();
               t.integer("total_delivered_quantity").nullable();
+              t.integer("no_delivered_days").nullable();
+
 
               t.enu("subscription_status", [
                 "pending",

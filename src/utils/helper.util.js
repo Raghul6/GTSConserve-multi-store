@@ -94,11 +94,11 @@ export const GetProduct = async (product, userId) => {
     product[i].image = product[i].image
       // ? process.env.BASE_URL + product[i].image
       // : null;
-    if (!userId || sub_product.length == 0) {
-      product[i].is_subscribed = "0";
-      // product[i].subscription_id = sub_product[0].id;  
+    // if (!userId || sub_product.length == 0) {
+    //   product[i].is_subscribed = "0";
+    //   // product[i].subscription_id = sub_product[0].id;  
 
-    }
+    // }
   }
 
   return { status: true, data: product };

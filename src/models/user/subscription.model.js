@@ -21,6 +21,7 @@ export const new_subscription = async (
       user_address_id,
       quantity: qty,
       subscribe_type_id: subscription_plan_id,
+      "is_subscribed":'1'
     };
 
     if (subscription_plan_id == 3) {
