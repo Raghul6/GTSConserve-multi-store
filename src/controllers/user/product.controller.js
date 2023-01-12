@@ -65,7 +65,7 @@ export const getSingleProduct = async (req, res) => {
         "subscribed_user_details.is_subscribed"
       )
       .where({ "products.id": product_id })
-      const response = await GetProduct(product);
+      const response = await GetProduct(product,userId);
 
     if (product.length === 0) {
       return res
@@ -88,7 +88,7 @@ export const getSingleProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
-    const { category_id, product_type_id } = req.body;
+    const { category_id, product_type_id, } = req.body;
 
     const token = req.headers.authorization;
 
@@ -104,7 +104,7 @@ export const getProducts = async (req, res) => {
         .json({ status: false, message: messages.MANDATORY_ERROR });
     }
 
-    const product = await get_products(category_id, product_type_id);
+    const product = await get_products(category_id, product_type_id,userId);
 
     if (!product.status) {
       return res
