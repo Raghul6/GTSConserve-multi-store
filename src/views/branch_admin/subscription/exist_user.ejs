@@ -94,7 +94,7 @@
                                                                 <td class="sorting_1"><%=user.user_address_id %></td>
                                                                 <td class="sorting_1"><%=user.customer_id %></td>
                                                                 <td class="sorting_1"><%=user.user_name ? user.user_name  : "N/A"  %></td></td>
-                                                                <td ><%=user.subscription_name ? user.subscription_name : "N/A"  %></td>
+                                                                <td ><%=user.subscription_name ? (user.change_plan_id ? `${user.subscription_name} (Change Plan)`  :  user.subscription_name ) : "N/A"  %></td>
                                                                 <td><%=user.start_date ? user.start_date : "N/A" %></td>
                                                              
                                 

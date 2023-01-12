@@ -43,7 +43,9 @@ export const removeAddOnOrder = async (req, res) => {
 
 export const getSingleProduct = async (req, res) => {
   try {
-    const { product_id } = req.body;
+    const { product_id, userId } = req.body;
+
+    console.log(product_id, userId)
 
     if (!product_id) {
       return res
@@ -97,6 +99,8 @@ export const getProducts = async (req, res) => {
       const user = await parseJwtPayload(token);
       userId = user.user_id;
     }
+
+    // console.log(userId)
 
     if (!category_id || !product_type_id) {
       return res

@@ -67,24 +67,28 @@ export const GetProduct = async (product, userId) => {
       .orWhere({ user_id: userId, subscription_status: "approved" })
       .orWhere({ user_id: userId, subscription_status: "subscribed" });
   }
+<<<<<<< HEAD
 //  console.log(userId)
+=======
+  // console.log(duserI)
+>>>>>>> 4664787d4aa2f3eb29516fca9a813989f6bb5a60
 
   if (product.length === 0) {
     return { status: false, message: "No Product Found" };
   }
 
   // if (sub_product.length !== 0) {
-  //   for (let i = 0; i < product.length; i++) {
+  //   // for (let i = 0; i < product.length; i++) {
   //     for (let j = 0; j < sub_product.length; j++) {
   //       if (product[i].id == sub_product[j].product_id) {
 
   //         product[i].is_subscribed = "1";
-  //         // product[i].subscription_id = sub_product[j].product_id
+  //         product[i].subscription_id = sub_product[j].product_id
          
   //       } else {
 
   //         product[i].is_subscribed = "0";
-  //         // product[i].subscription_id = sub_product[0].id;
+  //         product[i].subscription_id = sub_product[0].id;
   //     }
   //     }
   //   }
@@ -96,14 +100,17 @@ export const GetProduct = async (product, userId) => {
       // : null;
     // if (!userId || sub_product.length == 0) {
       product[i].is_subscribed = product[i].is_subscribed!=null?product[i].is_subscribed:"0";
+<<<<<<< HEAD
       product[i].subscription_id =product[i].is_subscribed="1"?sub_product[0].id:[];
+=======
+      product[i].subscription_id =product[i].is_subscribed!="0"?sub_product[0].id:'0';
+>>>>>>> 4664787d4aa2f3eb29516fca9a813989f6bb5a60
 
-    // }
-  }
+    }
+  // }
 
   return { status: true, data: product };
 };
-
 export const getPageNumber = (req, res, data, url, is_super_admin = true) => {
   let adminUrl = is_super_admin ? "super_admin" : "branch_admin";
 

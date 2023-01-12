@@ -1,4 +1,4 @@
-import { add_feedback, get_AppSettings } from '../../models/user/general.model';
+import { add_feedback, get_AppSettings, get_feedback } from '../../models/user/general.model';
 
     export const getAppSetting = async (req, res) => {
       try{
@@ -40,3 +40,17 @@ import { add_feedback, get_AppSettings } from '../../models/user/general.model';
           res.status(500).json({ status: false,error }) 
         }
       }
+
+      export const getFeedBack = async (req, res) => {
+        try{
+          const userId = req.body
+          const get_message = await get_feedback()
+  
+          res.status(200).json({ status: true,data: get_message }) 
+           
+        }
+        catch (error) {
+          console.log(error);
+          res.status(500).json({ status: false,error }) 
+        }
+        }

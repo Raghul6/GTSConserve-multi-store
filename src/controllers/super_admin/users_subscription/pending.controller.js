@@ -1101,6 +1101,101 @@ export const updateUser = async (req,res) =>{
 }
 
 
+export const getUserFeedback = async (req,res) => {
+  try {
+    const { admin_id } = req.body;
+    let loading = true;
+    const { searchKeyword } = req.query;
+
+    let data_length = [];
+
+    if (searchKeyword) {
+      const search_data_length = await knex.raw(
+        `SELECT feedbacks.id,users.mobile_number FROM  feedbacks
+        JOIN users ON users.id = feedbacks.user_id
+        WHERE users.mobile_number LIKE '%${searchKeyword}%'`
+      );
+      data_length = search_data_length[0];
+
+      if (data_length.length === 0) {
+        loading = false;
+        req.query.searchKeyword = "";
+        req.flash("error", "No User Found");
+        return res.redirect("/super_admin/users_subscription/get_user_feedback");
+      }
+    } else {
+      data_length = await knex("feedbacks").select("id");
+      // .where({ branch_id: admin_id });
+    }
+
+
+    if (data_length.length === 0) {
+      loading = false;
+      return res.render("super_admin/users/feedback", {
+        data: data_length,
+        searchKeyword,
+      });
+    }
+
+    let {
+      startingLimit,
+      page,
+      resultsPerPage,
+      numberOfPages,
+      iterator,
+      endingLink,
+    } = await getPageNumber(
+      req,
+      res,
+      data_length,
+      "users_subscription/get_user_feedback"
+    );
+
+    let results;
+
+    let is_search = false;
+    if (searchKeyword) {
+      results =
+        await knex.raw(`SELECT feedbacks.comments,feedbacks.id,feedback_message.message,users.name,users.mobile_number FROM feedbacks
+      JOIN users ON users.id = feedbacks.user_id 
+      JOIN feedback_message ON feedback_message.id = feedbacks.message_id 
+      WHERE users.mobile_number LIKE '%${searchKeyword}%'
+      ORDER BY feedbacks.id DESC
+      LIMIT ${startingLimit},${resultsPerPage}`);
+      is_search = true;
+    } else {
+      results =
+        await knex.raw(`SELECT feedbacks.comments,feedbacks.id,feedback_message.message,users.name,users.mobile_number FROM feedbacks
+        JOIN users ON users.id = feedbacks.user_id 
+        JOIN feedback_message ON feedback_message.id = feedbacks.message_id
+        ORDER BY feedbacks.id DESC
+        LIMIT ${startingLimit},${resultsPerPage}`);
+    }
+
+    const data = results[0];
+    loading = false;
+
+    console.log(data)
+
+    res.render("super_admin/users/feedback", {
+      data,
+      page,
+      iterator,
+      endingLink,
+      numberOfPages,
+      is_search,
+      searchKeyword,
+      loading,
+    });
+
+
+  } catch (error) {
+    console.log(error)
+    res.redirect("/home")
+  }
+}
+
+
 // export const getSingleUser = async (req, res) => {
 //   try {
 //     const { user_address_id } = req.query;

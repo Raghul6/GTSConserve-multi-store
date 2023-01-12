@@ -579,7 +579,7 @@ export const getExistUsers = async (req, res) => {
     if (data_length !== 0) {
       if (searchKeyword) {
         results = await knex.raw(
-          `SELECT sub.id , sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
+          `SELECT sub.id ,sub.change_plan_id, sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
         user_address.address,user_address.id as user_address_id ,user_address.landmark,products.name as product_name,products.price,products.unit_value,products.image,
         unit_types.value,categories.name as category_name
         FROM subscribed_user_details AS sub 
@@ -595,7 +595,7 @@ export const getExistUsers = async (req, res) => {
         is_search = true;
       } else {
         results = await knex.raw(
-          `SELECT sub.id ,sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
+          `SELECT sub.id ,sub.change_plan_id,sub.start_date,sub.quantity,sub.customized_days,sub.status,subscription_type.name as subscription_name,users.user_unique_id as customer_id,users.mobile_number,users.name as user_name,
         user_address.address,user_address.id as user_address_id ,user_address.landmark,products.name as product_name,products.price,products.unit_value,products.image,
         unit_types.value,categories.name as category_name
         FROM subscribed_user_details AS sub 

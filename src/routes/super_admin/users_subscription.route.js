@@ -1,12 +1,16 @@
 import express  from 'express';
 import { getApproveList } from '../../controllers/super_admin/users_subscription/approve.controller';
-import { getNewUsers,getAllUsers ,updateUser,updatePendingList,cancelPendingList,updateAllUsersStatus ,getSingleUser,getCreateUsers,createUsers , unsubscribeSubscription,subscribeSubscription} from '../../controllers/super_admin/users_subscription/pending.controller';
+import { getNewUsers,getAllUsers ,updateUser,updatePendingList,cancelPendingList,updateAllUsersStatus ,getSingleUser,getCreateUsers,createUsers , unsubscribeSubscription,subscribeSubscription , getUserFeedback} from '../../controllers/super_admin/users_subscription/pending.controller';
 import { getCancelList } from '../../controllers/super_admin/users_subscription/cancel.controller';
 
 const users_subscriptionRouter = express.Router({
   caseSensitive: true,
   strict: true
 })
+
+
+// user feedback
+users_subscriptionRouter.get("/get_user_feedback",getUserFeedback)
 
 
 //new users

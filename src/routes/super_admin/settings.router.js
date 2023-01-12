@@ -6,7 +6,7 @@ import { getPlan } from "../../controllers/super_admin/settings/plan.controller"
 
 import { createAppsettings, getAppSettings, updateappsettings, updateSettingsStatus } from "../../controllers/super_admin/settings/app_settings.controller";
 import { createBanners, getBanners, updateBanners, updateBannerStatus ,deleteBanner} from "../../controllers/super_admin/settings/banner.controller";
-
+import { getFeedback , createFeedback ,updateFeedbackStatus , updateFeedback} from "../../controllers/super_admin/settings/feedback.controller";
 
 
 const settingsRouter = express.Router({
@@ -36,6 +36,12 @@ settingsRouter.post("/update_banners",uploadImg, updateBanners);
 settingsRouter.post("/update_banner_status",updateBannerStatus);
 settingsRouter.post("/delete_banners",deleteBanner);
 
+
+// feedbacks
+settingsRouter.get("/get_feedback",getFeedback);
+settingsRouter.post("/update_feedback_status",updateFeedbackStatus);
+settingsRouter.post("/create_feedback",createFeedback);
+settingsRouter.post("/update_feedback",updateFeedback);
 
 
 export default settingsRouter;

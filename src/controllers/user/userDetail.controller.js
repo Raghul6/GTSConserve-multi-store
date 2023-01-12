@@ -824,11 +824,11 @@ export const getSingleBillList = async (req, res) => {
       "add_on_orders.sub_total as sub_total",
     )
     .join("bill_history_details","bill_history_details.bill_history_id","=","bill_history.id")
-    .join("payment_gateways","payment_gateways.user_id","=","bill_history.user_id")
-    .join("add_on_orders","add_on_orders.user_id","=","payment_gateways.user_id")
+    // .join("payment_gateways","payment_gateways.user_id","=","bill_history.user_id")
+    .join("add_on_orders","add_on_orders.user_id","=","bill_history.user_id")
     .where({"bill_history.user_id": userId})
    
-
+      console.log(getSingleBillList)
     const subscription_products = await knex("subscribed_user_details as sub").select(
        "sub.id as subscription_id",
         "sub.subscription_status",
@@ -866,6 +866,7 @@ export const getSingleBillList = async (req, res) => {
     const add_on_products = await knex("add_on_order_items as add").select(
       "add.product_id as product_id",
       "add.quantity as no_quantity",
+      "products.name as product_name",
       "unit_types.id as variation_id",
       "unit_types.name as variation_type",
       "products.unit_value as variation_name",
@@ -891,7 +892,8 @@ export const getSingleBillList = async (req, res) => {
       
       getSingleBillList[i].id = getSingleBillList[i].id;
       getSingleBillList[i].bill_value = getSingleBillList[i].bill_value;
-      getSingleBillList[i].date = moment().format("DD-MM-YYYY"); 
+      getSingleBillList[i].date = moment().format("DD-MM-YYYY");
+      getSingleBillList[i].month = moment().format("MMMM");
     }
 
     for (let i = 0; i < subscription_products.length; i++) {
