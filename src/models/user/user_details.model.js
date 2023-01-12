@@ -264,7 +264,7 @@ export const get_single_bill = async (bill_id,userId) => {
       "bill_history.payment_status as payment_status",
       "add_on_orders.sub_total as sub_total",
     )
-    .join("payment_gateways","payment_gateways.user_id","=","bill_history.user_id")
+    // .join("payment_gateways","payment_gateways.user_id","=","bill_history.user_id")
     .join("add_on_orders","add_on_orders.user_id","=","payment_gateways.user_id")
     .where({"bill_history.user_id": userId})
    
