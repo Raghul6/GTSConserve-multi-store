@@ -23,15 +23,10 @@ import { add_feedback, get_AppSettings, get_feedback } from '../../models/user/g
       export const addFeedback = async (req,res) => {
         
         try{
-          const date = new Date();
-          let day = date.getDate();
-          let month = date.getMonth() + 1;
-          let year = date.getFullYear();
-         let currentDate = `${year}-${month}-${day}`;
-        console.log(currentDate); 
-          
-          const {user_id,comments,message_id,created_at} = req.body
-          const feedback = await add_feedback (user_id,comments,message_id,currentDate)
+                  
+          const {user_id,comment,feed_back} = req.body;
+
+          const feedback = await add_feedback (user_id,comment,feed_back)
          
             res.status(200).json({ status: true,message:"successs" })
           
@@ -44,7 +39,7 @@ import { add_feedback, get_AppSettings, get_feedback } from '../../models/user/g
       export const getFeedBack = async (req, res) => {
         try{
           const userId = req.body
-          const get_message = await get_feedback()
+          const get_message = await get_feedback(userId);
   
           res.status(200).json({ status: true,data: get_message }) 
            

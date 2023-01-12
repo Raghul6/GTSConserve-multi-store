@@ -12,41 +12,34 @@ export const get_AppSettings = async () => {
     }
   }
 
-  export const add_feedback = async (user_id,comments,message_id,currentDate) =>{
 
-    
-    const feed_back = await knex('feedbacks').select('created_at').where({created_at:currentDate})
-    // var issame = moment([created_at]).isSame([currentDate]);
-
-    // // var created_at = new Date();    
-    // // dateFormat(created_at, "dd/mm/yyyy");
-    if(created_at){
-      // console.log("hi")
-    return { status: false, body: feed_back  }
+  export const get_feedback = async (userId) => {
+    try {
+      const get = await knex('feedback_message').select('id','message as name')
+      return { status: responseCode.SUCCESS, data: get.data }
+    } catch (error) {
+      return { status: false}
     }
-    else{
-      const feed_backs = await knex('feedbacks').insert({
-            user_id: user_id,
-            comments: comments,
-            message_id:message_id 
-      })
-    // .Where({user_id:user_id})
-   }
   }
-  //   if( !new Date()){
-  //     const feed_backs = await knex('feedbacks').update({
-  //     user_id: user_id,
-  //     comments: comments,
-  //     message_id:message_id,
-  //     // created_at: new Date()s
-  //     }).Where({user_id:user_id})
-  //     try{
+
+
+
+  export const add_feedback = async (user_id,comment,feed_back) =>{
+    try{
+      let feedback = [];
+      for(let i=0;i<feed_back.length;i++){
+      feedback = await knex('feedback_message').inert({
+        user_id:user_id,
+        comment:comment,
+        message_id:feed_back[i].id
+      })
+      }
+        return { status: responseCode.SUCCESS}
+      } 
+      catch (error) {
+        return { status: false}
+      }
+    }
   
-  //       return { status: responseCode.SUCCESS, body: feed_backs }
-  //     } 
-  //     catch (error) {
-  //       return { status: false}
-  //     }}
-  // }
 
   
