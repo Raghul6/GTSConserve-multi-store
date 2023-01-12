@@ -261,7 +261,7 @@ export const get_single_bill = async (bill_id,userId) => {
       "bill_history.sub_total as bill_value",
       "bill_history.date",
       "bill_history.razorpay_payment_id as payment_id",
-      "bill_history.status as payment_status",
+      "bill_history.payment_status as payment_status",
       "add_on_orders.sub_total as sub_total",
     )
     .join("payment_gateways","payment_gateways.user_id","=","bill_history.user_id")

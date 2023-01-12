@@ -807,22 +807,88 @@ export const getSingleBillList = async (req, res) => {
         .json({ status: false, message: "Cannot find bill list" });
     }
 
-    const list = await get_single_bill(bill_id,userId);
+    // const list = await get_single_bill(bill_id,userId);
+
+
+    const getSingleBillList = await knex("bill_history")
+    .select(
+      "bill_history.id",
+      "bill_history.bill_no as bill_id",
+      "bill_history_details.total_price as bill_value",
+      "bill_history.date",
+      "bill_history.razorpay_payment_id as payment_id",
+      "bill_history.payment_status as payment_status",
+      "add_on_orders.sub_total as sub_total",
+    )
+    .join("bill_history_details","bill_history_details.bill_history_id","=","bill_history.id")
+    .join("payment_gateways","payment_gateways.user_id","=","bill_history.user_id")
+    .join("add_on_orders","add_on_orders.user_id","=","payment_gateways.user_id")
+    .where({"bill_history.user_id": userId})
+   
+
+    const subscription_products = await knex("subscribed_user_details as sub").select(
+       "sub.id as subscription_id",
+        "sub.subscription_status",
+        "products.name as product_name",
+        "products.image as product_image",
+        "products.unit_value as product_variation",
+        "products.price as product_price",
+        "sub.quantity as product_quantity",
+        "unit_types.value as product_variation_type",
+        
+    )
+    .join("products","products.id","=","sub.user_id")
+    .join("unit_types","unit_types.id","=","unit_type_id")
+    // .join("subscription_type.id","=","products.unit_type_id")
+    .where({"sub.user_id": userId })
+
+    const additional_order_product = await knex("subscribed_user_details AS sub").select(
+      "additional_orders.id as product_id",
+      "additional_orders.quantity as no_quantity",
+      "products.name as product_name",
+      "products.price as product_total",
+      "additional_orders.price as recipe_price",
+      "products.unit_value as variation_id",
+      "unit_types.value as variation_name",
+      "additional_orders.date as delivery_date"
+    )
+    .join("additional_orders","additional_orders.user_id","=","sub.user_id")
+    .join("products", "products.id", "=", "sub.product_id")
+    .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+    .where({'additional_orders.user_id':userId })
+
+
+    const add_on_products = await knex("add_on_order_items as add").select(
+      "add.product_id as product_id",
+      "add.quantity as no_quantity",
+      "unit_types.id as variation_id",
+      "unit_types.name as variation_type",
+      "products.unit_value as variation_name",
+      "add.total_price as product_total",
+    
+    )
+    .join("products","products.id","=","add.user_id")
+    .join("unit_types","unit_types.id","=","products.unit_type_id")
+    
+    .where({ "add.user_id": userId })
+
     // console.log(list)
 
-    if (!list) {
+    if (!getSingleBillList) {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
         .json({ status: false, message: "Cannot find bill list" });
     }
-    for (let i = 0; i < list.data.length; i++) {
-      console.log(list)
+    for (let i = 0; i < getSingleBillList.length; i++) {
+      // console.log(list)
       
-      list.data[i].id = list.data[i].id;
-      list.data[i].bill_value = list.data[i].bill_value;
-      list.data[i].date = moment().format("DD-MM-YYYY"); 
+      getSingleBillList[i].id = getSingleBillList[i].id;
+      getSingleBillList[i].bill_value = getSingleBillList[i].bill_value;
+      getSingleBillList[i].date = moment().format("DD-MM-YYYY"); 
     }
-    return res.status(responseCode.SUCCESS).json({ status: true, data: list });
+
+    const data = getSingleBillList
+    return res.status(responseCode.SUCCESS).json({ status: true, data: getSingleBillList, subscription_products, add_on_products, additional_order_product });
   } catch (error) {
     console.log(error);
 
