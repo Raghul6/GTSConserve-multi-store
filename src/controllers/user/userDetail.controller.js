@@ -863,6 +863,7 @@ export const getSingleBillList = async (req, res) => {
     const add_on_products = await knex("add_on_order_items as add").select(
       "add.product_id as product_id",
       "add.quantity as no_quantity",
+      "products.name as product_name",
       "unit_types.id as variation_id",
       "unit_types.name as variation_type",
       "products.unit_value as variation_name",
