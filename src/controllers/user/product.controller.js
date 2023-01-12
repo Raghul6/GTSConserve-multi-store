@@ -98,13 +98,15 @@ export const getProducts = async (req, res) => {
       userId = user.user_id;
     }
 
+    // console.log(userId)
+
     if (!category_id || !product_type_id) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: messages.MANDATORY_ERROR });
     }
 
-    const product = await get_products(category_id, product_type_id);
+    const product = await get_products(category_id, product_type_id,userId);
 
     if (!product.status) {
       return res

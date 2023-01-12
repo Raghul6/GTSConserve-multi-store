@@ -72,8 +72,8 @@ export const get_products = async (category_id, product_type_id, userId) => {
       .where({ category_id, product_type_id });
 
       // const general = await knex('subscribed_user_details').select('id').where({user_id: userId})
-
-    const response = await GetProduct(product, userId, general);
+    
+    const response = await GetProduct(product, userId);
 
     if (response.status) {
       return { status: true, data: response.data };
