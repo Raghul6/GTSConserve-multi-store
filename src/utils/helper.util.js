@@ -96,7 +96,7 @@ export const GetProduct = async (product, userId) => {
       // : null;
     // if (!userId || sub_product.length == 0) {
       product[i].is_subscribed = product[i].is_subscribed!=null?product[i].is_subscribed:"0";
-    //   // product[i].subscription_id = sub_product[0].id;  
+      product[i].subscription_id =product[i].is_subscribed!="0"?sub_product[0].id:[];
 
     // }
   }
