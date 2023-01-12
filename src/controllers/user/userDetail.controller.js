@@ -888,7 +888,8 @@ export const getSingleBillList = async (req, res) => {
       
       getSingleBillList[i].id = getSingleBillList[i].id;
       getSingleBillList[i].bill_value = getSingleBillList[i].bill_value;
-      getSingleBillList[i].date = moment().format("DD-MM-YYYY"); 
+      getSingleBillList[i].date = moment().format("DD-MM-YYYY");
+      getSingleBillList[i].month = moment().format("MMMM");
     }
 
     for (let i = 0; i < subscription_products.length; i++) {

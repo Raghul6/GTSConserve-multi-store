@@ -40,3 +40,17 @@ import { add_feedback, get_AppSettings } from '../../models/user/general.model';
           res.status(500).json({ status: false,error }) 
         }
       }
+
+      export const getFeedBack = async (req, res) => {
+        try{
+  
+          const get_message = await get_AppSettings()
+  
+          res.status(200).json({ status: true,data: get_message }) 
+           
+        }
+        catch (error) {
+          console.log(error);
+          res.status(500).json({ status: false,error }) 
+        }
+        }
