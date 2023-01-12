@@ -67,7 +67,7 @@ export const GetProduct = async (product, userId) => {
       .orWhere({ user_id: userId, subscription_status: "approved" })
       .orWhere({ user_id: userId, subscription_status: "subscribed" });
   }
-  console.log(sub_product)
+  // console.log(duserI)
 
   if (product.length === 0) {
     return { status: false, message: "No Product Found" };
@@ -96,7 +96,7 @@ export const GetProduct = async (product, userId) => {
       // : null;
     // if (!userId || sub_product.length == 0) {
       product[i].is_subscribed = product[i].is_subscribed!=null?product[i].is_subscribed:"0";
-      product[i].subscription_id =product[i].is_subscribed!="0"?sub_product[0].id:"0";
+      product[i].subscription_id =product[i].is_subscribed!="0"?sub_product[0].id:'0';
 
     }
   // }

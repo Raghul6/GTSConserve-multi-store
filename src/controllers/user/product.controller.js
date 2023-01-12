@@ -43,7 +43,9 @@ export const removeAddOnOrder = async (req, res) => {
 
 export const getSingleProduct = async (req, res) => {
   try {
-    const { product_id } = req.body;
+    const { product_id, userId } = req.body;
+
+    console.log(product_id, userId)
 
     if (!product_id) {
       return res
@@ -65,7 +67,7 @@ export const getSingleProduct = async (req, res) => {
         "subscribed_user_details.is_subscribed"
       )
       .where({ "products.id": product_id })
-      const response = await GetProduct(product);
+      const response = await GetProduct(product,userId);
 
     if (product.length === 0) {
       return res

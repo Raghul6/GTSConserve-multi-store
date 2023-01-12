@@ -817,15 +817,15 @@ export const getSingleBillList = async (req, res) => {
       "bill_history.sub_total as bill_value",
       "bill_history.date",
       "bill_history.razorpay_payment_id as payment_id",
-      "bill_history.payment_status as payment_status",
+      // "bill_history.payment_status as payment_status",
       "add_on_orders.sub_total as sub_total",
     )
     .join("bill_history_details","bill_history_details.bill_history_id","=","bill_history.id")
-    .join("payment_gateways","payment_gateways.user_id","=","bill_history.user_id")
-    .join("add_on_orders","add_on_orders.user_id","=","payment_gateways.user_id")
+    // .join("payment_gateways","payment_gateways.user_id","=","bill_history.user_id")
+    .join("add_on_orders","add_on_orders.user_id","=","bill_history.user_id")
     .where({"bill_history.user_id": userId})
    
-
+      console.log(getSingleBillList)
     const subscription_products = await knex("subscribed_user_details as sub").select(
        "sub.id as subscription_id",
         "sub.subscription_status",
