@@ -1,0 +1,12 @@
+export default Object.freeze({
+    SUCCESS: 200,
+    FAILURE: {
+      BAD_REQUEST: 900,
+      UNAUTHORIZED: 901,
+      PAYMENT_REQUIRED: 902,
+      INVALID: 903,
+      DATA_NOT_FOUND: 904,
+      INTERNAL_SERVER_ERROR: 905,
+      PERMISSION_RESTRICTED: 906
+    },
+  })
