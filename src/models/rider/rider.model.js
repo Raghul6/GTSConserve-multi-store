@@ -393,6 +393,13 @@ export const userLogin = async (password) => {
         // .update({subscription_monthly_price:suma,subscription_delivered_quantity:sumb})
         // .where({"subscribed_user_details.id":product[i].subscription_id});
         //  }
+       let sum_day = 1;
+       const day = await knex ('subscribed_user_details').select('no_delivered_days')
+       .where({"subscribed_user_details.id":product[i].subscription_id,"subscribed_user_details.rider_status":"delivered"});
+
+       sum_day += day[0].no_delivered_days
+
+        const no_of_days1 = await knex ('subscribed_user_details').update({no_delivered_days:sum_day}).where({"subscribed_user_details.id":product[i].subscription_id});
          bottle_entry.push(one[0])
 
           }
