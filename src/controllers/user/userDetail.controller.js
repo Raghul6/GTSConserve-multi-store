@@ -817,7 +817,7 @@ export const getSingleBillList = async (req, res) => {
       "bill_history.sub_total as bill_value",
       "bill_history.date",
       "bill_history.razorpay_payment_id as payment_id",
-      // "bill_history.payment_status as payment_status",
+      "bill_history.payment_status as payment_status",
       "add_on_orders.sub_total as sub_total",
     )
     .join("bill_history_details","bill_history_details.bill_history_id","=","bill_history.id")
