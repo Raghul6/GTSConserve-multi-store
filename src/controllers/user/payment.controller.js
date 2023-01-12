@@ -148,7 +148,7 @@ export const getRazorpayMethod = async (req, res) => {
         }
 
         const options = {
-            amount,
+            amount: amount * 100,
             currency: "INR",
             receipt: order_id,
 

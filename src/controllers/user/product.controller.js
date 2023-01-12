@@ -43,7 +43,9 @@ export const removeAddOnOrder = async (req, res) => {
 
 export const getSingleProduct = async (req, res) => {
   try {
-    const { product_id } = req.body;
+    const { product_id, userId } = req.body;
+
+    console.log(product_id, userId)
 
     if (!product_id) {
       return res
@@ -53,6 +55,7 @@ export const getSingleProduct = async (req, res) => {
 
     const product = await knex("products")
       .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+      .join("subscribed_user_details", "subscribed_user_details.product_id", "=", "products.id")
       .select(
         "products.id as product_id",
         "products.name",
@@ -60,12 +63,11 @@ export const getSingleProduct = async (req, res) => {
         "products.unit_value",
         "unit_types.value as unit_type",
         "products.price",
-
-        "products.demo_price"
-
+        "products.demo_price",
+        "subscribed_user_details.is_subscribed"
       )
       .where({ "products.id": product_id })
-      const response = await GetProduct(product);
+      const response = await GetProduct(product,userId);
 
     if (product.length === 0) {
       return res
@@ -98,13 +100,15 @@ export const getProducts = async (req, res) => {
       userId = user.user_id;
     }
 
+    // console.log(userId)
+
     if (!category_id || !product_type_id) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: messages.MANDATORY_ERROR });
     }
 
-    const product = await get_products(category_id, product_type_id);
+    const product = await get_products(category_id, product_type_id,userId);
 
     if (!product.status) {
       return res

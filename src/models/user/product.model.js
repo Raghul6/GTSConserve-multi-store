@@ -9,13 +9,17 @@ export const get_subscription_or_add_on_products = async (id,userId) => {
   try {
     const product = await knex("products")
     .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+    .join("subscribed_user_details", "subscribed_user_details.product_id", "=", "products.id")
     .select(
       "products.id",
       "products.name",
       "products.image",
       "products.unit_value",
       "unit_types.value as unit_type",
-      "products.price"
+      "products.price",
+      "products.demo_price",
+      "subscribed_user_details.is_subscribed"
+
     )
     .where({ product_type_id: id });
       
@@ -53,6 +57,7 @@ export const get_products = async (category_id, product_type_id, userId) => {
   try {
     const product = await knex("products")
       .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+      .join("subscribed_user_details", "subscribed_user_details.product_id", "=", "products.id")
       .select(
         "products.id as product_id",
         "products.name",
@@ -60,11 +65,15 @@ export const get_products = async (category_id, product_type_id, userId) => {
         "products.unit_value",
         "unit_types.value as unit_type",
         "products.price",
-        // "products.demo_price"
+        "products.demo_price",
+        "subscribed_user_details.is_subscribed",
+      
       )
       .where({ category_id, product_type_id });
 
-    const response = await GetProduct(product, userId);
+      let general = await knex('subscribed_user_details').select('is_subscribed').where({user_id: userId})
+    
+    const response = await GetProduct(product, userId,general);
 
     if (response.status) {
       return { status: true, data: response.data };
