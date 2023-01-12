@@ -124,7 +124,7 @@ export const editAddress = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-  console.log("hi");
+  // console.log("hi");
   try {
     const { userId } = req.body;
     
@@ -212,7 +212,9 @@ export const getUser = async (req, res) => {
 
    const addon = await knex('add_on_order_items').select('product_id').where({user_id: userId,status:"delivered"})
 
-   
+   const feedback = await knex('subscribed_user_details').select('id').where({user_id:userId,subscription_status:"subscribed"})
+
+   console.log(feedback[0].id)
 
     user.body.map((data) => {
 
@@ -230,6 +232,7 @@ export const getUser = async (req, res) => {
       get_user_detail.total_address_count = address.length.toString()+ ' ' + "address count";
       get_user_detail.total_subcription_count = subscription.length.toString()+ ' ' + "subcription";
       get_user_detail.total_delivered_product_count = subscription1.length +additional.length +addon.length .toString()+ ' ' + "Product Delivery" && "0" ;
+      get_user_detail.is_feedback_enable = feedback.length!=0?"true":"false" ;
     });
    
     res

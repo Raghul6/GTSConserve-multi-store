@@ -90,7 +90,7 @@ export const getSingleProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
-    const { category_id, product_type_id } = req.body;
+    const { category_id, product_type_id, } = req.body;
 
     const token = req.headers.authorization;
 

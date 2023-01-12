@@ -312,7 +312,7 @@ export const change_quantity = async (userId,subscription_id,quantity,) => {
           bill_id: 0,
         },
       });
-      // console.log(previous)
+      
 
       let weekdays = await knex("weekdays").select("id");
           let store_weekdays = [];
@@ -324,16 +324,26 @@ export const change_quantity = async (userId,subscription_id,quantity,) => {
             }
           }
           query.customized_days = JSON.stringify(store_weekdays);
+          
+// // console.log(query.customized_days)
+      const changeplan = await knex("subscription_users_change_plan").insert({
+        user_id:userId,
+        subscription_id:subscription_id,
+        previous_subscription_type_id:previous[0].subscribe_type_id,
+        change_subscription_type_id: subscription_plan_id,
+        start_date:start_date,
+        customized_days:query.customized_days
+      })
 
-// console.log(query.customized_days)
-      // const changeplan = await knex("subscription_users_change_plan").insert({
-      //   user_id:userId,
-      //   subscription_id:subscription_id,
-      //   previous_subscription_type_id:previous[0].subscribe_type_id,
-      //   change_subscription_type_id: subscription_plan_id,
-      //   start_date:start_date,
-      //   customized_days:customized_days
-      // })
+      const plan_id = await knex("subscription_users_change_plan").select('id').where({user_id:userId,subscription_id:subscription_id})
+
+      const update_subscription = await knex('subscribed_user_details')
+      .update({
+        subscribe_type_id:subscription_plan_id,
+        change_plan_id:plan_id[0].id,
+        change_start_date:start_date,
+        subscription_status:"branch_pending"
+      }).where({user_id:userId,id:subscription_id})
 
       // console.log(changeplan)
   return {status:true, message: "Successfully change subscription plan"}

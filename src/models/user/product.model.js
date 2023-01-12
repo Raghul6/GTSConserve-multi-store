@@ -54,6 +54,7 @@ export const get_subscription_or_add_on_products = async (id,userId) => {
 };
 
 export const get_products = async (category_id, product_type_id, userId) => {
+  // console.log(userId)
   try {
     const product = await knex("products")
       .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
@@ -71,9 +72,9 @@ export const get_products = async (category_id, product_type_id, userId) => {
       )
       .where({ category_id, product_type_id });
 
-      let general = await knex('subscribed_user_details').select('is_subscribed').where({user_id: userId})
-    
-    const response = await GetProduct(product, userId,general);
+
+    const response = await GetProduct(product,userId);
+
 
     if (response.status) {
       return { status: true, data: response.data };
