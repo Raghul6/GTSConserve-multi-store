@@ -91,7 +91,7 @@ export const GetProduct = async (product, userId) => {
   for (let i = 0; i < product.length; i++) {
     console.log(product[i].is_subscribed)
     console.log(sub_product[0].id)
-    product[i].image = product[i].image
+    product[i].image = product[i].image 
       // ? process.env.BASE_URL + product[i].image
       // : null;
     // if (!userId || sub_product.length == 0) {
