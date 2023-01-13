@@ -103,11 +103,21 @@ export const getPaymentStatusUpdate = async (req, res) => {
                 .status(responseCode.FAILURE.DATA_NOT_FOUND)
                 .json({ status: false, message: messages.MANDATORY_ERROR });
         }
-
-        const response = await knex('bill_history').update({
-            payment_status: payment_status
-        })
-        .where({user_id:userId})
+         if(payment_status==1){
+            const response = await knex('bill_history').update({
+            payment_status:"success"
+        }).where({user_id:userId})
+        }
+        else if(payment_status==2){
+            const response = await knex('bill_history').update({
+            payment_status:"pending"
+            }).where({user_id:userId})
+            }
+         else{
+            const response = await knex('bill_history').update({
+            payment_status:"payment failed"
+            }).where({user_id:userId})
+            }
 
         const type = await knex('payment_gateways').update({
             gatewayname: payment_type
