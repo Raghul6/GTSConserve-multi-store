@@ -324,7 +324,7 @@ export const getSingleorder = async (req, res) => {
           "subscription_id": order.query3[0].id,
           "variation": order.query3[0].unit_value + "" + order.query3[0].unit_type,
           "quantity": order.query3[0].quantity,
-          "delivered_status":order.query5[0]!=null? order.query5[i].status:[]
+          "delivered_status":order.query5[0]!=null? order.query5[i].status:"null"
         })
       }
 
