@@ -24,9 +24,9 @@ import { add_feedback, get_AppSettings, get_feedback } from '../../models/user/g
         
         try{
                   
-          const {user_id,comment,feed_back} = req.body;
+          const {user_id,comment,feedback} = req.body;
 
-          const feedback = await add_feedback (user_id,comment,feed_back)
+          const feedback2 = await add_feedback (user_id,comment,feedback)
          
             res.status(200).json({ status: true,message:"successs" })
           
@@ -41,7 +41,7 @@ import { add_feedback, get_AppSettings, get_feedback } from '../../models/user/g
           const userId = req.body
           const get_message = await get_feedback(userId);
   
-          res.status(200).json({ status: true,data: get_message }) 
+          res.status(200).json({data:get_message.data,status:true,message:"ok" }) 
            
         }
         catch (error) {
