@@ -91,12 +91,14 @@ export const GetProduct = async (product, userId) => {
   // }
 
   for (let i = 0; i < product.length; i++) {
+    console.log(product[i].is_subscribed)
+    console.log(sub_product[0].id)
     product[i].image = product[i].image
       // ? process.env.BASE_URL + product[i].image
       // : null;
     // if (!userId || sub_product.length == 0) {
-      product[i].is_subscribed = product[i].is_subscribed!=null?product[i].is_subscribed:"0";
-      product[i].subscription_id =product[i].is_subscribed="1"?sub_product[0].id:[];
+      // product[i].is_subscribed = product[i].is_subscribed!=null?product[i].is_subscribed:"0";
+      // product[i].subscription_id =product[i].is_subscribed="1"?sub_product[0].id:[];
 
 
 
