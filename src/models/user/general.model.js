@@ -16,7 +16,8 @@ export const get_AppSettings = async () => {
   export const get_feedback = async (userId) => {
     try {
       const get = await knex('feedback_message').select('id','message as name')
-      return { status: responseCode.SUCCESS, data: get.data }
+      console.log
+      return { status: true, data: get}
     } catch (error) {
       return { status: false}
     }
@@ -24,15 +25,19 @@ export const get_AppSettings = async () => {
 
 
 
-  export const add_feedback = async (user_id,comment,feed_back) =>{
+  export const add_feedback = async (user_id,comment,feedback) =>{
     try{
-      let feedback = [];
-      for(let i=0;i<feed_back.length;i++){
-      feedback = await knex('feedback_message').inert({
+      // console.log(user_id,comment,feedback)
+      let feedback1 = [];
+      for(let i=0;i<feedback.length;i++){
+        // console.log(user_id,comment,feedback)
+      const feedback3 = await knex('feedbacks').insert({
+        message_id:feedback[i].id,
         user_id:user_id,
-        comment:comment,
-        message_id:feed_back[i].id
+        comments:comment,
+        
       })
+      // console.log(feedback3)
       }
         return { status: responseCode.SUCCESS}
       } 

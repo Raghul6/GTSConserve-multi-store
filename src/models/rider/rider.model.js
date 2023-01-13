@@ -108,6 +108,7 @@ export const userLogin = async (password) => {
   // get single rider details 
   export const get_riderdetails = async (delivery_partner_id) => {
     try {
+      
       const getcategories = await knex
         .select(
           "rider.id as delivery_partner_id",

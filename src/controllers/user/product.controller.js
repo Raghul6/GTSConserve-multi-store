@@ -1,6 +1,6 @@
 import responseCode from "../../constants/responseCode";
 import messages from "../../constants/messages";
-import { GetProduct } from "../../utils/helper.util";
+import { GetProduct,singleProduct } from "../../utils/helper.util";
 import { sendNotification } from "../../notifications/message.sender";
 // import axios from 'axios';
 import moment from "moment";
@@ -45,7 +45,7 @@ export const getSingleProduct = async (req, res) => {
   try {
     const { product_id, userId } = req.body;
 
-    console.log(product_id, userId)
+    // console.log(product_id, userId)
 
     if (!product_id) {
       return res
@@ -67,7 +67,7 @@ export const getSingleProduct = async (req, res) => {
         "subscribed_user_details.is_subscribed"
       )
       .where({ "products.id": product_id })
-      const response = await GetProduct(product,userId);
+      const response = await singleProduct(product,userId);
 
     if (product.length === 0) {
       return res
