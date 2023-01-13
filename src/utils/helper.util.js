@@ -63,9 +63,7 @@ export const GetProduct = async (product, userId) => {
   if (userId) {
     sub_product = await knex("subscribed_user_details")
       .select("product_id","id")
-      .where({ user_id: userId, subscription_status: "pending" })
-      .orWhere({ user_id: userId, subscription_status: "approved" })
-      .orWhere({ user_id: userId, subscription_status: "subscribed" });
+      .where({is_subscribed:"1" });
   }
   // console.log(duserI)
 
@@ -97,13 +95,14 @@ export const GetProduct = async (product, userId) => {
       // ? process.env.BASE_URL + product[i].image
       // : null;
     // if (!userId || sub_product.length == 0) {
+      for (let i = 0; i <sub_product.length; i++) {
       // product[i].is_subscribed = product[i].is_subscribed!=null?product[i].is_subscribed:"0";
-      // product[i].subscription_id =product[i].is_subscribed="1"?sub_product[0].id:[];
+      product[i].subscription_id =product[i].is_subscribed!="0"?sub_product[i].id:"0";
 
 
 
     }
-  // }
+  }
 
   return { status: true, data: product };
 };
