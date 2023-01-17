@@ -300,7 +300,8 @@ export const singleSubscription = async (req, res) => {
       
       sub.data[i].image = process.env.BASE_URL + sub.data[i].image;
       sub.data[i].subscription_start_date = moment().format("YYYY-MM-DD");
-      sub.data[i].customized_days = sub.data[i].customized_days!=null? [sub.data[i].customized_days]:[];
+      sub.data[i].customized_days = [moment().format("YYYY-MM-DD")];
+      // sub.data[i].customized_days:[];
       sub.data[i].address_id = sub.data[i].address_id;
       sub.data[i].quantity = sub.data[i].quantity;
       sub.data[i].price = sub.data[i].price;
