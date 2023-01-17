@@ -360,6 +360,7 @@ export const userLogin = async (password) => {
     try {
       const update1 = await knex('daily_orders')
       .select("tour_status","user_address_id").where({user_id:user_id,id:order_id});
+      console.log(update1)
       if(update1[0].tour_status=="started"){
 
          const update = await knex('daily_orders')
