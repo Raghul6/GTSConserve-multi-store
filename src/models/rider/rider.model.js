@@ -360,7 +360,7 @@ export const userLogin = async (password) => {
     try {
       const update1 = await knex('daily_orders')
       .select("tour_status","user_address_id").where({user_id:user_id,id:order_id});
-      console.log(update1)
+      // console.log(update1)
       if(update1[0].tour_status=="started"){
 
          const update = await knex('daily_orders')
@@ -376,7 +376,7 @@ export const userLogin = async (password) => {
          if(product){
           for(let i=0; i<product.length; i++){
            const subscription = await knex('subscribed_user_details').update({rider_status:order_status}).where({id:product[i].subscription_id})
-            
+          console.log(subscription)
            const one =await knex('subscribed_user_details')
           .select("subscribed_user_details.id","products.unit_value ","subscribed_user_details.quantity","subscribed_user_details.rider_status","products.price","subscribed_user_details.subscription_monthly_price","subscribed_user_details.subscription_delivered_quantity")
           .join("products", "products.id", "=", "subscribed_user_details.product_id")

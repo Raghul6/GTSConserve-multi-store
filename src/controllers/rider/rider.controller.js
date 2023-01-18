@@ -376,7 +376,7 @@ export const orderStatusUpdate = async (req, res) => {
   try {
 
     const { user_id, delivery_partner_id, one_liter_count, half_liter_count, order_id, order_status, product, addons, additional_orders } = req.body;
-
+    // console.log(req.body)
     if (!user_id || !order_id || !order_status) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
