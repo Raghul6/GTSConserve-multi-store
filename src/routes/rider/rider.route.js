@@ -16,7 +16,7 @@ riderRouter.post("/update_end_tour",updateEndtour);
 
 
 riderRouter.post("/get_single_order",getSingleorder);
-// riderRouter.post("/order_status_update",orderStatusUpdate);
+riderRouter.post("/order_status_update",orderStatusUpdate);
 riderRouter.post("/rider_dashboard",riderDashboard);
 
 riderRouter.post("/cancel_order",cancelOrder);

@@ -397,8 +397,9 @@ export const userLogin = async (password) => {
         //  }
        let sum_day = 1;
        const day = await knex ('subscribed_user_details').select('no_delivered_days')
-       .where({"subscribed_user_details.id":product[i].subscription_id,"subscribed_user_details.rider_status":"delivered"});
+       .where({"subscribed_user_details.id":product[i].subscription_id});
 
+      //  console.log(day[0].no_delivered_days)
        sum_day += day[0].no_delivered_days
 
         const no_of_days1 = await knex ('subscribed_user_details').update({no_delivered_days:sum_day}).where({"subscribed_user_details.id":product[i].subscription_id});
