@@ -301,9 +301,6 @@ export const singleSubscription = async (req, res) => {
       sub.data[i].image = process.env.BASE_URL + sub.data[i].image;
       sub.data[i].subscription_start_date = moment().format("YYYY-MM-DD");
       sub.data[i].customized_days = sub.data[i].customized_days
-      // [moment().format("YYYY-MM-DD")];
-      
-      // sub.data[i].customized_days:[];
       sub.data[i].address_id = sub.data[i].address_id;
       sub.data[i].quantity = sub.data[i].quantity;
       sub.data[i].price = sub.data[i].price;
@@ -321,7 +318,7 @@ export const singleSubscription = async (req, res) => {
       }
    
       for (let j = 0; j < sub.add_product.length; j++) {  
-        console.log( sub.add_product[0][j].id)    
+        // console.log( sub.add_product[0][j].id)    
       sub.add_product[0][j].id = sub.add_product[0][j].id;
       sub.add_product[0][j].image = sub.add_product[0][j].image;
       sub.add_product[0][j].date =[(moment(sub.add_product[0][j].date).format("YYYY-MM-DD"))];
