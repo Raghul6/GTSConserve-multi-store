@@ -283,11 +283,11 @@ export const singleSubscription = async (req, res) => {
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: messages.MANDATORY_ERROR });
     }
-     let data1 =[];
+    //  let data1 =[];
     const sub = await single_subscription(userId, subscription_id);
     
 
-    let date = [];
+    // let date = [];
     if (!sub.status) {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
@@ -300,7 +300,8 @@ export const singleSubscription = async (req, res) => {
       
       sub.data[i].image = process.env.BASE_URL + sub.data[i].image;
       sub.data[i].subscription_start_date = moment().format("YYYY-MM-DD");
-      sub.data[i].customized_days =[moment().format("YYYY-MM-DD")];
+      sub.data[i].customized_days = sub.data[i].customized_days
+      // [moment().format("YYYY-MM-DD")];
       
       // sub.data[i].customized_days:[];
       sub.data[i].address_id = sub.data[i].address_id;
@@ -329,6 +330,7 @@ export const singleSubscription = async (req, res) => {
       delete sub.data[i].unit_value;
       delete sub.data[i].unit_type;
     }
+    
     const response = {
       additional_orders: sub.add_product[0]!=null? sub.add_product[0]:[],
       this_month_item_detail: sub.this_month_item_detail[0],
