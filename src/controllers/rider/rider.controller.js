@@ -304,9 +304,9 @@ export const getSingleorder = async (req, res) => {
         "total_addons_count":order.query5[0]!=null? order.query5[0].order_id:"0",
         "delivered_addons_count": order.query6.length
       }
-
+// console.log( order.query2[0].user_id)
       let user = {
-        "user_id": order.query2[0].user_id,
+        "user_id": order.query2[0].id,
         "user_name": order.query2[0].user_name,
         "customer_id": order.query2[0].customer_id,
         "user_mobile": order.query2[0].user_mobile,
