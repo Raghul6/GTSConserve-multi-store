@@ -316,7 +316,7 @@ export const singleSubscription = async (req, res) => {
         sub.data[i].unit =
           sub.data[i].unit_value + " " + sub.data[i].unit_type;
       }
-   
+   console.log(sub.data)
       for (let j = 0; j < sub.add_product.length; j++) {  
         // console.log( sub.add_product[0][j].id)    
       sub.add_product[0][j].id = sub.add_product[0][j].id;
@@ -329,7 +329,7 @@ export const singleSubscription = async (req, res) => {
     }
     
     const response = {
-      additional_orders: sub.add_product[0]!=null? sub.add_product[0]:[],
+      additional_orders: sub.add_product[0],
       this_month_item_detail: sub.this_month_item_detail[0],
     };
 
