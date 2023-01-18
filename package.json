@@ -64,6 +64,7 @@
     "node-env": "^0.1.6",
     "node-schedule": "^2.1.0",
     "nodemailer": "^6.8.0",
+    "npm": "^8.19.3",
     "npm-run-all": "^4.1.5",
     "onesignal-node": "^2.1.1",
     "razorpay": "^2.8.4",
