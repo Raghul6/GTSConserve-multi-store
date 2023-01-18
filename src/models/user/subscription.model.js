@@ -230,7 +230,7 @@ export const remove_subscription = async (user_id, subscription_id) => {
     const remove = await knex("subscribed_user_details")
       .update({ subscription_status: "unsubscribed" })
       .where({ user_id: user_id, id: subscription_id });
-console.log(remove)
+// console.log(remove)
       await sendNotification({
         include_external_user_ids: [user_id.toString()],
         contents: { en: `Your Additional Order Placed SuccessFully` },
