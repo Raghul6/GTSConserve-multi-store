@@ -17,7 +17,6 @@ export const customizedDay = async (date, user_days) => {
     }
   }
 
-
   let customized_date;
 
   if (current_day == user_days[user_days.length - 1]) {
@@ -60,49 +59,57 @@ export const customizedDay = async (date, user_days) => {
 export const GetProduct = async (product, userId) => {
   let sub_product = [];
 
+
+
   if (userId) {
     sub_product = await knex("subscribed_user_details")
-      .select("product_id","id")
-      .where({is_subscribed:"1" });
+      .select("product_id", "id")
+      .where({ user_id: userId, subscription_status: "pending" })
+      .orWhere({ user_id: userId, subscription_status: "approved" })
+      .orWhere({ user_id: userId, subscription_status: "subscribed" })
+      .orWhere({ user_id: userId, subscription_status: "assigned" })
+      .orWhere({ user_id: userId, subscription_status: "branch_pending" });
   }
-  // console.log(duserI)
 
+ 
+  
   if (product.length === 0) {
     return { status: false, message: "No Product Found" };
   }
-
-  // if (sub_product.length !== 0) {
-  //   // for (let i = 0; i < product.length; i++) {
-  //     for (let j = 0; j < sub_product.length; j++) {
-  //       if (product[i].id == sub_product[j].product_id) {
-
-  //         product[i].is_subscribed = "1";
-  //         product[i].subscription_id = sub_product[j].product_id
-         
-  //       } else {
-
-  //         product[i].is_subscribed = "0";
-  //         product[i].subscription_id = sub_product[0].id;
-  //     }
-  //     }
-  //   }
-  // }
-
-  for (let i = 0; i < product.length; i++) {
-    console.log(product[i].is_subscribed)
-    console.log(sub_product[0].id)
-    product[i].image = product[i].image 
-      // ? process.env.BASE_URL + product[i].image
-      // : null;
-    // if (!userId || sub_product.length == 0) {
-      for (let i = 0; i <sub_product.length; i++) {
-      // product[i].is_subscribed = product[i].is_subscribed!=null?product[i].is_subscribed:"0";
-      product[i].subscription_id =product[i].is_subscribed!="0"?sub_product[i].id:"0";
-
-
-
+  
+  if (sub_product.length !== 0) {
+    for (let i = 0; i < product.length; i++) {
+      for (let j = 0; j < sub_product.length; j++) {
+        if (product[i].product_id == sub_product[j].product_id) {
+          product[i].is_subscribed = "1";
+          product[i].subscription_id = sub_product[j].id;
+        }
+      }
     }
   }
+  
+  console.log(product , "products asssddasdasdasd")
+  
+
+  for (let i = 0; i < product.length; i++) {
+    // product[i].image = product[i].image;
+    // ? process.env.BASE_URL + product[i].image
+    // : null;
+
+    if (
+      product[i].is_subscribed == undefined ||
+      product[i].is_subscribed == null
+    ) {
+      product[i].is_subscribed = "0";
+      product[i].subscription_id = "0";
+    }
+    if (!userId || sub_product.length == 0) {
+      product[i].is_subscribed = "0";
+      product[i].subscription_id = "0";
+    }
+  }
+
+
 
   return { status: true, data: product };
 };

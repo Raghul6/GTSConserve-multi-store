@@ -1,6 +1,6 @@
 import responseCode from "../../constants/responseCode";
 import messages from "../../constants/messages";
-import { GetProduct } from "../../utils/helper.util";
+import { GetProduct, singleProduct } from "../../utils/helper.util";
 import { sendNotification } from "../../notifications/message.sender";
 // import axios from 'axios';
 import moment from "moment";
@@ -20,19 +20,17 @@ import knex from "../../services/db.service";
 
 export const removeAddOnOrder = async (req, res) => {
   try {
+    const { userId, product_id, delivery_date } = req.body;
 
-    const { userId,product_id, delivery_date } = req.body
-
-    if (!product_id || !delivery_date ) {
-      return res.status(responseCode.FAILURE.BAD_REQUEST).json({ status: false, message: messages.MANDATORY_ERROR })
+    if (!product_id || !delivery_date) {
+      return res
+        .status(responseCode.FAILURE.BAD_REQUEST)
+        .json({ status: false, message: messages.MANDATORY_ERROR });
     }
     //  console.log(userId,product_id, delivery_date);
-    const remove = await remove_addonorders(product_id, delivery_date,userId);
+    const remove = await remove_addonorders(product_id, delivery_date, userId);
 
-    return res
-      .status(responseCode.SUCCESS)
-      .json({ ...remove });
-
+    return res.status(responseCode.SUCCESS).json({ ...remove });
   } catch (error) {
     console.log(error);
     return res
@@ -43,9 +41,17 @@ export const removeAddOnOrder = async (req, res) => {
 
 export const getSingleProduct = async (req, res) => {
   try {
-    const { product_id, userId } = req.body;
+    const { product_id } = req.body;
 
-    console.log(product_id, userId)
+    // console.log(product_id, userId)
+
+    const token = req.headers.authorization;
+
+    let userId;
+    if (token) {
+      const user = await parseJwtPayload(token);
+      userId = user.user_id;
+    }
 
     if (!product_id) {
       return res
@@ -55,7 +61,7 @@ export const getSingleProduct = async (req, res) => {
 
     const product = await knex("products")
       .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
-      .join("subscribed_user_details", "subscribed_user_details.product_id", "=", "products.id")
+      // .join("subscribed_user_details", "subscribed_user_details.product_id", "=", "products.id")
       .select(
         "products.id as product_id",
         "products.name",
@@ -63,11 +69,27 @@ export const getSingleProduct = async (req, res) => {
         "products.unit_value",
         "unit_types.value as unit_type",
         "products.price",
-        "products.demo_price",
-        "subscribed_user_details.is_subscribed"
+        "products.demo_price"
+        // "subscribed_user_details.is_subscribed"
       )
-      .where({ "products.id": product_id })
-      const response = await GetProduct(product,userId);
+      .where({ "products.id": product_id });
+
+    let sub_product = [];
+    if (userId) {
+      sub_product = await knex("subscribed_user_details")
+        .select("id")
+        .where({ user_id: userId, product_id });
+    }
+
+
+    // const response = await singleProduct(product,userId);
+    if (sub_product.length !== 0) {
+      product[0].is_subscribed = "1";
+      product[0].subscription_id = sub_product[0].id;
+    } else {
+      product[0].is_subscribed = "0";
+      product[0].subscription_id = "0";
+    }
 
     if (product.length === 0) {
       return res
@@ -75,11 +97,11 @@ export const getSingleProduct = async (req, res) => {
         .json({ status: false, message: "Product Not Found" });
     }
 
-    product[0].image = process.env.BASE_URL + product[0].image;
+    // product[0].image = process.env.BASE_URL + product[0].image;
 
     return res
       .status(responseCode.SUCCESS)
-      .json({ status: true, data: response.data[0] });
+      .json({ status: true, data: product[0] });
   } catch (error) {
     console.log(error);
     return res
@@ -90,7 +112,7 @@ export const getSingleProduct = async (req, res) => {
 
 export const getProducts = async (req, res) => {
   try {
-    const { category_id, product_type_id, } = req.body;
+    const { category_id, product_type_id } = req.body;
 
     const token = req.headers.authorization;
 
@@ -108,7 +130,7 @@ export const getProducts = async (req, res) => {
         .json({ status: false, message: messages.MANDATORY_ERROR });
     }
 
-    const product = await get_products(category_id, product_type_id,userId);
+    const product = await get_products(category_id, product_type_id, userId);
 
     if (!product.status) {
       return res
@@ -170,7 +192,7 @@ export const getSubscriptionProducts = async (req, res) => {
   try {
     const { userId } = req.body;
 
-    const products = await get_subscription_or_add_on_products("1",userId );
+    const products = await get_subscription_or_add_on_products("1", userId);
     if (!products.status) {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
@@ -195,13 +217,13 @@ export const getAddOnProducts = async (req, res) => {
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
         .json({ status: false, message: product.message });
     }
- 
+
     return res.status(responseCode.SUCCESS).json({
       status: true,
       data: product.data,
     });
   } catch (error) {
-   // console.log(error);
+    // console.log(error);
     res.status(500).json({ status: false });
   }
 };
@@ -226,7 +248,7 @@ export const searchProducts = async (req, res) => {
 
     const product = await search_products(
       product_type_id,
-      search_keyword,
+      search_keyword
       // userId
     );
     if (!product.status) {
@@ -261,8 +283,8 @@ export const addon_Order = async (req, res) => {
       delivery_date,
       products,
       address_id
-      );
-    
+    );
+
     return res.status(responseCode.SUCCESS).json({
       status: true,
       message: "order added",
@@ -273,64 +295,69 @@ export const addon_Order = async (req, res) => {
   }
 };
 
-
 export const nextDayProduct = async (req, res) => {
   try {
     const { userId } = req.body;
 
-    const static_response = await nextday_product(userId)
-    let date1=moment(static_response.product[0].date, "YYYY-MM-DD").format("YYYY-MM-DD");
-    let date2=moment(static_response.product[0].date, "YYYY-MM-DD").format("YYYY-MM-DD");
-    let tommorow_date = moment(new Date(), "YYYY-MM-DD").add(1, "days").format("YYYY-MM-DD");
-    console.log(tommorow_date,date1,date2)
-     
-    if(tommorow_date === date1){
+    const static_response = await nextday_product(userId);
+    let date1 = moment(static_response.product[0].date, "YYYY-MM-DD").format(
+      "YYYY-MM-DD"
+    );
+    let date2 = moment(static_response.product[0].date, "YYYY-MM-DD").format(
+      "YYYY-MM-DD"
+    );
+    let tommorow_date = moment(new Date(), "YYYY-MM-DD")
+      .add(1, "days")
+      .format("YYYY-MM-DD");
+    console.log(tommorow_date, date1, date2);
 
-    let query =[{
-        
-          "product_id": static_response.product[0].product_id ,
-          "product_name": static_response.product[0].product_name,
-          "product_image": static_response.product[0].product_image,
-          "product_status":static_response.product[0].product_status,
-          "product_variation": static_response.product[0].value + static_response.product[0].unit_type,
-          "Product price": static_response.product[0].price
-  
-    }]
-    
-    // tommorow_date = moment().format("YYYY-MM-DD")
-   
-    return res.status(responseCode.SUCCESS).json({
-      status: true,
-      data: query,"date": moment(static_response.product[0].date, "YYYY-MM-DD").format("DD-MM-YYYY")
-    });
-  }
+    if (tommorow_date === date1) {
+      let query = [
+        {
+          product_id: static_response.product[0].product_id,
+          product_name: static_response.product[0].product_name,
+          product_image: static_response.product[0].product_image,
+          product_status: static_response.product[0].product_status,
+          product_variation:
+            static_response.product[0].value +
+            static_response.product[0].unit_type,
+          "Product price": static_response.product[0].price,
+        },
+      ];
 
-  else if (tommorow_date === date2){
-    let query ={
-        
-      "product_id": static_response.product[0].product_id ,
-      "product_name": static_response.product[0].product_name,
-      "product_image": static_response.product[0].product_image,
-      "product_status":static_response.product[0].product_status,
-      "product_variation": static_response.product[0].value + static_response.product[0].unit_type,
-      "Product price": static_response.product[0].price
+      // tommorow_date = moment().format("YYYY-MM-DD")
 
-}
+      return res.status(responseCode.SUCCESS).json({
+        status: true,
+        data: query,
+        date: moment(static_response.product[0].date, "YYYY-MM-DD").format(
+          "DD-MM-YYYY"
+        ),
+      });
+    } else if (tommorow_date === date2) {
+      let query = {
+        product_id: static_response.product[0].product_id,
+        product_name: static_response.product[0].product_name,
+        product_image: static_response.product[0].product_image,
+        product_status: static_response.product[0].product_status,
+        product_variation:
+          static_response.product[0].value +
+          static_response.product[0].unit_type,
+        "Product price": static_response.product[0].price,
+      };
 
-// tommorow_date = moment().format("YYYY-MM-DD")
+      // tommorow_date = moment().format("YYYY-MM-DD")
 
-return res.status(responseCode.SUCCESS).json({
-  status: true,
-  data: query,"date": static_response.date[0].date
-});
-  }
-   else {
+      return res.status(responseCode.SUCCESS).json({
+        status: true,
+        data: query,
+        date: static_response.date[0].date,
+      });
+    } else {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
         .json({ status: false, message: "No Product Available" });
     }
-
-
   } catch (error) {
     console.log(error);
     res.status(500).json({ status: false });

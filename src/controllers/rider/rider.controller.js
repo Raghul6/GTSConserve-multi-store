@@ -301,7 +301,7 @@ export const getSingleorder = async (req, res) => {
         "order_status": order.query1[0].status,
         "empty_bottle_count": order.daily[0].total_collective_bottle,
         "total_litre": order.daily[0].total_qty + " " + order.query3[0].unit_type,
-        "total_addons_count": order.query5[0].order_id,
+        "total_addons_count":order.query5[0]!=null? order.query5[0].order_id:"0",
         "delivered_addons_count": order.query6.length
       }
 
@@ -324,7 +324,7 @@ export const getSingleorder = async (req, res) => {
           "subscription_id": order.query3[0].id,
           "variation": order.query3[0].unit_value + "" + order.query3[0].unit_type,
           "quantity": order.query3[0].quantity,
-          "delivered_status": order.query5[i].status
+          "delivered_status":order.query5[0]!=null? order.query5[i].status:"null"
         })
       }
 
@@ -376,7 +376,7 @@ export const orderStatusUpdate = async (req, res) => {
   try {
 
     const { user_id, delivery_partner_id, one_liter_count, half_liter_count, order_id, order_status, product, addons, additional_orders } = req.body;
-
+    // console.log(req.body)
     if (!user_id || !order_id || !order_status) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
