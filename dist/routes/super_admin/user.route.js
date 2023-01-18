@@ -5,13 +5,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _express = _interopRequireDefault(require("express"));
-var _login = require("../../controllers/super_admin/auth/login.controller");
+var _users = require("../../controllers/super_admin/users/users.controller");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-var authRouter = _express["default"].Router({
+var userRouter = _express["default"].Router({
   caseSensitive: true,
   strict: true
 });
-authRouter.get('/login', _login.loginForm);
-authRouter.post('/login', _login.loginHandler);
-var _default = authRouter;
+userRouter.get("/get_bill", _users.getBill);
+userRouter.post("/create_user_bill", _users.createUserBill);
+var _default = userRouter;
 exports["default"] = _default;
