@@ -758,7 +758,7 @@ export const order_list = async (delivery_partner_id,status) =>{
     const order1 = await knex('daily_orders')
     .join("users", "users.id", "=", "daily_orders.user_id")
     .select(
-      'daily_orders.id',
+      'daily_orders.id',"daily_orders.user_id",
       'daily_orders.total_collective_bottle',
       'daily_orders.status','daily_orders.add_on_order_id',
       'daily_orders.user_id','daily_orders.total_qty','daily_orders.tour_status','users.name','users.user_unique_id','users.bottle_status',"daily_orders.router_id")
@@ -816,6 +816,7 @@ export const order_list = async (delivery_partner_id,status) =>{
       // "addon_items_delivered": add_on_count[0].status,
       // "addon_items_undelivered": add_on_count[0].status,
       "user_name": order1[i].name,
+      "user_id": order1[i].user_id,
       "customer_id": order1[i].user_unique_id,
       "bottle_return":order1[0].bottle_status,
       "order_status": order1[i].status
