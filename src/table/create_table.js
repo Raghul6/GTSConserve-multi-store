@@ -444,6 +444,36 @@ export const createTable = async (req, res) => {
       }
     });
 
+    // subscription_users_change_plan
+    await knex.schema
+    .hasTable("subscription_users_change_plan")
+    .then(function (exists) {
+      if (!exists) {
+        return knex.schema.createTable(
+          "subscription_users_change_plan",
+          function (t) {
+            t.increments("id").primary();
+
+            t.integer("user_id").unsigned().notNullable();
+            t.foreign("user_id").references("id").inTable("users");
+
+            t.integer("subscription_id").nullable();
+            // t.foreign("subscribe_type_id")
+            //   .references("id")
+            //   .inTable("subscription_type");
+
+            t.integer("previous_subscription_type_id").nullable();
+            t.integer("change_subscription_type_id").nullable();
+
+            t.date("start_date").nullable();
+            t.json("customized_days").nullable();
+
+            t.timestamps(true, true);
+          }
+        );
+      }
+    });
+
     
 
     //  subscribed user details
@@ -529,35 +559,7 @@ export const createTable = async (req, res) => {
       });
 
 
-      // subscription_users_change_plan
-    await knex.schema
-    .hasTable("subscription_users_change_plan")
-    .then(function (exists) {
-      if (!exists) {
-        return knex.schema.createTable(
-          "subscription_users_change_plan",
-          function (t) {
-            t.increments("id").primary();
-
-            t.integer("user_id").unsigned().notNullable();
-            t.foreign("user_id").references("id").inTable("users");
-
-            t.integer("subscribe_type_id").unsigned().notNullable();
-            t.foreign("subscribe_type_id")
-              .references("id")
-              .inTable("subscription_type");
-
-            t.integer("previous_subscription_type_id").nullable();
-            t.integer("change_subscription_type_id").nullable();
-
-            t.date("start_date").nullable();
-            t.json("customized_days").nullable();
-
-            t.timestamps(true, true);
-          }
-        );
-      }
-    });
+      
 
     // add on orders
     await knex.schema.hasTable("add_on_orders").then(function (exists) {
