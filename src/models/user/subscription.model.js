@@ -178,7 +178,7 @@ if(additional.length !==0){
     }
   }
 
-  console.log(add_product)
+  // console.log(add_product)
       //  console.log(add_product)
       const this_month_item_detail = await knex("users").select(
         "one_liter_in_hand as delivered_orders",
