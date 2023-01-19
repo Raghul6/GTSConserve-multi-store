@@ -3,6 +3,7 @@ import messages from "../../constants/messages";
 // import axios from "axios"
 import moment from "moment";
 import { sendNotification } from "../../notifications/message.sender";
+import { customizedDay } from "../../utils/helper.util";
 
 import {
   new_subscription,
@@ -291,12 +292,26 @@ export const singleSubscription = async (req, res) => {
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
         .json({ status: false, message: sub.message });
     }
+
+    console.log(sub.data[0].customized_days)
+    if (sub.data[0].customized_days) {
+      let weekdays = await knex("weekdays").select("id", "name");
+      let store_weekdays = [];
+      for (let i = 0; i < sub.data[0].customized_days.length; i++) {
+        for (let j = 0; j < weekdays.length; j++) {
+          if (weekdays[j].name == sub.data[0].customized_days[i]) {
+            store_weekdays.push(weekdays[j].id);
+          }
+        }
+      }
+      sub.data[0].customized_days.customized_days = store_weekdays;
+    }
   
     for (let i = 0; i < sub.data.length; i++) {
       
       sub.data[i].image = process.env.BASE_URL + sub.data[i].image;
       sub.data[i].subscription_start_date = moment().format("YYYY-MM-DD");
-      sub.data[i].customized_days = sub.data[i].customized_days
+      sub.data[i].customized_days = sub.data[0].customized_days.customized_days;
       sub.data[i].address_id = sub.data[i].address_id;
       sub.data[i].quantity = sub.data[i].quantity;
       sub.data[i].price = sub.data[i].price;
@@ -330,7 +345,7 @@ export const singleSubscription = async (req, res) => {
     };
 
     // console.log(sub.data[0])
-    console.log( sub.data,response)
+    // console.log( sub.data,response)
     return res
       .status(responseCode.SUCCESS)
       .json({ status: true, data: { ...sub.data[0], ...response } })

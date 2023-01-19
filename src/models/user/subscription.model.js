@@ -104,6 +104,8 @@ export const get_subscription_product = async (userId) => {
       ).orderBy('subscription_id','desc')
       .where({ "sub.user_id": userId });
 
+      
+
     if (products.length === 0) {
       return { status: false, message: "No Subscription Found" };
     }
@@ -146,7 +148,7 @@ export const single_subscription = async (userId, sub_id) => {
       .join("user_address", "user_address.id", "=", "sub.user_address_id")
       .where({ "sub.user_id":userId, "sub.id": sub_id });
 
-      console.log(products)
+      // console.log(products)
      const additional = await knex('additional_orders').select('id','subscription_id','user_id').where({subscription_id: sub_id})
 
   
@@ -230,7 +232,7 @@ export const remove_subscription = async (user_id, subscription_id) => {
     const remove = await knex("subscribed_user_details")
       .update({ subscription_status: "unsubscribed" })
       .where({ user_id: user_id, id: subscription_id });
-
+// console.log(remove)
       await sendNotification({
         include_external_user_ids: [user_id.toString()],
         contents: { en: `Your Additional Order Placed SuccessFully` },
@@ -241,7 +243,7 @@ export const remove_subscription = async (user_id, subscription_id) => {
           category_id: 0,
           product_type_id: 0,
           type: 2,
-          subscription_status: subscription_status[0],
+          subscription_status: remove.subscription_status,
           bill_id: 0,
         },
       });
