@@ -550,8 +550,6 @@ export const userLogin = async (password) => {
           .join("products", "products.id", "=", "subscribed_user_details.product_id")
           .where({"subscribed_user_details.id":product[i].subscription_id,'subscribed_user_details.rider_status':'delivered'});
 
-          
-            console.log("req.body")
             
             suma =Number(one[0].price) + Number(one[0].subscription_monthly_price)
             sumb =Number(one[0].quantity) + Number(one[0].subscription_delivered_quantity);

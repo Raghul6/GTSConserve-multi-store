@@ -414,7 +414,7 @@ export const orderStatusUpdate = async (req, res) => {
         },
       });
 
-    return res.status(responseCode.SUCCESS).json({  data:orderstatus })
+    return res.status(responseCode.SUCCESS).json( orderstatus )
 
   }
 
