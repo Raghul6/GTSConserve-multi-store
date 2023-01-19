@@ -321,7 +321,7 @@ export const getSingleorder = async (req, res) => {
         products.push({
           "product_id": order.query3[0].id,
           "product_name": order.query3[0].product_name,
-          "subscription_id": order.query3[0].id,
+          "subscription_id": order.daily[0].subscription_id,
           "variation": order.query3[0].unit_value + "" + order.query3[0].unit_type,
           "quantity": order.query3[0].quantity,
           "delivered_status":order.query5[0]!=null? order.query5[i].status:"null"
@@ -363,7 +363,7 @@ export const getSingleorder = async (req, res) => {
   catch (error) {
     console.log(error);
     return res.status(responseCode.FAILURE.DATA_NOT_FOUND)
-      .json({ status: false, message: messages.SERVER_ERROR });
+      .json({ status: false, message: "please chack your order status" });
   }
 }
 
@@ -376,7 +376,7 @@ export const orderStatusUpdate = async (req, res) => {
   try {
 
     const { user_id, delivery_partner_id, one_liter_count, half_liter_count, order_id, order_status, product, addons, additional_orders } = req.body;
-    // console.log(req.body)
+    
     if (!user_id || !order_id || !order_status) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)

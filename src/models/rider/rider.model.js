@@ -376,7 +376,7 @@ export const userLogin = async (password) => {
          if(product){
           for(let i=0; i<product.length; i++){
            const subscription = await knex('subscribed_user_details').update({rider_status:order_status}).where({id:product[i].subscription_id})
-          console.log(subscription)
+          // console.log(subscription)
            const one =await knex('subscribed_user_details')
           .select("subscribed_user_details.id","products.unit_value ","subscribed_user_details.quantity","subscribed_user_details.rider_status","products.price","subscribed_user_details.subscription_monthly_price","subscribed_user_details.subscription_delivered_quantity")
           .join("products", "products.id", "=", "subscribed_user_details.product_id")
@@ -550,16 +550,8 @@ export const userLogin = async (password) => {
           .join("products", "products.id", "=", "subscribed_user_details.product_id")
           .where({"subscribed_user_details.id":product[i].subscription_id,'subscribed_user_details.rider_status':'delivered'});
 
-          console.log(one)
-          // console.log(one[0].rider_status)
-          // bottle_entry2.push(one[0])
-       
-        // console.log(bottle_entry2)
-          // for(let i=0; i<bottle_entry2.length; i++){
           
-            console.log(i)
-            console.log(one[0].price)
-            
+            console.log("req.body")
             
             suma =Number(one[0].price) + Number(one[0].subscription_monthly_price)
             sumb =Number(one[0].quantity) + Number(one[0].subscription_delivered_quantity);
@@ -583,7 +575,7 @@ export const userLogin = async (password) => {
         
         //  bottle_entry3.push(one1[0])
 
-       console.log(one1)
+      //  console.log(one1)
         //  }
         //  for(let i=0; i<bottle_entry3.length; i++){
      
@@ -607,7 +599,7 @@ export const userLogin = async (password) => {
              sum1 =Number(total[0].subscription_monthly_price +total[0].additional_monthly_price);
             sum2 =Number(total[0].subscription_delivered_quantity +total[0].additional_delivered_quantity);
 
-            console.log(total)
+            // console.log(total)
 
         await knex('subscribed_user_details')
         .update({total_monthly_price:sum1,total_delivered_quantity:sum2})
