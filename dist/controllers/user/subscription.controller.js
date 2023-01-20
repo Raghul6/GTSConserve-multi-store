@@ -435,7 +435,11 @@ var getAllSubscription = /*#__PURE__*/function () {
 exports.getAllSubscription = getAllSubscription;
 var singleSubscription = /*#__PURE__*/function () {
   var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(req, res) {
+<<<<<<< HEAD
     var _req$body5, userId, subscription_id, data1, sub, date, i, j, response;
+=======
+    var _req$body5, userId, subscription_id, sub, i, j, response;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
     return _regeneratorRuntime().wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
@@ -451,6 +455,7 @@ var singleSubscription = /*#__PURE__*/function () {
               message: _messages["default"].MANDATORY_ERROR
             }));
           case 4:
+<<<<<<< HEAD
             data1 = [];
             _context9.next = 7;
             return (0, _subscription.single_subscription)(userId, subscription_id);
@@ -459,22 +464,42 @@ var singleSubscription = /*#__PURE__*/function () {
             date = [];
             if (sub.status) {
               _context9.next = 11;
+=======
+            _context9.next = 6;
+            return (0, _subscription.single_subscription)(userId, subscription_id);
+          case 6:
+            sub = _context9.sent;
+            if (sub.status) {
+              _context9.next = 9;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
               break;
             }
             return _context9.abrupt("return", res.status(_responseCode["default"].FAILURE.DATA_NOT_FOUND).json({
               status: false,
               message: sub.message
             }));
+<<<<<<< HEAD
           case 11:
             i = 0;
           case 12:
             if (!(i < sub.data.length)) {
               _context9.next = 28;
+=======
+          case 9:
+            i = 0;
+          case 10:
+            if (!(i < sub.data.length)) {
+              _context9.next = 27;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
               break;
             }
             sub.data[i].image = process.env.BASE_URL + sub.data[i].image;
             sub.data[i].subscription_start_date = (0, _moment["default"])().format("YYYY-MM-DD");
+<<<<<<< HEAD
             sub.data[i].customized_days = sub.data[i].customized_days != null ? [sub.data[i].customized_days] : [];
+=======
+            sub.data[i].customized_days = sub.data[i].customized_days;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             sub.data[i].address_id = sub.data[i].address_id;
             sub.data[i].quantity = sub.data[i].quantity;
             sub.data[i].price = sub.data[i].price;
@@ -486,21 +511,35 @@ var singleSubscription = /*#__PURE__*/function () {
               sub.data[i].unit = sub.data[i].unit_value + " " + sub.data[i].unit_type;
             }
             for (j = 0; j < sub.add_product.length; j++) {
+<<<<<<< HEAD
               console.log(sub.add_product[0][j].id);
               sub.add_product[0][j].id = sub.add_product[0][j].id;
               sub.add_product[0][j].image = sub.add_product[0][j].image;
               sub.add_product[0][j].date = [(0, _moment["default"])().format("YYYY-MM-DD")];
+=======
+              sub.add_product[0][j].id = sub.add_product[0][j].id;
+              sub.add_product[0][j].image = sub.add_product[0][j].image;
+              sub.add_product[0][j].date = [(0, _moment["default"])(sub.add_product[0][j].date).format("YYYY-MM-DD")];
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
               delete sub.data[i].unit_value;
               delete sub.data[i].unit_type;
             }
             response = {
+<<<<<<< HEAD
               additional_orders: sub.add_product[0] != null ? sub.add_product[0] : [],
               this_month_item_detail: sub.this_month_item_detail[0]
             };
+=======
+              additional_orders: sub.add_product[0],
+              this_month_item_detail: sub.this_month_item_detail[0]
+            }; // console.log(sub.data[0])
+            console.log(sub.data, response);
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return _context9.abrupt("return", res.status(_responseCode["default"].SUCCESS).json({
               status: true,
               data: _objectSpread(_objectSpread({}, sub.data[0]), response)
             }));
+<<<<<<< HEAD
           case 25:
             i++;
             _context9.next = 12;
@@ -510,18 +549,37 @@ var singleSubscription = /*#__PURE__*/function () {
             break;
           case 30:
             _context9.prev = 30;
+=======
+          case 24:
+            i++;
+            _context9.next = 10;
+            break;
+          case 27:
+            _context9.next = 33;
+            break;
+          case 29:
+            _context9.prev = 29;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             _context9.t0 = _context9["catch"](0);
             console.log(_context9.t0);
             return _context9.abrupt("return", res.status(_responseCode["default"].FAILURE.DATA_NOT_FOUND).json({
               status: false,
               message: _messages["default"].DATA_NOT_FOUND
             }));
+<<<<<<< HEAD
           case 34:
+=======
+          case 33:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
           case "end":
             return _context9.stop();
         }
       }
+<<<<<<< HEAD
     }, _callee9, null, [[0, 30]]);
+=======
+    }, _callee9, null, [[0, 29]]);
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
   }));
   return function singleSubscription(_x15, _x16) {
     return _ref9.apply(this, arguments);

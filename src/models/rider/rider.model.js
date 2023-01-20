@@ -360,6 +360,7 @@ export const userLogin = async (password) => {
     try {
       const update1 = await knex('daily_orders')
       .select("tour_status","user_address_id").where({user_id:user_id,id:order_id});
+      // console.log(update1)
       if(update1[0].tour_status=="started"){
 
          const update = await knex('daily_orders')
@@ -375,7 +376,7 @@ export const userLogin = async (password) => {
          if(product){
           for(let i=0; i<product.length; i++){
            const subscription = await knex('subscribed_user_details').update({rider_status:order_status}).where({id:product[i].subscription_id})
-            
+          // console.log(subscription)
            const one =await knex('subscribed_user_details')
           .select("subscribed_user_details.id","products.unit_value ","subscribed_user_details.quantity","subscribed_user_details.rider_status","products.price","subscribed_user_details.subscription_monthly_price","subscribed_user_details.subscription_delivered_quantity")
           .join("products", "products.id", "=", "subscribed_user_details.product_id")
@@ -396,8 +397,9 @@ export const userLogin = async (password) => {
         //  }
        let sum_day = 1;
        const day = await knex ('subscribed_user_details').select('no_delivered_days')
-       .where({"subscribed_user_details.id":product[i].subscription_id,"subscribed_user_details.rider_status":"delivered"});
+       .where({"subscribed_user_details.id":product[i].subscription_id});
 
+      //  console.log(day[0].no_delivered_days)
        sum_day += day[0].no_delivered_days
 
         const no_of_days1 = await knex ('subscribed_user_details').update({no_delivered_days:sum_day}).where({"subscribed_user_details.id":product[i].subscription_id});
@@ -548,16 +550,6 @@ export const userLogin = async (password) => {
           .join("products", "products.id", "=", "subscribed_user_details.product_id")
           .where({"subscribed_user_details.id":product[i].subscription_id,'subscribed_user_details.rider_status':'delivered'});
 
-          console.log(one)
-          // console.log(one[0].rider_status)
-          // bottle_entry2.push(one[0])
-       
-        // console.log(bottle_entry2)
-          // for(let i=0; i<bottle_entry2.length; i++){
-          
-            console.log(i)
-            console.log(one[0].price)
-            
             
             suma =Number(one[0].price) + Number(one[0].subscription_monthly_price)
             sumb =Number(one[0].quantity) + Number(one[0].subscription_delivered_quantity);
@@ -581,7 +573,7 @@ export const userLogin = async (password) => {
         
         //  bottle_entry3.push(one1[0])
 
-       console.log(one1)
+      //  console.log(one1)
         //  }
         //  for(let i=0; i<bottle_entry3.length; i++){
      
@@ -605,7 +597,7 @@ export const userLogin = async (password) => {
              sum1 =Number(total[0].subscription_monthly_price +total[0].additional_monthly_price);
             sum2 =Number(total[0].subscription_delivered_quantity +total[0].additional_delivered_quantity);
 
-            console.log(total)
+            // console.log(total)
 
         await knex('subscribed_user_details')
         .update({total_monthly_price:sum1,total_delivered_quantity:sum2})
@@ -756,7 +748,7 @@ export const order_list = async (delivery_partner_id,status) =>{
     const order1 = await knex('daily_orders')
     .join("users", "users.id", "=", "daily_orders.user_id")
     .select(
-      'daily_orders.id',
+      'daily_orders.id',"daily_orders.user_id",
       'daily_orders.total_collective_bottle',
       'daily_orders.status','daily_orders.add_on_order_id',
       'daily_orders.user_id','daily_orders.total_qty','daily_orders.tour_status','users.name','users.user_unique_id','users.bottle_status',"daily_orders.router_id")
@@ -814,6 +806,7 @@ export const order_list = async (delivery_partner_id,status) =>{
       // "addon_items_delivered": add_on_count[0].status,
       // "addon_items_undelivered": add_on_count[0].status,
       "user_name": order1[i].name,
+      "user_id": order1[i].user_id,
       "customer_id": order1[i].user_unique_id,
       "bottle_return":order1[0].bottle_status,
       "order_status": order1[i].status

@@ -23,7 +23,15 @@ var get_subscription_or_add_on_products = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
+<<<<<<< HEAD
             return (0, _db["default"])("products").join("unit_types", "unit_types.id", "=", "products.unit_type_id").join("subscribed_user_details", "subscribed_user_details.product_id", "=", "products.id").select("products.id", "products.name", "products.image", "products.unit_value", "unit_types.value as unit_type", "products.price", "products.demo_price", "subscribed_user_details.is_subscribed").where({
+=======
+            return (0, _db["default"])("products").join("unit_types", "unit_types.id", "=", "products.unit_type_id")
+            // .join("subscribed_user_details", "subscribed_user_details.product_id", "=", "products.id")
+            .select("products.id", "products.name", "products.image", "products.unit_value", "unit_types.value as unit_type", "products.price", "products.demo_price"
+            // "subscribed_user_details.is_subscribed"
+            ).where({
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
               product_type_id: id
             });
           case 3:
@@ -77,7 +85,11 @@ var get_products = /*#__PURE__*/function () {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
+<<<<<<< HEAD
             return (0, _db["default"])("products").join("unit_types", "unit_types.id", "=", "products.unit_type_id").join("subscribed_user_details", "subscribed_user_details.product_id", "=", "products.id").select("products.id as product_id", "products.name", "products.image", "products.unit_value", "unit_types.value as unit_type", "products.price", "products.demo_price", "subscribed_user_details.is_subscribed").where({
+=======
+            return (0, _db["default"])("products").join("unit_types", "unit_types.id", "=", "products.unit_type_id").select("products.id as product_id", "products.name", "products.image", "products.unit_value", "unit_types.value as unit_type", "products.price", "products.demo_price").where({
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
               category_id: category_id,
               product_type_id: product_type_id
             });

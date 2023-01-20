@@ -551,7 +551,9 @@ var getSingleorder = /*#__PURE__*/function () {
               "order_status": order.query1[0].status,
               "empty_bottle_count": order.daily[0].total_collective_bottle,
               "total_litre": order.daily[0].total_qty + " " + order.query3[0].unit_type,
-              "total_addons_count": order.query5[0].order_id,
+
+              "total_addons_count": order.query5[0] != null ? order.query5[0].order_id : "0",
+
               "delivered_addons_count": order.query6.length
             };
             user = {
@@ -572,7 +574,9 @@ var getSingleorder = /*#__PURE__*/function () {
                 "subscription_id": order.query3[0].id,
                 "variation": order.query3[0].unit_value + "" + order.query3[0].unit_type,
                 "quantity": order.query3[0].quantity,
-                "delivered_status": order.query5[i].status
+
+                "delivered_status": order.query5[0] != null ? order.query5[i].status : "null"
+
               });
             }
             additional = [];
@@ -638,7 +642,9 @@ var orderStatusUpdate = /*#__PURE__*/function () {
         switch (_context9.prev = _context9.next) {
           case 0:
             _context9.prev = 0;
-            _req$body6 = req.body, user_id = _req$body6.user_id, delivery_partner_id = _req$body6.delivery_partner_id, one_liter_count = _req$body6.one_liter_count, half_liter_count = _req$body6.half_liter_count, order_id = _req$body6.order_id, order_status = _req$body6.order_status, product = _req$body6.product, addons = _req$body6.addons, additional_orders = _req$body6.additional_orders;
+
+            _req$body6 = req.body, user_id = _req$body6.user_id, delivery_partner_id = _req$body6.delivery_partner_id, one_liter_count = _req$body6.one_liter_count, half_liter_count = _req$body6.half_liter_count, order_id = _req$body6.order_id, order_status = _req$body6.order_status, product = _req$body6.product, addons = _req$body6.addons, additional_orders = _req$body6.additional_orders; // console.log(req.body)
+
             if (!(!user_id || !order_id || !order_status)) {
               _context9.next = 4;
               break;

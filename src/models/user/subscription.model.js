@@ -104,6 +104,8 @@ export const get_subscription_product = async (userId) => {
       ).orderBy('subscription_id','desc')
       .where({ "sub.user_id": userId });
 
+      
+
     if (products.length === 0) {
       return { status: false, message: "No Subscription Found" };
     }
@@ -149,11 +151,13 @@ export const single_subscription = async (userId, sub_id) => {
       // console.log(products)
      const additional = await knex('additional_orders').select('id','subscription_id','user_id').where({subscription_id: sub_id})
 
-    
+  
+if(additional.length !==0){
 
-     for (let i=0;i<additional.length;i++){
-      
-      const query = await knex("subscribed_user_details AS sub").select(
+  
+  for (let i=0;i<additional.length;i++){
+    
+    const query = await knex("additional_orders").select(
         "additional_orders.id",
         "additional_orders.id as id", 
         "additional_orders.date ",
@@ -166,14 +170,17 @@ export const single_subscription = async (userId, sub_id) => {
         "products.unit_value",
         "unit_types.value as unit_type",
       )
-      .join("additional_orders","additional_orders.user_id","=","sub.user_id")
-      .join("products", "products.id", "=", "sub.product_id")
+      .join("subscribed_user_details","additional_orders.subscription_id","=","subscribed_user_details.id")
+      .join("products", "products.id", "=", "subscribed_user_details.product_id")
       .join("unit_types", "unit_types.id", "=", "products.unit_type_id")
-      .where({'additional_orders.user_id':additional[i].user_id})
+      .where({subscription_id: sub_id})
       
 
      add_product.push(query)
-      }
+    }
+  }
+
+  // console.log(add_product)
       //  console.log(add_product)
       const this_month_item_detail = await knex("users").select(
         "one_liter_in_hand as delivered_orders",
@@ -225,7 +232,7 @@ export const remove_subscription = async (user_id, subscription_id) => {
     const remove = await knex("subscribed_user_details")
       .update({ subscription_status: "unsubscribed" })
       .where({ user_id: user_id, id: subscription_id });
-
+// console.log(remove)
       await sendNotification({
         include_external_user_ids: [user_id.toString()],
         contents: { en: `Your Additional Order Placed SuccessFully` },
@@ -236,7 +243,7 @@ export const remove_subscription = async (user_id, subscription_id) => {
           category_id: 0,
           product_type_id: 0,
           type: 2,
-          subscription_status: subscription_status[0],
+          subscription_status: remove.subscription_status,
           bill_id: 0,
         },
       });

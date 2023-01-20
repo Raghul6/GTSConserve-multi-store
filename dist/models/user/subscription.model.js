@@ -177,6 +177,7 @@ var single_subscription = /*#__PURE__*/function () {
             });
           case 4:
             products = _context3.sent;
+<<<<<<< HEAD
             _context3.next = 7;
             return (0, _db["default"])('additional_orders').select('id', 'subscription_id', 'user_id').where({
               subscription_id: sub_id
@@ -209,33 +210,89 @@ var single_subscription = /*#__PURE__*/function () {
             this_month_item_detail = _context3.sent;
             if (!(products.length === 0)) {
               _context3.next = 22;
+=======
+            console.log(products);
+            _context3.next = 8;
+            return (0, _db["default"])('additional_orders').select('id', 'subscription_id', 'user_id').where({
+              subscription_id: sub_id
+            });
+          case 8:
+            additional = _context3.sent;
+            if (!(additional.length !== 0)) {
+              _context3.next = 19;
+              break;
+            }
+            i = 0;
+          case 11:
+            if (!(i < additional.length)) {
+              _context3.next = 19;
+              break;
+            }
+            _context3.next = 14;
+            return (0, _db["default"])("additional_orders").select("additional_orders.id", "additional_orders.id as id", "additional_orders.date ", "additional_orders.quantity", "additional_orders.status", "products.name as product_name", "products.image", "products.demo_price", "products.price", "products.unit_value", "unit_types.value as unit_type").join("subscribed_user_details", "additional_orders.subscription_id", "=", "subscribed_user_details.id").join("products", "products.id", "=", "subscribed_user_details.product_id").join("unit_types", "unit_types.id", "=", "products.unit_type_id").where({
+              subscription_id: sub_id
+            });
+          case 14:
+            query = _context3.sent;
+            add_product.push(query);
+          case 16:
+            i++;
+            _context3.next = 11;
+            break;
+          case 19:
+            _context3.next = 21;
+            return (0, _db["default"])("users").select("one_liter_in_hand as delivered_orders", "one_liter_in_return as remaining_orders", "half_liter_in_hand as additional_delivered_orders", "one_liter_in_return as additional_remaining_orders").where({
+              id: userId
+            });
+          case 21:
+            this_month_item_detail = _context3.sent;
+            if (!(products.length === 0)) {
+              _context3.next = 24;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
               break;
             }
             return _context3.abrupt("return", {
               status: false,
               message: "No Subscription Found"
             });
+<<<<<<< HEAD
           case 22:
+=======
+          case 24:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return _context3.abrupt("return", {
               status: true,
               data: products,
               add_product: add_product,
               this_month_item_detail: this_month_item_detail
             });
+<<<<<<< HEAD
           case 25:
             _context3.prev = 25;
+=======
+          case 27:
+            _context3.prev = 27;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             _context3.t0 = _context3["catch"](0);
             console.log(_context3.t0);
             return _context3.abrupt("return", {
               status: false,
               message: "No Subscription Found"
             });
+<<<<<<< HEAD
           case 29:
+=======
+          case 31:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
           case "end":
             return _context3.stop();
         }
       }
+<<<<<<< HEAD
     }, _callee3, null, [[0, 25]]);
+=======
+    }, _callee3, null, [[0, 27]]);
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
   }));
   return function single_subscription(_x9, _x10) {
     return _ref3.apply(this, arguments);

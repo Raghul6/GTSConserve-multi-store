@@ -59,7 +59,9 @@ var getCities = /*#__PURE__*/function () {
             }));
           case 22:
             _context.next = 24;
+dist/controllers/super_admin/list/city.controller.js
             return (0, _helper.getPageNumber)(req, res, data_length, "list/promo_code");
+
           case 24:
             _yield$getPageNumber = _context.sent;
             startingLimit = _yield$getPageNumber.startingLimit;
@@ -148,7 +150,9 @@ var createCity = /*#__PURE__*/function () {
             return (0, _db["default"])("cities").insert(query);
           case 10:
             req.flash("success", "City Created SuccessFully");
+       dist/controllers/super_admin/list/city.controller.js
             res.redirect("/super_admin/list/promo_code");
+
             _context2.next = 18;
             break;
           case 14:
@@ -198,7 +202,9 @@ var updateCity = /*#__PURE__*/function () {
             });
           case 11:
             req.flash("success", "Updated SuccessFully");
+       dist/controllers/super_admin/list/city.controller.js
             res.redirect("/super_admin/list/promo_code");
+
             _context3.next = 19;
             break;
           case 15:

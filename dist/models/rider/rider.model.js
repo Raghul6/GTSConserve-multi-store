@@ -654,7 +654,11 @@ var statusupdate = /*#__PURE__*/function () {
           case 3:
             update1 = _context12.sent;
             if (!(update1[0].tour_status == "started")) {
+<<<<<<< HEAD
               _context12.next = 210;
+=======
+              _context12.next = 211;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
               break;
             }
             _context12.next = 7;
@@ -673,13 +677,21 @@ var statusupdate = /*#__PURE__*/function () {
             sumx = 0;
             sumy = 0;
             if (!product) {
+<<<<<<< HEAD
               _context12.next = 207;
+=======
+              _context12.next = 208;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
               break;
             }
             i = 0;
           case 16:
             if (!(i < product.length)) {
+<<<<<<< HEAD
               _context12.next = 35;
+=======
+              _context12.next = 36;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
               break;
             }
             _context12.next = 19;
@@ -690,11 +702,20 @@ var statusupdate = /*#__PURE__*/function () {
             });
           case 19:
             subscription = _context12.sent;
+<<<<<<< HEAD
             _context12.next = 22;
             return (0, _db["default"])('subscribed_user_details').select("subscribed_user_details.id", "products.unit_value ", "subscribed_user_details.quantity", "subscribed_user_details.rider_status", "products.price", "subscribed_user_details.subscription_monthly_price", "subscribed_user_details.subscription_delivered_quantity").join("products", "products.id", "=", "subscribed_user_details.product_id").where({
               "subscribed_user_details.id": product[i].subscription_id
             });
           case 22:
+=======
+            console.log(subscription);
+            _context12.next = 23;
+            return (0, _db["default"])('subscribed_user_details').select("subscribed_user_details.id", "products.unit_value ", "subscribed_user_details.quantity", "subscribed_user_details.rider_status", "products.price", "subscribed_user_details.subscription_monthly_price", "subscribed_user_details.subscription_delivered_quantity").join("products", "products.id", "=", "subscribed_user_details.product_id").where({
+              "subscribed_user_details.id": product[i].subscription_id
+            });
+          case 23:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             one = _context12.sent;
             // console.log(one)
             // console.log(one[0].rider_status)
@@ -707,6 +728,7 @@ var statusupdate = /*#__PURE__*/function () {
             // .where({"subscribed_user_details.id":product[i].subscription_id});
             //  }
             sum_day = 1;
+<<<<<<< HEAD
             _context12.next = 26;
             return (0, _db["default"])('subscribed_user_details').select('no_delivered_days').where({
               "subscribed_user_details.id": product[i].subscription_id,
@@ -716,11 +738,23 @@ var statusupdate = /*#__PURE__*/function () {
             day = _context12.sent;
             sum_day += day[0].no_delivered_days;
             _context12.next = 30;
+=======
+            _context12.next = 27;
+            return (0, _db["default"])('subscribed_user_details').select('no_delivered_days').where({
+              "subscribed_user_details.id": product[i].subscription_id
+            });
+          case 27:
+            day = _context12.sent;
+            //  console.log(day[0].no_delivered_days)
+            sum_day += day[0].no_delivered_days;
+            _context12.next = 31;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('subscribed_user_details').update({
               no_delivered_days: sum_day
             }).where({
               "subscribed_user_details.id": product[i].subscription_id
             });
+<<<<<<< HEAD
           case 30:
             no_of_days1 = _context12.sent;
             bottle_entry.push(one[0]);
@@ -740,11 +774,33 @@ var statusupdate = /*#__PURE__*/function () {
               break;
             }
             _context12.next = 40;
+=======
+          case 31:
+            no_of_days1 = _context12.sent;
+            bottle_entry.push(one[0]);
+          case 33:
+            i++;
+            _context12.next = 16;
+            break;
+          case 36:
+            j = 0;
+          case 37:
+            if (!(j < bottle_entry.length)) {
+              _context12.next = 81;
+              break;
+            }
+            if (!(bottle_entry[j].unit_value == 1000)) {
+              _context12.next = 59;
+              break;
+            }
+            _context12.next = 41;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('users').update({
               today_one_liter: bottle_entry[j].quantity
             }).where({
               id: user_id
             });
+<<<<<<< HEAD
           case 40:
             entry = _context12.sent;
             _context12.next = 43;
@@ -752,16 +808,30 @@ var statusupdate = /*#__PURE__*/function () {
               id: user_id
             });
           case 43:
+=======
+          case 41:
+            entry = _context12.sent;
+            _context12.next = 44;
+            return (0, _db["default"])('users').select('total_one_liter').where({
+              id: user_id
+            });
+          case 44:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             total_one_liter = _context12.sent;
             // console.log(total_one_liter);
             sum_total = 0;
             sum_total += Number(total_one_liter[0].total_one_liter + bottle_entry[j].quantity);
+<<<<<<< HEAD
             _context12.next = 48;
+=======
+            _context12.next = 49;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('users').update({
               total_one_liter: sum_total
             }).where({
               id: user_id
             });
+<<<<<<< HEAD
           case 48:
             sum = _context12.sent;
             _context12.next = 51;
@@ -772,11 +842,24 @@ var statusupdate = /*#__PURE__*/function () {
             return1 = _context12.sent;
             given_bottle = return1[0].total_one_liter - one_liter_count;
             _context12.next = 55;
+=======
+          case 49:
+            sum = _context12.sent;
+            _context12.next = 52;
+            return (0, _db["default"])('users').select('total_one_liter').where({
+              id: user_id
+            });
+          case 52:
+            return1 = _context12.sent;
+            given_bottle = return1[0].total_one_liter - one_liter_count;
+            _context12.next = 56;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('users').update({
               one_liter_in_hand: given_bottle
             }).where({
               id: user_id
             });
+<<<<<<< HEAD
           case 55:
             sum1 = _context12.sent;
             _context12.next = 77;
@@ -787,11 +870,24 @@ var statusupdate = /*#__PURE__*/function () {
               break;
             }
             _context12.next = 61;
+=======
+          case 56:
+            sum1 = _context12.sent;
+            _context12.next = 78;
+            break;
+          case 59:
+            if (!(bottle_entry[j].unit_value == 500)) {
+              _context12.next = 78;
+              break;
+            }
+            _context12.next = 62;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('users').update({
               today_half_liter: bottle_entry[j].quantity
             }).where({
               id: user_id
             });
+<<<<<<< HEAD
           case 61:
             _entry = _context12.sent;
             _context12.next = 64;
@@ -799,16 +895,30 @@ var statusupdate = /*#__PURE__*/function () {
               id: user_id
             });
           case 64:
+=======
+          case 62:
+            _entry = _context12.sent;
+            _context12.next = 65;
+            return (0, _db["default"])('users').select('total_half_liter').where({
+              id: user_id
+            });
+          case 65:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             total_half_liter1 = _context12.sent;
             // console.log(total_one_liter);
             _sum_total = 0;
             _sum_total += Number(total_half_liter1[0].total_half_liter + bottle_entry[j].quantity);
+<<<<<<< HEAD
             _context12.next = 69;
+=======
+            _context12.next = 70;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('users').update({
               total_half_liter: _sum_total
             }).where({
               id: user_id
             });
+<<<<<<< HEAD
           case 69:
             _sum = _context12.sent;
             _context12.next = 72;
@@ -819,11 +929,24 @@ var statusupdate = /*#__PURE__*/function () {
             _return = _context12.sent;
             _given_bottle = _return[0].total_half_liter - half_liter_count;
             _context12.next = 76;
+=======
+          case 70:
+            _sum = _context12.sent;
+            _context12.next = 73;
+            return (0, _db["default"])('users').select('total_half_liter').where({
+              id: user_id
+            });
+          case 73:
+            _return = _context12.sent;
+            _given_bottle = _return[0].total_half_liter - half_liter_count;
+            _context12.next = 77;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('users').update({
               half_liter_in_hand: _given_bottle
             }).where({
               id: user_id
             });
+<<<<<<< HEAD
           case 76:
             _sum2 = _context12.sent;
           case 77:
@@ -842,20 +965,50 @@ var statusupdate = /*#__PURE__*/function () {
               break;
             }
             _context12.next = 85;
+=======
+          case 77:
+            _sum2 = _context12.sent;
+          case 78:
+            j++;
+            _context12.next = 37;
+            break;
+          case 81:
+            if (!(additional_orders.length !== 0)) {
+              _context12.next = 159;
+              break;
+            }
+            _j = 0;
+          case 83:
+            if (!(_j < additional_orders.length)) {
+              _context12.next = 94;
+              break;
+            }
+            _context12.next = 86;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('additional_orders').update({
               status: order_status
             }).where({
               id: additional_orders[_j].additional_order_id,
               subscription_id: additional_orders[_j].subscription_id
             });
+<<<<<<< HEAD
           case 85:
             additional_order = _context12.sent;
             _context12.next = 88;
+=======
+          case 86:
+            additional_order = _context12.sent;
+            _context12.next = 89;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('subscribed_user_details').select("products.unit_value ", "additional_orders.quantity", "subscribed_user_details.id", "additional_orders.status as status", "products.price", "subscribed_user_details.additional_monthly_price", "subscribed_user_details.additional_delivered_quantity").join("additional_orders", "additional_orders.subscription_id", "=", "subscribed_user_details.id").join("products", "products.id", "=", "subscribed_user_details.product_id").where({
               "additional_orders.id": additional_orders[_j].additional_order_id,
               "subscribed_user_details.id": additional_orders[_j].subscription_id
             });
+<<<<<<< HEAD
           case 88:
+=======
+          case 89:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             one1 = _context12.sent;
             // console.log(one1)
 
@@ -869,6 +1022,7 @@ var statusupdate = /*#__PURE__*/function () {
             //  .where({"additional_orders.id":additional_orders[j].additional_order_id,"subscribed_user_details.id":additional_orders[j].subscription_id});
             //   }
             bottle_entry1.push(one1[0]);
+<<<<<<< HEAD
           case 90:
             _j++;
             _context12.next = 82;
@@ -885,11 +1039,30 @@ var statusupdate = /*#__PURE__*/function () {
               break;
             }
             _context12.next = 98;
+=======
+          case 91:
+            _j++;
+            _context12.next = 83;
+            break;
+          case 94:
+            _j2 = 0;
+          case 95:
+            if (!(_j2 < bottle_entry1.length)) {
+              _context12.next = 159;
+              break;
+            }
+            if (!(bottle_entry1[_j2].unit_value == 1000)) {
+              _context12.next = 117;
+              break;
+            }
+            _context12.next = 99;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('users').update({
               today_one_liter: bottle_entry1[_j2].quantity
             }).where({
               id: user_id
             });
+<<<<<<< HEAD
           case 98:
             _entry2 = _context12.sent;
             _context12.next = 101;
@@ -897,17 +1070,31 @@ var statusupdate = /*#__PURE__*/function () {
               id: user_id
             });
           case 101:
+=======
+          case 99:
+            _entry2 = _context12.sent;
+            _context12.next = 102;
+            return (0, _db["default"])('users').select('total_one_liter').where({
+              id: user_id
+            });
+          case 102:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             _total_one_liter = _context12.sent;
             // console.log(total_one_liter);
             _sum_total2 = 0;
             _sum_total2 += Number(_total_one_liter[0].total_one_liter) + Number(bottle_entry1[_j2].quantity);
             // console.log( sum_total)
+<<<<<<< HEAD
             _context12.next = 106;
+=======
+            _context12.next = 107;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('users').update({
               total_one_liter: _sum_total2
             }).where({
               id: user_id
             });
+<<<<<<< HEAD
           case 106:
             _sum3 = _context12.sent;
             _context12.next = 109;
@@ -918,11 +1105,24 @@ var statusupdate = /*#__PURE__*/function () {
             _return2 = _context12.sent;
             _given_bottle2 = _return2[0].total_one_liter - one_liter_count;
             _context12.next = 113;
+=======
+          case 107:
+            _sum3 = _context12.sent;
+            _context12.next = 110;
+            return (0, _db["default"])('users').select('total_one_liter').where({
+              id: user_id
+            });
+          case 110:
+            _return2 = _context12.sent;
+            _given_bottle2 = _return2[0].total_one_liter - one_liter_count;
+            _context12.next = 114;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('users').update({
               one_liter_in_hand: _given_bottle2
             }).where({
               id: user_id
             });
+<<<<<<< HEAD
           case 113:
             _sum4 = _context12.sent;
             _context12.next = 138;
@@ -933,11 +1133,24 @@ var statusupdate = /*#__PURE__*/function () {
               break;
             }
             _context12.next = 119;
+=======
+          case 114:
+            _sum4 = _context12.sent;
+            _context12.next = 139;
+            break;
+          case 117:
+            if (!(bottle_entry1[_j2].unit_value == 500)) {
+              _context12.next = 138;
+              break;
+            }
+            _context12.next = 120;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('users').update({
               today_half_liter: bottle_entry1[_j2].quantity
             }).where({
               id: user_id
             });
+<<<<<<< HEAD
           case 119:
             _entry3 = _context12.sent;
             _context12.next = 122;
@@ -945,16 +1158,30 @@ var statusupdate = /*#__PURE__*/function () {
               id: user_id
             });
           case 122:
+=======
+          case 120:
+            _entry3 = _context12.sent;
+            _context12.next = 123;
+            return (0, _db["default"])('users').select('total_half_liter').where({
+              id: user_id
+            });
+          case 123:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             _total_half_liter = _context12.sent;
             // console.log(total_one_liter);
             _sum_total3 = 0;
             _sum_total3 += Number(_total_half_liter[0].total_half_liter + bottle_entry[_j2].quantity);
+<<<<<<< HEAD
             _context12.next = 127;
+=======
+            _context12.next = 128;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('users').update({
               total_half_liter: _sum_total3
             }).where({
               id: user_id
             });
+<<<<<<< HEAD
           case 127:
             _sum5 = _context12.sent;
             _context12.next = 130;
@@ -965,20 +1192,41 @@ var statusupdate = /*#__PURE__*/function () {
             _return3 = _context12.sent;
             _given_bottle3 = _return3[0].total_half_liter - half_liter_count;
             _context12.next = 134;
+=======
+          case 128:
+            _sum5 = _context12.sent;
+            _context12.next = 131;
+            return (0, _db["default"])('users').select('total_half_liter').where({
+              id: user_id
+            });
+          case 131:
+            _return3 = _context12.sent;
+            _given_bottle3 = _return3[0].total_half_liter - half_liter_count;
+            _context12.next = 135;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('users').update({
               half_liter_in_hand: _given_bottle3
             }).where({
               id: user_id
             });
+<<<<<<< HEAD
           case 134:
             _sum6 = _context12.sent;
             _context12.next = 138;
             break;
           case 137:
+=======
+          case 135:
+            _sum6 = _context12.sent;
+            _context12.next = 139;
+            break;
+          case 138:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return _context12.abrupt("return", {
               status: false,
               message: "no additional_orders product"
             });
+<<<<<<< HEAD
           case 138:
             if (!addons) {
               _context12.next = 155;
@@ -991,11 +1239,26 @@ var statusupdate = /*#__PURE__*/function () {
               break;
             }
             _context12.next = 143;
+=======
+          case 139:
+            if (!addons) {
+              _context12.next = 156;
+              break;
+            }
+            _i = 0;
+          case 141:
+            if (!(_i < addons.length)) {
+              _context12.next = 148;
+              break;
+            }
+            _context12.next = 144;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('add_on_orders').update({
               status: order_status
             }).where({
               id: addons[_i].id
             });
+<<<<<<< HEAD
           case 143:
             add_on_orders = _context12.sent;
           case 144:
@@ -1010,11 +1273,28 @@ var statusupdate = /*#__PURE__*/function () {
               break;
             }
             _context12.next = 151;
+=======
+          case 144:
+            add_on_orders = _context12.sent;
+          case 145:
+            _i++;
+            _context12.next = 141;
+            break;
+          case 148:
+            _i2 = 0;
+          case 149:
+            if (!(_i2 < addons.length)) {
+              _context12.next = 156;
+              break;
+            }
+            _context12.next = 152;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('add_on_order_items').update({
               status: order_status
             }).where({
               add_on_order_id: addons[_i2].id
             });
+<<<<<<< HEAD
           case 151:
             add_on_order_items = _context12.sent;
           case 152:
@@ -1037,11 +1317,39 @@ var statusupdate = /*#__PURE__*/function () {
               break;
             }
             _context12.next = 163;
+=======
+          case 152:
+            add_on_order_items = _context12.sent;
+          case 153:
+            _i2++;
+            _context12.next = 149;
+            break;
+          case 156:
+            _j2++;
+            _context12.next = 95;
+            break;
+          case 159:
+            if (!(order_status == 'delivered')) {
+              _context12.next = 208;
+              break;
+            }
+            _i3 = 0;
+          case 161:
+            if (!(_i3 < product.length)) {
+              _context12.next = 177;
+              break;
+            }
+            _context12.next = 164;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('subscribed_user_details').select("subscribed_user_details.id", "products.unit_value ", "subscribed_user_details.quantity", "subscribed_user_details.rider_status", "products.price", "subscribed_user_details.subscription_monthly_price", "subscribed_user_details.subscription_delivered_quantity").join("products", "products.id", "=", "subscribed_user_details.product_id").where({
               "subscribed_user_details.id": product[_i3].subscription_id,
               'subscribed_user_details.rider_status': 'delivered'
             });
+<<<<<<< HEAD
           case 163:
+=======
+          case 164:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             _one = _context12.sent;
             console.log(_one);
             // console.log(one[0].rider_status)
@@ -1054,13 +1362,18 @@ var statusupdate = /*#__PURE__*/function () {
             console.log(_one[0].price);
             suma = Number(_one[0].price) + Number(_one[0].subscription_monthly_price);
             sumb = Number(_one[0].quantity) + Number(_one[0].subscription_delivered_quantity);
+<<<<<<< HEAD
             _context12.next = 171;
+=======
+            _context12.next = 172;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('subscribed_user_details').update({
               subscription_monthly_price: suma,
               subscription_delivered_quantity: sumb
             }).where({
               "subscribed_user_details.id": product[_i3].subscription_id
             });
+<<<<<<< HEAD
           case 171:
             suma = 0;
             sumb = 0;
@@ -1076,12 +1389,33 @@ var statusupdate = /*#__PURE__*/function () {
               break;
             }
             _context12.next = 180;
+=======
+          case 172:
+            suma = 0;
+            sumb = 0;
+          case 174:
+            _i3++;
+            _context12.next = 161;
+            break;
+          case 177:
+            _j3 = 0;
+          case 178:
+            if (!(_j3 < additional_orders.length)) {
+              _context12.next = 190;
+              break;
+            }
+            _context12.next = 181;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('subscribed_user_details').select("products.unit_value ", "additional_orders.quantity", "subscribed_user_details.id as sub_id", "additional_orders.id as add_id", "additional_orders.status", "products.price", "subscribed_user_details.additional_monthly_price", "subscribed_user_details.additional_delivered_quantity").join("additional_orders", "additional_orders.subscription_id", "=", "subscribed_user_details.id").join("products", "products.id", "=", "subscribed_user_details.product_id").where({
               "additional_orders.id": additional_orders[_j3].additional_order_id,
               "subscribed_user_details.id": additional_orders[_j3].subscription_id,
               'additional_orders.status': "delivered"
             });
+<<<<<<< HEAD
           case 180:
+=======
+          case 181:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             _one2 = _context12.sent;
             //  bottle_entry3.push(one1[0])
 
@@ -1091,7 +1425,11 @@ var statusupdate = /*#__PURE__*/function () {
 
             sumx += Number(_one2[0].price + _one2[0].additional_monthly_price);
             sumy += Number(_one2[0].quantity + _one2[0].additional_delivered_quantity);
+<<<<<<< HEAD
             _context12.next = 186;
+=======
+            _context12.next = 187;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('subscribed_user_details').join("additional_orders", "additional_orders.subscription_id", "=", "subscribed_user_details.id").update({
               additional_monthly_price: sumx,
               additional_delivered_quantity: sumy
@@ -1099,6 +1437,7 @@ var statusupdate = /*#__PURE__*/function () {
               "additional_orders.id": _one2[0].add_id,
               "subscribed_user_details.id": _one2[0].sub_id
             });
+<<<<<<< HEAD
           case 186:
             _j3++;
             _context12.next = 177;
@@ -1117,53 +1456,109 @@ var statusupdate = /*#__PURE__*/function () {
               "subscribed_user_details.id": product[_i4].subscription_id
             });
           case 195:
+=======
+          case 187:
+            _j3++;
+            _context12.next = 178;
+            break;
+          case 190:
+            _sum7 = 0;
+            sum2 = 0;
+            _i4 = 0;
+          case 193:
+            if (!(_i4 < product.length)) {
+              _context12.next = 205;
+              break;
+            }
+            _context12.next = 196;
+            return (0, _db["default"])('subscribed_user_details').select('subscription_monthly_price', 'additional_monthly_price', 'subscription_delivered_quantity', 'additional_delivered_quantity').where({
+              "subscribed_user_details.id": product[_i4].subscription_id
+            });
+          case 196:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             total = _context12.sent;
             _sum7 = Number(total[0].subscription_monthly_price + total[0].additional_monthly_price);
             sum2 = Number(total[0].subscription_delivered_quantity + total[0].additional_delivered_quantity);
             console.log(total);
+<<<<<<< HEAD
             _context12.next = 201;
+=======
+            _context12.next = 202;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return (0, _db["default"])('subscribed_user_details').update({
               total_monthly_price: _sum7,
               total_delivered_quantity: sum2
             }).where({
               "subscribed_user_details.id": product[_i4].subscription_id
             });
+<<<<<<< HEAD
           case 201:
             _i4++;
             _context12.next = 192;
             break;
           case 204:
+=======
+          case 202:
+            _i4++;
+            _context12.next = 193;
+            break;
+          case 205:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return _context12.abrupt("return", {
               status: true,
               message: "ok"
             });
+<<<<<<< HEAD
           case 207:
+=======
+          case 208:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return _context12.abrupt("return", {
               status: true,
               message: "ok"
             });
+<<<<<<< HEAD
           case 210:
+=======
+          case 211:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             return _context12.abrupt("return", {
               status: false,
               message: "tour cannot started"
             });
+<<<<<<< HEAD
           case 211:
             _context12.next = 217;
             break;
           case 213:
             _context12.prev = 213;
+=======
+          case 212:
+            _context12.next = 218;
+            break;
+          case 214:
+            _context12.prev = 214;
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             _context12.t0 = _context12["catch"](0);
             console.log(_context12.t0);
             return _context12.abrupt("return", {
               status: false,
               message: "No data found"
             });
+<<<<<<< HEAD
           case 217:
+=======
+          case 218:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
           case "end":
             return _context12.stop();
         }
       }
+<<<<<<< HEAD
     }, _callee12, null, [[0, 213]]);
+=======
+    }, _callee12, null, [[0, 214]]);
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
   }));
   return function statusupdate(_x25, _x26, _x27, _x28, _x29, _x30, _x31, _x32, _x33) {
     return _ref12.apply(this, arguments);

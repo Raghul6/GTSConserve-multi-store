@@ -3,6 +3,7 @@ import messages from "../../constants/messages";
 // import axios from "axios"
 import moment from "moment";
 import { sendNotification } from "../../notifications/message.sender";
+import { customizedDay } from "../../utils/helper.util";
 
 import {
   new_subscription,
@@ -283,22 +284,34 @@ export const singleSubscription = async (req, res) => {
         .status(responseCode.FAILURE.BAD_REQUEST)
         .json({ status: false, message: messages.MANDATORY_ERROR });
     }
-     let data1 =[];
+  
     const sub = await single_subscription(userId, subscription_id);
     
-
-    let date = [];
     if (!sub.status) {
       return res
         .status(responseCode.FAILURE.DATA_NOT_FOUND)
         .json({ status: false, message: sub.message });
     }
-    // console.log( sub.add_product[0])
+
+    console.log(sub.data[0].customized_days)
+    if (sub.data[0].customized_days) {
+      let weekdays = await knex("weekdays").select("id", "name");
+      let store_weekdays = [];
+      for (let i = 0; i < sub.data[0].customized_days.length; i++) {
+        for (let j = 0; j < weekdays.length; j++) {
+          if (weekdays[j].name == sub.data[0].customized_days[i]) {
+            store_weekdays.push(weekdays[j].id);
+          }
+        }
+      }
+      sub.data[0].customized_days.customized_days = store_weekdays;
+    }
+  
     for (let i = 0; i < sub.data.length; i++) {
       
       sub.data[i].image = process.env.BASE_URL + sub.data[i].image;
       sub.data[i].subscription_start_date = moment().format("YYYY-MM-DD");
-      sub.data[i].customized_days = sub.data[i].customized_days!=null? [sub.data[i].customized_days]:[];
+      sub.data[i].customized_days = sub.data[0].customized_days.customized_days;
       sub.data[i].address_id = sub.data[i].address_id;
       sub.data[i].quantity = sub.data[i].quantity;
       sub.data[i].price = sub.data[i].price;
@@ -314,31 +327,36 @@ export const singleSubscription = async (req, res) => {
         sub.data[i].unit =
           sub.data[i].unit_value + " " + sub.data[i].unit_type;
       }
-   
+
       for (let j = 0; j < sub.add_product.length; j++) {  
-        console.log( sub.add_product[0][j].id)    
+  
       sub.add_product[0][j].id = sub.add_product[0][j].id;
       sub.add_product[0][j].image = sub.add_product[0][j].image;
-      sub.add_product[0][j].date =[(moment().format("YYYY-MM-DD"))];
+      sub.add_product[0][j].date =[(moment(sub.add_product[0][j].date).format("YYYY-MM-DD"))];
 
     
       delete sub.data[i].unit_value;
       delete sub.data[i].unit_type;
     }
+    
     const response = {
-      additional_orders: sub.add_product[0]!=null? sub.add_product[0]:[],
+      additional_orders: sub.add_product[0],
       this_month_item_detail: sub.this_month_item_detail[0],
     };
 
+    // console.log(sub.data[0])
+    // console.log( sub.data,response)
     return res
       .status(responseCode.SUCCESS)
-      .json({ status: true, data: { ...sub.data[0], ...response } });
-  } }catch (error) {
-    console.log(error);
-    return res
-      .status(responseCode.FAILURE.DATA_NOT_FOUND)
-      .json({ status: false, message: messages.DATA_NOT_FOUND });
-  }
+      .json({ status: true, data: { ...sub.data[0], ...response } })
+  } 
+}
+catch (error) {
+  console.log(error);
+  return res
+  .status(responseCode.FAILURE.DATA_NOT_FOUND)
+  .json({ status: false, message: messages.DATA_NOT_FOUND });
+}
 };
 
 export const getSubcription_order = async (req, res) => {

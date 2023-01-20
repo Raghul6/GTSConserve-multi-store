@@ -301,12 +301,12 @@ export const getSingleorder = async (req, res) => {
         "order_status": order.query1[0].status,
         "empty_bottle_count": order.daily[0].total_collective_bottle,
         "total_litre": order.daily[0].total_qty + " " + order.query3[0].unit_type,
-        "total_addons_count": order.query5[0].order_id,
+        "total_addons_count":order.query5[0]!=null? order.query5[0].order_id:"0",
         "delivered_addons_count": order.query6.length
       }
-
+// console.log( order.query2[0].user_id)
       let user = {
-        "user_id": order.query2[0].user_id,
+        "user_id": order.query2[0].id,
         "user_name": order.query2[0].user_name,
         "customer_id": order.query2[0].customer_id,
         "user_mobile": order.query2[0].user_mobile,
@@ -321,10 +321,10 @@ export const getSingleorder = async (req, res) => {
         products.push({
           "product_id": order.query3[0].id,
           "product_name": order.query3[0].product_name,
-          "subscription_id": order.query3[0].id,
+          "subscription_id": order.daily[0].subscription_id,
           "variation": order.query3[0].unit_value + "" + order.query3[0].unit_type,
           "quantity": order.query3[0].quantity,
-          "delivered_status": order.query5[i].status
+          "delivered_status":order.query5[0]!=null? order.query5[i].status:"null"
         })
       }
 
@@ -363,7 +363,7 @@ export const getSingleorder = async (req, res) => {
   catch (error) {
     console.log(error);
     return res.status(responseCode.FAILURE.DATA_NOT_FOUND)
-      .json({ status: false, message: messages.SERVER_ERROR });
+      .json({ status: false, message: "please chack your order status" });
   }
 }
 
@@ -376,7 +376,7 @@ export const orderStatusUpdate = async (req, res) => {
   try {
 
     const { user_id, delivery_partner_id, one_liter_count, half_liter_count, order_id, order_status, product, addons, additional_orders } = req.body;
-
+    
     if (!user_id || !order_id || !order_status) {
       return res
         .status(responseCode.FAILURE.BAD_REQUEST)
@@ -414,7 +414,7 @@ export const orderStatusUpdate = async (req, res) => {
         },
       });
 
-    return res.status(responseCode.SUCCESS).json({  data:orderstatus })
+    return res.status(responseCode.SUCCESS).json( orderstatus )
 
   }
 

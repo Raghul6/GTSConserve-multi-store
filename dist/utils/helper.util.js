@@ -106,7 +106,24 @@ var GetProduct = /*#__PURE__*/function () {
             }
             _context2.next = 4;
             return (0, _db["default"])("subscribed_user_details").select("product_id", "id").where({
+<<<<<<< HEAD
               is_subscribed: "1"
+=======
+              user_id: userId,
+              subscription_status: "pending"
+            }).orWhere({
+              user_id: userId,
+              subscription_status: "approved"
+            }).orWhere({
+              user_id: userId,
+              subscription_status: "subscribed"
+            }).orWhere({
+              user_id: userId,
+              subscription_status: "assigned"
+            }).orWhere({
+              user_id: userId,
+              subscription_status: "branch_pending"
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
             });
           case 4:
             sub_product = _context2.sent;
@@ -120,6 +137,7 @@ var GetProduct = /*#__PURE__*/function () {
               message: "No Product Found"
             });
           case 7:
+<<<<<<< HEAD
             // if (sub_product.length !== 0) {
             //   // for (let i = 0; i < product.length; i++) {
             //     for (let j = 0; j < sub_product.length; j++) {
@@ -147,13 +165,42 @@ var GetProduct = /*#__PURE__*/function () {
               for (_i = 0; _i < sub_product.length; _i++) {
                 // product[i].is_subscribed = product[i].is_subscribed!=null?product[i].is_subscribed:"0";
                 product[_i].subscription_id = product[_i].is_subscribed != "0" ? sub_product[_i].id : "0";
+=======
+            if (sub_product.length !== 0) {
+              for (i = 0; i < product.length; i++) {
+                for (j = 0; j < sub_product.length; j++) {
+                  if (product[i].product_id == sub_product[j].product_id) {
+                    product[i].is_subscribed = "1";
+                    product[i].subscription_id = sub_product[j].id;
+                  }
+                }
+              }
+            }
+            console.log(product, "products asssddasdasdasd");
+            for (_i = 0; _i < product.length; _i++) {
+              // product[i].image = product[i].image;
+              // ? process.env.BASE_URL + product[i].image
+              // : null;
+
+              if (product[_i].is_subscribed == undefined || product[_i].is_subscribed == null) {
+                product[_i].is_subscribed = "0";
+                product[_i].subscription_id = "0";
+              }
+              if (!userId || sub_product.length == 0) {
+                product[_i].is_subscribed = "0";
+                product[_i].subscription_id = "0";
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
               }
             }
             return _context2.abrupt("return", {
               status: true,
               data: product
             });
+<<<<<<< HEAD
           case 9:
+=======
+          case 11:
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
           case "end":
             return _context2.stop();
         }

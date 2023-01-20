@@ -22,7 +22,11 @@ subscriptionRouter.post("/remove_additional_order", _authToken.authenticateJWT, 
 subscriptionRouter.post("/subcription_order", _authToken.authenticateJWT, _subscription.getSubcription_order);
 subscriptionRouter.post("/un_subscription", _authToken.authenticateJWT, _subscription.Remove_Subscription);
 subscriptionRouter.post("/change_quantity", _authToken.authenticateJWT, _subscription.changeQuantity);
+<<<<<<< HEAD
 subscriptionRouter.post("/change_subscriptionplan", _subscription.changeSubscriptionplan);
+=======
+subscriptionRouter.post("/change_subscriptionplan", _authToken.authenticateJWT, _subscription.changeSubscriptionplan);
+>>>>>>> 9c88700c55c812426ded254e3711046a0d17fa88
 subscriptionRouter.post("/pause_subscriptionplan", _authToken.authenticateJWT, _subscription.pauseSubscription);
 var _default = subscriptionRouter;
 exports["default"] = _default;
