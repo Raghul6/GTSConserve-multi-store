@@ -29,7 +29,7 @@
                                         const text = document.getElementById("searchText").value;
                                         if(!text){
 
-                                            return window.location.href = `/super_admin/product/get_product_list`
+                                            return window.location.href = `/super_admin/menu/product`
                                         }
                                         // window.location.href = `/super_admin/product/get_product_list?searchKeyword=${text}`
                                         // window.history.pushState("","",`/super_admin/product/get_product_list?searchKeyword=${text}`)
@@ -40,7 +40,7 @@
                                        
                                         const text = document.getElementById("searchText").value;
                             
-                                        window.location.href = `/super_admin/product/get_product_list?searchKeyword=${text}`
+                                        window.location.href = `/super_admin/menu/product?searchKeyword=${text}`
                               
                                  
                                 };
@@ -54,7 +54,7 @@
                             aria-labelledby="addCategoryTitle" style="display: none;" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                 <div class="modal-content">
-                                    <form method="post" action="/super_admin/product/create_product" enctype="multipart/form-data">
+                                    <form method="post" action="/super_admin/menu/create_product" enctype="multipart/form-data">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalCenterTitle">Add Product</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -242,7 +242,7 @@
                                         
                                             <script >
                                                 async function onToDochange(event) {
-                                                await fetch('/super_admin/product/update_product_status', {
+                                                await fetch('/super_admin/menu/update_product_status', {
                                                 method: 'POST',
                                                 headers: {
                                                     'Accept': 'application/json',
@@ -253,7 +253,7 @@
                                            
                                                 await  swal("Done", "Status Updated", "success");
 
-                                             window.location.reload("/super_admin/product/get_product_list")
+                                             window.location.reload("/super_admin/menu/product")
                                              
 
                                                 
@@ -290,7 +290,7 @@
                         </div>
 
                         <div class="modal-body">
-                            <form method="post" action="/super_admin/product/update_product"  enctype="multipart/form-data">
+                            <form method="post" action="/super_admin/menu/update_product"  enctype="multipart/form-data">
                                 <div class="form-row mb-4">
                                     <div class="col-sm-4">
                                         <label>Product Name</label>
@@ -541,7 +541,7 @@
             <ul class="pagination-default pagination">
                 <% if(page > 1) { %> 
                     <li class="prev">
-                        <a href="/super_admin/product/get_product_list?page=<%=page-1%><%= search_query %>"  style="padding-left: 5px;">Prev</a>
+                        <a href="/super_admin/menu/product?page=<%=page-1%><%= search_query %>"  style="padding-left: 5px;">Prev</a>
               
                      <% } %>
                
@@ -551,12 +551,12 @@
                           
                             <% continue; %>
                             <% } %>
-                            <li class="page-item" style="padding-left: 5px;"><a  href="/super_admin/product/get_product_list?page=<%=i%><%= search_query %>"><%=i%></a></li>
+                            <li class="page-item" style="padding-left: 5px;"><a  href="/super_admin/menu/product?page=<%=i%><%= search_query %>"><%=i%></a></li>
                     <% } %>
                 
                 <% if(page < numberOfPages) { %>
                     <li class="next" style="padding-left: 5px;">
-                        <a  href="/super_admin/product/get_product_list?page=<%=page+1%><%= search_query %>">Next</a>
+                        <a  href="/super_admin/menu/product?page=<%=page+1%><%= search_query %>">Next</a>
                     </li>
                   
                      <% } %>

@@ -46,7 +46,7 @@ menuRouter.post("/update_category", uploadImg, updateCategory);
 
 
 //product list
-menuRouter.get("/get_product_list", getProductList);
+menuRouter.get("/product", getProductList);
 menuRouter.post("/create_product",uploadImg, createProduct);
 menuRouter.post("/update_product",uploadImg, updateProduct);
 menuRouter.post("/update_product_status", updateProductStatus);

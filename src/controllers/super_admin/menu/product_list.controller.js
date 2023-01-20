@@ -13,7 +13,7 @@ export const updateProductStatus = async (req, res) => {
     }
     console.log("hell");
     req.flash("success", "Updated SuccessFully");
-    return res.redirect("/super_admin/product/get_category");
+    return res.redirect("/super_admin/menu/product");
   } catch (error) {
     console.log(error);
     res.redirect("/home");
@@ -38,19 +38,19 @@ export const updateProduct = async (req, res) => {
 
     if (!product_name) {
       req.flash("error", "Product name is missing");
-      return res.redirect("/super_admin/product/get_product_list");
+      return res.redirect("/super_admin/menu/product");
     }
     if (!description) {
       req.flash("error", "Description is missing");
-      return res.redirect("/super_admin/product/get_product_list");
+      return res.redirect("/super_admin/menu/product");
     }
     if (!price) {
       req.flash("error", "Price is missing");
-      return res.redirect("/super_admin/product/get_product_list");
+      return res.redirect("/super_admin/menu/product");
     }
     if (!unit_value) {
       req.flash("error", "unit Value is missing");
-      return res.redirect("/super_admin/product/get_product_list");
+      return res.redirect("/super_admin/menu/product");
     }
 
     let query = {};
@@ -81,7 +81,7 @@ export const updateProduct = async (req, res) => {
     await knex("products").update(query).where({ id: id });
 
     req.flash("success", "Updated SuccessFully");
-    res.redirect("/super_admin/product/get_product_list");
+    res.redirect("/super_admin/menu/product");
   } catch (error) {
     console.log(error);
     res.redirect("/home");
@@ -111,7 +111,7 @@ export const getProductList = async (req, res) => {
         loading = false;
         req.query.searchKeyword = "";
         req.flash("error", "No Category Found");
-        return res.redirect("/super_admin/menu/get_category");
+        return res.redirect("/super_admin/menu/product");
       }
     } else {
       data_length = await knex("products").select("id");
@@ -144,7 +144,7 @@ export const getProductList = async (req, res) => {
       numberOfPages,
       iterator,
       endingLink,
-    } = await getPageNumber(req, res, data_length, "menu/get_product_list");
+    } = await getPageNumber(req, res, data_length, "menu/product");
 
     let results;
     let is_search = false;
@@ -211,36 +211,36 @@ export const createProduct = async (req, res) => {
     } = req.body;
     if (!name) {
       req.flash("error", "Name is missing");
-      return res.redirect("/super_admin/menu/get_product_list");
+      return res.redirect("/super_admin/menu/product");
     }
     if (!product_type_id) {
       req.flash("error", "Please Choose a Product Type");
-      return res.redirect("/super_admin/menu/get_product_list");
+      return res.redirect("/super_admin/menu/product");
     }
     if (!description) {
       req.flash("error", "Description is Missing");
-      return res.redirect("/super_admin/menu/get_product_list");
+      return res.redirect("/super_admin/menu/product");
     }
     if (!category_id) {
       req.flash("error", "Please Choose a Category");
-      return res.redirect("/super_admin/menu/get_product_list");
+      return res.redirect("/super_admin/menu/product");
     }
     if (!unit_value) {
       req.flash("error", "Please Give a Unit Value");
-      return res.redirect("/super_admin/menu/get_product_list");
+      return res.redirect("/super_admin/menu/product");
     }
     if (!unit_type_id) {
       req.flash("error", "Please Choose a Unit");
-      return res.redirect("/super_admin/menu/get_product_list");
+      return res.redirect("/super_admin/menu/product");
     }
     if (!price) {
       req.flash("error", "Please Give a Price");
-      return res.redirect("/super_admin/menu/get_product_list");
+      return res.redirect("/super_admin/menu/product");
     }
 
     if (!req.file) {
       req.flash("error", "Please Choose a image");
-      return res.redirect("/super_admin/menu/get_product_list");
+      return res.redirect("/super_admin/menu/product");
     }
 
     const image = req.file.destination.slice(1) + "/" + req.file.filename;
@@ -259,7 +259,7 @@ export const createProduct = async (req, res) => {
     });
 
     req.flash("success", "Successfully Created");
-    res.redirect("/super_admin/menu/get_product_list");
+    res.redirect("/super_admin/menu/product");
   } catch (error) {
     console.log(error);
     res.redirect("/home");
