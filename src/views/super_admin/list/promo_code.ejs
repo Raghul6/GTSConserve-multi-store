@@ -53,7 +53,7 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalCenterTitle">Add City</h5>
+                                            <h5 class="modal-title" id="exampleModalCenterTitle">promo code</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -69,28 +69,34 @@
                                             <form method="post" action="/super_admin/list/create_city" >
                                                 <div class="form-row mb-4">
                                                     <div class="col-sm-12">
-                                                        <label>Name</label>
+                                                        <label>Coupon Code</label>
                                                         <input type="text" class="form-control" wire:model="name" required
-                                                            placeholder="Name" name="name">
+                                                            placeholder="Coupon Code" name="name">
 
                                                     </div>
                                                 </div>
                                             
                                                 
-                                                <!-- <div class="form-row mb-4">
+                                                <div class="form-row mb-4">
                                                     <div class="col-sm-6">
-                                                        <label>Latitude (optional)</label>
+                                                        <label>Percentage</label>
                                                         <input type="text" class="form-control" wire:model="name" 
-                                                            placeholder="Latitude" name="latitude">
+                                                            placeholder="Percentage" name="Percentage">
                                                        
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <label>Longitude (optional)</label>
+                                                        <label>Minimum Ordering Amount</label>
                                                         <input type="text" class="form-control" wire:model="name" 
-                                                            placeholder="Longitude" name="longitude">
+                                                            placeholder="Minimum Ordering Amount" name="name">
                                                        
                                                     </div>
-                                                </div> -->
+                                                    <div class="col-sm-6">
+                                                        <label>Maximum Discount Amount</label>
+                                                        <input type="text" class="form-control" wire:model="name" 
+                                                            placeholder="Maximum Discount Amount" name="name">
+                                                       
+                                                    </div>
+                                                </div>
                                                 
                                             </div>
                                             <div class="modal-footer">
@@ -129,11 +135,11 @@
                                 style="width: 86px;">#</th>
                             <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                 colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
-                                style="width: 86px;">City Name</th>
-                            <!-- <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                aria-label="NAME: activate to sort column ascending" style="width: 100px;">Latitude</th>
+                                style="width: 86px;">COUPONCODE</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">Longitude</th> -->
+                                aria-label="NAME: activate to sort column ascending" style="width: 100px;">PERCENTANCE</th>
+                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">MINIMUM ORDER AMOUNT</th>
                             <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                 colspan="1" aria-label="Status: activate to sort column ascending" style="width: 49px;">
                                 Status</th>
@@ -149,8 +155,8 @@
                             <% for(city of data){ %>
                                     <td class="sorting_1"><%=city.id %></td>
                                     <td><%=city.name %></td>
-                                    <!-- <td><%= city.latitude ? city.latitude : "N/A"  %> </td>
-                                    <td><%=city.longitude ? city.longitude : "N/A" %></td> -->
+                                    <td><%= city.latitude ? city.latitude : "N/A"  %> </td>
+                                    <td><%=city.longitude ? city.longitude : "N/A" %></td>
                                    
 
                                     <div>

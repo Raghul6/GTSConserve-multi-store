@@ -4,7 +4,7 @@
         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
             <div class="row">
                  <div class="col-8">
-                        <h3 class="mt-2">Zone</h3>
+                        <h3 class="mt-2">All Memberships</h3>
                         </div>
                         <div class="col-4">
                              <div class="input-group mb-3">
@@ -128,9 +128,18 @@
                                 style="width: 86px;">#</th>
                             <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                 colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending"
-                                style="width: 86px;">Zone Name</th>
+                                style="width: 86px;">Membership Name</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                aria-label="NAME: activate to sort column ascending" style="width: 100px;">City Name</th>
+                                aria-label="NAME: activate to sort column ascending" style="width: 100px;">Amount</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="NAME: activate to sort column ascending" style="width: 100px;">Validity</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="NAME: activate to sort column ascending" style="width: 100px;">Delivery Count</th>
+
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="NAME: activate to sort column ascending" style="width: 100px;">Minimum Ordering Amount</th>
                            
                             <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                 colspan="1" aria-label="Status: activate to sort column ascending" style="width: 49px;">
@@ -147,6 +156,9 @@
                             <% for(zone of data){ %>
                                     <td class="sorting_1"><%=zone.id %></td>
                                     <td><%=zone.name %></td>
+                                    <td><%=zone.city_name %></td>
+                                    <td><%=zone.city_name %></td>
+                                    <td><%=zone.city_name %></td>
                                     <td><%=zone.city_name %></td>
 
                                     <div>
