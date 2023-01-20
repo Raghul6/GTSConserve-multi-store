@@ -1,8 +1,8 @@
 import express from "express";
 
-import { getCities,createCity,updateCity,updateCityStatus } from "../../controllers/super_admin/list/city.controller";
+import { getCities,createCity,updateCity,updateCityStatus } from "../../controllers/super_admin/list/promo.controller";
 // import { getAllCountry,createCountry,updateCountry,updateCountryStatus } from "../../controllers/super_admin/places/country.controller";
-import { getAllZone,newZone,updateZone,updateZoneStatus } from "../../controllers/super_admin/list/zone.controller";
+import { getAllZone,newZone,updateZone,updateZoneStatus } from "../../controllers/super_admin/list/membership.controller";
 // import { getAllPostCode } from "../../controllers/super_admin/places/post_code.controller";
 
 const listRouter = express.Router({
