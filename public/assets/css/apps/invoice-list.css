@@ -121,7 +121,7 @@ table.dataTable {
     width: 17px;
     height: 17px;
     vertical-align: text-top;
-    color: #1abc9c;
+    color: #64a5e2;
     fill: #ddf5f0;
     stroke-width: 1.5; }
   .table > tbody > tr > td .inv-status {
@@ -134,7 +134,7 @@ table.dataTable {
     transform: none; }
     .table > tbody > tr > td .inv-status.badge-success {
       background-color: #ddf5f0;
-      color: #1abc9c; }
+      color: #64a5e2; }
     .table > tbody > tr > td .inv-status.badge-danger {
       color: #e7515a;
       background-color: #fff5f5; }

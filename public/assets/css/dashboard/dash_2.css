@@ -324,7 +324,7 @@
     width: 32px;
 }
 .widget-activity-five .timeline-line .item-timeline .t-dot div.t-primary {
-    background-color: #198754;
+    background-color: #64a5e2  ;
     box-shadow: 0 10px 20px -8px #1b55e2;
 }
 .widget-activity-five .timeline-line .item-timeline .t-dot div.t-primary svg {
@@ -462,7 +462,7 @@
     border-bottom-right-radius: 6px;
 }
 .widget-one_hybrid.widget-followers .widget-heading .w-icon {
-    color: #198754;
+    color: #64a5e2  ;
     background: #eaf1ff;
 }
 .widget-one_hybrid.widget-referral .widget-heading .w-icon {
@@ -471,7 +471,7 @@
 }
 .widget-one_hybrid.widget-social {
     background: #e7f7ff;
-    background: #198754;
+    background: #64a5e2;
 }
 .widget-one_hybrid.widget-social .widget-heading .w-icon {
     color: #2196f3;
@@ -492,7 +492,7 @@
     padding: 22px 19px;
     border: none;
     box-shadow: 0 0.1px 0px rgba(0, 0, 0, 0.002), 0 0.2px 0px rgba(0, 0, 0, 0.003), 0 0.4px 0px rgba(0, 0, 0, 0.004), 0 0.6px 0px rgba(0, 0, 0, 0.004), 0 0.9px 0px rgba(0, 0, 0, 0.005), 0 1.2px 0px rgba(0, 0, 0, 0.006), 0 1.8px 0px rgba(0, 0, 0, 0.006), 0 2.6px 0px rgba(0, 0, 0, 0.007), 0 3.9px 0px rgba(0, 0, 0, 0.008), 0 7px 0px rgba(0, 0, 0, 0.01);
-    background: #198754;
+    background: #64a5e2;
     z-index: 0;
     overflow: hidden;
     background-image: linear-gradient(to top, #00c6fb -227%, #005bea 100%);
@@ -647,7 +647,7 @@
 }
 .widget-card-one .widget-content .w-action .read-more a svg {
     margin-right: 0;
-    color: #009688;
+    color: #64a5e2;
     width: 16px;
     height: 16px;
     fill: transparent;
@@ -718,7 +718,7 @@
     background: #fff9ed ;
 }
 .widget-four .widget-content .browser-list:nth-child(1) .w-icon svg {
-    color: #198754;
+    color: #64a5e2;
 }
 .widget-four .widget-content .browser-list:nth-child(2) .w-icon svg {
     color: #e7515a;
@@ -822,7 +822,7 @@
 }
 .widget-card-two .card-bottom-section h5 {
     font-size: 14px;
-    color: #009688;
+    color: #64a5e2;
     font-weight: 700;
     margin-bottom: 20px;
 }
@@ -838,7 +838,7 @@
 .widget-card-two .card-bottom-section a {
     display: block;
     margin-top: 18px;
-    background: #198754;
+    background: #64a5e2;
     color: #fff;
     padding: 10px 10px;
     transform: none;
@@ -852,7 +852,7 @@
 }
 .widget-card-two .card-bottom-section a.btn:hover,
 .widget-card-two .card-bottom-section a.btn:focus  {
-    border-color: #198754;
+    border-color: #64a5e2;
 }
 
 /*
@@ -947,7 +947,7 @@
 }
 .widget-five .widget-content .progress-data .progress-stats p {
     font-weight: 600;
-    color: #198754;
+    color: #64a5e2;
     font-size: 15px;
 }
 .widget-five .widget-content .progress-data .progress {

@@ -4,8 +4,8 @@ import express from "express";
 
 import settingsRouter from "./super_admin/settings.router";
 import branchRouter from "./super_admin/branch.route";
-import placesRouter from "./super_admin/places.router";
-import productRouter from "./super_admin/product.route";
+import listRouter from "./super_admin/list.router";
+import menuRouter from "./super_admin/menu.route";
 import ordersRouter from "./super_admin/orders.route";
 import users_subscriptionRouter from "./super_admin/users_subscription.route";
 import reportsRouter from "./super_admin/reports.route";
@@ -28,12 +28,12 @@ const defaultRoutes = [
     route: branchRouter,
   },
   {
-    path: "/places",
-    route: placesRouter,
+    path: "/list",
+    route: listRouter,
   },
   {
-    path: "/product",
-    route: productRouter,
+    path: "/menu",
+    route: menuRouter,
   },
   {
     path: "/orders",

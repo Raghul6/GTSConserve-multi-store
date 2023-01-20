@@ -275,7 +275,7 @@ h4 {
 
 .rounded-pills-icon .nav-pills .nav-link.active, .rounded-pills-icon .nav-pills .show > .nav-link {
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.3);
-  background-color: #009688; }
+  background-color: #64a5e2; }
 
 .rounded-pills-icon .tab-content > .tab-pane {
   padding: 20px 0 0 0; }
@@ -305,7 +305,7 @@ h4 {
 
 .rounded-vertical-pills-icon .nav-pills .nav-link.active, .rounded-vertical-pills-icon .nav-pills .show > .nav-link {
   box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.3);
-  background-color: #009688;
+  background-color: #64a5e2;
   border-color: transparent; }
 
 /*
@@ -351,13 +351,13 @@ h4 {
     Vertical Pill
 */
 .vertical-pill .nav-pills .nav-link.active, .vertical-pill .nav-pills .show > .nav-link {
-  background-color: #009688; }
+  background-color: #64a5e2; }
 
 /*
     Vertical Pill Right
 */
 .vertical-pill-right .nav-pills .nav-link.active, .vertical-pill-right .nav-pills .show > .nav-link {
-  background-color: #009688; }
+  background-color: #64a5e2; }
 
 /*
     Creative vertical pill
@@ -444,11 +444,11 @@ h4 {
     .vertical-border-pill .nav-pills .nav-link.active {
       position: relative;
       color: #fff;
-      background-color: #1abc9c; }
+      background-color: #64a5e2; }
   .vertical-border-pill .nav-pills .show > .nav-link {
     position: relative;
     color: #fff;
-    background-color: #1abc9c; }
+    background-color: #64a5e2; }
 
 /*
     Border Top Tab

@@ -25,8 +25,8 @@ export const insertData = async (req, res) => {
     // weekdays
     await knex("weekdays").insert(week_days)
 
-    //banners
-    await knex("banners").insert(banners);
+    // //banners
+    // await knex("banners").insert(banners);
 
     //user_groups
     await knex("user_groups").insert(user_groups);
