@@ -430,7 +430,7 @@
     .timeline-line .item-timeline .t-dot.t-dot-primary:before {
       border-color: #1b55e2; }
     .timeline-line .item-timeline .t-dot.t-dot-success:before {
-      border-color: #8dbf42; }
+      border-color: #64a5e2; }
     .timeline-line .item-timeline .t-dot.t-dot-warning:before {
       border-color: #e2a03f; }
     .timeline-line .item-timeline .t-dot.t-dot-info:before {
@@ -442,7 +442,7 @@
     .timeline-line .item-timeline .t-dot.t-dot-primary:after {
       border-color: #1b55e2; }
     .timeline-line .item-timeline .t-dot.t-dot-success:after {
-      border-color: #8dbf42; }
+      border-color: #64a5e2; }
     .timeline-line .item-timeline .t-dot.t-dot-warning:after {
       border-color: #e2a03f; }
     .timeline-line .item-timeline .t-dot.t-dot-info:after {

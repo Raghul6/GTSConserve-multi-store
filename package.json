@@ -14,13 +14,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GTSConserve/maram-nodejs.git"
+    "url": "git+https://github.com/Raghul6/GTSConserve-multi-store.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/GTSConserve/maram-nodejs/issues"
+    "url": "https://github.com/Raghul6/GTSConserve-multi-store.git"
   },
   "dependencies": {
     "@onesignal/node-onesignal": "^1.0.0-beta8",
