@@ -9,15 +9,15 @@ import {
   updateCategory,
 } from "../../controllers/super_admin/menu/category.controller";
 
-// import {
-//   getAllProductType,
-//   createProductType,
-//   updateProductType,
-//   updateProductTypeStatus,
-// } from "../../controllers/super_admin/product/product_type.controller";
+import {
+  getAllProductType,
+  createProductType,
+  updateProductType,
+  updateProductTypeStatus,
+} from "../../controllers/super_admin/menu/product_type.controller";
 
 
-// import { getUnitType } from "../../controllers/super_admin/product/unit_type.controller";
+// import { getUnitType } from "../../controllers/super_admin/menu/unit_type.controller";
 
 import { getProductList,createProduct,updateProduct ,updateProductStatus} from "../../controllers/super_admin/menu/product_list.controller";
 
@@ -33,10 +33,10 @@ const menuRouter = express.Router({
 });
 
 // product_type
-// productRouter.get("/get_all_product_type", getAllProductType);
-// productRouter.post("/create_product_type", uploadImg, createProductType);
-// productRouter.post("/update_product_type_status", updateProductTypeStatus);
-// productRouter.post("/update_product_type", uploadImg, updateProductType);
+menuRouter.get("/get_all_product_type", getAllProductType);
+menuRouter.post("/create_product_type", uploadImg, createProductType);
+menuRouter.post("/update_product_type_status", updateProductTypeStatus);
+menuRouter.post("/update_product_type", uploadImg, updateProductType);
 
 // category
 menuRouter.get("/get_category", getCategory);
@@ -46,13 +46,13 @@ menuRouter.post("/update_category", uploadImg, updateCategory);
 
 
 //product list
-menuRouter.get("/product", getProductList);
+menuRouter.get("/get_product_list", getProductList);
 menuRouter.post("/create_product",uploadImg, createProduct);
 menuRouter.post("/update_product",uploadImg, updateProduct);
 menuRouter.post("/update_product_status", updateProductStatus);
 
-// // unit type
-// productRouter.get("/unit_type", getUnitType);
+// unit type
+// menuRouter.get("/unit_type", getUnitType);
 
 
 export default menuRouter;

@@ -42,11 +42,11 @@ export const createGenerateBill = async (req, res) => {
       .update({ is_bill_generated: "1" })
       .where({ branch_id });
 
-    await knex("branch_bills").insert({
-      branch_id,
-      generated_date: moment().format("YYYY-MM-DD"),
-      grand_total: total_amount,
-    });
+    // await knex("branch_bills").insert({
+    //   branch_id,
+    //   generated_date: moment().format("YYYY-MM-DD"),
+    //   grand_total: total_amount,
+    // });
 
     req.flash("success", "Bill Generated SuccessFully");
     res.redirect("/super_admin/branch/get_branch_admin");
@@ -472,7 +472,7 @@ export const getBranchAdmin = async (req, res) => {
 
     if (searchKeyword) {
       const search_data_length = await knex.raw(
-        `SELECT id FROM admin_users WHERE user_group_id = "2" AND  first_name LIKE '%${searchKeyword}%'`
+        `SELECT id FROM admin_users WHERE user_group_id = "1" AND  first_name LIKE '%${searchKeyword}%'`
       );
 
       data_length = search_data_length[0];
@@ -520,7 +520,7 @@ export const getBranchAdmin = async (req, res) => {
     let is_search = false;
     if (searchKeyword) {
       results = await knex.raw(
-        `SELECT admin_users.id,admin_users.first_name,admin_users.location,admin_users.mobile_number,admin_users.email,admin_users.status,admin_users.password,admin_users.is_password_change,zones.name as zone_name,zones.id as zone_id,zones.city_id as zone_city_id, cities.id as city_id,cities.name as city_name, admin_users.incharge_name FROM admin_users 
+        `SELECT admin_users.id,admin_users.first_name,admin_users.location,admin_users.mobile_number,admin_users.email,admin_users.status,admin_users.password,admin_users.is_password_change,zones.name as zone_name,zones.id as zone_id,zones.city_id as zone_city_id, cities.id as city_id,cities.name as city_name  FROM admin_users 
         JOIN zones ON zones.id = admin_users.zone_id 
         JOIN cities ON cities.id = zones.city_id
         WHERE admin_users.user_group_id = "2" AND admin_users.first_name LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
@@ -528,7 +528,7 @@ export const getBranchAdmin = async (req, res) => {
       is_search = true;
     } else {
       results = await knex.raw(
-        `SELECT admin_users.id,admin_users.first_name,admin_users.location,admin_users.mobile_number,admin_users.email,admin_users.status,admin_users.password,admin_users.is_password_change,zones.name as zone_name,zones.id as zone_id,zones.city_id as zone_city_id,cities.id as city_id,cities.name as city_name,admin_users.incharge_name FROM admin_users 
+        `SELECT admin_users.id,admin_users.first_name,admin_users.location,admin_users.mobile_number,admin_users.email,admin_users.status,admin_users.password,admin_users.is_password_change,zones.name as zone_name,zones.id as zone_id,zones.city_id as zone_city_id,cities.id as city_id,cities.name as city_name FROM admin_users 
         JOIN zones ON zones.id = admin_users.zone_id
         JOIN cities ON cities.id = zones.city_id
          WHERE admin_users.user_group_id = "2" LIMIT ${startingLimit},${resultsPerPage}`

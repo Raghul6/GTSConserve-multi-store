@@ -46,14 +46,14 @@
                      
                     <div class="form-group col-md-1 float-right">
                             <button class="btn btn-sm btn-primary" data-toggle="modal"
-                                data-target="#addbarcategory">Add Zone</button>
+                                data-target="#addbarcategory">Add Membership</button>
                             <!-- __category add__ -->
                             <div wire:ignore.self="" data-backdrop="static" class="modal fade" id="addbarcategory" tabindex="-1"
                                 aria-labelledby="addCategoryTitle" style="display: none;" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalCenterTitle">Add zone</h5>
+                                            <h5 class="modal-title" id="exampleModalCenterTitle">Add Membership</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -69,7 +69,19 @@
                                             <form method="post" action="/super_admin/list/new_zone" >
                                                 <div class="form-row mb-4">
                                                     <div class="col-sm-12">
-                                                        <label>Zone Name</label>
+                                                        <label> Name</label>
+                                                        <input type="text" class="form-control" wire:model="name" required
+                                                            placeholder="Name" name="name">
+
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <label> Phone Number</label>
+                                                        <input type="text" class="form-control" wire:model="name" required
+                                                            placeholder="Name" name="name">
+
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <label> Address</label>
                                                         <input type="text" class="form-control" wire:model="name" required
                                                             placeholder="Name" name="name">
 
@@ -199,7 +211,7 @@
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Zone</h5>
+                                                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Membbership</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -215,11 +227,24 @@
                                                 <form method="post" action="/super_admin/list/update_zone">
                                                     <div class="form-row mb-4">
                                                         <div class="col-sm-12">
-                                                            <label>Zone Name</label>
+                                                            <label> Name</label>
                                                             <input type="text" class="form-control" wire:model="name"
                                                                 placeholder="Name" name="name" value="<%=zone.name %>" required>
 
                                                         </div>
+                                                        <div class="col-sm-12">
+                                                            <label> Phone Number</label>
+                                                            <input type="text" class="form-control" wire:model="name"
+                                                                placeholder="Name" name="name" value="<%=zone.name %>" required>
+
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <label> Address</label>
+                                                            <input type="text" class="form-control" wire:model="name"
+                                                                placeholder="Name" name="name" value="<%=zone.name %>" required>
+
+                                                        </div>
+                                                        
                                                     </div>
                                                     <div class="form-row mb-4">
                                                         <div class="col-sm-12">

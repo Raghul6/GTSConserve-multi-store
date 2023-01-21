@@ -8,12 +8,12 @@ export const updateCategory = async (req, res) => {
 
     if (subscription == undefined && addon == undefined) {
       req.flash("error", "Please Choose a Product Type");
-      return res.redirect("/super_admin/menu/get_category");
+      return res.redirect("/super_admin/product/get_category");
     }
 
     if (!name) {
       req.flash("error", "Name is missing");
-      return res.redirect("/super_admin/menu/get_category");
+      return res.redirect("/super_admin/product/get_category");
     }
 
     await knex("categories_product_type").where({category_id : id}).del()
@@ -45,7 +45,7 @@ export const updateCategory = async (req, res) => {
 
       await knex("categories").update(query).where({ id });
       req.flash("success", "Updated SuccessFully");
-      res.redirect("/super_admin/menu/get_category");
+      res.redirect("/super_admin/product/get_category");
   } catch (error) {
     console.log(error);
     res.redirect("/home");
@@ -63,7 +63,7 @@ export const updateCategoryStatus = async (req, res) => {
     }
 
     req.flash("success", "Updated SuccessFully");
-    res.redirect("/super_admin/menu/get_category");
+    res.redirect("/super_admin/product/get_category");
   } catch (error) {
     console.log(error);
     res.redirect("/home");
@@ -75,7 +75,7 @@ export const createCategory = async (req, res) => {
     const { name, subscription, addon } = req.body;
     if (!name) {
       req.flash("error", "Name is missing");
-      return res.redirect("/super_admin/menu/get_category");
+      return res.redirect("/super_admin/product/get_category");
     }
 
     console.log("htitiit");
@@ -84,12 +84,12 @@ export const createCategory = async (req, res) => {
 
     if (subscription == undefined && addon == undefined) {
       req.flash("error", "Please Choose a Product Type");
-      return res.redirect("/super_admin/menu/get_category");
+      return res.redirect("/super_admin/product/get_category");
     }
 
     if (!req.file) {
       req.flash("error", "Please Choose a image");
-      return res.redirect("/super_admin/menu/get_category");
+      return res.redirect("/super_admin/product/get_category");
     }
 
     const image = req.file.destination.slice(1) + "/" + req.file.filename;
@@ -111,7 +111,7 @@ export const createCategory = async (req, res) => {
     }
 
     req.flash("success", "Successfully Created");
-    res.redirect("/super_admin/menu/get_category");
+    res.redirect("/super_admin/product/get_category");
   } catch (error) {
     console.log(error);
     res.redirect("/home");
@@ -136,7 +136,7 @@ export const getCategory = async (req, res) => {
         loading = false;
         req.query.searchKeyword = "";
         req.flash("error", "No Category Found");
-        return res.redirect("/super_admin/menu/get_category");
+        return res.redirect("/super_admin/product/get_category");
       }
     } else {
       data_length = await knex("categories").select("id");
@@ -147,7 +147,7 @@ export const getCategory = async (req, res) => {
       .where({ status: "1" });
 
     if (data_length.length === 0) {
-      return res.render("super_admin/menu/category", {
+      return res.render("super_admin/product/category", {
         data: data_length,
         searchKeyword,
         productType,
@@ -161,7 +161,7 @@ export const getCategory = async (req, res) => {
       numberOfPages,
       iterator,
       endingLink,
-    } = await getPageNumber(req, res, data_length, "menu/get_category");
+    } = await getPageNumber(req, res, data_length, "product/get_category");
 
     let results;
     let is_search = false;
@@ -208,7 +208,7 @@ export const getCategory = async (req, res) => {
     }
 
     loading = false;
-    res.render("super_admin/menu/category", {
+    res.render("super_admin/product/category", {
       data,
       page,
       iterator,

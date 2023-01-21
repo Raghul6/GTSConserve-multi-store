@@ -18,7 +18,7 @@
             <li class="menu single-menu active">
                 <a href="#dashboard" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle autodroprown">
                     <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                         <span style="font-weight: bold;color: #000;" onclick="homeHandler()">Dashboard</span>
                     </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
@@ -34,30 +34,26 @@
             </li>
 
            
-               
+            
             <li class="menu single-menu">
                 <a href="#components" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke=url(#64a5e2) stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-app"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                        <span style="font-weight: bold; padding-RIGHT: -50px;">Menu</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        <span style="font-weight: bold;">Menu</span>
                     </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
                 </a>
                 <ul class="collapse submenu list-unstyled" id="components" data-parent="#topAccordion">
                     <li>
+                        <a href="/super_admin/menu/get_product_list"> Product List </a>
+                    </li>
+                    <li>
                         <a href="/super_admin/menu/get_category"> Category </a>
                     </li>
-
                     <li>
-                        <a href="/super_admin/menu/product"> Products  </a>
+                        <a href="/super_admin/menu/get_all_product_type"> Units </a>
                     </li>
-                    <!-- <li>
-                        <a href="/super_admin/product/get_all_product_type"> Product Type </a>
-                    </li> -->
-                   
-                    <li>
-                        <a href="/super_admin/product/get_product_list"> Unit </a>
-                    </li>
+                  
                     <!-- <li>
                         <a href="/super_admin/product/unit_type">Unit Type</a>
                     </li> -->
@@ -65,37 +61,57 @@
             </li>
 
 
-           
-
             <li class="menu single-menu">
+                <a href="#uiKit" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        <span style="font-weight: bold;">List</span>
+                    </div>
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
+                </a>
+                <ul class="collapse submenu list-unstyled" id="uiKit" data-parent="#topAccordion">
+                    <!-- <li>
+                        <a href="/super_admin/places/country"> Country </a>
+                    </li> -->
+                    
+                    <li>
+                        <a href="/super_admin/list/promo_code"> Promo Code </a>
+                    </li>
+                    <li>
+                        <a href="/super_admin/list/membership"> Membership </a>
+                    </li>
+                    <!-- <li>
+                        <a href="/super_admin/places/post_code"> Post code </a>
+                    </li>                             -->
+                </ul>
+            </li>
+
+            <!-- <li class="menu single-menu">
                 <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg> -->
-                        <span style="font-weight: bold;padding-left: -50px;">Orders</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                        <span style="font-weight: bold;">Orders</span>
                     </div>
-                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
-                </a>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
+                <!-- </a>
                 <ul class="collapse submenu list-unstyled" id="forms"  data-parent="#topAccordion">
                     <li>
-                        <a href="/super_admin/orders/get_approve_list"> Active Order </a>
+                        <a href="/super_admin/orders/get_approve_list"> Apporve </a>
                     </li>
                     <li>
-                        <a href="/super_admin/orders/get_pending_list"> All Orders</a>
+                        <a href="/super_admin/orders/get_pending_list"> Pending </a>
                     </li>
                     <li>
-                        <a href="/super_admin/orders/get_cancel_list">Delivered Orders </a>
-                    </li>
-                    <li>
-                        <a href="/super_admin/orders/get_cancel_list">Cancelled Orders</a>
+                        <a href="/super_admin/orders/get_cancel_list"> Cancel </a>
                     </li>
                 </ul>
-            </li> 
+            </li> --> 
 
             <li class="menu single-menu">
                 <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg> -->
-                        <span style="font-weight: bold; padding-left: -50px;">Branch</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                        <span style="font-weight: bold;">Branch</span>
                     </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
                 </a>
@@ -106,41 +122,28 @@
                 </ul>
             </li>
 
-            <li class="menu single-menu">
+            <!-- <li class="menu single-menu">
                 <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg> -->
-                        <span style="font-weight: bold;">Delivery Partner</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                        <span style="font-weight: bold;" >Reports</span>
                     </div>
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </a>
                 <ul class="collapse submenu list-unstyled" id="forms"  data-parent="#topAccordion">
                     <li>
-                        <a href="/super_admin/branch/get_branch_admin">Delivered Partner </a>
+                        <a href="/super_admin/reports/get_add_on_product"> Add on Product </a>
                     </li>
-                </ul>
-            </li>
-
-            <li class="menu single-menu">
-                <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg> -->
-                        <span style="font-weight: bold;">Banners</span>
-                    </div>
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
-                </a>
-                <ul class="collapse submenu list-unstyled" id="forms"  data-parent="#topAccordion">
                     <li>
-                        <a href="/super_admin/branch/get_branch_admin"> Banner </a>
+                        <a href="/super_admin/reports/get_subscription_product"> subscription Product </a>
                     </li>
                 </ul>
-            </li>
-        
+            </li> -->
 
             <li class="menu single-menu">
                 <a href="#page" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2"; width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                         <span style="font-weight: bold;">Users</span>
                     </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
@@ -148,7 +151,7 @@
                 <ul class="collapse submenu list-unstyled" id="page"  data-parent="#topAccordion">
                     
                     <li>
-                        <!-- <a href="/super_admin/users_subscription/get_new_users"> New Users </a> -->
+                        <a href="/super_admin/users_subscription/get_new_users"> New Users </a>
                     </li>
                     <li>
                         <a href="/super_admin/users_subscription/get_all_users"> All Users </a>
@@ -157,7 +160,7 @@
                         <a href="/super_admin/users_subscription/get_create_user"> Create Users </a>
                     </li>
                     <li>
-                        <!-- <a href="/super_admin/users_subscription/get_user_feedback"> Users Feedback </a> -->
+                        <a href="/super_admin/users_subscription/get_user_feedback"> Users Feedback </a>
                     </li>
                     <!-- <li>
                         <a href="/super_admin/users_subscription/get_pending_list"> Pending </a>
@@ -170,44 +173,19 @@
                     </li> -->
                 </ul>
             </li>
-
             <li class="menu single-menu">
-                <a href="#uiKit" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> -->
-                        <span style="font-weight: bold;">List</span>
-                    </div>
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
-                </a>
-                <ul class="collapse submenu list-unstyled" id="uiKit" data-parent="#topAccordion">
-                    <!-- <li>
-                        <a href="/super_admin/places/country"> Country </a>
-                    </li> -->
-                    
-                    <li>
-                        <a href="/super_admin/list/promo_code"> Promo Codes</a>
-                    </li>
-                    <li>
-                        <a href="/super_admin/list/membership">Membership </a>
-                    </li>
-                    <!-- <li>
-                        <a href="/super_admin/places/post_code"> Post code </a>
-                    </li>                             -->
-                </ul>
-            </li>
-            <!-- <li class="menu single-menu">
                 <a href="#page" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline></svg>
-                        <span style="font-weight: bold;">PO</span>
-                    </div> -->
+                        <span style="font-weight: bold;">Delivery Partner</span>
+                    </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
-                <!-- </a>
+                </a>
                 <ul class="collapse submenu list-unstyled" id="forms"  data-parent="#topAccordion">
                     <li>
-                        <a href="/super_admin/po/get_po_pending"> Pending PO </a>
+                        <a href="/branch_admin/rider/get_rider"> Delivery Partner </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="/super_admin/po/get_po_approved"> Approved PO </a>
                     </li> -->
                     <!-- <li>
@@ -216,14 +194,14 @@
                     <li>
                         <a href="/branch_admin/purchaseOrder/get_cancel_purchase_list"> Cancel </a>
                     </li> -->
-                <!-- </ul>
-            </li> -->
+                </ul>
+            </li>
 
             <li class="menu single-menu">
                 <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> -->
-                        <span style="font-weight: bold;" >Reports</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2"; width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                        <span style="font-weight: bold;" >Report</span>
                     </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
                 </a>
@@ -232,11 +210,10 @@
                         <a href="/super_admin/branch/get_pending_bill"> Sales Report </a>
                     </li>
                     <li>
-                        <a href="/super_admin/branch/get_received_bill"> Product Report</a>
+                        <a href="/super_admin/branch/get_received_bill"> Product Report </a>
                     </li>
                     <li>
-                        <a href="/super_admin/branch/get_completed_bill"> Delivery Report
-                        </a>
+                        <a href="/super_admin/branch/get_completed_bill"> Delivery Partner Report </a>
                     </li>
                 </ul>
             </li>
@@ -244,7 +221,7 @@
             <li class="menu single-menu">
                 <a href="#app" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle autodroprown">
                     <div class="" >
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sliders"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sliders"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
                         <span style="font-weight: bold;" >Settings</span>
                     </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
@@ -256,16 +233,13 @@
                    
                    
                     <li>
-                        <a href="/super_admin/settings/app_settings">App Controls</a>
+                        <a href="/super_admin/settings/app_settings">App Settings</a>
                     </li> 
                     <li>
-                        <a href="/super_admin/settings/get_banner"> Payment Gateway</a>
+                        <a href="/super_admin/settings/get_banner"> Banners</a>
                     </li> 
                     <li>
-                        <a href="/super_admin/settings/get_feedback"> Time Slot</a>
-                    </li> 
-                    <li>
-                        <a href="/super_admin/settings/get_feedback">Service</a>
+                        <a href="/super_admin/settings/get_feedback"> FeedBacks</a>
                     </li> 
                 </ul>
             </li>
@@ -279,7 +253,7 @@
             <li class="menu single-menu active" style="cursor: pointer;">
                 <a  data-toggle="collapse" aria-expanded="true" class="dropdown-toggle autodroprown">
                     <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;"width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                         <span href="/branch_admin/home/home" style="font-weight: bold;color: #000;" onclick="homeHandler()" >  Dashboard </span>
                     </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
@@ -293,9 +267,33 @@
             </li>
 
             <li class="menu single-menu">
+                <a href="#components" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                        <span style="font-weight: bold;">Menu</span>
+                    </div>
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
+                </a>
+                <ul class="collapse submenu list-unstyled" id="components" data-parent="#topAccordion">
+                    <li>
+                        <a href="/super_admin/menu/get_product_list"> Product  </a>
+                    </li>
+                    <li>
+                        <a href="/super_admin/menu/get_all_product_type"> Units </a>
+                    </li>
+                    <li>
+                        <a href="/super_admin/menu/get_category"> Category </a>
+                    </li>
+                    <!-- <li>
+                        <a href="/super_admin/product/unit_type">Unit Type</a>
+                    </li> -->
+                </ul>
+            </li>
+
+            <li class="menu single-menu">
                 <a href="#app" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle autodroprown">
                     <div class="" >
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-codepen"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><line x1="12" y1="22" x2="12" y2="15.5"></line><polyline points="22 8.5 12 15.5 2 8.5"></polyline><polyline points="2 15.5 12 8.5 22 15.5"></polyline><line x1="12" y1="2" x2="12" y2="8.5"></line></svg> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;"width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-codepen"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><line x1="12" y1="22" x2="12" y2="15.5"></line><polyline points="22 8.5 12 15.5 2 8.5"></polyline><polyline points="2 15.5 12 8.5 22 15.5"></polyline><line x1="12" y1="2" x2="12" y2="8.5"></line></svg>
                         <span style="font-weight: bold;" >Orders</span>
                     </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
@@ -322,14 +320,17 @@
             <li class="menu single-menu">
                 <a href="#components" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg> -->
-                        <span style="font-weight: bold;">Route</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+                        <span style="font-weight: bold;">List</span>
                     </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
                 </a>
                 <ul class="collapse submenu list-unstyled" id="components" data-parent="#topAccordion">
                     <li>
-                        <a href="/branch_admin/route/get_route"> Route </a>
+                        <a href="/super_admin/list/promo_code"> Promo Code </a>
+                    </li>
+                    <li>
+                        <a href="/super_admin/list/membership"> Membership </a>
                     </li>
                     <!-- <li>
                         <a href="/super_admin/product/get_all_product_type"> Product Type </a>
@@ -347,14 +348,14 @@
             <li class="menu single-menu">
                 <a href="#uiKit" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg> -->
-                        <span style="font-weight: bold;">Rider</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;"width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                        <span style="font-weight: bold;">Delivery Partner</span>
                     </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
                 </a>
                 <ul class="collapse submenu list-unstyled" id="uiKit" data-parent="#topAccordion">
                     <li>
-                        <a href="/branch_admin/rider/get_rider"> Rider </a>
+                        <a href="/branch_admin/rider/get_rider"> Delivery Partner </a>
                     </li>
                     <!-- <li>
                         <a href="/super_admin/places/zone"> Zone </a>
@@ -371,21 +372,23 @@
             <li class="menu single-menu">
                 <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg> -->
-                        <span style="font-weight: bold;"> PO</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2"; width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                        <span style="font-weight: bold;" >Report</span>
                     </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
                 </a>
                 <ul class="collapse submenu list-unstyled" id="forms"  data-parent="#topAccordion">
                     <li>
-                        <a href="/branch_admin/po/get_po_form"> PO Form</a>
+                        <a href="/super_admin/branch/get_pending_bill"> Sales Report </a>
                     </li>
                     <li>
-                        <a href="/branch_admin/po/get_po_pending"> Pending PO </a>
+                        <a href="/super_admin/branch/get_received_bill"> Product Report </a>
                     </li>
                     <li>
-                        <a href="/branch_admin/po/get_po_approved"> Approved PO </a>
+                        <a href="/super_admin/branch/get_completed_bill"> Delivery Partner Report </a>
                     </li>
+                </ul>
+            </li>
                     <!-- <li>
                         <form action="/branch_admin/home/update_daily_task" method="post">
 
@@ -397,15 +400,14 @@
                     </li>
                     <li>
                         <a href="/branch_admin/purchaseOrder/get_cancel_purchase_list"> Cancel </a>
-                    </li> -->
-                </ul>
-            </li>
+                    <!-- </li> -->
+               
 
 
             <li class="menu single-menu ">
                 <a href="#app" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle autodroprown">
                     <div class="" >
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;"width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                         <span style="font-weight: bold;" > Users</span>
                     </div>
                     <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
@@ -420,14 +422,14 @@
                 </ul>
             </li>
 
-            <li class="menu single-menu">
+            <!-- <li class="menu single-menu">
                 <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> -->
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: #64a5e2;"width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
                         <span style="font-weight: bold;" >Bills</span>
                     </div>
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
-                </a>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg> -->
+                <!-- </a>
                 <ul class="collapse submenu list-unstyled" id="forms"  data-parent="#topAccordion">
                     <li>
                         <a href="/branch_admin/bill/get_pending_bill"> Pending Payments </a>
@@ -439,7 +441,7 @@
                         <a href="/branch_admin/bill/get_completed_bill"> Completed Payment </a>
                     </li>
                 </ul>
-            </li>
+            </li> --> 
 
 
 

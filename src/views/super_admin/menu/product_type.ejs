@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center">
                         <div class="dataTables_length" >
-                            <h4>Product Type</h4>
+                            <h4>Unit Type</h4>
                         </div>
                     </div>
 
@@ -57,7 +57,7 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalCenterTitle">Add Product Type</h5>
+                                            <h5 class="modal-title" id="exampleModalCenterTitle">Add Unit Type</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                                     height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -81,8 +81,8 @@
                                             </div>
                                             <div class="form-row mb-4">
                                                 <div class="col-sm-10">
-                                                    <label>Image</label>
-                                                    <input type="file" wire:model="image" placeholder="Image" name="image" required
+                                                    <label>value</label>
+                                                    <input type="file" wire:model="value" placeholder="Value" name="value" required
                                                         class="form-control">
                                                 </div>
                                             </div>
@@ -127,7 +127,7 @@
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                 aria-label="NAME: activate to sort column ascending" style="width: 161px;">NAME</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                aria-label="IMAGE: activate to sort column ascending" style="width: 53px;">IMAGE</th>
+                                aria-label="VALUE: activate to sort column ascending" style="width: 53px;">value</th>
                             <th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
                                 colspan="1" aria-label="Status: activate to sort column ascending" style="width: 49px;">
                                 Status</th>
@@ -139,20 +139,20 @@
                     <tbody>
                         <!-- start -->
                        
-                        <% for(product_type of data){ %>
+                        <% for(unit_types of data){ %>
                             <tr role="row">
-                                <td class="sorting_1 font-weight: bold;"><%=product_type.id %></td>
-                            <td><%=product_type.name %></td>
-                            <td><img style="width: 150px;height : 120px" src="<%=product_type.image %>"></td>
+                                <td class="sorting_1 font-weight: bold;"><%=unit_types.id %></td>
+                            <td><%=unit_types.name %></td>
+                            <td><img style="width: 150px;height : 120px" src="<%=unit_types.value %>"></td>
                             
                              
 
                             <div>
                                 <td style="text-align: center; vertical-align: middle;">
                                     <div class="custom-control custom-switch">
-                                            <input <%= product_type.status == "1" ? "checked"  :""  %>  type="checkbox"   class="custom-control-input" name="status" 
-                                            value="<%=product_type.status %>"  onChange="onToDochange(this)" id=<%=product_type.id %>>
-                                            <label class="custom-control-label"  for=<%=product_type.id %>></label>
+                                            <input <%= unit_types.status == "1" ? "checked"  :""  %>  type="checkbox"   class="custom-control-input" name="status" 
+                                            value="<%=unit_types.status %>"  onChange="onToDochange(this)" id=<%=unit_types.id %>>
+                                            <label class="custom-control-label"  for=<%=unit_types.id %>></label>
                                         
                                             <script >
                                                async function onToDochange(event) {
@@ -173,17 +173,17 @@
                                 </td>
                             </div>
                             <td class="text-center" > <button class="btn btn-sm btn-primary" data-toggle="modal"
-                                data-target="#editProductType<%= product_type.id %>">edit</button> </td>
+                                data-target="#editProductType<%= unit_types.id %>">edit</button> </td>
                         </tr>   
 
                      
                     <!-- __category add__ -->
-                    <div wire:ignore.self="" class="modal fade" id="editProductType<%= product_type.id %>" tabindex="-1"
+                    <div wire:ignore.self="" class="modal fade" id="editProductType<%= unit_types.id %>" tabindex="-1"
                         aria-labelledby="addCategoryTitle" style="display: none;" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Product Type</h5>
+                                    <h5 class="modal-title" id="exampleModalCenterTitle">Edit Unit Type</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                                             height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -201,16 +201,16 @@
                                             <div class="col-sm-10">
                                                 <label>Name</label>
                                                 <input type="text" class="form-control" name="name" wire:model="name" required
-                                                    placeholder="Name" value="<%=product_type.name %>">
+                                                    placeholder="Name" value="<%=unit_types.name %>">
 
                                             </div>
                                         </div>
                                         <div class="form-row mb-4">
                                             <div class="col-sm-10">
-                                                <label>Image (Old Image)</label>
+                                                <label>Value </label>
                                                 <div>
-                                                    <img style="width: 150px;height : 120px" class="pb-3" src="<%=product_type.image %>">
-                                                    <input type="file" wire:model="image" placeholder="Image" name="image"
+                                                    <img style="width: 150px;height : 120px" class="pb-3" src="<%=unit_types.value %>">
+                                                    <input type="file" wire:model="value" placeholder="Value" name="value"
                                                     
                                                     class="form-control">
                                                 </div>
@@ -219,9 +219,9 @@
                                      </div>
                                         <div class="modal-footer">
                                             
-                                            <button type="button" name="id" value="<%=product_type.id %>" class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
+                                            <button type="button" name="id" value="<%=unit_types.id %>" class="btn btn-danger" id="addmodalClose" data-dismiss="modal"><i
                                                 class="flaticon-cancel-12"></i>Discard</button>
-                                                <button wire:click="save" name="id" value="<%=product_type.id %>"  type="submit" class="btn btn-success">Save</button>
+                                                <button wire:click="save" name="id" value="<%=unit_types.id %>"  type="submit" class="btn btn-success">Save</button>
                                         </div>
                                 </form>
                             </div>

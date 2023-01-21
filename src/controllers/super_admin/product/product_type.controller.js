@@ -8,21 +8,21 @@ export const updateProductType = async (req, res) => {
 
     if (!name) {
       req.flash("error", "Name is missing");
-      return res.redirect("/super_admin/menu/get_all_product_type");
+      return res.redirect("/super_admin/product/get_all_product_type");
     }
 
-    // let query = {};
+    let query = {};
 
-    // query.name = name;
-    // if (file) {
-    //   const image = req.file.destination.slice(1) + "/" + req.file.filename;
-    //   query.image = image;
-    // }
+    query.name = name;
+    if (file) {
+      const image = req.file.destination.slice(1) + "/" + req.file.filename;
+      query.image = image;
+    }
 
-    await knex("product_type").update(value).where({ id: id });
+    await knex("product_type").update(query).where({ id: id });
 
     req.flash("success", "Updated SuccessFully");
-    res.redirect("/super_admin/menu/get_all_product_type");
+    res.redirect("/super_admin/product/get_all_product_type");
   } catch (error) {
     console.log(error);
     res.redirect("/home");
@@ -34,13 +34,13 @@ export const updateProductTypeStatus = async (req, res) => {
     const { status, id } = req.body;
 
     if (status == "1") {
-      await knex("unit_types").update({ status: "0" }).where({ id: id });
+      await knex("product_type").update({ status: "0" }).where({ id: id });
     } else {
-      await knex("unit_types").update({ status: "1" }).where({ id: id });
+      await knex("product_type").update({ status: "1" }).where({ id: id });
     }
 
     req.flash("success", "Updated SuccessFully");
-    res.redirect("/super_admin/menu/get_all_product_type");
+    res.redirect("/super_admin/product/get_all_product_type");
   } catch (error) {
     console.log(error);
     res.redirect("/home");
@@ -56,7 +56,7 @@ export const getAllProductType = async (req, res) => {
 
     if (searchKeyword) {
       const search_data_length = await knex.raw(
-        `SELECT id,name,value FROM unit_types WHERE name LIKE '%${searchKeyword}%'`
+        `SELECT id,name FROM product_type WHERE name LIKE '%${searchKeyword}%'`
       );
 
       data_length = search_data_length[0];
@@ -68,7 +68,7 @@ export const getAllProductType = async (req, res) => {
         return res.redirect("/super_admin/menu/get_all_product_type");
       }
     } else {
-      data_length = await knex("unit_types").select("id");
+      data_length = await knex("product_type").select("id");
     }
 
 
@@ -95,12 +95,12 @@ export const getAllProductType = async (req, res) => {
     let is_search = false;
     if (searchKeyword) {
       results = await knex.raw(
-        `SELECT id,name,value,status FROM unit_types  WHERE name LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
+        `SELECT id,name,image,status FROM product_type  WHERE name LIKE '%${searchKeyword}%' LIMIT ${startingLimit},${resultsPerPage}`
       );
       is_search = true;
     } else {
       results = await knex.raw(
-        `SELECT id,name,value,status FROM unit_types LIMIT ${startingLimit},${resultsPerPage}`
+        `SELECT id,name,image,status FROM product_type LIMIT ${startingLimit},${resultsPerPage}`
       );
     }
 
@@ -141,9 +141,9 @@ export const createProductType = async (req, res) => {
       return res.redirect("/super_admin/menu/get_all_product_type");
     }
 
-    // const image = req.file.destination.slice(1) + "/" + req.file.filename;
+    const image = req.file.destination.slice(1) + "/" + req.file.filename;
 
-    await knex("unit_types").insert({ name, value });
+    await knex("product_type").insert({ name, image });
     req.flash("success", "Product Type Created SuccessFully");
     res.redirect("/super_admin/menu/get_all_product_type");
   } catch (error) {
